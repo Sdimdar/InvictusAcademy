@@ -40,4 +40,36 @@ public class AccountController : Controller
             return StatusCode(500, new { errorMessage = e.Message });
         }
     }
+
+    [HttpPost]
+    [ActionName("Login")]
+    public async Task<ActionResult<DefaultResponse>> Login(LoginRequestModel model)
+    {
+        try
+        {
+            if (model is null)
+            {
+                return BadRequest(new DefaultResponse
+                {
+                    ResponseStatus = ResponseStatusType.NotFound
+                });
+            }
+           var result = await _accountService.LogIn(model);
+           if (result.ResponseStatus == ResponseStatusType.Ok)
+           {
+               return Ok(new DefaultResponse
+               {
+                   ResponseStatus = ResponseStatusType.Ok
+               });
+           }
+           return BadRequest(new DefaultResponse
+           {
+               ResponseStatus = ResponseStatusType.Error
+           });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { errorMessage = e.Message });
+        }
+    }
 }
