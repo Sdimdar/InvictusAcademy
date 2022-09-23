@@ -21,7 +21,7 @@ public class AccountService : IAccountService
         _db = db;
     }
 
-    public async Task Register(RegisterRequestModel model)
+    public async Task<DefaultResponse> Register(RegisterRequestModel model)
     {
         User user = new User
         {
@@ -39,7 +39,15 @@ public class AccountService : IAccountService
         if (result.Succeeded)
         {
             await _signInManager.SignInAsync(user, false);
+            return new DefaultResponse
+            {
+                ResponseStatus = ResponseStatusType.Ok
+            };
         }
+        return new DefaultResponse
+        {
+            ResponseStatus = ResponseStatusType.Error
+        };
     }
 
     public async Task<DefaultResponse> LogIn(LoginRequestModel model)
@@ -66,4 +74,7 @@ public class AccountService : IAccountService
             ResponseStatus = ResponseStatusType.Error
         };
     }
+
+    public async Task LogOf() 
+        => await _signInManager.SignOutAsync();
 }

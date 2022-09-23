@@ -1,6 +1,7 @@
 ﻿using InvictusAcademyApp.Enums;
 using InvictusAcademyApp.Models.RequestModels;
 using InvictusAcademyApp.Services.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvictusAcademyApp.Controllers;
@@ -29,10 +30,17 @@ public class AccountController : Controller
                     ResponseStatus = ResponseStatusType.NotFound
                 });
             }
-            await _accountService.Register(model);
-            return Ok(new DefaultResponse
+            var result = await _accountService.Register(model);
+            if (result.ResponseStatus == ResponseStatusType.Ok)
             {
-                ResponseStatus = ResponseStatusType.Ok
+                return Ok(new DefaultResponse
+                {
+                    ResponseStatus = ResponseStatusType.Ok
+                });
+            }
+            return BadRequest(new DefaultResponse
+            {
+                ResponseStatus = ResponseStatusType.Error
             });
         }
         catch (Exception e)
@@ -71,5 +79,13 @@ public class AccountController : Controller
         {
             return StatusCode(500, new { errorMessage = e.Message });
         }
+    }
+    
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> LogOff()
+    {
+        await _accountService.LogOf();
+        return Ok();
     }
 }

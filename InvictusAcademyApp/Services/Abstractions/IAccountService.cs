@@ -4,7 +4,7 @@ namespace InvictusAcademyApp.Services.Abstractions;
 
 public interface IAccountService
 {
-    Task Register(RegisterRequestModel model);
+    Task<DefaultResponse> Register(RegisterRequestModel model);
     Task<DefaultResponse> LogIn(LoginRequestModel model);
-    // Task LogOf();
+    Task LogOf();
 }
