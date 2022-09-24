@@ -1,7 +1,9 @@
 ﻿using InvictusAcademyApp.Enums;
+using InvictusAcademyApp.Models.DbModels;
 using InvictusAcademyApp.Models.RequestModels;
 using InvictusAcademyApp.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvictusAcademyApp.Controllers;
@@ -11,10 +13,12 @@ namespace InvictusAcademyApp.Controllers;
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
+    private readonly UserManager<User> _userManager;
 
-    public AccountController(IAccountService accountService)
+    public AccountController(IAccountService accountService, UserManager<User> userManager)
     {
         _accountService = accountService;
+        _userManager = userManager;
     }
     
     [HttpPost]
@@ -88,5 +92,32 @@ public class AccountController : Controller
     {
         await _accountService.LogOf();
         return Ok();
+    }
+
+    [Authorize]
+    [HttpGet]
+    [ActionName("GetUserInfo")]
+    public async Task<ActionResult<DefaultResponse>> GetUserInfo()
+    {
+        try
+        {
+            User user = await _userManager.FindByNameAsync(User.Identity?.Name);
+            if (user is null)
+                return BadRequest(new DefaultResponse(responseStatus: ResponseStatusType.NotFound));
+            GetUserInfoResponse response = new GetUserInfoResponse
+            {
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                LastName = user.LastName,
+                InstagramLink = user.InstagramLink,
+                Citizenship = user.Citizenship
+            };
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { errorMessage = e.Message });
+        }
     }
 }
