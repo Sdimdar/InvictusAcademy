@@ -11,6 +11,11 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 services.AddAppServices(builder.Configuration);
+services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyAllowSpecificOrigins",
+        policy => { policy.WithOrigins("http://localhost:8080/").AllowAnyHeader().AllowAnyMethod();});
+});
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
@@ -23,7 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("MyAllowSpecificOrigins");
 app.UseAuthentication().UseAuthorization();
 
 app.MapControllers();

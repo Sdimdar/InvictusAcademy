@@ -83,6 +83,7 @@ public class AccountController : Controller
     
     [Authorize]
     [HttpPost]
+    [ActionName("LogOff")]
     public async Task<IActionResult> LogOff()
     {
         await _accountService.LogOf();
