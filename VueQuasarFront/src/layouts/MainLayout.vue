@@ -2,12 +2,12 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-item style="width: 220px;"  to="/" >
+        <q-item to="/" >
           <img class="logo-img" src="../static/invictus_academy_logo.png" />
         </q-item>
         <q-space />
-        <login-button />
-        <register-button />
+        <login-button class="nav-button" />
+        <register-button class="nav-button" />
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -25,13 +25,18 @@ export default {
   components:{
     LoginButton,
     RegisterButton
-  },
+  }
 }
 </script>
 
 <style>
   .logo-img{
-    width: 100%;
+    width: 200px;
     object-fit: contain;
+  }
+  .nav-button{
+    font-size: 11px;
+    border-radius: 0;
+    align-self: stretch;
   }
 </style>

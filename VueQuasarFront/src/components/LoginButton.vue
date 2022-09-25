@@ -1,5 +1,5 @@
 <template>
-    <q-btn stretch flat label="Войти" @click="login = true"/>
+    <q-btn :class="$attrs.class" label="Войти" @click="login = true"/>
 
     <q-dialog v-model="login">
       <q-card style="min-width: 350px">

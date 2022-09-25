@@ -1,5 +1,6 @@
 <template>
-    <q-btn  stretch flat label="Зарегестрироваться" @click="register = true"/>
+    <q-btn :class="$attrs.class" label="Зарегестрироваться" @click="register = true"/>
+    
     <q-dialog v-model="register">
       <q-card style="min-width: 350px">
         <q-card-section>
