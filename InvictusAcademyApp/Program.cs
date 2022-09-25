@@ -1,4 +1,5 @@
 using InvictusAcademyApp.AppExtensions;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +12,12 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 services.AddAppServices(builder.Configuration);
-services.AddCors(options =>
-{
-    options.AddPolicy(name: "MyAllowSpecificOrigins",
-        policy => { policy.WithOrigins("http://localhost:8080/").AllowAnyHeader().AllowAnyMethod();});
+services.AddCors(options => options.AddPolicy( "CorsPolicy", policy => 
+{ 
+    policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials(); 
+}));
+services.ConfigureApplicationCookie(options => {
+    options.Cookie.SameSite = SameSiteMode.None;
 });
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -28,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("MyAllowSpecificOrigins");
+app.UseCors("CorsPolicy");
 app.UseAuthentication().UseAuthorization();
 
 app.MapControllers();
