@@ -24,7 +24,8 @@ quasar build
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
 
 
-Команды для докера
-
+### Docker commands
+```bash
 docker build -t quasar:test .
-docker run -d -p 8080:8080 --name quasar quasar:test
+docker run -d -p 8080:8080 --rm --name quasar quasar:test
+```
