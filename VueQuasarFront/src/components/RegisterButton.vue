@@ -11,7 +11,7 @@
           <q-input dense v-model="registerData.email" autofocus label="E-mail" />
           <q-input dense v-model="registerData.password" label="Пароль" />
           <q-input dense v-model="registerData.passwordConfirm" label="Повтор пароля" />
-          <q-input dense v-model="registerData.phoneNumber" label="Телефонный номер" />
+          <q-input dense mask="#(###) ### - ####" v-model="registerData.phoneNumber" label="Телефонный номер" />
           <q-input dense v-model="registerData.firstName" label="Имя" />
           <q-input dense v-model="registerData.middleName" label="Отчество" />
           <q-input dense v-model="registerData.lastName" label="Фамилия" />
@@ -48,13 +48,19 @@ export default defineComponent({
             middleName: "",
             lastName: "",
             instagramLink: "",
-            citizenship: ""
+            citizenship: "Казахстан"
         },
         citizenships:
         [
             "Россия",
             "Казахстан"
         ]
+        }
+    },
+    props: {
+        logined: {
+            type: Boolean,
+            required: true
         }
     },
     setup (){
@@ -67,9 +73,9 @@ export default defineComponent({
         {
             let config = {
                 headers: {
-                    "Access-Control-Allow-Methods": "GET, POST",
-                    "Access-Control-Allow-Origin": "*"
-                }
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true
             }
             let data = {
                 email: this.registerData.email,
@@ -85,6 +91,7 @@ export default defineComponent({
             .then(ret =>{
                 console.log("ok");
                 this.register = false;
+                this.$emit('autorize');
             })
             .catch(ret =>{
                 console.log("ret");

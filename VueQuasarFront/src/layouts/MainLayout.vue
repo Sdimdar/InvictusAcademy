@@ -7,20 +7,21 @@
         </q-item>
         <q-space />
         <template v-if="!logined" >
-          <login-button class="nav-button" />
-          <register-button class="nav-button" />
+          <login-button class="nav-button" :logined="logined" @autorize="autorize"/>
+          <register-button class="nav-button" :logined="logined" @autorize="autorize"/>
         </template>
         <template v-else>
           <q-btn to="/user" class="nav-button" label="Личный кабинет"/>
-          <logout-button class="nav-button" />
+          <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
         </template>
       </q-toolbar>
     </q-header>
     <q-page-container>
-        <router-view />
+        <router-view :logined="logined"/>
     </q-page-container>
   </q-layout>
 </template>
+
 
 <script>
 import LogoutButton from 'components/LogoutButton.vue'
@@ -37,6 +38,14 @@ export default {
   data(){
     return{
       logined: false
+    }
+  },
+  methods:{
+    autorize: function(){
+      this.logined = true;
+    },
+    unautorize: function(){
+      this.logined = false;
     }
   }
 }

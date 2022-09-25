@@ -14,7 +14,22 @@
             v-model="loginData.emailOrPhoneNumber" 
             autofocus 
             @keyup="checkLoginData"/>
-          <q-input label="Пароль" dense v-model="loginData.password" @keyup="checkLoginData" @keyup.enter="loginF" />
+          <q-input 
+            :type="isPwd ? 'password' : 'text'" 
+            label="Пароль" 
+            dense 
+            v-model="loginData.password" 
+            @keyup="checkLoginData" 
+            @keyup.enter="loginF" >
+            <template v-slot:append>
+                <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                />
+            </template>
+          </q-input>
+          <q-checkbox size="xs" v-model="loginData.rememberMe" label="Запомнить?" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -40,7 +55,14 @@ export default defineComponent({
                 emailOrPhoneNumber: "",
                 password: "",
                 rememberMe: false
-            }
+            },
+            isPwd: ref(true)
+        }
+    },
+    props: {
+        logined: {
+            type: Boolean,
+            required: true
         }
     },
     validations:{
@@ -59,9 +81,9 @@ export default defineComponent({
         {
             let config = {
                 headers: {
-                "Access-Control-Allow-Methods": "GET, POST",
-                "Access-Control-Allow-Origin": "*"
-                }
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true
             }
             let data = {
                 emailOrPhoneNumber: this.loginData.emailOrPhoneNumber,
@@ -71,14 +93,15 @@ export default defineComponent({
             axios.post("https://localhost:7243/Account/Login",data, config)
             .then(ret =>{
                 console.log("ok");
+                console.log(ret);
                 this.login = false;
+                this.$emit('autorize');
             }).catch(ret =>{
                 console.log("bad");
             })
         },
         checkLoginData: function(){
-            let validInfo$ = useVuelidate(this.loginDataRules, this.loginData);
-            console.log(validInfo$);
+            
         }
     }
 })

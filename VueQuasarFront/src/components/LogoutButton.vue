@@ -8,18 +8,25 @@ import axios from 'axios'
 
 export default defineComponent({
     name: 'logout-button',
+    props: {
+        logined: {
+            type: Boolean,
+            required: true
+        }
+    },
     methods:{
         logout: function()
         {
             let config = {
                 headers: {
-                    "Access-Control-Allow-Methods": "GET, POST",
-                    "Access-Control-Allow-Origin": "*"
-                }
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true
             }
             axios.post("https://localhost:7243/Account/LogOff", {}, config)
             .then(ret =>{
                 console.log("ok");
+                this.$emit('unautorize');
             })
             .catch(ret =>{
                 console.log("ret");
