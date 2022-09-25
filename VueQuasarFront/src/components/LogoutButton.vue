@@ -1,9 +1,9 @@
 <template>
-    <q-btn flat label="Выйти" @click="logout" />
+    <q-btn :class="$attrs.class" label="Выйти" @click="logout" />
 </template>
 
 <script>
-import defineComponent from 'vue'
+import { defineComponent } from "vue";
 import axios from 'axios'
 
 export default defineComponent({
@@ -13,8 +13,8 @@ export default defineComponent({
         {
             let config = {
                 headers: {
-                "Access-Control-Allow-Methods": "GET, POST",
-                "Access-Control-Allow-Origin": "*"
+                    "Access-Control-Allow-Methods": "GET, POST",
+                    "Access-Control-Allow-Origin": "*"
                 }
             }
             axios.post("https://localhost:7243/Account/LogOff", {}, config)

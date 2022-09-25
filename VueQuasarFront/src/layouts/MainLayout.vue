@@ -6,8 +6,14 @@
           <img class="logo-img" src="../static/invictus_academy_logo.png" />
         </q-item>
         <q-space />
-        <login-button class="nav-button" />
-        <register-button class="nav-button" />
+        <template v-if="!logined" >
+          <login-button class="nav-button" />
+          <register-button class="nav-button" />
+        </template>
+        <template v-else>
+          <q-btn to="/user" class="nav-button" label="Личный кабинет"/>
+          <logout-button class="nav-button" />
+        </template>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -17,6 +23,7 @@
 </template>
 
 <script>
+import LogoutButton from 'components/LogoutButton.vue'
 import LoginButton from 'components/LoginButton.vue'
 import RegisterButton from 'components/RegisterButton.vue'
 
@@ -24,7 +31,13 @@ export default {
   name: 'MainLayout',
   components:{
     LoginButton,
+    LogoutButton,
     RegisterButton
+  },
+  data(){
+    return{
+      logined: false
+    }
   }
 }
 </script>
