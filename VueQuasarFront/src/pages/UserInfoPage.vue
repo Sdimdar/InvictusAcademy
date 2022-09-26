@@ -14,6 +14,7 @@
 <script>
 import { defineComponent } from 'vue'
 import axios from 'axios'
+import constants from '../static/constants'
 
 export default defineComponent({
   name: 'UserInfoPage',
@@ -28,22 +29,24 @@ export default defineComponent({
       required: true
     }
   },
-  mounted() {
-    if(this.logined)
-    {
-      let config = {
-          headers: {
-              "Content-Type": "application/json",
-          },
-          withCredentials: true
+  methods:{
+    getUserData(){
+      if(this.logined)
+      {
+        axios.get("https://localhost:7243/Account/GetUserInfo", constants.loginConfig)
+        .then(ret => {
+          this.data = ret.data; 
+        }).catch(ret => {
+          console.log(ret);
+        });
       }
-      axios.get("https://localhost:7243/Account/GetUserInfo", config)
-      .then(ret => {
-        this.data = ret.data; 
-      }).catch(ret => {
-        console.log(ret);
-      });
     }
+  },
+  updated() {
+    this.getUserData()
+  },
+  mounted() {
+    this.getUserData()
   }
 })
 </script>

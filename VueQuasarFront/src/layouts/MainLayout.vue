@@ -27,6 +27,8 @@
 import LogoutButton from 'components/LogoutButton.vue'
 import LoginButton from 'components/LoginButton.vue'
 import RegisterButton from 'components/RegisterButton.vue'
+import axios from 'axios'
+import constants from '../static/constants'
 
 export default {
   name: 'MainLayout',
@@ -46,7 +48,18 @@ export default {
     },
     unautorize: function(){
       this.logined = false;
+    },
+    checkLogin(){
+      axios.get("https://localhost:7243/Account/GetUserInfo", constants.loginConfig)
+      .then(ret => {
+        this.logined = true;
+      }).catch(ret => {
+        this.logined = false;
+      });
     }
+  },
+  mounted() {
+      this.checkLogin()
   }
 }
 </script>
