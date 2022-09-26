@@ -1,41 +1,52 @@
 <template>
-    <q-btn :class="$attrs.class" label="Войти" @click="login = true"/>
+    <q-btn :class="$attrs.class" label="Войти" @click="loginDialog = true"/>
 
-    <q-dialog v-model="login">
+    <q-dialog v-model="loginDialog">
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6 text-center">Авторизация</div>
+            <div class="text-h6 text-center">Авторизация</div>
         </q-card-section>
+        
+        <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
+            <q-card-section>
+                <q-input 
+                label="E-mail"
+                type='email' 
+                dense 
+                v-model="loginData.emailOrPhoneNumber" 
+                autofocus 
+                lazy-rules
+                :rules="[ 
+                    val => val && val.length > 0 || 'Поле не должно быть пустым',
+                    val => validateEmail(val) || 'Это не E-mail'
+                ]"/>
+                <q-input 
+                    :type="isPwd ? 'password' : 'text'" 
+                    label="Пароль" 
+                    dense 
+                    v-model="loginData.password"
+                    lazy-rules
+                    :rules="[ 
+                        val => val && val.length > 6 && val.length < 21 || 'Пароль должен быть от 6 до 20 символов',
+                        val => validatePassword(val) || 'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву'
+                    ]">
+                    <template v-slot:append>
+                        <q-icon
+                            :name="isPwd ? 'visibility_off' : 'visibility'"
+                            class="cursor-pointer"
+                            @click="isPwd = !isPwd"
+                        />
+                    </template>
+                </q-input>
+                <q-checkbox size="xs" v-model="loginData.rememberMe" label="Запомнить?" />
+            </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <q-input 
-            label="E-mail" 
-            dense 
-            v-model="loginData.emailOrPhoneNumber" 
-            autofocus 
-            @keyup="checkLoginData"/>
-          <q-input 
-            :type="isPwd ? 'password' : 'text'" 
-            label="Пароль" 
-            dense 
-            v-model="loginData.password" 
-            @keyup="checkLoginData" 
-            @keyup.enter="loginF" >
-            <template v-slot:append>
-                <q-icon
-                    :name="isPwd ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="isPwd = !isPwd"
-                />
-            </template>
-          </q-input>
-          <q-checkbox size="xs" v-model="loginData.rememberMe" label="Запомнить?" />
-        </q-card-section>
-
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Отмена" v-close-popup />
-          <q-btn flat label="Войти" @click="loginF" />
-        </q-card-actions>
+            <q-card-actions align="right" class="text-primary">
+                <q-btn flat type="reset" label="Отмена" />
+                <q-btn flat type="submit" label="Войти" />
+            </q-card-actions>
+        </q-form>
+        
       </q-card>
     </q-dialog>
 </template>
@@ -43,12 +54,17 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import axios from 'axios'
-import { reactive } from 'vue' 
-import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, email } from '@vuelidate/validators'
+import { Notify } from 'quasar'
+import constants from '../static/constants'
 
 export default defineComponent({
     name: 'login-button',
+    props: {
+        logined: {
+            type: Boolean,
+            required: true
+        }
+    },
     data() {
         return{
             loginData: {
@@ -56,52 +72,42 @@ export default defineComponent({
                 password: "",
                 rememberMe: false
             },
-            isPwd: ref(true)
-        }
-    },
-    props: {
-        logined: {
-            type: Boolean,
-            required: true
-        }
-    },
-    validations:{
-        loginDataRules: {
-            emailOrPhoneNumber: {required, email},
-            password: {required, minLength}
-        }
-    },
-    setup(){
-        return {
-            login: ref(false)
+            isPwd: ref(true),
+            loginDialog: ref(false)
         }
     },
     methods:{
-        loginF: async function()
-        {
-            let config = {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true
-            }
-            let data = {
-                emailOrPhoneNumber: this.loginData.emailOrPhoneNumber,
-                password: this.loginData.password,
-                rememberMe: false
-            }
-            axios.post("https://localhost:7243/Account/Login",data, config)
+        onSubmit () {
+            let data = this.loginData
+            axios.post("https://localhost:7243/Account/Login", data, constants.loginConfig)
             .then(ret =>{
-                console.log("ok");
-                console.log(ret);
-                this.login = false;
+                this.loginDialog = false;
                 this.$emit('autorize');
+                Notify.create({
+                    color: 'green-4',
+                    textColor: 'white',
+                    message: 'Добро пожаловать'
+                })
             }).catch(ret =>{
-                console.log("bad");
+                Notify.create({
+                    color: 'red-5',
+                    textColor: 'white',
+                    icon: 'warning',
+                    message: ret.message
+                })
             })
         },
-        checkLoginData: function(){
-            
+        onReset () {
+            this.loginData.emailOrPhoneNumber = "";
+            this.loginData.password = "";
+            this.loginData.rememberMe = false;
+            this.loginDialog = false;
+        },
+        validateEmail (value){
+            return constants.EMAIL_REGEXP.test(value)
+        },
+        validatePassword (value){
+            return constants.PWD_REGEXP.test(value)
         }
     }
 })
