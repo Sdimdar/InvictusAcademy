@@ -1,5 +1,6 @@
 using Identity.Application;
 using Identity.Infrastructure;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -8,7 +9,11 @@ var services = builder.Services;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddMvc();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1"});
+    c.EnableAnnotations();
+});
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
