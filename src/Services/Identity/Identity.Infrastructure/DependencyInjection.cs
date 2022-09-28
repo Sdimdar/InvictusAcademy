@@ -2,6 +2,7 @@
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance;
 using Identity.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ public static class DependencyInjection
         services.AddDbContext<IdentityDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("IdentityConnectionString")));
 
-        services.AddIdentityCore<User>()
+        services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>();
 
         services.AddScoped<IUserRepository, UserRepository>();

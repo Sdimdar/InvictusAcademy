@@ -1,3 +1,4 @@
+using Identity.Application;
 using Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ services.AddSwaggerGen();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
-
+services.AddApplicationServices();
 
 // Configure CORS Policy and Cookie
 services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
