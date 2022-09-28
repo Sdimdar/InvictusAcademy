@@ -31,6 +31,7 @@ internal class UserRepository : IUserRepository
 
     public async Task<User> AddAsync(User user)
     {
+        user.RegistrationDate = DateTime.Now;
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;
