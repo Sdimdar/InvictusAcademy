@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Identity.Application.Features.Users.Commands.GetUserData;
 using Identity.Application.Features.Users.Queries.Register;
 using Identity.Domain.Entities;
 
@@ -10,5 +11,6 @@ public class MappingProfile : Profile
 	{
 		CreateMap<RegisterQuerry, User>()
 			.ForMember(x => x.UserName, o => o.MapFrom(p => p.Email));
+		CreateMap<User, UserDataVm>();
 	}
 }
