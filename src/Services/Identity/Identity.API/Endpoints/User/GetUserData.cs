@@ -28,7 +28,7 @@ public class GetUserData : EndpointBaseAsync
     ]
     public override async Task<Result<UserDataVm>> HandleAsync(string email, CancellationToken cancellationToken = default)
     {
-        GetUserDataCommand command = new(email);
+        GetUserDataQuerry command = new(email);
         return await _mediator.Send(command, cancellationToken);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Identity.Application.Features.Users.Queries.Register;
 
-public class RegisterQuerryValidator : AbstractValidator<RegisterQuerry>
+public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
-	public RegisterQuerryValidator()
+	public RegisterCommandValidator()
 	{
         RuleFor(q => q.Email)
             .NotEmpty().WithMessage("Email is Required.")

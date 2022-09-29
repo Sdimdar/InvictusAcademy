@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Identity.API.Endpoints.User;
 
 public class Register : EndpointBaseAsync
-    .WithRequest<RegisterQuerry>
+    .WithRequest<RegisterCommand>
     .WithResult<Result<string>>
 {
     private readonly IMediator _mediator;
@@ -26,7 +26,7 @@ public class Register : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<string>> HandleAsync(RegisterQuerry request, CancellationToken cancellationToken = default)
+    public override async Task<Result<string>> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(request, cancellationToken);
     }

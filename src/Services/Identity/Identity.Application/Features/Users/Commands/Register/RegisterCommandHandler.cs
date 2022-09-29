@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Application.Features.Users.Queries.Register;
 
-public class RegisterQuerryHandler : IRequestHandler<RegisterQuerry, Result<string>>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<string>>
 {
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<User> _signInManager;
-    private readonly IValidator<RegisterQuerry> _validator;
+    private readonly IValidator<RegisterCommand> _validator;
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
 
-    public RegisterQuerryHandler(IUserRepository userRepository,
+    public RegisterCommandHandler(IUserRepository userRepository,
                                  SignInManager<User> signInManager,
-                                 IValidator<RegisterQuerry> validator,
+                                 IValidator<RegisterCommand> validator,
                                  UserManager<User> userManager,
                                  IMapper mapper)
     {
@@ -30,7 +30,7 @@ public class RegisterQuerryHandler : IRequestHandler<RegisterQuerry, Result<stri
         _mapper = mapper;
     }
 
-    public async Task<Result<string>> Handle(RegisterQuerry request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)

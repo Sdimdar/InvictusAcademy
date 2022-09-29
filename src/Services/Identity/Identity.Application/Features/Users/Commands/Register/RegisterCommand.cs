@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Identity.Application.Features.Users.Queries.Register;
 
-public class RegisterQuerry : IRequest<Result<string>>
+public class RegisterCommand : IRequest<Result<string>>
 {
     public string Email { get; set; }
     public string Password { get; set; }
@@ -15,7 +15,7 @@ public class RegisterQuerry : IRequest<Result<string>>
     public string? InstagramLink { get; set; }
     public string Citizenship { get; set; }
 
-    public RegisterQuerry(string email,
+    public RegisterCommand(string email,
                           string password,
                           string passwordConfirm,
                           string phoneNumber,

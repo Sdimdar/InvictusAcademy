@@ -10,7 +10,7 @@ namespace Identity.API.Endpoints.User;
 
 public class Login : EndpointBaseAsync
     .WithRequest<LoginQuerry>
-    .WithResult<Result<string>>
+    .WithResult<Result<LoginQuerryVm>>
 {
     private readonly IMediator _mediator;
 
@@ -26,7 +26,7 @@ public class Login : EndpointBaseAsync
         Description = "При авторизации пользователя вводятся его логин и пароль",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<string>> HandleAsync([FromBody] LoginQuerry request, CancellationToken cancellationToken = default)
+    public override async Task<Result<LoginQuerryVm>> HandleAsync([FromBody] LoginQuerry request, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(request, cancellationToken);
     }

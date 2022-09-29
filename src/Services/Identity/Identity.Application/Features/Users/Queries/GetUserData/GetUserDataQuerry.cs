@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Identity.Application.Features.Users.Commands.GetUserData;
 
-public class GetUserDataCommand : IRequest<Result<UserDataVm>>
+public class GetUserDataQuerry : IRequest<Result<UserDataVm>>
 {
     public string Email { get; set; }
 
-    public GetUserDataCommand(string email)
+    public GetUserDataQuerry(string email)
     {
         Email = email;
     }

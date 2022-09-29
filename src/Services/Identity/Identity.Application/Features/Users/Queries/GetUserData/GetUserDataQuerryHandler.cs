@@ -6,19 +6,19 @@ using MediatR;
 
 namespace Identity.Application.Features.Users.Commands.GetUserData;
 
-public class GetUserDataCommanHandler : IRequestHandler<GetUserDataCommand, Result<UserDataVm>>
+public class GetUserDataQuerryHandler : IRequestHandler<GetUserDataQuerry, Result<UserDataVm>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
-    public GetUserDataCommanHandler(IUserRepository userRepository,
+    public GetUserDataQuerryHandler(IUserRepository userRepository,
                                     IMapper mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
     }
 
-    public async Task<Result<UserDataVm>> Handle(GetUserDataCommand request, CancellationToken cancellationToken)
+    public async Task<Result<UserDataVm>> Handle(GetUserDataQuerry request, CancellationToken cancellationToken)
     {
         User? user = await _userRepository.GetByEmailAsync(request.Email);
         if (user == null) return Result.NotFound("User with this Email not found");

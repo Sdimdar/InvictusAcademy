@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Identity.Application.Features.Users.Queries.Login;
 
-public class LoginQuerry : IRequest<Result<string>>
+public class LoginQuerry : IRequest<Result<LoginQuerryVm>>
 {
     public string Email { get; set; }
     public string Password { get; set; }
