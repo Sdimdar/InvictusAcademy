@@ -16,5 +16,6 @@ public class MappingProfile : Profile
 		CreateMap<User, UserDataVm>();
 		CreateMap<User, LoginQuerryVm>();
         CreateMap<User, RegisterCommandVm>();
-	}
+        CreateMap<User, GetCurrentLoginedUserEmailVm>();
+    }
 }
