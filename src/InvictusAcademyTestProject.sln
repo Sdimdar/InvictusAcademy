@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Domain", "Services
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "Services\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj", "{C14305CC-5BFD-4A57-8295-63FB6790C791}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9253D74F-C62D-4337-AF39-3B5EFA175266}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTransferLib", "Common\DataTransferLib\DataTransferLib.csproj", "{D2F3EB92-070F-47B2-B4E1-BFED46779764}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,10 @@ Global
 		{C14305CC-5BFD-4A57-8295-63FB6790C791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C14305CC-5BFD-4A57-8295-63FB6790C791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C14305CC-5BFD-4A57-8295-63FB6790C791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2F3EB92-070F-47B2-B4E1-BFED46779764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2F3EB92-070F-47B2-B4E1-BFED46779764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2F3EB92-070F-47B2-B4E1-BFED46779764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2F3EB92-070F-47B2-B4E1-BFED46779764}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +55,7 @@ Global
 		{DF800E39-9169-4159-8503-F6D0B78DED72} = {69811F86-3594-4986-8961-2D059BF91B2E}
 		{7CC06AA4-49D3-44D0-8EDC-485542B568FB} = {69811F86-3594-4986-8961-2D059BF91B2E}
 		{C14305CC-5BFD-4A57-8295-63FB6790C791} = {69811F86-3594-4986-8961-2D059BF91B2E}
+		{D2F3EB92-070F-47B2-B4E1-BFED46779764} = {9253D74F-C62D-4337-AF39-3B5EFA175266}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DE1B9DB-6B40-4D8A-8E4F-42BB81F27D89}
