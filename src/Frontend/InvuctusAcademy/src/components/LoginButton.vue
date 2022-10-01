@@ -13,7 +13,7 @@
                 label="E-mail"
                 type='email' 
                 dense 
-                v-model="loginData.emailOrPhoneNumber" 
+                v-model="loginData.email" 
                 autofocus 
                 lazy-rules
                 :rules="[ 
@@ -68,7 +68,7 @@ export default defineComponent({
     data() {
         return{
             loginData: {
-                emailOrPhoneNumber: "",
+                email: "",
                 password: "",
                 rememberMe: false
             },
@@ -79,10 +79,10 @@ export default defineComponent({
     methods:{
         onSubmit () {
             let data = this.loginData
-            axios.post("https://localhost:7243/Account/Login", data, constants.loginConfig)
+            axios.post("https://localhost:7210/User/Login", data, constants.loginConfig)
             .then(ret =>{
                 this.loginDialog = false;
-                this.$emit('autorize');
+                this.$emit('autorize', ret.data.email);
                 Notify.create({
                     color: 'green-4',
                     textColor: 'white',
@@ -98,7 +98,7 @@ export default defineComponent({
             })
         },
         onReset () {
-            this.loginData.emailOrPhoneNumber = "";
+            this.loginData.email = "";
             this.loginData.password = "";
             this.loginData.rememberMe = false;
             this.loginDialog = false;

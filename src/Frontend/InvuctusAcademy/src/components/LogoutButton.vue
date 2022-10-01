@@ -12,6 +12,9 @@ export default defineComponent({
         logined: {
             type: Boolean,
             required: true
+        },
+        loginedUserEmail: {
+            type: String
         }
     },
     methods:{
@@ -23,9 +26,8 @@ export default defineComponent({
                 },
                 withCredentials: true
             }
-            axios.post("https://localhost:7243/Account/LogOff", {}, config)
+            axios.post("https://localhost:7210/User/Logout", {}, config)
             .then(ret =>{
-                console.log("ok");
                 this.$emit('unautorize');
             })
             .catch(ret =>{

@@ -27,13 +27,17 @@ export default defineComponent({
     logined: {
       type: Boolean,
       required: true
+    },
+    loginedUserEmail:
+    {
+      type: String
     }
   },
   methods:{
     getUserData(){
       if(this.logined)
       {
-        axios.get("https://localhost:7243/Account/GetUserInfo", constants.loginConfig)
+        axios.get("https://localhost:7210/User/GetUserData", { params: {email : this.loginedUserEmail}}, constants.loginConfig)
         .then(ret => {
           this.data = ret.data; 
         }).catch(ret => {

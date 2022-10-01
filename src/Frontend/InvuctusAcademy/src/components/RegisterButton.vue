@@ -60,12 +60,12 @@
                 </q-input>
                 <q-input 
                     dense 
-                    mask="#(###) ### - ####" 
+                    
                     v-model="registerData.phoneNumber" 
                     label="Телефонный номер" 
                     lazy-rules
                     :rules="[
-                        val => val && val.length === 17 || 'Номер должен содержать 11 цифр'
+                        val => val && val.length === 11 || 'Номер должен содержать 11 цифр'
                     ]"
                 />
                 <q-input 
@@ -153,20 +153,10 @@ export default defineComponent({
     },
     methods:{
         onSubmit(){
-            let data = {
-                email: this.registerData.email,
-                password: this.registerData.password,
-                phoneNumber: this.registerData.phoneNumber,
-                firstName: this.registerData.firstName,
-                middleName: this.registerData.middleName,
-                lastName: this.registerData.lastName,
-                instagramLink: this.registerData.instagramLink,
-                citizenship: this.registerData.citizenship
-            }
-            axios.post("https://localhost:7243/Account/Register", data, constants.loginConfig)
+            axios.post("https://localhost:7210/User/Register", this.registerData, constants.loginConfig)
             .then(ret =>{
                 this.registerDialog = false;
-                this.$emit('autorize');
+                this.$emit('autorize',ret.data.email);
                 Notify.create({
                     color: 'green-4',
                     textColor: 'white',
@@ -180,6 +170,7 @@ export default defineComponent({
                     icon: 'warning',
                     message: ret.message
                 })
+                console.log(ret);
             })
         },
         onReset(){

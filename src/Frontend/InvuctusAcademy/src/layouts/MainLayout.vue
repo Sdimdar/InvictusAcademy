@@ -12,12 +12,12 @@
         </template>
         <template v-else>
           <q-btn to="/user" class="nav-button" label="Личный кабинет"/>
-          <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
+          <logout-button class="nav-button" :logined="logined" :loginedUserEmail="loginedUserEmail" @unautorize="unautorize" />
         </template>
       </q-toolbar>
     </q-header>
     <q-page-container>
-        <router-view :logined="logined"/>
+        <router-view :logined="logined" :loginedUserEmail="loginedUserEmail"/>
     </q-page-container>
   </q-layout>
 </template>
@@ -39,22 +39,25 @@ export default {
   },
   data(){
     return{
-      logined: false
+      logined: false,
+      loginedUserEmail: ""
     }
   },
   methods:{
-    autorize: function(){
+    autorize: function(email){
       this.logined = true;
+      this.loginedUserEmail = email;
     },
     unautorize: function(){
       this.logined = false;
+      this.loginedUserEmail = ""
     },
     checkLogin(){
-      axios.get("https://localhost:7243/Account/GetUserInfo", constants.loginConfig)
+      axios.get("https://localhost:7210/User/GetLoginedUserData", constants.loginConfig)
       .then(ret => {
-        this.logined = true;
+        this.autorize(ret.data.email);
       }).catch(ret => {
-        this.logined = false;
+        this.unautorize()
       });
     }
   },
