@@ -1,9 +1,9 @@
 ﻿using Ardalis.Result;
 using MediatR;
 
-namespace Identity.Application.Features.Users.Queries.Register;
+namespace Identity.Application.Features.Users.Commands.Register;
 
-public class RegisterCommand : IRequest<Result<string>>
+public class RegisterCommand : IRequest<Result<RegisterCommandVm>>
 {
     public string Email { get; set; }
     public string Password { get; set; }

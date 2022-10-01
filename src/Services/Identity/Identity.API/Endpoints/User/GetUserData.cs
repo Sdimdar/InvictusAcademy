@@ -1,7 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
-using Identity.Application.Features.Users.Commands.GetUserData;
+using Identity.Application.Features.Users.Queries.GetUserData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

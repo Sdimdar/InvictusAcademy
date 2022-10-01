@@ -4,7 +4,7 @@ using Identity.Application.Contracts;
 using Identity.Domain.Entities;
 using MediatR;
 
-namespace Identity.Application.Features.Users.Commands.GetUserData;
+namespace Identity.Application.Features.Users.Queries.GetUserData;
 
 public class GetUserDataQuerryHandler : IRequestHandler<GetUserDataQuerry, Result<UserDataVm>>
 {

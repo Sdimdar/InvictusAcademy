@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.Features.Users.Commands.GetUserData;
+﻿namespace Identity.Application.Features.Users.Queries.GetUserData;
 
 public class UserDataVm
 {

@@ -7,9 +7,9 @@ using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Identity.Application.Features.Users.Queries.Register;
+namespace Identity.Application.Features.Users.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<string>>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<RegisterCommandVm>>
 {
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<User> _signInManager;
@@ -30,7 +30,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<st
         _mapper = mapper;
     }
 
-    public async Task<Result<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<Result<RegisterCommandVm>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
@@ -44,7 +44,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<st
         if (result.Succeeded)
         {
             await _signInManager.SignInAsync(user, false);
-            return Result.SuccessWithMessage($"You sucsessful register with email: {user.Email}");
+            return Result.Success(_mapper.Map<RegisterCommandVm>(user));
         }
         return Result.Error(result.Errors.Select(e => e.Description).ToArray());
     }
