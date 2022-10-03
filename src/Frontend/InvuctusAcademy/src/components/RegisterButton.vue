@@ -1,5 +1,5 @@
 <template>
-    <q-btn :class="$attrs.class" label="Зарегестрироваться" @click="registerDialog = true"/>
+    <q-btn :class="$attrs.class" label="Зарегистрироваться" @click="registerDialog = true"/>
     
     <q-dialog v-model="registerDialog">
       <q-card style="min-width: 350px">
@@ -79,17 +79,17 @@
                 />
                 <q-input 
                     dense 
-                    v-model="registerData.middleName" 
-                    label="Отчество" 
-                />
-                <q-input 
-                    dense 
                     v-model="registerData.lastName" 
                     label="Фамилия" 
                     lazy-rules
                     :rules="[
                         val => val !== '' || 'Это поле не может быть пустым'
                     ]"
+                />
+                <q-input 
+                    dense 
+                    v-model="registerData.middleName" 
+                    label="Отчество" 
                 />
                 <q-input 
                     dense 
@@ -105,7 +105,7 @@
 
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Отмена" v-close-popup type="reset"/>
-                <q-btn flat label="Зарегестрироваться" type="submit"/>
+                <q-btn flat label="Зарегистрироваться" type="submit"/>
             </q-card-actions>
         </q-form>
         
