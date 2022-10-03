@@ -20,5 +20,6 @@ internal class UserDbMap : IEntityTypeConfiguration<User>
         builder.Property(p => p.InstagramLink).HasColumnType("VARCHAR(100)");
         builder.Property(p => p.RegistrationDate).HasColumnType("TIMESTAMP").IsRequired();
         builder.Property(p => p.Citizenship).HasColumnType("VARCHAR(60)").IsRequired();
+        builder.Property(p => p.AvatarLink).HasColumnType("VARCHAR(60)");
     }
 }

@@ -9,7 +9,7 @@ public class User : IdentityUser
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
     public string? InstagramLink { get; set; }
-    public DateTime RegistrationDate { get; set; }
+    public DateTime RegistrationDate { get; set; } = DateTime.Now;
     public string Citizenship { get; set; }
-
+    public string? AvatarLink { get; set; }
 }

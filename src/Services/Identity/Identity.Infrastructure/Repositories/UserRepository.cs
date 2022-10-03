@@ -1,4 +1,5 @@
-﻿using Identity.Application.Contracts;
+﻿using System.Linq.Expressions;
+using Identity.Application.Contracts;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -49,5 +50,10 @@ internal class UserRepository : IUserRepository
         if (user == null) throw new KeyNotFoundException();
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<User> GetByPredicateAsync(Expression<Func<User, bool>> predicate)
+    {
+        return await _context.Users.FirstOrDefaultAsync(predicate);
     }
 }
