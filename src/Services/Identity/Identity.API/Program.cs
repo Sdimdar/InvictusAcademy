@@ -1,3 +1,5 @@
+using AutoMapper;
+using Identity.API.Mappings;
 using Identity.Application;
 using Identity.Infrastructure;
 using Microsoft.OpenApi.Models;
@@ -18,6 +20,12 @@ services.AddSwaggerGen(c =>
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
 services.AddApplicationServices();
+
+// Add Automapper maps
+services.AddSingleton(provider => new MapperConfiguration(cfg => 
+{ 
+    cfg.AddProfile(new DefaultResponceObjectAutomapperProfile()); 
+}).CreateMapper());
 
 // Configure CORS Policy and Cookie
 services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
