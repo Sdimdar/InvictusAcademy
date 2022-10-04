@@ -1,4 +1,6 @@
 ﻿using Identity.Application.Contracts;
+using Identity.Application.Features.Services;
+using Identity.Application.Features.Services.Abstractions;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance;
 using Identity.Infrastructure.Repositories;
@@ -21,6 +23,7 @@ public static class DependencyInjection
                 .AddEntityFrameworkStores<IdentityDbContext>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUsersPaginationService, UsersPaginationService>();
 
         return services;
     }

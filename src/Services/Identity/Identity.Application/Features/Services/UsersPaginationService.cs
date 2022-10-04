@@ -1,9 +1,10 @@
-﻿using Identity.Domain.Entities;
+﻿using Identity.Application.Features.Services.Abstractions;
+using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Application.Features.Services;
 
-public class UsersPaginationService
+public class UsersPaginationService : IUsersPaginationService
 {
     public async Task<(IQueryable<User>, int)> GetABatchOfData(IQueryable<User> users, int page, int pageSize)
     {
