@@ -60,12 +60,12 @@
                 </q-input>
                 <q-input 
                     dense 
-                    
+                    mask="8(###) ### - ####"
                     v-model="registerData.phoneNumber" 
                     label="Телефонный номер" 
                     lazy-rules
                     :rules="[
-                        val => val && val.length === 11 || 'Номер должен содержать 11 цифр'
+                        val => val && val.length === 17 || 'Номер должен содержать 11 цифр'
                     ]"
                 />
                 <q-input 
