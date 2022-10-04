@@ -10,7 +10,7 @@ namespace Identity.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithRequest<string>
-    .WithResult<Result<UserDataVm>>
+    .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
 
@@ -20,15 +20,14 @@ public class GetUserData : EndpointBaseAsync
     }
 
     [HttpGet("/user/getUserData")]
-    [TranslateResultToActionResult]
     [SwaggerOperation(
         Summary = "Получение данных о пользователе",
         Description = "Для получения данных о пользователе необходимо передать его email через параметры в строке",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<UserDataVm>> HandleAsync(string email, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(string email, CancellationToken cancellationToken = default)
     {
         GetUserDataQuerry command = new(email);
-        return await _mediator.Send(command, cancellationToken);
+        return Ok(await _mediator.Send(command, cancellationToken));
     }
 }
