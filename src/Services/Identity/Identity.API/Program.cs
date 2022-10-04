@@ -1,5 +1,4 @@
 using AutoMapper;
-using Identity.API.Mappings;
 using Identity.Application;
 using Identity.Application.Mappings;
 using Identity.Infrastructure;
@@ -12,6 +11,7 @@ var services = builder.Services;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddMvc();
 services.AddEndpointsApiExplorer();
+services.AddControllers().AddNewtonsoftJson();
 services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1"});
@@ -24,8 +24,7 @@ services.AddApplicationServices();
 
 // Add Automapper maps
 services.AddSingleton(provider => new MapperConfiguration(cfg => 
-{ 
-    cfg.AddProfile(new DefaultResponceObjectAutomapperProfile()); 
+{
     cfg.AddProfile(new MappingProfile());
 }).CreateMapper());
 

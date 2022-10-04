@@ -1,8 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 using AutoMapper;
-using DataTransferLib;
 using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +13,10 @@ public class Register : EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
 
     public Register(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
-        _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
     }
 
     [HttpPost("/user/register")]
@@ -32,6 +28,6 @@ public class Register : EndpointBaseAsync
     public override async Task<ActionResult> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
     {
         Result<RegisterCommandVm> responce = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<RegisterCommandVm>>(responce));
+        return Ok(responce);
     }
 }
