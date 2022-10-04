@@ -1,6 +1,7 @@
 using AutoMapper;
 using Identity.API.Mappings;
 using Identity.Application;
+using Identity.Application.Mappings;
 using Identity.Infrastructure;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +26,7 @@ services.AddApplicationServices();
 services.AddSingleton(provider => new MapperConfiguration(cfg => 
 { 
     cfg.AddProfile(new DefaultResponceObjectAutomapperProfile()); 
+    cfg.AddProfile(new MappingProfile());
 }).CreateMapper());
 
 // Configure CORS Policy and Cookie
