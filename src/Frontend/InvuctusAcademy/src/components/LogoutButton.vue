@@ -4,36 +4,28 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from 'axios'
+import { fetchlogout } from "boot/axios";
 
 export default defineComponent({
-    name: 'logout-button',
+    name: "logout-button",
     props: {
         logined: {
             type: Boolean,
-            required: true
+            required: true,
         },
         loginedUserEmail: {
-            type: String
-        }
+            type: String,
+        },
     },
-    methods:{
-        logout: function()
-        {
-            let config = {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true
+    methods: {
+        logout: function () {
+            try {
+                const response = fetchlogout();
+                this.$emit("unautorize");
+            } catch (e) {
+                console.log(e.message);
             }
-            axios.post("https://localhost:7210/User/Logout", {}, config)
-            .then(ret =>{
-                this.$emit('unautorize');
-            })
-            .catch(ret =>{
-                console.log("ret");
-            })
-        }
-    }
-})
+        },
+    },
+});
 </script>

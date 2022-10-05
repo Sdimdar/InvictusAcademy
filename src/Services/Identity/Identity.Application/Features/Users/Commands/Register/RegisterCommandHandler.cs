@@ -32,12 +32,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Re
 
     public async Task<Result<RegisterCommandVm>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
+        request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
             return Result.Invalid(validationResult.AsErrors());
         }
         User? user = await _userRepository.GetByEmailAsync(request.Email);
+        
         if (user != null) return Result.Error("A user with this Email exists");
         user = _mapper.Map<User>(request);
         var result = await _userManager.CreateAsync(user, request.Password);
