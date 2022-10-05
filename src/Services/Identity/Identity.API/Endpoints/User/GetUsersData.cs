@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Identity.API.Endpoints.User;
 
 public class GetUsersData : EndpointBaseAsync
-    .WithRequest<int>
+    .WithRequest<GetUsersDataQuerry>
     .WithResult<Result<UsersDataVm>>
 {
     private readonly IMediator _mediator;
@@ -27,9 +27,8 @@ public class GetUsersData : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<UsersDataVm>> HandleAsync(int page, CancellationToken cancellationToken = default)
+    public override async Task<Result<UsersDataVm>> HandleAsync([FromQuery] GetUsersDataQuerry command, CancellationToken cancellationToken = default)
     {
-        GetUsersDataQuerry command = new(page);
         return await _mediator.Send(command, cancellationToken);
     }
 }

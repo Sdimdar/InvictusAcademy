@@ -13,11 +13,13 @@ internal class UserRepository : IUserRepository
 {
     private readonly IdentityDbContext _context;
     private readonly IUsersPaginationService _usersPaginationService;
+    private readonly IUsersFilter _usersFilter;
 
-    public UserRepository(IdentityDbContext context, IUsersPaginationService usersPaginationService)
+    public UserRepository(IdentityDbContext context, IUsersPaginationService usersPaginationService, IUsersFilter usersFilter)
     {
         _context = context ?? throw new NullReferenceException(nameof(context));
         _usersPaginationService = usersPaginationService;
+        _usersFilter = usersFilter;
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
@@ -62,10 +64,11 @@ internal class UserRepository : IUserRepository
         return await _context.Users.FirstOrDefaultAsync(predicate);
     }
     
-    public async Task<UsersDataVm> GetPaginatedAll( int pageSize, int page)
+    public async Task<UsersDataVm> GetPaginatedAll(string filterString, int pageSize, int page)
     {
         var users = _context.Users.AsQueryable();
-        var paginationData = await _usersPaginationService.GetABatchOfData(users, page, pageSize);
+        var filteredUsers = _usersFilter.Filter(users, filterString);
+        var paginationData = await _usersPaginationService.GetABatchOfData(filteredUsers, page, pageSize);
         UsersDataVm model = new UsersDataVm()
         {
             Users = paginationData.Item1.ToArray(),

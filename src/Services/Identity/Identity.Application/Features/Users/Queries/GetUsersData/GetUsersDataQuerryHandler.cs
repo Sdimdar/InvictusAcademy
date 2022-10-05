@@ -16,7 +16,7 @@ public class GetUsersDataQuerryHandler : IRequestHandler<GetUsersDataQuerry, Res
     public async Task<Result<UsersDataVm>> Handle(GetUsersDataQuerry request, CancellationToken cancellationToken)
     {
         int pageSize = 1;
-        var model = await _userRepository.GetPaginatedAll(pageSize, request.Page);
+        var model = await _userRepository.GetPaginatedAll(request.FilterString, pageSize, request.Page);
         if (model is null)
             return Result.Error("Сould not get users from the server");
         return Result.Success(model);

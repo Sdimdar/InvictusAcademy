@@ -24,6 +24,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUsersPaginationService, UsersPaginationService>();
+        services.AddScoped<IUsersFilter, UsersFilter>();
 
         return services;
     }

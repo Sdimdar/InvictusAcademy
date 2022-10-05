@@ -13,5 +13,5 @@ public interface IUserRepository
     Task UpdateAsync(User user);
     Task DeleteAsync(string id);
     Task<User> GetByPredicateAsync(Expression<Func<User, bool>> predicate);
-    Task<UsersDataVm> GetPaginatedAll(int pageSize, int page);
+    Task<UsersDataVm> GetPaginatedAll(string filterString, int pageSize, int page);
 }
