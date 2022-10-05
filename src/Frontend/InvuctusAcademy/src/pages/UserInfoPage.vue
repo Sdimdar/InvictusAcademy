@@ -42,9 +42,11 @@
               <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs">
                 Личный кабинет
               </div>
+              
               <div class="user-data flex">
                 <table>
-                  <tr v-for="(value, name) in data" :key="name">
+                  <tr v-for="(value,key) in data" >
+                    <td style="font-weight:bold; color:black; font-size:15px">{{key}} : </td>
                     <td class="text-grey-10">{{ value }}</td>
                   </tr>
                 </table>
@@ -80,12 +82,14 @@
 <script>
 import { defineComponent } from "vue";
 import { fetchUserData } from "boot/axios";
+import { fetchLoginedUserData } from 'boot/axios'
 
 export default defineComponent({
   name: "UserInfoPage",
   data() {
     return {
-      data: {},
+      data: [],
+      autorizeEmail:"",
     };
   },
   props: {
@@ -99,8 +103,11 @@ export default defineComponent({
       const timeout = setTimeout(
         async () => {
           try {
-            const response = await fetchUserData(this.loginedUserEmail);
-            this.data = response.data;
+            const autorize = await fetchLoginedUserData();
+            this.autorizeEmail=autorize.data.value.email
+            const response = await fetchUserData(this.autorizeEmail);
+            this.data = response.data.value;
+            
           } catch (error) {
             console.log(error.message);
             this.$router.push({ name: 'homepage' })
