@@ -7,7 +7,29 @@ import axios from 'axios'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' })
+const api = axios.create({
+  baseURL: "https://localhost:7210",
+  timeout: 30000,
+});
+
+api.defaults.headers.common["Content-Type"] = "application/json";
+api.defaults.withCredentials = true;
+
+function errorHandler(error) {
+  if (error.response?.status === 401) {
+    localStorage.removeItem("ticket");
+    window.location = "/";
+  }
+  return Promise.reject(error);
+}
+
+api.interceptors.request.use((config) => {
+  return config;
+}, errorHandler);
+
+api.interceptors.response.use((response) => {
+  return response;
+}, errorHandler);
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -22,3 +44,9 @@ export default boot(({ app }) => {
 })
 
 export { api }
+
+export const fetchUserData = (email) => api.get(`/User/GetUserData?email=${email}`);
+export const login = (payload) => api.post("/User/Login", payload);
+export const register = (payload) => api.post("/User/Register", payload);
+export const fetchLoginedUserData = () => api.get('/User/GetLoginedUserData');
+export const fetchlogout = () => api.post("/User/Logout");

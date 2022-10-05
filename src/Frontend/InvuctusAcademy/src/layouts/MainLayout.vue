@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-item to="/" >
-          <img class="logo-img" src="../static/invictus_academy_logo.png" />
+          <img class="logo-img" src="img/invictus_academy_logo.png" />
         </q-item>
         <q-space />
         <template v-if="!logined" >
@@ -27,8 +27,7 @@
 import LogoutButton from 'components/LogoutButton.vue'
 import LoginButton from 'components/LoginButton.vue'
 import RegisterButton from 'components/RegisterButton.vue'
-import axios from 'axios'
-import constants from '../static/constants'
+import { fetchLoginedUserData } from 'boot/axios'
 
 export default {
   name: 'MainLayout',
@@ -52,17 +51,18 @@ export default {
       this.logined = false;
       this.loginedUserEmail = ""
     },
-    checkLogin(){
-      axios.get("https://localhost:7210/User/GetLoginedUserData", constants.loginConfig)
-      .then(ret => {
-        this.autorize(ret.data.email);
-      }).catch(ret => {
+    async checkLogin(){
+      try {
+        const response = await fetchLoginedUserData();
+        this.autorize(response.data.email);
+      } catch (e) {
+        console.log(e.message);
         this.unautorize()
-      });
+      }
     }
   },
   mounted() {
-      this.checkLogin()
+    this.checkLogin()
   }
 }
 </script>

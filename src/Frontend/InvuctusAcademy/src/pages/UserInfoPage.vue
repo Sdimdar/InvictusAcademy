@@ -79,6 +79,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import { fetchUserData } from "boot/axios";
 
 export default defineComponent({
   name: "UserInfoPage",
@@ -87,27 +88,49 @@ export default defineComponent({
       data: {},
     };
   },
+  props: {
+    loginedUserEmail: {
+        type: String
+    },
+  },
   methods: {
     async getUserData() {
-      // !!! mock
-      const guid = 2;
-      const response = await fetchUserData(guid);
-      this.data = response.data;
+      // с таймаутом это лютый костыль надо как то переделать
+      const timeout = setTimeout(
+        async () => {
+          try {
+            const response = await fetchUserData(this.loginedUserEmail);
+            this.data = response.data;
+          } catch (error) {
+            console.log(error.message);
+            this.$router.push({ name: 'homepage' })
+          }
+        }, 200
+      )
     },
   },
   mounted() {
     this.getUserData();
   },
+  updated() {
+    this.getUserData();
+  }
 });
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
 .my-card
-  width: 100%
-  max-width: 100%
+{
+  width: 100%;
+  max-width: 100%;
+}
 .user
-  width: 50%
+{
+  width: 50%;
+}
 .user-data
-  display: flex
-  flex-direction: column
+{
+  display: flex;
+  flex-direction: column;
+}
 </style>

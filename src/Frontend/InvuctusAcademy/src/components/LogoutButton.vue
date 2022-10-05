@@ -1,40 +1,31 @@
 <template>
-  <q-btn :class="$attrs.class" label="Выйти" @click="logout" />
+    <q-btn :class="$attrs.class" label="Выйти" @click="logout" />
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import axios from "axios";
+import { fetchlogout } from "boot/axios";
 
 export default defineComponent({
-  name: "logout-button",
-  props: {
-    logined: {
-      type: Boolean,
-      required: true,
-    },
-    loginedUserEmail: {
-      type: String,
-    },
-  },
-  methods: {
-    logout: function () {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
+    name: "logout-button",
+    props: {
+        logined: {
+            type: Boolean,
+            required: true,
         },
-        withCredentials: true,
-      };
-      axios
-        .post("https://localhost:7210/User/Logout", {}, config)
-        .then((ret) => {
-          this.$emit("unautorize");
-          localStorage.removeItem("ticket", ret.ticket);
-        })
-        .catch((ret) => {
-          console.log("ret");
-        });
+        loginedUserEmail: {
+            type: String,
+        },
     },
-  },
+    methods: {
+        logout: function () {
+            try {
+                const response = fetchlogout();
+                this.$emit("unautorize");
+            } catch (e) {
+                console.log(e.message);
+            }
+        },
+    },
 });
 </script>

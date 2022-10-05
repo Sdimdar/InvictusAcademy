@@ -119,10 +119,9 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import axios from "axios";
 import { Notify } from "quasar";
 import constants from "../static/constants";
-import { register } from "src/api/auth";
+import { register } from "boot/axios";
 
 export default defineComponent({
   name: "register-button",

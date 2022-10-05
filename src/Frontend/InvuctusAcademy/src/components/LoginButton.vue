@@ -62,7 +62,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { login } from "../api/auth";
+import { login } from "boot/axios";
 import { Notify } from "quasar";
 import constants from "../static/constants";
 
