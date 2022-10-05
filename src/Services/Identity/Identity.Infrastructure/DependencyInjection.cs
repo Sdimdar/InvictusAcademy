@@ -21,6 +21,7 @@ public static class DependencyInjection
                 .AddEntityFrameworkStores<IdentityDbContext>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRequestRepository, RequestRepository>();
 
         return services;
     }

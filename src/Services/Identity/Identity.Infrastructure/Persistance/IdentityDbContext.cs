@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Persistance;
 
-internal class IdentityDbContext : IdentityDbContext<User>
+public class IdentityDbContext : IdentityDbContext<User>
 {
+    public DbSet<Request> Requests { get; set; }
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -14,5 +15,6 @@ internal class IdentityDbContext : IdentityDbContext<User>
         base.OnModelCreating(builder);
 
         builder.ApplyConfiguration(new UserDbMap());
+        builder.ApplyConfiguration(new RequestDbMap());
     }
 }
