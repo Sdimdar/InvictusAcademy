@@ -1,5 +1,7 @@
 <template>
   <table class="table">
+    <input v-model="filterString" />
+    <button @click="getUsersData">search</button>
     <tr>
       <th>Имя</th><th>Фамилия</th><th>Телефон</th><th>Дата</th><th>Гражданство</th>
     </tr>
@@ -36,6 +38,7 @@ export default {
       }],
       totalPages: 1,
       page: 1,
+      filterString: "",
       pageVm: {
         totalPages: 0,
         pageNumber: 0
@@ -47,6 +50,7 @@ export default {
       try {
         const response = await axios.get("https://localhost:7210/user/getusersdata", {
           params: {
+            filterString: this.filterString,
             page: this.page
           }
         })
