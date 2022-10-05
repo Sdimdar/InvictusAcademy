@@ -27,7 +27,7 @@ public class Register : EndpointBaseAsync
     ]
     public override async Task<ActionResult> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
     {
-        Result<RegisterCommandVm> responce = await _mediator.Send(request, cancellationToken);
-        return Ok(responce);
+        Result<RegisterCommandVm> response = await _mediator.Send(request, cancellationToken);
+        return Ok(response);
     }
 }
