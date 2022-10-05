@@ -1,6 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
+using AutoMapper;
 using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,24 +10,24 @@ namespace Identity.API.Endpoints.User;
 
 public class Register : EndpointBaseAsync
     .WithRequest<RegisterCommand>
-    .WithResult<Result<RegisterCommandVm>>
+    .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
 
-    public Register(IMediator mediator)
+    public Register(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
     }
 
     [HttpPost("/user/register")]
-    [TranslateResultToActionResult]
     [SwaggerOperation(
         Summary = "Регистрация нового пользователя",
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<RegisterCommandVm>> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
     {
-        return await _mediator.Send(request, cancellationToken);
+        Result<RegisterCommandVm> response = await _mediator.Send(request, cancellationToken);
+        return Ok(response);
     }
 }

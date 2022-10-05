@@ -11,7 +11,7 @@ namespace Identity.API.Endpoints.User;
 
 public class GetCurrentLoginedUserEmail : EndpointBaseAsync
     .WithoutRequest
-    .WithResult<Result<GetCurrentLoginedUserEmailVm>>
+    .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
 
@@ -21,16 +21,15 @@ public class GetCurrentLoginedUserEmail : EndpointBaseAsync
     }
 
     [HttpGet("user/getlogineduserdata")]
-    [TranslateResultToActionResult]
     [Authorize]
     [SwaggerOperation(
         Summary = "Получение данных о текущем залогиненном пользователе",
         Description = "Для получения данных о пользователе необходимо отправить пустой запрос",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<GetCurrentLoginedUserEmailVm>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(CancellationToken cancellationToken = default)
     {
         GetCurrentLoginedUserEmailQuerry querry = new() { User = User };
-        return await _mediator.Send(querry, cancellationToken);
+        return Ok(await _mediator.Send(querry, cancellationToken));
     }
 }
