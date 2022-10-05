@@ -10,6 +10,7 @@
       <q-card-section>
         <div class="text-h6 text-center">Регистрация</div>
       </q-card-section>
+      <div class="text-center" style="color:red" v-for="item in errorMessage" >{{item.identifier}} : {{item.errorMessage}}</div>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section class="q-pt-none">
           <q-input
@@ -142,6 +143,7 @@ export default defineComponent({
       registerDialog: ref(false),
       isPwd: ref(true),
       isPwdConfirm: ref(true),
+      errorMessage:"",
     };
   },
   props: {
@@ -155,13 +157,19 @@ export default defineComponent({
       try {
         const response = await register(this.registerData);
         localStorage.setItem('ticket', response.ticket)
-        this.registerDialog = false;
+        if(response.data.isSuccess){
+          this.registerDialog = false;
         this.$emit("autorize", response.data.email);
         Notify.create({
           color: "green-4",
           textColor: "white",
           message: "Добро пожаловать",
         });
+        }
+        else{
+          this.errorMessage = response.data.validationErrors
+        }
+        
       } catch (e) {
         Notify.create({
           color: "red-5",
@@ -182,6 +190,7 @@ export default defineComponent({
       this.registerData.instagramLink = "";
       this.registerData.citizenship = "Казахстан";
       this.registerDialog = false;
+      errorMessage = "";
     },
     validateEmail(value) {
       return constants.EMAIL_REGEXP.test(value);

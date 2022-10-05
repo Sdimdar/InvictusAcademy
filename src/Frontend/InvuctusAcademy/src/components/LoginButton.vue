@@ -6,7 +6,7 @@
       <q-card-section>
         <div class="text-h6 text-center">Авторизация</div>
       </q-card-section>
-
+      <div class="text-center" style="color:red" v-for="item in errorMessage" >{{item}}</div>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
           <q-input
@@ -81,6 +81,7 @@ export default defineComponent({
         password: "",
         rememberMe: false,
       },
+      errorMessage:"",
       isPwd: true,
       loginDialog: false,
     };
@@ -90,6 +91,7 @@ export default defineComponent({
       try {
         const response = await login(this.loginData);
         localStorage.setItem('ticket', response.ticket)
+        if(response.data.isSuccess){
         this.loginDialog = false;
         this.$emit("autorize", response.data.email);
         Notify.create({
@@ -97,6 +99,10 @@ export default defineComponent({
           textColor: "white",
           message: "Добро пожаловать",
         });
+        }
+        else{
+          this.errorMessage = response.data.errors
+        } 
       } catch (e) {
         Notify.create({
           color: "red-5",
@@ -111,6 +117,7 @@ export default defineComponent({
       this.loginData.password = "";
       this.loginData.rememberMe = false;
       this.loginDialog = false;
+      this.errorMessage = "";
     },
     validateEmail(value) {
       return constants.EMAIL_REGEXP.test(value);
