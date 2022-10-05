@@ -24,7 +24,7 @@ public class GetUsersData : EndpointBaseAsync
     [TranslateResultToActionResult]
     [SwaggerOperation(
         Summary = "Получение данных пользователей",
-        Description = "Для пагинации требуется вести в строку номер страницы",
+        Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "User" })
     ]
     public override async Task<Result<UsersDataVm>> HandleAsync([FromQuery] GetUsersDataQuerry command, CancellationToken cancellationToken = default)
