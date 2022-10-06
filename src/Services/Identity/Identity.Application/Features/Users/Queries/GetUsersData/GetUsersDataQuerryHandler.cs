@@ -19,15 +19,14 @@ public class GetUsersDataQuerryHandler : IRequestHandler<GetUsersDataQuerry, Res
 
     public async Task<Result<UsersDataVm>> Handle(GetUsersDataQuerry request, CancellationToken cancellationToken)
     {
-        int pageSize = 1;
-        var data = await _userRepository.GetPaginatedAll(request.FilterString, pageSize, request.Page);
+        var data = await _userRepository.GetPaginatedAll(request.FilterString, request.PageSize, request.Page);
         if (data.Item1 is null)
             return Result.Error("Сould not get users from the server");
         UsersDataVm model = new()
         {
             Users = _mapper.Map<IEnumerable<UserDataVm>>(data.Item1),
             Filter = request.FilterString,
-            PageVm = new PageVm(data.Item2, request.Page, pageSize)
+            PageVm = new PageVm(data.Item2, request.Page, request.PageSize)
         };
         return Result.Success(model);
     }
