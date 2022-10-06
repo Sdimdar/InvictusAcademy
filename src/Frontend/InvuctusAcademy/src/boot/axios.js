@@ -51,3 +51,5 @@ export const login = (payload) => api.post("/User/Login", payload);
 export const register = (payload) => api.post("/User/Register", payload);
 export const fetchLoginedUserData = () => api.get('/User/GetLoginedUserData');
 export const fetchlogout = () => api.post("/User/Logout");
+export const createRequest = (payload) => api.post('/Request/Create', payload);
+export const fetchAllRequest = () => api.get('/Request/GetAll');

@@ -108,8 +108,8 @@
             label="Гражданство"
           />
         </q-card-section>
-        <div class="text-center" style="color:red" v-for="item in errorMessages" >{{item.identifier}} : {{item.errorMessage}}</div>
-        <q-card-actions align="right" class="text-primary">
+        <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
+        <q-card-actions class="text-primary">
           <q-btn flat label="Отмена" v-close-popup type="reset" />
           <q-btn flat label="Зарегистрироваться" type="submit" />
         </q-card-actions>

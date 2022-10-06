@@ -5,7 +5,7 @@
     <tr>
       <th>Имя</th><th>Фамилия</th><th>Телефон</th><th>Дата</th><th>Гражданство</th>
     </tr>
-    <tr v-for="user in users">
+    <tr v-for="user in users" :key="user">
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
       <td>{{user.phoneNumber}}</td>

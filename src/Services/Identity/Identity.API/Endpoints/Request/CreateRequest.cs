@@ -11,8 +11,7 @@ public class CreateRequest:EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
-
-
+    
     public CreateRequest(IMediator mediator)
     {
         _mediator = mediator;
