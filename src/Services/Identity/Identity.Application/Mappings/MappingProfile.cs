@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Identity.Application.Features.Requests.Commands.CreateRequest;
+using Identity.Application.Features.Requests.Queries.GetAllRequest;
 using Identity.Application.Features.Users.Queries.GetUserData;
 using Identity.Application.Features.Users.Queries.Login;
 using Identity.Application.Features.Users.Commands.Register;
@@ -17,5 +19,9 @@ public class MappingProfile : Profile
 		CreateMap<User, LoginQuerryVm>();
         CreateMap<User, RegisterCommandVm>();
         CreateMap<User, GetCurrentLoginedUserEmailVm>();
-    }
+        //REQUESTS
+        CreateMap<CreateRequestCommand, Request>();
+        CreateMap<GetAllRequestCommand, GetAllRequestVm>();
+
+	}
 }

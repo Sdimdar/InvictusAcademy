@@ -1,6 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
-using AutoMapper;
 using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ public class Register : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
 
-    public Register(IMediator mediator, IMapper mapper)
+    public Register(IMediator mediator)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
     }

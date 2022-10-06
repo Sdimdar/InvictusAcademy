@@ -1,4 +1,5 @@
 using Identity.Application.Contracts;
+using Identity.Application.Features.Requests.Queries.GetAllRequest;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -51,5 +52,14 @@ public class RequestRepository : IRequestRepository
         if (request == null) throw new KeyNotFoundException();
         _context.Requests.Remove(request);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Request>> GetRequestsByPage(GetAllRequestCommand pageInfo)
+    {
+        if (pageInfo.PageNumber == 0)
+            return await _context.Requests.ToListAsync();
+        IQueryable<Request> requestsPerPage = _context.Requests.OrderBy(r => r.Id).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
+        var result = await requestsPerPage.ToListAsync();
+        return result;
     }
 }
