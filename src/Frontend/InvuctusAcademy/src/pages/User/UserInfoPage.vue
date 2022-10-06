@@ -43,7 +43,7 @@
               
               <div class="user-data flex">
                 <table>
-                  <tr v-for="(value,key) in data" >
+                  <tr v-for="(value,key) in data" :key="key">
                     <td style="font-weight:bold; color:black; font-size:15px">{{key}} : </td>
                     <td class="text-grey-10">{{ value }}</td>
                   </tr>

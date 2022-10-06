@@ -9,6 +9,7 @@
         <template v-if="!logined" >
           <login-button class="nav-button" :logined="logined" @autorize="autorize"/>
           <register-button class="nav-button" :logined="logined" @autorize="autorize"/>
+          
         </template>
         <template v-else>
           <q-btn to="/user" class="nav-button" label="Личный кабинет"/>
@@ -20,6 +21,7 @@
         <router-view :logined="logined" :loginedUserEmail="loginedUserEmail"/>
     </q-page-container>
   </q-layout>
+  
 </template>
 
 
@@ -27,6 +29,7 @@
 import LogoutButton from 'components/LogoutButton.vue'
 import LoginButton from 'components/LoginButton.vue'
 import RegisterButton from 'components/RegisterButton.vue'
+import RequestButton from 'components/RequestButton.vue'
 import { fetchLoginedUserData } from 'boot/axios'
 
 export default {
@@ -34,7 +37,8 @@ export default {
   components:{
     LoginButton,
     LogoutButton,
-    RegisterButton
+    RegisterButton,
+    RequestButton
   },
   data(){
     return{
