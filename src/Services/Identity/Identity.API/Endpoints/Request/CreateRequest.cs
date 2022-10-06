@@ -21,9 +21,10 @@ public class CreateRequest:EndpointBaseAsync
     [HttpPost("/request/create")]
     [SwaggerOperation(
         Summary = "Создание заявки",
-        Description = "Необходимо передать в теле запроса поля")
+        Description = "Необходимо передать в теле запроса поля",
+        Tags = new[] { "Request" })
     ]
-    public async override Task<ActionResult> HandleAsync(CreateRequestCommand request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(CreateRequestCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(response);
