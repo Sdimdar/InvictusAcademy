@@ -1,7 +1,4 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
-using Identity.Application.Features.Users.Queries.GetUserData;
 using Identity.Application.Features.Users.Queries.GetUsersData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +8,7 @@ namespace Identity.API.Endpoints.User;
 
 public class GetUsersData : EndpointBaseAsync
     .WithRequest<GetUsersDataQuerry>
-    .WithResult<Result<UsersDataVm>>
+    .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
 
@@ -21,14 +18,13 @@ public class GetUsersData : EndpointBaseAsync
     }
 
     [HttpGet("/user/getUsersData")]
-    [TranslateResultToActionResult]
     [SwaggerOperation(
         Summary = "Получение данных пользователей",
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "User" })
     ]
-    public override async Task<Result<UsersDataVm>> HandleAsync([FromQuery] GetUsersDataQuerry command, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync([FromQuery] GetUsersDataQuerry command, CancellationToken cancellationToken = default)
     {
-        return await _mediator.Send(command, cancellationToken);
+        return Ok(await _mediator.Send(command, cancellationToken));
     }
 }

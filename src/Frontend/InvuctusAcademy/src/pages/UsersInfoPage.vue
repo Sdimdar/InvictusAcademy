@@ -14,29 +14,21 @@
     </tr>
   </table>
   <div>
-    <div class="pagesBox" v-for="pageN in totalPages" :key="pageN" @click="rePage(pageN)">
+    <div class="pagesBox" v-for="pageN in pageVm.totalPages" :key="pageN" @click="rePage(pageN)">
       <button :class="{'current-page': page === pageN}">{{pageN}}</button>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import { fetchUsersData } from "boot/axios";
+import { Notify } from "quasar";
 
 export default {
   name: "UsersInfoPage",
   data(){
     return{
-      users: [{
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        phoneNumber: "",
-        instagramLink: "",
-        citizenship: "",
-        registrationDate: ""
-      }],
-      totalPages: 1,
+      users: [],
       page: 1,
       filterString: "",
       pageVm: {
@@ -48,22 +40,34 @@ export default {
   methods:{
     async getUsersData(){
       try {
-        const response = await axios.get("https://localhost:7210/user/getusersdata", {
-          params: {
-            filterString: this.filterString,
-            page: this.page
-          }
-        })
-        this.users = response.data.users
-        this.pageVm = response.data.pageVm
-        this.totalPages = this.pageVm.totalPages
+        const response = await fetchUsersData(this.filterString, this.page);
         console.log("Response:")
         console.log(response)
-        console.log(this.users)
-        console.log(`tpages ${this.totalPages}`)
+        if (response.data.isSuccess) {
+          this.users = response.data.value.users
+          this.pageVm = response.data.value.pageVm
+          if(this.users.length == 0) 
+          {
+            Notify.create({
+              color: "yellow-4",
+              textColor: "black",
+              icon: "warning",
+              message: `Не найдено ни одного пользователя по запросу : ${this.filterString}`,
+            });
+          }
+          console.log(`Pages count: ${this.pageVm.totalPages}`)
+        }
+        else{
+          Notify.create({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            message: response.data.errors[0],
+          });
+        }
       }
       catch (e){
-        alert(e.message)
+        console.log(e.message)
       }
     },
     rePage(pageN){

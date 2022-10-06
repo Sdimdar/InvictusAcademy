@@ -1,25 +1,19 @@
 ﻿using System.Linq.Expressions;
 using Identity.Application.Contracts;
-using Identity.Application.Features.GeneralVM;
-using Identity.Application.Features.Services.Abstractions;
-using Identity.Application.Features.Users.Queries.GetUsersData;
+using Identity.Infrastructure.Extensions;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Repositories;
 
-internal class UserRepository : IUserRepository
+public class UserRepository : IUserRepository
 {
     private readonly IdentityDbContext _context;
-    private readonly IUsersPaginationService _usersPaginationService;
-    private readonly IUsersFilter _usersFilter;
 
-    public UserRepository(IdentityDbContext context, IUsersPaginationService usersPaginationService, IUsersFilter usersFilter)
+    public UserRepository(IdentityDbContext context)
     {
         _context = context ?? throw new NullReferenceException(nameof(context));
-        _usersPaginationService = usersPaginationService;
-        _usersFilter = usersFilter;
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
@@ -59,21 +53,21 @@ internal class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<User> GetByPredicateAsync(Expression<Func<User, bool>> predicate)
+    public async Task<User?> GetByPredicateAsync(Expression<Func<User, bool>> predicate)
     {
         return await _context.Users.FirstOrDefaultAsync(predicate);
     }
     
-    public async Task<UsersDataVm> GetPaginatedAll(string filterString, int pageSize, int page)
+    public async Task<(IEnumerable<User>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
-        var users = _context.Users.AsQueryable();
-        var filteredUsers = _usersFilter.Filter(users, filterString);
-        var paginationData = await _usersPaginationService.GetABatchOfData(filteredUsers, page, pageSize);
-        UsersDataVm model = new UsersDataVm()
-        {
-            Users = paginationData.Item1.ToArray(),
-            PageVm = new PageVm(paginationData.Item2, page, pageSize)
-        };
-        return model;
+        var result = await _context.Users.Filter(filterString)
+                                   .GetABatchOfData(page, pageSize);
+        return (result.Item1.ToArray(), result.Item2);
+        //UsersDataVm model = new()
+        //{
+        //    Users = paginationData.Item1.ToArray(),
+        //    PageVm = new PageVm(paginationData.Item2, page, pageSize)
+        //};
+        //return model;
     }
 }

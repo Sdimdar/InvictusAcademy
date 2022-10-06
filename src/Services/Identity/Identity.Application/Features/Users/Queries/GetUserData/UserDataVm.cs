@@ -8,5 +8,5 @@ public class UserDataVm
     public string LastName { get; set; }
     public string? InstagramLink { get; set; }
     public string Citizenship { get; set; }
-
+    public DateTime RegistrationDate { get; set; }
 }

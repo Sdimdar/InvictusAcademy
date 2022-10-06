@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using Identity.Application.Features.Users.Queries.GetUserData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
