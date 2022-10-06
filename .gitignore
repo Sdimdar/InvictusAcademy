@@ -9,3 +9,7 @@ riderModule.iml
 .idea
 .vscode
 .vs
+
+# Vue-Quasar work folders
+.quasar
+node_modules
