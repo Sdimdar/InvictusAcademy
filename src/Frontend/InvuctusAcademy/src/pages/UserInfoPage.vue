@@ -7,28 +7,26 @@
           clickable
           target="_blank"
           rel="noopener"
-          href="https://quasar.dev"
+          href="#"
         >
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Мои курсы</q-item-label>
-            <q-item-label caption>https://quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
         <q-item
           clickable
           target="_blank"
           rel="noopener"
-          href="https://github.quasar.dev"
+          href="#"
         >
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Успеваемосить</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -92,28 +90,17 @@ export default defineComponent({
       autorizeEmail:"",
     };
   },
-  props: {
-    loginedUserEmail: {
-        type: String
-    },
-  },
   methods: {
     async getUserData() {
-      // с таймаутом это лютый костыль надо как то переделать
-      const timeout = setTimeout(
-        async () => {
-          try {
-            const autorize = await fetchLoginedUserData();
-            this.autorizeEmail=autorize.data.value.email
-            const response = await fetchUserData(this.autorizeEmail);
-            this.data = response.data.value;
-            
-          } catch (error) {
-            console.log(error.message);
-            this.$router.push({ name: 'homepage' })
-          }
-        }, 200
-      )
+      try {
+        const autorize = await fetchLoginedUserData();
+        this.autorizeEmail = autorize.data.value.email
+        const response = await fetchUserData(this.autorizeEmail);
+        this.data = response.data.value;
+      } catch (error) {
+        console.log(error.message);
+        this.$router.push({ name: 'homepage' })
+      }
     },
   },
   mounted() {

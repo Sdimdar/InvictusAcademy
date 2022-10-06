@@ -10,7 +10,6 @@
       <q-card-section>
         <div class="text-h6 text-center">Регистрация</div>
       </q-card-section>
-      <div class="text-center" style="color:red" v-for="item in errorMessage" >{{item.identifier}} : {{item.errorMessage}}</div>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section class="q-pt-none">
           <q-input
@@ -74,12 +73,13 @@
           </q-input>
           <q-input
             dense
+            mask="#(###) ### - ####"
             v-model="registerData.phoneNumber"
             label="Телефонный номер"
             lazy-rules
             :rules="[
               (val) =>
-                (val && val.length === 11) || 'Номер должен содержать 11 цифр',
+                (val && val.length === 17) || 'Номер должен содержать 11 цифр',
             ]"
           />
           <q-input
@@ -108,7 +108,7 @@
             label="Гражданство"
           />
         </q-card-section>
-
+        <div class="text-center" style="color:red" v-for="item in errorMessages" >{{item.identifier}} : {{item.errorMessage}}</div>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Отмена" v-close-popup type="reset" />
           <q-btn flat label="Зарегистрироваться" type="submit" />
@@ -120,7 +120,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { Notify } from "quasar";
+import notify from "boot/notifyes";
 import constants from "../static/constants";
 import { register } from "boot/axios";
 
@@ -143,7 +143,7 @@ export default defineComponent({
       registerDialog: ref(false),
       isPwd: ref(true),
       isPwdConfirm: ref(true),
-      errorMessage:"",
+      errorMessages:"",
     };
   },
   props: {
@@ -156,27 +156,17 @@ export default defineComponent({
     async onSubmit() {
       try {
         const response = await register(this.registerData);
-        localStorage.setItem('ticket', response.ticket)
         if(response.data.isSuccess){
           this.registerDialog = false;
-        this.$emit("autorize", response.data.email);
-        Notify.create({
-          color: "green-4",
-          textColor: "white",
-          message: "Добро пожаловать",
-        });
+          this.$emit("autorize", response.data.email);
+          notify.showSucsessNotify("Добро пожаловать");
         }
         else{
-          this.errorMessage = response.data.validationErrors
+          this.errorMessages = response.data.validationErrors
         }
         
       } catch (e) {
-        Notify.create({
-          color: "red-5",
-          textColor: "white",
-          icon: "warning",
-          message: e.message,
-        });
+        notify.showErrorNotify(e.message);
         console.log(e);
       }
     },
@@ -190,7 +180,7 @@ export default defineComponent({
       this.registerData.instagramLink = "";
       this.registerData.citizenship = "Казахстан";
       this.registerDialog = false;
-      errorMessage = "";
+      errorMessages = "";
     },
     validateEmail(value) {
       return constants.EMAIL_REGEXP.test(value);

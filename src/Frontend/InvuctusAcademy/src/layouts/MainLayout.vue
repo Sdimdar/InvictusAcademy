@@ -12,7 +12,7 @@
         </template>
         <template v-else>
           <q-btn to="/user" class="nav-button" label="Личный кабинет"/>
-          <logout-button class="nav-button" :logined="logined" :loginedUserEmail="loginedUserEmail" @unautorize="unautorize" />
+          <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
         </template>
       </q-toolbar>
     </q-header>

@@ -22,7 +22,7 @@
 
 <script>
 import { fetchUsersData } from "boot/axios";
-import { Notify } from "quasar";
+import notify from "boot/notifyes";
 
 export default {
   name: "UsersInfoPage",
@@ -48,22 +48,12 @@ export default {
           this.pageVm = response.data.value.pageVm
           if(this.users.length == 0) 
           {
-            Notify.create({
-              color: "yellow-4",
-              textColor: "black",
-              icon: "warning",
-              message: `Не найдено ни одного пользователя по запросу : ${this.filterString}`,
-            });
+            notify.showWarningNotify(`Не найдено ни одного пользователя по запросу : ${this.filterString}`);
           }
           console.log(`Pages count: ${this.pageVm.totalPages}`)
         }
         else{
-          Notify.create({
-            color: "red-5",
-            textColor: "white",
-            icon: "warning",
-            message: response.data.errors[0],
-          });
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       }
       catch (e){

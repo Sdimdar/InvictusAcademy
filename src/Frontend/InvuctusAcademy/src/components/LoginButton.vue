@@ -6,7 +6,6 @@
       <q-card-section>
         <div class="text-h6 text-center">Авторизация</div>
       </q-card-section>
-      <div class="text-center" style="color:red" v-for="item in errorMessage" >{{item}}</div>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
           <q-input
@@ -63,7 +62,7 @@
 <script>
 import { defineComponent } from "vue";
 import { login } from "boot/axios";
-import { Notify } from "quasar";
+import notify from "boot/notifyes";
 import constants from "../static/constants";
 
 export default defineComponent({
@@ -81,7 +80,6 @@ export default defineComponent({
         password: "",
         rememberMe: false,
       },
-      errorMessage:"",
       isPwd: true,
       loginDialog: false,
     };
@@ -90,26 +88,16 @@ export default defineComponent({
     async onSubmit() {
       try {
         const response = await login(this.loginData);
-        localStorage.setItem('ticket', response.ticket)
         if(response.data.isSuccess){
-        this.loginDialog = false;
-        this.$emit("autorize", response.data.email);
-        Notify.create({
-          color: "green-4",
-          textColor: "white",
-          message: "Добро пожаловать",
-        });
+          this.loginDialog = false;
+          this.$emit("autorize", response.data.email);
+          notify.showSucsessNotify("Добро пожаловать");
         }
         else{
-          this.errorMessage = response.data.errors
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         } 
       } catch (e) {
-        Notify.create({
-          color: "red-5",
-          textColor: "white",
-          icon: "warning",
-          message: e.message,
-        });
+        notify.showErrorNotify(e.message);
       }
     },
     onReset() {

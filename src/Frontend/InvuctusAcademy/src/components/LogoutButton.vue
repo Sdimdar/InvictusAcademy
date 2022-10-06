@@ -10,17 +10,13 @@ export default defineComponent({
     name: "logout-button",
     props: {
         logined: {
-            type: Boolean,
-            required: true,
-        },
-        loginedUserEmail: {
-            type: String,
-        },
+            type: Boolean
+        }
     },
     methods: {
-        logout: function () {
+        logout() {
             try {
-                const response = fetchlogout();
+                fetchlogout();
                 this.$emit("unautorize");
             } catch (e) {
                 console.log(e.message);
