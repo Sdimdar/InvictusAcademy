@@ -1,5 +1,4 @@
 <template>
-<!--      <input  type="text" v-model="filterString" />-->
    <div class="search-box">
      <q-input class="input-search" v-model="filterString" filled type="search" hint="Search">
        <template v-slot:append>
@@ -34,20 +33,6 @@
         </tbody>
       </q-markup-table>
     </div>
-<!--  <table class="table">-->
-<!--    <input v-model="filterString" />-->
-<!--    <button @click="getUsersData">search</button>-->
-<!--    <tr>-->
-<!--      <th>Имя</th><th>Фамилия</th><th>Телефон</th><th>Дата</th><th>Гражданство</th>-->
-<!--    </tr>-->
-<!--    <tr v-for="user in users">-->
-<!--      <td>{{user.firstName}}</td>-->
-<!--      <td>{{user.lastName}}</td>-->
-<!--      <td>{{user.phoneNumber}}</td>-->
-<!--      <td>{{user.registrationDate}}</td>-->
-<!--      <td>{{user.citizenship}}</td>-->
-<!--    </tr>-->
-<!--  </table>-->
     <div class="q-pa-lg flex flex-center">
       <q-pagination
         v-model="current"
