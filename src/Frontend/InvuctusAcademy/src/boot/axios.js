@@ -45,14 +45,8 @@ export default boot(({ app }) => {
 
 export { api }
 
-export const fetchUserData = (email) => api.get(`/User/GetUserData?email=${email}`);
-export const fetchUsersData = (filterString, page) => 
-  {
-    if (filterString === null) {
-      return api.get(`/User/GetUsersData?page=${page}`);
-    }
-    return api.get(`/User/GetUsersData?filterString=${filterString}&page=${page}`);
-  }
+export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
+export const fetchUsersData = (filterString, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, page: page } });
 export const login = (payload) => api.post("/User/Login", payload);
 export const register = (payload) => api.post("/User/Register", payload);
 export const fetchLoginedUserData = () => api.get('/User/GetLoginedUserData');
