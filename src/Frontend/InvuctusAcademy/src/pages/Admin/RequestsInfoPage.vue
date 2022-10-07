@@ -71,7 +71,7 @@ export default {
       let response;
       
       // пока что запретил показывать All
-      if(rowsPerPage === 0) rowsPerPage = 3
+      //if(rowsPerPage === 0) rowsPerPage = 3
 
       loading.value = true
 
@@ -94,7 +94,12 @@ export default {
       // fetch data from "server"
       try {
         console.log(page + " " + rowsPerPage)
-        response = await fetchAllRequest(page, rowsPerPage)
+        if(rowsPerPage === 0){
+          response = await fetchAllRequest(0, rowsPerPage)
+        }
+        else{
+          response = await fetchAllRequest(page, rowsPerPage)
+        }
         console.log("Response:")
         console.log(response)
         if (response.data.isSuccess) {
