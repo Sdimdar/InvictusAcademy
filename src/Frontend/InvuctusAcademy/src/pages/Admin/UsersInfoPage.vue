@@ -1,145 +1,117 @@
 <template>
-   <div class="search-box">
-     <q-input class="input-search" v-model="filterString" filled type="search" hint="Search">
-       <template v-slot:append>
-         <q-icon name="search" />
-       </template>
-     </q-input>
-     <div>
-       <q-btn class="search-btn" @click="getUsersData" label="Найти" type="submit" color="primary"/>
-     </div>
-   </div>
+  <q-page style="padding: 20px;">
     <div class="q-pa-md">
-      <q-markup-table>
-        <thead>
-        <tr>
-          <th class="text-left">Dessert (100g serving)</th>
-          <th class="text-right">Calories</th>
-          <th class="text-right">Fat (g)</th>
-          <th class="text-right">Carbs (g)</th>
-          <th class="text-right">Protein (g)</th>
-          <th class="text-right">Sodium (mg)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="user in users">
-          <td class="text-left">{{user.firstName}}</td>
-          <td class="text-right">{{user.lastName}}</td>
-          <td class="text-right">{{user.lastName}}</td>
-          <td class="text-right">{{user.phoneNumber}}</td>
-          <td class="text-right">{{user.registrationDate}}</td>
-          <td class="text-right">{{user.citizenship}}</td>
-        </tr>
-        </tbody>
-      </q-markup-table>
-  <table class="table">
-    <input v-model="filterString" />
-    <button @click="getUsersData">search</button>
-    <tr>
-      <th>Имя</th><th>Фамилия</th><th>Телефон</th><th>Дата</th><th>Гражданство</th>
-    </tr>
-    <tr v-for="user in users" :key="user">
-      <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td>
-      <td>{{user.phoneNumber}}</td>
-      <td>{{user.registrationDate}}</td>
-      <td>{{user.citizenship}}</td>
-    </tr>
-  </table>
-  <div>
-    <div class="pagesBox" v-for="pageN in pageVm.totalPages" :key="pageN" @click="rePage(pageN)">
-      <button :class="{'current-page': page === pageN}">{{pageN}}</button>
+      <q-table
+        ref="tableRef"
+        title="Зарегистрированные пользователи"
+        :rows="rows"
+        :columns="columns"
+        row-key="id"
+        v-model:pagination="pagination"
+        :loading="loading"
+        :filter="filter"
+        binary-state-sort
+        @request="onRequest"
+      >
+        <template v-slot:top-right>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Поиск">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+
+      </q-table>
     </div>
-    <div class="q-pa-lg flex flex-center">
-      <q-pagination
-        v-model="current"
-        :max="pageVm.totalPages"
-        @click="rePage(current)"
-      />
-    </div>
+  </q-page>
 </template>
 
 <script>
 import { fetchUsersData } from "boot/axios";
-import { Notify } from "quasar";
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 
+const columns = [
+  { name: 'lastName', align: 'center', label: 'Фамилия', field: 'lastName', sortable: false },
+  { name: 'firstName', align: 'center', label: 'Имя', field: 'firstName', sortable: false },
+  { name: 'middleName', align: 'center', label: 'Отчество', field: 'middleName', sortable: false },
+  { name: 'phoneNumber', align: 'center', label: 'Телефон', field: 'phoneNumber', sortable: false },
+  { name: 'registrationDate', align: 'center', label: 'Дата регистрации', field: 'registrationDate', sortable: false },
+  { name: 'citizenship', align: 'center', label: 'Гражданство', field: 'citizenship', sortable: false },
+  { name: 'instagramLink', align: 'center', label: 'Ссылка на Instagramm', field: 'instagramLink', sortable: false }
+]
+
 export default {
-  setup () {
-    return {
-      current: ref(1)
-    }
-  },
   name: "UsersInfoPage",
-  data(){
-    return{
-      users: [{
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        phoneNumber: "",
-        instagramLink: "",
-        citizenship: "",
-        registrationDate: ""
-      }],
+  setup() {
+    const tableRef = ref()
+    const rows = ref([])
+    const filter = ref('')
+    const loading = ref(false)
+    const pagination = ref({
+      sortBy: 'desc',
+      descending: false,
       page: 1,
-      pageSize: 1,
-      filterString: "",
-      pageVm: {
-        totalPages: 0,
-        pageNumber: 0
-      },
-    }
-  },
-  methods:{
-    async getUsersData(){
+      rowsPerPage: 3,
+      rowsNumber: 10
+    })
+
+    async function onRequest (props) {
+      console.log(props)
+      let { page, rowsPerPage, sortBy, descending } = props.pagination
+      const filter = props.filter
+      
+      // пока что запретил показывать All
+      if(rowsPerPage === 0) rowsPerPage = 3
+
+      loading.value = true
+
       try {
-        const response = await fetchUsersData(this.filterString, this.pageSize, this.page);
+        const response = await fetchUsersData(filter, rowsPerPage, page);
+        loading.value = false
+        
         console.log("Response:")
         console.log(response)
+
         if (response.data.isSuccess) {
-          this.users = response.data.value.users
-          this.pageVm = response.data.value.pageVm
-          if(this.users.length == 0)
-          {
-            notify.showWarningNotify(`Не найдено ни одного пользователя по запросу : ${this.filterString}`);
-          }
-          console.log(`Pages count: ${this.pageVm.totalPages}`)
+          // update rowsCount with appropriate value
+          pagination.value.rowsNumber = response.data.value.pageVm.totalPages * rowsPerPage
+
+          // fetch data from "server"
+          const returnedData = response.data.value.users
+
+          // clear out existing data and add new
+          rows.value.splice(0, rows.value.length, ...returnedData)
+
+          // don't forget to update local pagination object
+          pagination.value.page = page
+          pagination.value.rowsPerPage = rowsPerPage
+          pagination.value.sortBy = sortBy
+          pagination.value.descending = descending
         }
-        else{
+        else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       }
-      catch (e){
+      catch (e) {
         console.log(e.message)
       }
-    },
-    rePage(pageN){
-      this.page = pageN
-      console.log(this.page)
-      this.getUsersData()
     }
-  },
-  updated() {
-    // this.getUsersData()
-  },
-  mounted() {
-    this.getUsersData()
-  },
+
+    onMounted(() => {
+      // get initial data from server (1st page)
+      tableRef.value.requestServerInteraction()
+    })
+
+    return {
+      tableRef,
+      filter,
+      loading,
+      pagination,
+      columns,
+      rows,
+      onRequest      
+    }
+  }
 }
 </script>
-
-<style scoped>
-.input-search{
-  width: 340px;
-  margin-left: 20px;
-}
-.search-box{
-  display: inline-flex;
-}
-.search-btn{
-  height: 55px;
-  width: 100px;
-}
-</style>
