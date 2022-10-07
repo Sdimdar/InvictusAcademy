@@ -18,6 +18,7 @@ export default defineComponent({
             try {
                 fetchlogout();
                 this.$emit("unautorize");
+                this.$router.push({ name: 'homepage' });
             } catch (e) {
                 console.log(e.message);
             }
