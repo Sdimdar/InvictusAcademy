@@ -1,4 +1,37 @@
 <template>
+   <div class="search-box">
+     <q-input class="input-search" v-model="filterString" filled type="search" hint="Search">
+       <template v-slot:append>
+         <q-icon name="search" />
+       </template>
+     </q-input>
+     <div>
+       <q-btn class="search-btn" @click="getUsersData" label="Найти" type="submit" color="primary"/>
+     </div>
+   </div>
+    <div class="q-pa-md">
+      <q-markup-table>
+        <thead>
+        <tr>
+          <th class="text-left">Dessert (100g serving)</th>
+          <th class="text-right">Calories</th>
+          <th class="text-right">Fat (g)</th>
+          <th class="text-right">Carbs (g)</th>
+          <th class="text-right">Protein (g)</th>
+          <th class="text-right">Sodium (mg)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="user in users">
+          <td class="text-left">{{user.firstName}}</td>
+          <td class="text-right">{{user.lastName}}</td>
+          <td class="text-right">{{user.lastName}}</td>
+          <td class="text-right">{{user.phoneNumber}}</td>
+          <td class="text-right">{{user.registrationDate}}</td>
+          <td class="text-right">{{user.citizenship}}</td>
+        </tr>
+        </tbody>
+      </q-markup-table>
   <table class="table">
     <input v-model="filterString" />
     <button @click="getUsersData">search</button>
@@ -17,36 +50,58 @@
     <div class="pagesBox" v-for="pageN in pageVm.totalPages" :key="pageN" @click="rePage(pageN)">
       <button :class="{'current-page': page === pageN}">{{pageN}}</button>
     </div>
-  </div>
+    <div class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="current"
+        :max="pageVm.totalPages"
+        @click="rePage(current)"
+      />
+    </div>
 </template>
 
 <script>
 import { fetchUsersData } from "boot/axios";
+import { Notify } from "quasar";
+import { ref } from 'vue';
 import notify from "boot/notifyes";
 
 export default {
+  setup () {
+    return {
+      current: ref(1)
+    }
+  },
   name: "UsersInfoPage",
   data(){
     return{
-      users: [],
+      users: [{
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        phoneNumber: "",
+        instagramLink: "",
+        citizenship: "",
+        registrationDate: ""
+      }],
       page: 1,
+      pageSize: 1,
       filterString: "",
       pageVm: {
         totalPages: 0,
         pageNumber: 0
-      }
+      },
     }
   },
   methods:{
     async getUsersData(){
       try {
-        const response = await fetchUsersData(this.filterString, this.page);
+        const response = await fetchUsersData(this.filterString, this.pageSize, this.page);
         console.log("Response:")
         console.log(response)
         if (response.data.isSuccess) {
           this.users = response.data.value.users
           this.pageVm = response.data.value.pageVm
-          if(this.users.length == 0) 
+          if(this.users.length == 0)
           {
             notify.showWarningNotify(`Не найдено ни одного пользователя по запросу : ${this.filterString}`);
           }
@@ -71,36 +126,20 @@ export default {
   },
   mounted() {
     this.getUsersData()
-  }
+  },
 }
 </script>
 
 <style scoped>
-  table{
-    font-family: sans-serif;
-    font-size: 14px;
-    border-collapse: collapse;
-    text-align: center;
-  }
-  th{
-    background: #afcde7;
-    color: white;
-    padding: 10px 20px;
-    border-style: solid;
-    border-width: 0 1px 1px 0;
-  }
-  td{
-    border-style: solid;
-    border-width: 0 1px 1px 0;
-    border-color: white;
-    background: #d8e6f3;
-  }
-  .pagesBox{
-    display: inline-block;
-    margin-right: 2px;
-  }
-  .current-page{
-    background: blue;
-    color: white;
-  }
+.input-search{
+  width: 340px;
+  margin-left: 20px;
+}
+.search-box{
+  display: inline-flex;
+}
+.search-btn{
+  height: 55px;
+  width: 100px;
+}
 </style>
