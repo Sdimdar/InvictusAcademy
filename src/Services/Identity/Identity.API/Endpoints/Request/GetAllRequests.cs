@@ -25,7 +25,6 @@ public class GetAllRequests:EndpointBaseAsync
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    
     public override async Task<ActionResult> HandleAsync([FromQuery]GetAllRequestCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
