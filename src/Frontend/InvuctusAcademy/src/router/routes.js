@@ -11,8 +11,8 @@ const routes = [
     path: "/admin-panel",
     component: () => import("layouts/AdminPanelLayout.vue"),
     children: [
-      { path: "/admin-panel/showAllUser", component: () => import("pages/Admin/UsersInfoPage.vue") },
-      { path: "/admin-panel/requests", component: () => import("pages/Admin/RequestsInfoPage") }
+      { path: "showAllUser", component: () => import("pages/Admin/UsersInfoPage.vue") },
+      { path: "requests", component: () => import("pages/Admin/RequestsInfoPage") }
     ],
   },
   // Always leave this as last one,
