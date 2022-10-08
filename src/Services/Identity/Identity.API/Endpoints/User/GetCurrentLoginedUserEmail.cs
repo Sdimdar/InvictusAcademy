@@ -1,24 +1,17 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 using Identity.Application.Features.Users.Queries.GetCurrrentLoginedUserEmail;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Security.Claims;
 
 namespace Identity.API.Endpoints.User;
 
-public class GetCurrentLoginedUserEmail : EndpointBaseAsync
+public class GetCurrentLoginedUserEmail : EndpointBaseSync
     .WithoutRequest
     .WithResult<ActionResult>
 {
-    private readonly IMediator _mediator;
-
-    public GetCurrentLoginedUserEmail(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
 
     [HttpGet("user/getlogineduserdata")]
     [Authorize]
@@ -27,9 +20,18 @@ public class GetCurrentLoginedUserEmail : EndpointBaseAsync
         Description = "Для получения данных о пользователе необходимо отправить пустой запрос",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult> HandleAsync(CancellationToken cancellationToken = default)
+    public override ActionResult Handle()
     {
-        GetCurrentLoginedUserEmailQuerry querry = new() { User = User };
-        return Ok(await _mediator.Send(querry, cancellationToken));
+        var identity = HttpContext.User.Identity as ClaimsIdentity;
+        if (identity == null) return Ok(Result.NotFound("The Jwt token is invalid"));
+        try
+        {
+            string email = identity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Email)!.Value;
+            return Ok(Result.Success(new GetCurrentLoginedUserEmailVm() { Email = email }));
+        }
+        catch (Exception ex)
+        {
+            return Ok(Result.Error(ex.Message));
+        }
     }
 }

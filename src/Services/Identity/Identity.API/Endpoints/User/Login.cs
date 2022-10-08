@@ -1,9 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
+using DataTransferLib.Models;
+using Identity.API.Extensions;
 using Identity.Application.Features.Users.Queries.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
@@ -13,10 +14,11 @@ public class Login : EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
-
-    public Login(IMediator mediator)
+    private readonly JWTSettings _jwtSettings;
+    public Login(IMediator mediator, IOptions<JWTSettings> jwtSettings)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
+        _jwtSettings = jwtSettings.Value;
     }
 
     [HttpPost("/user/login")]
@@ -27,7 +29,8 @@ public class Login : EndpointBaseAsync
     ]
     public override async Task<ActionResult> HandleAsync([FromBody] LoginQuerry request, CancellationToken cancellationToken = default)
     {
-        var response = await _mediator.Send(request, cancellationToken);
-        return Ok(response) ;
+        var result = await _mediator.Send(request, cancellationToken);
+        if (result.Item2.IsSuccess) HttpContext.Response.Cookies.SetJwtToken(result.Item1, _jwtSettings);
+        return Ok(result.Item2);
     }
 }

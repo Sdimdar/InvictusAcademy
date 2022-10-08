@@ -5,44 +5,43 @@ using FluentValidation;
 using Identity.Application.Contracts;
 using Identity.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
+using PasswordsHash;
+using System.Security.Claims;
 
 namespace Identity.Application.Features.Users.Queries.Login;
 
-public class LoginQuerryHandler : IRequestHandler<LoginQuerry, Result<LoginQuerryVm>>
+public class LoginQuerryHandler : IRequestHandler<LoginQuerry, (List<Claim>?, Result<LoginQuerryVm>)>
 {
     private readonly IUserRepository _userRepository;
-    private readonly SignInManager<User> _signInManager;
     private readonly IValidator<LoginQuerry> _validator;
     private readonly IMapper _mapper;
 
     public LoginQuerryHandler(IUserRepository userRepository,
-                              SignInManager<User> signInManager,
                               IValidator<LoginQuerry> validator,
                               IMapper mapper)
     {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-        _validator = validator;
-        _mapper = mapper;
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<Result<LoginQuerryVm>> Handle(LoginQuerry request, CancellationToken cancellationToken)
+    public async Task<(List<Claim>?, Result<LoginQuerryVm>)> Handle(LoginQuerry request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
-            return Result.Invalid(validationResult.AsErrors());
+            return (null, Result.Invalid(validationResult.AsErrors()));
         }
-        User? user = await _userRepository.GetByEmailAsync(request.Email);
-        if (user is null) return Result.NotFound("User not found by email");
-        SignInResult result = await _signInManager.PasswordSignInAsync(
-            user,
-            request.Password,
-            request.RememberMe,
-            false
-        );
-        if (result.Succeeded) return Result.Success(_mapper.Map<LoginQuerryVm>(user));
-        return Result.Error("The Email password pair is not correct");
+        User? user = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
+        if (user is null) return (null, Result.NotFound("User not found by email"));
+        if (user.Password.VerifyHashedString(request.Password))
+        {
+            List<Claim> claims = new()
+            {
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+            return (claims, Result.Success(_mapper.Map<LoginQuerryVm>(user)));
+        }
+        return (null, Result.Error("The Email password pair is not correct"));
     }
 }

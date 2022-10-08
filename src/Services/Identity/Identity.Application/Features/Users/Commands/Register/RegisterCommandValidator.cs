@@ -70,10 +70,10 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 
     private async Task<bool> IsUniqueEmail(string email, CancellationToken arg2)
     {
-        return await _userRepository.GetByPredicateAsync(u => u.Email == email) is null;
+        return await _userRepository.GetFirstOrDefaultAsync(u => u.Email == email) is null;
     }
     private async Task<bool> IsUniqueNumber(string phoneNumber, CancellationToken arg3)
     {
-        return await _userRepository.GetByPredicateAsync(u => u.PhoneNumber == phoneNumber) is null;
+        return await _userRepository.GetFirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber) is null;
     }
 }

@@ -1,41 +1,28 @@
-using AutoMapper;
+using Identity.API;
 using Identity.Application;
-using Identity.Application.Mappings;
 using Identity.Infrastructure;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddMvc();
 services.AddEndpointsApiExplorer();
 services.AddControllers().AddNewtonsoftJson();
-services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1"});
-    c.EnableAnnotations();
-});
+services.AddSwaggerConfiguration();
+services.SetJwtTokenServices(builder.Configuration);
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
 services.AddApplicationServices();
 
 // Add Automapper maps
-services.AddSingleton(provider => new MapperConfiguration(cfg => 
-{
-    cfg.AddProfile(new MappingProfile());
-}).CreateMapper());
+services.SetAutomapperProfiles();
 
 // Configure CORS Policy and Cookie
-services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
-{
-    policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-}));
-services.ConfigureApplicationCookie(options => {
-    options.Cookie.SameSite = SameSiteMode.None;
-});
+services.SetCorsPolicy();
+
+
 
 var app = builder.Build();
 
@@ -48,7 +35,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
-app.UseAuthentication().UseAuthorization();
 app.MapControllers();
+app.Use(async (context, next) =>
+{
+    var token = context.Request.Cookies["jwt"];
+    if (!string.IsNullOrEmpty(token))
+        context.Request.Headers.Add("Authorization", "Bearer " + token);
+
+    await next();
+});
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

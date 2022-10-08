@@ -1,8 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
+using DataTransferLib.Models;
+using Identity.API.Extensions;
 using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
@@ -12,10 +14,12 @@ public class Register : EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
+    private readonly JWTSettings _jwtSettings;
 
-    public Register(IMediator mediator)
+    public Register(IMediator mediator, IOptions<JWTSettings> jwtSettings)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
+        _jwtSettings = jwtSettings.Value;
     }
 
     [HttpPost("/user/register")]
@@ -26,7 +30,8 @@ public class Register : EndpointBaseAsync
     ]
     public override async Task<ActionResult> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
     {
-        Result<RegisterCommandVm> response = await _mediator.Send(request, cancellationToken);
-        return Ok(response);
+        var result = await _mediator.Send(request, cancellationToken);
+        if (result.Item2.IsSuccess) HttpContext.Response.Cookies.SetJwtToken(result.Item1, _jwtSettings);
+        return Ok(result.Item2);
     }
 }

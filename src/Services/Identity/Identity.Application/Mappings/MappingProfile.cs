@@ -13,8 +13,7 @@ public class MappingProfile : Profile
 {
 	public MappingProfile()
 	{
-		CreateMap<RegisterCommand, User>()
-			.ForMember(x => x.UserName, o => o.MapFrom(p => p.Email));
+		CreateMap<RegisterCommand, User>();
 		CreateMap<User, UserDataVm>();
 		CreateMap<User, LoginQuerryVm>();
         CreateMap<User, RegisterCommandVm>();
