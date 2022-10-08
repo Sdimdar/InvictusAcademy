@@ -3,6 +3,7 @@ using CommonRepository;
 using Microsoft.EntityFrameworkCore;
 using Request.Application.Contracts;
 using Request.Application.Features.Requests.Queries.GetAllRequest;
+using Request.Infrastructure.Persistence;
 using Request.Infrastructure.Persistence.DbMap;
 
 namespace Request.Infrastructure.Repositories;

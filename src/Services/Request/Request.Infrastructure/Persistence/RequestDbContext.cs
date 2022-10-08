@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Request.Infrastructure.Persistence.DbMap;
 
-namespace Request.Infrastructure.Persistence.DbMap;
+namespace Request.Infrastructure.Persistence;
 
 public class RequestDbContext:DbContext
 
