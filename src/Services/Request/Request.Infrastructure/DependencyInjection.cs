@@ -1,12 +1,11 @@
-﻿using Identity.Application.Contracts;
-using Identity.Infrastructure.Persistance;
-using Identity.Infrastructure.Repositories;
+﻿using Identity.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Request.Application.Contracts;
+using Request.Infrastructure.Repositories;
 
-
-namespace Identity.Infrastructure;
+namespace Request.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -14,8 +13,9 @@ public static class DependencyInjection
     {
         services.AddDbContext<IdentityDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("IdentityConnectionString")));
+        
+        services.AddScoped<IRequestRepository, RequestRepository>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 }
