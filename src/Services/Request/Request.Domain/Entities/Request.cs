@@ -1,6 +1,8 @@
+using CommonRepository.Models;
+
 namespace Request.Domain.Entities;
 
-public class Request
+public class Request:BaseRepositoryEntity
 {
     public int  Id { get; set; }
     public string UserName { get; set; }

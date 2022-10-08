@@ -30,7 +30,7 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
         }
 
         Domain.Entities.Request newRequest = _mapper.Map<Domain.Entities.Request>(request);
-        var result = await _requestRepository.CreateAsync(newRequest);
+        var result = await _requestRepository.AddAsync(newRequest);
         if (result is not null)
         {
             return Result.Success();

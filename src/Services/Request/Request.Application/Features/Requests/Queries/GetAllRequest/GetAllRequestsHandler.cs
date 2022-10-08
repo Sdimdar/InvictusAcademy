@@ -7,13 +7,11 @@ namespace Request.Application.Features.Requests.Queries.GetAllRequest;
 
 public class GetAllRequestsHandler:IRequestHandler<GetAllRequestCommand,Result<GetAllRequestVm>>
 {
-    private readonly IMapper _mapper;
     private readonly IRequestRepository _requestRepository;
 
 
-    public GetAllRequestsHandler(IMapper mapper, IRequestRepository requestRepository)
+    public GetAllRequestsHandler( IRequestRepository requestRepository)
     {
-        _mapper = mapper;
         _requestRepository = requestRepository;
     }
 

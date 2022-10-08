@@ -1,9 +1,8 @@
 ﻿using Ardalis.Result;
-using Identity.Application.Contracts;
 using MediatR;
 using Request.Application.Contracts;
 
-namespace Identity.Application.Features.Requests.Queries.GetPagesCount;
+namespace Request.Application.Features.Requests.Queries.GetPagesCount;
 
 public class GetRequestsCountQuerryHandler : IRequestHandler<GetRequestsCountQuerry, Result<int>>
 {
@@ -16,7 +15,7 @@ public class GetRequestsCountQuerryHandler : IRequestHandler<GetRequestsCountQue
 
     public async Task<Result<int>> Handle(GetRequestsCountQuerry request, CancellationToken cancellationToken)
     {
-        var result = await _requestRepository.GetAllRequestsAsync();
-        return Result.Success(result.Count());
+        var result = await _requestRepository.GetRequestsCount();
+        return Result.Success(result);
     }
 }

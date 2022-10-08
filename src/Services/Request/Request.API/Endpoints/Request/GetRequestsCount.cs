@@ -1,7 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
-using Identity.Application.Features.Requests.Queries.GetPagesCount;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Request.Application.Features.Requests.Queries.GetPagesCount;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Request.API.Endpoints.Request;
@@ -23,7 +23,7 @@ public class GetRequestsCount : EndpointBaseAsync
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    public async override Task<ActionResult> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(CancellationToken cancellationToken = default)
     {
         return Ok(await _mediator.Send(new GetRequestsCountQuerry(), cancellationToken));
     }

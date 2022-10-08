@@ -2,12 +2,12 @@
 
 namespace Request.Infrastructure.Persistence.DbMap;
 
-public class AdminDbContext:DbContext
+public class RequestDbContext:DbContext
 
 {
     public DbSet<Domain.Entities.Request> Requests { get; set; }
 
-    public AdminDbContext(DbContextOptions<AdminDbContext> options):base(options)
+    public RequestDbContext(DbContextOptions<RequestDbContext> options):base(options)
     {
         
     }
