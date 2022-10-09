@@ -55,6 +55,7 @@ public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEn
 
     public virtual async Task<T> AddAsync(T entity)
     {
+        entity.CreatedDate = DateTime.Now;
         _context.Set<T>().Add(entity);
         await _context.SaveChangesAsync();
         return entity;
@@ -62,6 +63,7 @@ public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEn
 
     public virtual async Task UpdateAsync(T entity)
     {
+        entity.LastModifiedDate = DateTime.Now;
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
