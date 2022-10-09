@@ -2,7 +2,7 @@
 
 namespace Request.Application.Features.Requests.Commands.CreateRequest;
 
-public class CreateRequestCommandValidator:AbstractValidator<CreateRequestCommand>
+public class CreateRequestCommandValidator : AbstractValidator<CreateRequestCommand>
 {
     public CreateRequestCommandValidator()
     {

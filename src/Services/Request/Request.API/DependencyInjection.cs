@@ -5,7 +5,7 @@ using Request.Application.Mappings;
 namespace Request.API;
 public static class DependencyInjection
 {
-    
+
     public static IServiceCollection SetAutomapperProfiles(this IServiceCollection services)
     {
         services.AddSingleton(provider => new MapperConfiguration(cfg =>

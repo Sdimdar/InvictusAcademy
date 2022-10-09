@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace CommonRepository.Abstractions;
 
-public interface IBaseRepository<T>
+public interface IBaseRepository<T> where T : BaseRepositoryEntity
 {
     Task<IReadOnlyList<T>> GetAllAsync();
     Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);

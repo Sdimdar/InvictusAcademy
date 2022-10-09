@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Request.Application.Contracts;
+using Request.Domain.Entities;
 
 namespace Request.Application.Features.Requests.Commands.CreateRequest;
 
@@ -29,7 +30,7 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
             return Result.Invalid(validationResult.AsErrors());
         }
 
-        Domain.Entities.Request newRequest = _mapper.Map<Domain.Entities.Request>(request);
+        RequestDbModel newRequest = _mapper.Map<RequestDbModel>(request);
         var result = await _requestRepository.AddAsync(newRequest);
         if (result is not null)
         {

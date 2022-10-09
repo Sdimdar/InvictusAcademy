@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Request.Application.Features.Requests.Commands.CreateRequest;
 
-public class CreateRequestCommand:IRequest<Result>
+public class CreateRequestCommand : IRequest<Result>
 {
     public CreateRequestCommand(string userName, string phoneNumber)
     {

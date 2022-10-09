@@ -1,16 +1,15 @@
 ﻿using Ardalis.Result;
-using AutoMapper;
 using MediatR;
 using Request.Application.Contracts;
 
 namespace Request.Application.Features.Requests.Queries.GetAllRequest;
 
-public class GetAllRequestsHandler:IRequestHandler<GetAllRequestCommand,Result<GetAllRequestVm>>
+public class GetAllRequestsHandler : IRequestHandler<GetAllRequestCommand, Result<GetAllRequestVm>>
 {
     private readonly IRequestRepository _requestRepository;
 
 
-    public GetAllRequestsHandler( IRequestRepository requestRepository)
+    public GetAllRequestsHandler(IRequestRepository requestRepository)
     {
         _requestRepository = requestRepository;
     }

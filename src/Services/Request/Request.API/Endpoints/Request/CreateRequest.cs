@@ -6,12 +6,12 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Request.API.Endpoints.Request;
 
-public class CreateRequest:EndpointBaseAsync
+public class CreateRequest : EndpointBaseAsync
     .WithRequest<CreateRequestCommand>
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
-    
+
     public CreateRequest(IMediator mediator)
     {
         _mediator = mediator;
