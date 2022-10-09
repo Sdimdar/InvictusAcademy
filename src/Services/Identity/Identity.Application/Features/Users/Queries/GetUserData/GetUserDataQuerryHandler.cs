@@ -20,7 +20,7 @@ public class GetUserDataQuerryHandler : IRequestHandler<GetUserDataQuerry, Resul
 
     public async Task<Result<UserDataVm>> Handle(GetUserDataQuerry request, CancellationToken cancellationToken)
     {
-        User? user = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
+        UserDbModel? user = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
         if (user == null) return Result.NotFound("User with this Email not found");
         UserDataVm vm = _mapper.Map<UserDataVm>(user);
         return Result.Success(vm);

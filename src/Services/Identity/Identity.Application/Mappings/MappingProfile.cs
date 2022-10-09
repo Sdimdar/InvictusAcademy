@@ -11,11 +11,11 @@ public class MappingProfile : Profile
 {
 	public MappingProfile()
 	{
-		CreateMap<RegisterCommand, User>();
-		CreateMap<User, UserDataVm>();
-		CreateMap<User, LoginQuerryVm>();
-        CreateMap<User, RegisterCommandVm>();
-        CreateMap<User, GetCurrentLoginedUserEmailVm>();
+		CreateMap<RegisterCommand, UserDbModel>();
+		CreateMap<UserDbModel, UserDataVm>();
+		CreateMap<UserDbModel, LoginQuerryVm>();
+        CreateMap<UserDbModel, RegisterCommandVm>();
+        CreateMap<UserDbModel, GetCurrentLoginedUserEmailVm>();
         //REQUESTS
         
 

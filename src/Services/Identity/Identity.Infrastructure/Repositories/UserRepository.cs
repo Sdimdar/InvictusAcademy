@@ -7,11 +7,11 @@ using CommonRepository;
 
 namespace Identity.Infrastructure.Repositories;
 
-public class UserRepository : BaseRepository<User, IdentityDbContext>, IUserRepository
+public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IUserRepository
 {
     public UserRepository(IdentityDbContext context) : base(context) { }
 
-    public async Task<(IEnumerable<User>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
+    public async Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
         var result = await _context.Users.Filter(filterString)
                                          .GetABatchOfData(page, pageSize);

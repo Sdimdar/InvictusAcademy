@@ -34,7 +34,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Cla
 
         request.Password = request.Password.Hash();
 
-        User user = _mapper.Map<User>(request);
+        UserDbModel user = _mapper.Map<UserDbModel>(request);
 
         try
         {

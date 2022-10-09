@@ -32,7 +32,7 @@ public class LoginQuerryHandler : IRequestHandler<LoginQuerry, (List<Claim>?, Re
         {
             return (null, Result.Invalid(validationResult.AsErrors()));
         }
-        User? user = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
+        UserDbModel? user = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
         if (user is null) return (null, Result.NotFound("User not found by email"));
         if (user.Password.VerifyHashedString(request.Password))
         {

@@ -2,7 +2,7 @@
 
 namespace Identity.Domain.Entities;
 
-public class User : BaseRepositoryEntity
+public class UserDbModel : BaseRepositoryEntity
 {
     public string Email { get; set; }
     public string Password { get; set; }
