@@ -23,7 +23,8 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
 
     public async Task<Result> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
     {
-        request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
+        request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "")
+            .Replace("-", "").Replace(" ", "").Replace("+", "");
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
