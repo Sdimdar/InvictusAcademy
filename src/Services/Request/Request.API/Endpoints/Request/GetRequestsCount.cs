@@ -17,7 +17,7 @@ public class GetRequestsCount : EndpointBaseAsync
         _mediator = mediator;
     }
 
-    [HttpGet("Request/Count")]
+    [HttpGet("request/Count")]
     [SwaggerOperation(
         Summary = "Запрос на получение количества заявок",
         Description = "Могут запрашивать только пользователи с ролью админ",
