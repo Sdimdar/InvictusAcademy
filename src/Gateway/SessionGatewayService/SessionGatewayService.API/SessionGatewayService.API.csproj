@@ -7,16 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+    <PackageReference Include="Ardalis.ApiEndpoints.Swashbuckle" Version="4.0.1" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SessionGatewayService.Application\SessionGatewayService.Application.csproj" />
     <ProjectReference Include="..\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
     <ProjectReference Include="..\SessionGatewayService.Infrastructure\SessionGatewayService.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\" />
   </ItemGroup>
 
 </Project>

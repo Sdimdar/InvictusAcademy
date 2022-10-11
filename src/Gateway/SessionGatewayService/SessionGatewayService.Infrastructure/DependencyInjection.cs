@@ -9,11 +9,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDistributedPostgreSqlCache(options => 
+        services.AddDistributedPostgreSqlCache(options =>
         {
             options.ConnectionString = configuration.GetConnectionString("SessionConnectionString");
             options.SchemaName = configuration["SchemaName"];
             options.TableName = configuration["TableName"];
+            options.CreateInfrastructure = true;
         });
 
         return services;

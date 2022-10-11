@@ -1,4 +1,5 @@
 using SessionGatewayService.API;
+using SessionGatewayService.Application;
 using SessionGatewayService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,12 +8,15 @@ var services = builder.Services;
 // Add services to the container.
 services.AddControllers();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerConfiguration();
 services.ConfigureSessionServices();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
+services.AddApplicationServices();
 
+// Configure CORS Policy and Cookie
+services.SetCorsPolicy();
 
 
 var app = builder.Build();
@@ -25,10 +29,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
-
-app.MapControllers();
+app.UseRouting();
 app.UseSession();
+app.MapControllers();
+
 
 app.Run();
