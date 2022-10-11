@@ -10,4 +10,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
+    <ProjectReference Include="..\SessionGatewayService.Infrastructure\SessionGatewayService.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Endpoints\" />
+  </ItemGroup>
+
 </Project>
