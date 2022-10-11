@@ -26,7 +26,7 @@
             <q-icon name="code" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Успеваемосить</q-item-label>
+            <q-item-label>Успеваемость</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -67,8 +67,7 @@
 
           <q-card-actions>
             <q-btn flat round icon="event" />
-            <q-btn flat color="primary"> 7:30PM </q-btn>
-            <q-btn flat color="primary"> Reserve </q-btn>
+            <editProfile-button />
           </q-card-actions>
         </q-card>
       </div>
@@ -81,9 +80,13 @@
 import { defineComponent } from "vue";
 import { fetchUserData } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
+import EditProfileButton from 'components/EditProfileButton.vue'
 
 export default defineComponent({
   name: "UserInfoPage",
+  components: {
+    EditProfileButton
+  },
   data() {
     return {
       data: [],

@@ -96,17 +96,6 @@
             lazy-rules
             :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
           />
-          <q-input dense v-model="registerData.middleName" label="Отчество" />
-          <q-input
-            dense
-            v-model="registerData.instagramLink"
-            label="Ссылка на Instagram"
-          />
-          <q-select
-            v-model="registerData.citizenship"
-            :options="citizenships"
-            label="Гражданство"
-          />
         </q-card-section>
         <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
         <q-card-actions class="text-primary">
@@ -134,12 +123,8 @@ export default defineComponent({
         passwordConfirm: "",
         phoneNumber: "",
         firstName: "",
-        middleName: "",
         lastName: "",
-        instagramLink: "",
-        citizenship: "Казахстан",
       },
-      citizenships: ["Россия", "Казахстан"],
       registerDialog: ref(false),
       isPwd: ref(true),
       isPwdConfirm: ref(true),
@@ -175,10 +160,7 @@ export default defineComponent({
       this.registerData.password = "";
       this.registerData.phoneNumber = "";
       this.registerData.firstName = "";
-      this.registerData.middleName = "";
       this.registerData.lastName = "";
-      this.registerData.instagramLink = "";
-      this.registerData.citizenship = "Казахстан";
       this.registerDialog = false;
       errorMessages = "";
     },

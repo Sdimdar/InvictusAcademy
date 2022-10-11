@@ -16,8 +16,6 @@ public class MappingProfile : Profile
 		CreateMap<UserDbModel, LoginQuerryVm>();
         CreateMap<UserDbModel, RegisterCommandVm>();
         CreateMap<UserDbModel, GetCurrentLoginedUserEmailVm>();
-        //REQUESTS
-        
 
 	}
 }

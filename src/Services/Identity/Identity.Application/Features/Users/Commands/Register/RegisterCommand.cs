@@ -14,7 +14,7 @@ public class RegisterCommand : IRequest<(List<Claim>?, Result<RegisterCommandVm>
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
     public string? InstagramLink { get; set; }
-    public string Citizenship { get; set; }
+    public string? Citizenship { get; set; }
 
     public RegisterCommand(string email,
                           string password,
