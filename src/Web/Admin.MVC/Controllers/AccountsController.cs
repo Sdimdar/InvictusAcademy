@@ -1,4 +1,4 @@
-﻿using Admin.MVC.Models;
+﻿
 using Admin.MVC.Models.DbModels;
 using Admin.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +10,6 @@ public class AccountsController : Controller
 {
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
-
     public AccountsController(SignInManager<User> signInManager, UserManager<User> userManager)
     {
         _signInManager = signInManager;

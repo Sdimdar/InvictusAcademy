@@ -1,8 +1,35 @@
 ﻿@model Admin.MVC.ViewModels.LoginViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Login";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="center" style="width: 400px"> 
+  <form asp-action="Login" asp-controller="Accounts" method="post" asp-anti-forgery="true" asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Логин</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" asp-for="@Model.Login" aria-describedby="emailHelp">
+      <span asp-validation-for="Login"></span>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Пароль</label>
+      <input type="password" class="form-control" asp-for="@Model.Password" id="exampleInputPassword1">
+      <span asp-validation-for="Password"></span>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" asp-for="@Model.RememberMe" for="exampleCheck1">Запомнить меня</label>
+    </div>
+    <button type="submit" class="btn btn-success">Войти</button>
+  </form>
+  
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

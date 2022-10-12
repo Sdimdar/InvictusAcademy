@@ -19,14 +19,33 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
-                    </li>
-                </ul>
+                
+                    @if (User.IsInRole("admin"))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="CreateAdmin">Создание админа</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Управление админами</a>
+                        </li>
+                        </ul>
+                    }
+                    
+            </div>
+            <div class="head-cell" style="text-align: end">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Accounts" asp-action="LogOff">Выход </a>
+                }
+                else
+                {
+                    <a asp-controller="Accounts" asp-action="Login">Вход </a>
+                }
+
+                <a style="margin-left:15px" asp-controller="" asp-action="" asp-route-userName="@User.Identity.Name">
+                    <i class="fa-regular fa-user"></i>
+                </a>
             </div>
         </div>
     </nav>
