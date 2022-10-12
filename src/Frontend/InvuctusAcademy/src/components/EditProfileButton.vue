@@ -1,5 +1,5 @@
 <template>
-    <q-btn label="Дополнить профиль" @click=" editDialog = true" />
+    <q-btn color="primary" label="Дополнить профиль" @click=" editDialog = true" />
   
     <q-dialog v-model="editDialog">
       <q-card style="min-width: 350px">
@@ -44,9 +44,8 @@
     name: "edit-button",
     data() {
       return {
-        userEmail:"",
         editData: {
-            email: this.userEmail,
+            email: "",
             middleName: "",
             instagramLink: "",
             citizenship: "Казахстан",
@@ -56,17 +55,10 @@
       };
     },
     methods: {
-    async getUserData() {
-      try {
-        const autorize = await fetchLoginedUserData();
-        this.userEmail = autorize.data.value.email
-      } catch (error) {
-        console.log(error.message);
-        this.$router.push({ name: 'homepage' })
-      }
-    },
       async onSubmit() {
         try {
+          const autorize = await fetchLoginedUserData();
+          this.editData.email = autorize.data.value.email
           const response = await editProfile(this.editData);
           if (response.data.isSuccess) {
             this.editDialog = false;

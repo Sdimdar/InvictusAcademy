@@ -66,7 +66,6 @@
           <q-separator />
 
           <q-card-actions>
-            <q-btn flat round icon="event" />
             <editProfile-button />
           </q-card-actions>
         </q-card>
