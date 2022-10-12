@@ -1,4 +1,6 @@
 ﻿using Ardalis.Result;
+using DataTransferLib.Models;
+using Newtonsoft.Json;
 using SessionGatewayService.Application.Contracts;
 using SessionGatewayService.Domain.Entities;
 using SessionGatewayService.Infrastructure.Extensions;
@@ -14,9 +16,10 @@ public class UserService : IUserService
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
-    public async Task<UserVm> GetUserAsync(string email, CancellationToken cancellationToken)
+    public async Task<DefaultResponceObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
         var responce = await _httpClient.GetAsync($"/user/getUserData?email={email}", cancellationToken);
-        return await responce.ReadContentAs<Result<UserVm>>();
+        string dataAsString = await responce.Content.ReadAsStringAsync().ConfigureAwait(false);
+        return await responce.ReadContentAs<DefaultResponceObject<UserVm>>();
     }
 }

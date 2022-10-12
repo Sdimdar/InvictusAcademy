@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using AutoMapper;
+using DataTransferLib.Mappings;
+using Microsoft.OpenApi.Models;
 using SessionGatewayService.Application.Contracts;
 using SessionGatewayService.Infrastructure.Services;
 
@@ -40,6 +42,15 @@ public static class DependencyInjection
     {
         services.AddHttpClient<IUserService, UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
         services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
+        return services;
+    }
+
+    public static IServiceCollection SetAutomapperProfiles(this IServiceCollection services)
+    {
+        services.AddSingleton(provider => new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new DefaultResponceObjectProfile());
+        }).CreateMapper());
         return services;
     }
 }

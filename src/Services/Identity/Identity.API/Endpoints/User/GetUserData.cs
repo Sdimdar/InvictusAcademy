@@ -1,9 +1,12 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
+using AutoMapper;
+using DataTransferLib.Models;
 using Identity.Application.Features.Users.Queries.GetUserData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SessionGatewayService.Domain.Entities;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
@@ -13,10 +16,12 @@ public class GetUserData : EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public GetUserData(IMediator mediator)
+    public GetUserData(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet("/user/getUserData")]
@@ -28,6 +33,6 @@ public class GetUserData : EndpointBaseAsync
     public override async Task<ActionResult> HandleAsync(string email, CancellationToken cancellationToken = default)
     {
         GetUserDataQuerry command = new(email);
-        return Ok(await _mediator.Send(command, cancellationToken));
+        return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(await _mediator.Send(command, cancellationToken)));
     }
 }

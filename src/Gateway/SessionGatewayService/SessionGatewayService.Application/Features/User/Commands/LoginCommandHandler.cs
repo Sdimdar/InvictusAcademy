@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using MediatR;
 using PasswordsHash;
 using SessionGatewayService.Application.Contracts;
 using SessionGatewayService.Domain.Entities;
 
 namespace SessionGatewayService.Application.Features.User.Commands;
 
-internal class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
+internal class LoginCommandHandler : IRequestHandler<LoginCommand, Result<UserVm>>
 {
     private readonly IUserService _userService;
 
@@ -14,10 +15,16 @@ internal class LoginCommandHandler : IRequestHandler<LoginCommand, bool>
         _userService = userService;
     }
 
-    public async Task<bool> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<Result<UserVm>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        UserVm vm = await _userService.GetUserAsync(request.Email, cancellationToken);
-        if (vm.Password.VerifyHashedString(request.Password)) return true;
-        return false;
+        var responce = await _userService.GetUserAsync(request.Email, cancellationToken);
+        if (responce.IsSuccess)
+        {
+            if (responce.Value.Password.VerifyHashedString(request.Password)) return Result.Success();
+            return Result.Error("Password and Email is not match");
+        }
+        if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
+        return Result.Invalid(responce.ValidationErrors.ToList());
+        
     }
 }

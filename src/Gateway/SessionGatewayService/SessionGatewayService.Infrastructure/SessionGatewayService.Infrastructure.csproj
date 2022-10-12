@@ -13,10 +13,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
     <ProjectReference Include="..\SessionGatewayService.Application\SessionGatewayService.Application.csproj" />
     <ProjectReference Include="..\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
   </ItemGroup>

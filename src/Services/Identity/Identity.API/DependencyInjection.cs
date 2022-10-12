@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataTransferLib.Mappings;
 using DataTransferLib.Models;
 using Identity.Application.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +46,7 @@ public static class DependencyInjection
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new MappingProfile());
+            cfg.AddProfile(new DefaultResponceObjectProfile());
         }).CreateMapper());
         return services;
     }

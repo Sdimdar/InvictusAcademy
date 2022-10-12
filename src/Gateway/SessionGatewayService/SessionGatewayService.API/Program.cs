@@ -10,6 +10,7 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerConfiguration();
 services.ConfigureSessionServices();
+services.SetAutomapperProfiles();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
