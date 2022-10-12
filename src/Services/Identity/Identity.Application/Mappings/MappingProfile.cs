@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Identity.Application.Features.Users.Commands.Edit;
 using Identity.Application.Features.Users.Queries.GetUserData;
 using Identity.Application.Features.Users.Queries.Login;
 using Identity.Application.Features.Users.Commands.Register;
@@ -16,6 +17,7 @@ public class MappingProfile : Profile
 		CreateMap<UserDbModel, LoginQuerryVm>();
         CreateMap<UserDbModel, RegisterCommandVm>();
         CreateMap<UserDbModel, GetCurrentLoginedUserEmailVm>();
+        CreateMap<EditCommand, UserDbModel>();
 
 	}
 }

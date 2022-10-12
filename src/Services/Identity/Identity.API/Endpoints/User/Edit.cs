@@ -11,8 +11,7 @@ public class Edit: EndpointBaseAsync
     .WithResult<ActionResult>
 {
     private readonly IMediator _mediator;
-
-
+    
     public Edit(IMediator mediator)
     {
         _mediator = mediator;

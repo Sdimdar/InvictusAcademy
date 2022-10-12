@@ -33,43 +33,36 @@
     </q-drawer>
 
     <q-page-container>
+
+    
       <div class="q-pa-md items-start q-gutter-md">
         <q-card class="my-card" flat bordered>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt user">
-              <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs">
-                Личный кабинет
-              </div>
-              
-              <div class="user-data flex">
-                <table>
-                  <tr v-for="(value,key) in data" :key="key">
-                    <td style="font-weight:bold; color:black; font-size:15px">{{key}} : </td>
-                    <td class="text-grey-10">{{ value }}</td>
-                  </tr>
-                </table>
-              </div>
-              <!-- <div class="text-caption text-grey" v-for="(value, name) in data">
-                <div>{{ name }}</div>
-                <div>{{ value }}</div>
-              </div> -->
-            </q-card-section>
-
-            <q-card-section class="col-5 flex flex-center">
-              <q-img
-                class="rounded-borders"
-                src="https://cdn.quasar.dev/img/parallax2.jpg"
-              />
-            </q-card-section>
+          <q-card-section class="text-center">
+            <q-avatar size="100px">
+                    <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                  </q-avatar>
+            <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs"> {{ firstName }} {{ lastName }} {{ middleName }}</div>
           </q-card-section>
+          
+          <q-separator />
+
+            <q-card-section class="text-center text-grey-10 q-mt-sm q-mb-xs">
+              <q-item> Email: {{ autorizeEmail }} </q-item>
+              <q-item> Номер телефона: {{ phoneNumber }} </q-item>
+              <q-item> Instagram: {{ instagramLink }} </q-item>
+              <q-item> Гражданство: {{ citizenship }} </q-item>
+            </q-card-section>
 
           <q-separator />
 
-          <q-card-actions>
-            <editProfile-button />
-          </q-card-actions>
+            <q-card-actions >
+              <editProfile-button />
+              <q-btn color="primary" label="Изменить пароль" />
+            </q-card-actions>
         </q-card>
+
       </div>
+
       <router-view />
     </q-page-container>
   </q-layout>
@@ -90,6 +83,12 @@ export default defineComponent({
     return {
       data: [],
       autorizeEmail:"",
+      phoneNumber:"",
+      firstName:"",
+      middleName: "",
+      lastName: "",
+      instagramLink:"",
+      citizenship:""
     };
   },
   methods: {
@@ -99,6 +98,12 @@ export default defineComponent({
         this.autorizeEmail = autorize.data.value.email
         const response = await fetchUserData(this.autorizeEmail);
         this.data = response.data.value;
+        this.firstName = response.data.value.firstName
+        this.lastName = response.data.value.lastName
+        this.middleName = response.data.value.middleName
+        this.phoneNumber = response.data.value.phoneNumber
+        this.instagramLink = response.data.value.instagramLink
+        this.citizenship = response.data.value.citizenship
       } catch (error) {
         console.log(error.message);
         this.$router.push({ name: 'homepage' })

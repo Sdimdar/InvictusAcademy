@@ -1,15 +1,29 @@
 <template>
-    <q-btn color="primary" label="Дополнить профиль" @click=" editDialog = true" />
+    <q-btn color="primary" label="Редактировать данные" @click="getUserData" />
   
     <q-dialog v-model="editDialog">
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6 text-center">Дополнить профиль</div>
+          <div class="text-h6 text-center">Редактировать профиль</div>
         </q-card-section>
         <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
           <q-card-section class="q-pt-none">
 
+            <q-input dense v-model="editData.firstName" label="Имя" />
+            <q-input dense v-model="editData.lastName" label="Фамилия" />
             <q-input dense v-model="editData.middleName" label="Отчество" />
+
+            <q-input
+            dense
+            mask="#(###) ### - ####"
+            v-model="editData.phoneNumber"
+            label="Телефонный номер"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length === 17) || 'Номер должен содержать 11 цифр',
+            ]"
+          />
 
             <q-input
             dense
@@ -38,15 +52,20 @@
   import { defineComponent } from "vue";
   import { editProfile } from "boot/axios";
   import { fetchLoginedUserData } from 'boot/axios'
+  import { fetchUserData } from 'boot/axios'
   import notify from "boot/notifyes";
   
   export default defineComponent({
     name: "edit-button",
     data() {
       return {
+        data: [],
         editData: {
             email: "",
+            firstName:"",
+            lastName: "",
             middleName: "",
+            phoneNumber: "",
             instagramLink: "",
             citizenship: "Казахстан",
         },
@@ -55,6 +74,9 @@
       };
     },
     methods: {
+      async getUserData (){
+        this.editDialog = true
+      },
       async onSubmit() {
         try {
           const autorize = await fetchLoginedUserData();
@@ -73,7 +95,10 @@
         }
       },
       onReset() {
+        this.editData.firstName = "";
+        this.editData.lastName = "";
         this.editData.middleName = "";
+        this.editData.phoneNumber = "";
         this.editData.instagramLink = "";
         this.editData.citizenship = "";
         this.editDialog = false;

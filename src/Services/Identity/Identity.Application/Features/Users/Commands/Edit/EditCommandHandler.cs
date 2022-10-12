@@ -11,15 +11,19 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<EditCommand> _validator;
+    private readonly IMapper _mapper;
 
-    public EditCommandHandler(IValidator<EditCommand> validator, IUserRepository userRepository)
+    public EditCommandHandler(IValidator<EditCommand> validator, IUserRepository userRepository, IMapper mapper)
     {
         _validator = validator;
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public async Task<Result> Handle(EditCommand request, CancellationToken cancellationToken)
     {
+        request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
+        
         var result = await _userRepository.GetFirstOrDefaultAsync(u => u.Email == request.Email);
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         
@@ -28,7 +32,10 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
 
         if (result is null) 
             return Result.Error("An error occurred while creating the request");
-
+        
+        result.FirstName = request.FirstName;
+        result.LastName = request.LastName;
+        result.PhoneNumber = request.PhoneNumber;
         result.MiddleName = request.MiddleName;
         result.InstagramLink = request.InstagramLink;
         result.Citizenship = request.Citizenship;
