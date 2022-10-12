@@ -14,6 +14,7 @@ services.ConfigureSessionServices();
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
 services.AddApplicationServices();
+services.AddHttpClients(builder.Configuration);
 
 // Configure CORS Policy and Cookie
 services.SetCorsPolicy();

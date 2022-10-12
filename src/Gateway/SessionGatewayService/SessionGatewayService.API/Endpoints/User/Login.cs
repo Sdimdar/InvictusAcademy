@@ -1,7 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using SessionGatewayService.API.Extensions;
 using SessionGatewayService.Application.Features.User.Commands;
 
@@ -18,12 +17,12 @@ public class Login : EndpointBaseAsync
         _mediator = mediator;
     }
 
-    [HttpPost("login")]
+    [HttpPost("user/login")]
     public async override Task<ActionResult> HandleAsync([FromBody] LoginCommand request, CancellationToken cancellationToken = default)
     {
         if (await _mediator.Send(request, cancellationToken))
         {
-            HttpContext.Session.SetData("rararara", new Domain.SessionData() { SessionId = new Guid() });
+            HttpContext.Session.SetData("user", new Domain.SessionData() { Email = request.Email });
             return Ok(true);
         }
         return Ok(false);

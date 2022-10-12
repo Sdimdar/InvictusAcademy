@@ -1,4 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
+using SessionGatewayService.Application.Contracts;
+using SessionGatewayService.Infrastructure.Services;
 
 namespace SessionGatewayService.API;
 
@@ -31,6 +33,13 @@ public static class DependencyInjection
         {
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
+        return services;
+    }
+
+    public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHttpClient<IUserService, UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
+        services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
         return services;
     }
 }

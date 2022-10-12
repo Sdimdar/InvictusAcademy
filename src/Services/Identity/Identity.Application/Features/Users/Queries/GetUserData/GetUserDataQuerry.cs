@@ -1,9 +1,10 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using SessionGatewayService.Domain.Entities;
 
 namespace Identity.Application.Features.Users.Queries.GetUserData;
 
-public class GetUserDataQuerry : IRequest<Result<UserDataVm>>
+public class GetUserDataQuerry : IRequest<Result<UserVm>>
 {
     public string Email { get; set; }
 

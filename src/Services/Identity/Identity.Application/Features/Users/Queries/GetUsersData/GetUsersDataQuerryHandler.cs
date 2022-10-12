@@ -3,6 +3,7 @@ using AutoMapper;
 using Identity.Application.Contracts;
 using Identity.Application.Features.Users.Queries.GetUserData;
 using MediatR;
+using SessionGatewayService.Domain.Entities;
 
 namespace Identity.Application.Features.Users.Queries.GetUsersData;
 
@@ -23,7 +24,7 @@ public class GetUsersDataQuerryHandler : IRequestHandler<GetUsersDataQuerry, Res
         if (data.Item1 is null) return Result.Error("Сould not get users from the server");
         UsersDataVm model = new()
         {
-            Users = _mapper.Map<IEnumerable<UserDataVm>>(data.Item1),
+            Users = _mapper.Map<IEnumerable<UserVm>>(data.Item1),
             Filter = request.FilterString,
             PageVm = new PageVm(data.Item2, request.Page, request.PageSize)
         };
