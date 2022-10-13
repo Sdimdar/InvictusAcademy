@@ -12,7 +12,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
+        <div class="container-fluid container">
             <a class="navbar-brand" asp-area="" asp-controller="" asp-action="">Admin.MVC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -20,17 +20,19 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 
-                    @if (User.IsInRole("admin"))
-                    {
-                        <ul class="navbar-nav flex-grow-1">
+                @if (User.IsInRole("admin"))
+                {
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="CreateAdmin">Создание админа</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Управление админами</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="EditProfile">Управление админами</a>
                         </li>
-                        </ul>
-                    }
+                           
+                            
+                    </ul>
+                }
                     
             </div>
             <div class="head-cell" style="text-align: end">
@@ -50,6 +52,7 @@
         </div>
     </nav>
 </header>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -57,7 +60,7 @@
 </div>
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)

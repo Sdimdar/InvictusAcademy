@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model Admin.MVC.ViewModels.CreateAdminVM
 @{
     
@@ -8,9 +9,9 @@
     };
     var description = new List<string>
     {
-        "Имеет возможность просматривать и работать с  запросами и зарегистрированными пользователями",
-        "Может добавлять новые курсы и редактировать имеющиеся",
-        "Может управлять домашними заданиями",
+        "Просматривать и работать с  запросами и зарегистрированными пользователями",
+        "Добавление новыех курсов и редактирование имеющиеся",
+        "Управления домашними заданиями",
         "Может еще что-то делать"
     };
 }
@@ -43,13 +44,19 @@
         </div>
         @for(int i=0; i< roles.Count(); i++)
         {
-            <div class="row">
-                <div class="col-3">
-                    <input type="checkbox" asp-for=@Model.Roles[i] value=@roles[i] />
-                </div>
-                <div class="col">@description[i]</div>
-            </div>
-            <hr/>
+            <table class="table">
+                <tr>
+                    <td style="text-align: center; width: 10px"><input type="checkbox" asp-for=@Model.Roles[i] value=@roles[i] /></td>
+                    <td>@description[i]</td>
+                </tr>
+            </table>
+            @* <div class="row"> *@
+            @*     <div class="col-3"> *@
+            @*         <input type="checkbox" asp-for=@Model.Roles[i] value=@roles[i] /> *@
+            @*     </div> *@
+            @*     <div class="col">@description[i]</div> *@
+            @* </div> *@
+            @* <hr/> *@
             
         }
         <button type="submit" class="btn btn-info">Зарегистрировать</button>

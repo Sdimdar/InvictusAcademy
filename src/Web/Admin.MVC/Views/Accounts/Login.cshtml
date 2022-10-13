@@ -4,7 +4,7 @@
     ViewBag.Title = "Login";
     Layout = "_Layout";
 }
-
+<h4 style="text-align: center; color: red">@ViewData["Message"]</h4>
 <div class="center" style="width: 400px"> 
   <form asp-action="Login" asp-controller="Accounts" method="post" asp-anti-forgery="true" asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
