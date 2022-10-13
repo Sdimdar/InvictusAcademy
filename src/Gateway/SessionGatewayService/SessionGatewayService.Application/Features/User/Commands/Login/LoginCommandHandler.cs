@@ -4,7 +4,7 @@ using PasswordsHash;
 using SessionGatewayService.Application.Contracts;
 using SessionGatewayService.Domain.Entities;
 
-namespace SessionGatewayService.Application.Features.User.Commands;
+namespace SessionGatewayService.Application.Features.User.Commands.Login;
 
 internal class LoginCommandHandler : IRequestHandler<LoginCommand, Result<UserVm>>
 {
@@ -25,6 +25,6 @@ internal class LoginCommandHandler : IRequestHandler<LoginCommand, Result<UserVm
         }
         if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
         return Result.Invalid(responce.ValidationErrors.ToList());
-        
+
     }
 }

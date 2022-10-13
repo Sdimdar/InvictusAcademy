@@ -5,7 +5,7 @@ using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SessionGatewayService.API.Extensions;
-using SessionGatewayService.Application.Features.User.Commands;
+using SessionGatewayService.Application.Features.User.Commands.Login;
 using SessionGatewayService.Domain;
 using SessionGatewayService.Domain.Entities;
 
@@ -24,8 +24,9 @@ public class Login : EndpointBaseAsync
         _mapper = mapper;
     }
 
-    [HttpPost("user/login")]
-    public async override Task<ActionResult<DefaultResponceObject<UserVm>>> HandleAsync([FromBody] LoginCommand request, CancellationToken cancellationToken = default)
+    [HttpPost("User/Login")]
+    public async override Task<ActionResult<DefaultResponceObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
+                                                                                        CancellationToken cancellationToken = default)
     {
         var responce = await _mediator.Send(request, cancellationToken);
         if (responce.IsSuccess)

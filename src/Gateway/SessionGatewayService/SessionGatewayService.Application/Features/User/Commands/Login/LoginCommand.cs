@@ -2,7 +2,7 @@
 using MediatR;
 using SessionGatewayService.Domain.Entities;
 
-namespace SessionGatewayService.Application.Features.User.Commands;
+namespace SessionGatewayService.Application.Features.User.Commands.Login;
 
 public class LoginCommand : IRequest<Result<UserVm>>
 {
