@@ -1,10 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
 using DataTransferLib.Models;
-using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SessionGatewayService.Domain.Entities;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;

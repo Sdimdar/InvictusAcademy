@@ -1,6 +1,6 @@
 ﻿namespace SessionGatewayService.Domain.Entities;
 
-public class RegisterVm
+public class SessionData
 {
     public string Email { get; set; }
 }

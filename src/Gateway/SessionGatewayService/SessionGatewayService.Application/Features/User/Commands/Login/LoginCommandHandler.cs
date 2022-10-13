@@ -2,7 +2,7 @@
 using MediatR;
 using PasswordsHash;
 using SessionGatewayService.Application.Contracts;
-using SessionGatewayService.Domain.Entities;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Features.User.Commands.Login;
 

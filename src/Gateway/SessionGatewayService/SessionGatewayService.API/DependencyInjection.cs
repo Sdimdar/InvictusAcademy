@@ -2,6 +2,7 @@
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 using SessionGatewayService.Application.Contracts;
+using SessionGatewayService.Application.Mappings;
 using SessionGatewayService.Infrastructure.Services;
 
 namespace SessionGatewayService.API;
@@ -50,6 +51,7 @@ public static class DependencyInjection
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new DefaultResponceObjectProfile());
+            cfg.AddProfile(new UserProfile());
         }).CreateMapper());
         return services;
     }

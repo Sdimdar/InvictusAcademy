@@ -1,4 +1,4 @@
-﻿namespace SessionGatewayService.Domain.Entities;
+﻿namespace SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 public class PageVm
 {

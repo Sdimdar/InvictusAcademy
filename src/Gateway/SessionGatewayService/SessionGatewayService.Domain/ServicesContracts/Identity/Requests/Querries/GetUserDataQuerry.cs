@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using SessionGatewayService.Domain.Entities;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
-namespace Identity.Application.Features.Users.Queries.GetUserData;
+namespace SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Querries;
 
 public class GetUserDataQuerry : IRequest<Result<UserVm>>
 {

@@ -1,9 +1,9 @@
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using DataTransferLib.Models;
-using Identity.Application.Features.Users.Commands.Edit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
@@ -24,7 +24,7 @@ public class Edit : EndpointBaseAsync
     [HttpPost("/User/Edit")]
     [SwaggerOperation(
         Summary = "Редактирование данных пользователя",
-        Description = "Необходимо передать в теле запроса email пользователя",
+        Description = "Необходимо передать в теле запроса новые данные пользователя",
         Tags = new[] { "User" })
     ]
     public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync([FromBody] EditCommand request,

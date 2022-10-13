@@ -3,7 +3,7 @@ using AutoMapper;
 using Identity.Application.Contracts;
 using Identity.Application.Features.Users.Queries.GetUserData;
 using MediatR;
-using SessionGatewayService.Domain.Entities;
+using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 namespace Identity.Application.Features.Users.Queries.GetUsersData;
 

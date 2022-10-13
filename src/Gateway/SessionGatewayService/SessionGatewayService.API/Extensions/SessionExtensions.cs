@@ -1,4 +1,4 @@
-﻿using SessionGatewayService.Domain;
+﻿using SessionGatewayService.Domain.Entities;
 using System.Text.Json;
 
 namespace SessionGatewayService.API.Extensions

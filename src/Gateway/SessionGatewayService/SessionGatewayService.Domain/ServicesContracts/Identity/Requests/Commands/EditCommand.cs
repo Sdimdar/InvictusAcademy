@@ -1,7 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 
-namespace Identity.Application.Features.Users.Commands.Edit;
+namespace SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
 
 public class EditCommand : IRequest<Result>
 {
@@ -12,5 +12,5 @@ public class EditCommand : IRequest<Result>
     public string? MiddleName { get; set; }
     public string? InstagramLink { get; set; }
     public string? Citizenship { get; set; }
-    
+
 }
