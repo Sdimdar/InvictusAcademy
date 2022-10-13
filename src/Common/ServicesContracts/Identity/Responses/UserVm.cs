@@ -1,4 +1,4 @@
-﻿namespace SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+﻿namespace ServicesContracts.Identity.Responses;
 
 public class UserVm
 {

@@ -1,7 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 
-namespace SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
+namespace ServicesContracts.Identity.Requests.Commands;
 
 public class EditCommand : IRequest<Result>
 {

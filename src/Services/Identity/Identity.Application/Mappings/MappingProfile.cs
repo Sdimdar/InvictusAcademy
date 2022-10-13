@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Identity.Domain.Entities;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 
 namespace Identity.Application.Mappings;
 

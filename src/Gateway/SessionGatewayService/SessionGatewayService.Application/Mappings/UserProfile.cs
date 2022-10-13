@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.Application.Features.User.Querries.GetUserData;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Mappings;
 

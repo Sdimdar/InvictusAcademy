@@ -3,8 +3,8 @@ using Ardalis.Result;
 using AutoMapper;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.API.Extensions;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SessionGatewayService.API.Endpoints.User;

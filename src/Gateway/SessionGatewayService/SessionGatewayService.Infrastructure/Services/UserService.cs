@@ -1,7 +1,7 @@
 ﻿using DataTransferLib.Models;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.Application.Contracts;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 using SessionGatewayService.Infrastructure.Extensions;
 using System.Net.Http.Json;
 

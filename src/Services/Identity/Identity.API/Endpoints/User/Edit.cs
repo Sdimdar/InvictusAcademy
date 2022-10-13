@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;

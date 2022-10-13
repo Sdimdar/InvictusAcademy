@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using PasswordsHash;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.Application.Contracts;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Features.User.Commands.Login;
 

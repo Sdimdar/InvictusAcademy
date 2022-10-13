@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.Application.Contracts;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Features.User.Commands.Register;
 

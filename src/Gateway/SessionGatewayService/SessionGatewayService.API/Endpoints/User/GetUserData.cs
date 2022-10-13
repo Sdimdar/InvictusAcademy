@@ -4,9 +4,9 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Responses;
 using SessionGatewayService.API.Extensions;
 using SessionGatewayService.Application.Features.User.Querries.GetUserData;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SessionGatewayService.API.Endpoints.User;

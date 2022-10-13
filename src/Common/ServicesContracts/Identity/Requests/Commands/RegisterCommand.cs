@@ -1,9 +1,9 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Responses;
 using System.Security.Claims;
 
-namespace SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
+namespace ServicesContracts.Identity.Requests.Commands;
 
 public class RegisterCommand : IRequest<Result<RegisterVm>>
 {

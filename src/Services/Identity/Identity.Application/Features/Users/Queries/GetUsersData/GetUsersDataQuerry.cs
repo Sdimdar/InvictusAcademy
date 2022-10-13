@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Responses;
 
 namespace Identity.Application.Features.Users.Queries.GetUsersData;
 

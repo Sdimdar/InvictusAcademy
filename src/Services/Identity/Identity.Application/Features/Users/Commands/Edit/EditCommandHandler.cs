@@ -4,7 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using Identity.Application.Contracts;
 using MediatR;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.Application.Features.Users.Commands.Edit;
 

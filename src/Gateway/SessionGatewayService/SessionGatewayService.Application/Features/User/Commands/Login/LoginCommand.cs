@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Features.User.Commands.Login;
 

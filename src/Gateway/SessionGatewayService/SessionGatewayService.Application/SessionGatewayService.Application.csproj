@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
+    <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
   </ItemGroup>
 

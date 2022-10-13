@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using ServicesContracts.Identity.Requests.Commands;
 using SessionGatewayService.Application.Contracts;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
 
 namespace SessionGatewayService.Application.Features.User.Commands.Edit;
 

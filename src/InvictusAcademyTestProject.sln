@@ -37,13 +37,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{0AA0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SessionGatewayService", "SessionGatewayService", "{BB1AF37B-F682-4EF9-B2CB-6E334DB1C3C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionGatewayService.API", "Gateway\SessionGatewayService\SessionGatewayService.API\SessionGatewayService.API.csproj", "{8873B4B3-BCE6-4CFD-B416-E7723D1E02D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionGatewayService.API", "Gateway\SessionGatewayService\SessionGatewayService.API\SessionGatewayService.API.csproj", "{8873B4B3-BCE6-4CFD-B416-E7723D1E02D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionGatewayService.Application", "Gateway\SessionGatewayService\SessionGatewayService.Application\SessionGatewayService.Application.csproj", "{7E389612-9AD5-4179-BF8C-E441939600F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionGatewayService.Application", "Gateway\SessionGatewayService\SessionGatewayService.Application\SessionGatewayService.Application.csproj", "{7E389612-9AD5-4179-BF8C-E441939600F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionGatewayService.Domain", "Gateway\SessionGatewayService\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj", "{6AD5279D-5988-4C7A-B601-47FBEC7D875A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionGatewayService.Domain", "Gateway\SessionGatewayService\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj", "{6AD5279D-5988-4C7A-B601-47FBEC7D875A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionGatewayService.Infrastructure", "Gateway\SessionGatewayService\SessionGatewayService.Infrastructure\SessionGatewayService.Infrastructure.csproj", "{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionGatewayService.Infrastructure", "Gateway\SessionGatewayService\SessionGatewayService.Infrastructure\SessionGatewayService.Infrastructure.csproj", "{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesContracts", "Common\ServicesContracts\ServicesContracts.csproj", "{381C5F55-4158-4E41-8D84-DC4AF2AD3620}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381C5F55-4158-4E41-8D84-DC4AF2AD3620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381C5F55-4158-4E41-8D84-DC4AF2AD3620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381C5F55-4158-4E41-8D84-DC4AF2AD3620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381C5F55-4158-4E41-8D84-DC4AF2AD3620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +140,7 @@ Global
 		{7E389612-9AD5-4179-BF8C-E441939600F7} = {BB1AF37B-F682-4EF9-B2CB-6E334DB1C3C0}
 		{6AD5279D-5988-4C7A-B601-47FBEC7D875A} = {BB1AF37B-F682-4EF9-B2CB-6E334DB1C3C0}
 		{9450047C-F0CD-4BB6-B60E-9E0CD6E822C3} = {BB1AF37B-F682-4EF9-B2CB-6E334DB1C3C0}
+		{381C5F55-4158-4E41-8D84-DC4AF2AD3620} = {9253D74F-C62D-4337-AF39-3B5EFA175266}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DE1B9DB-6B40-4D8A-8E4F-42BB81F27D89}

@@ -1,6 +1,6 @@
 ﻿using DataTransferLib.Models;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Requests.Commands;
-using SessionGatewayService.Domain.ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 
 namespace SessionGatewayService.Application.Contracts;
 
