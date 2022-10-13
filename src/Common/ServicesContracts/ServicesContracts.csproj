@@ -11,4 +11,9 @@
     <PackageReference Include="MediatR" Version="11.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Request\Requests\Querries\" />
+    <Folder Include="Request\Responses\" />
+  </ItemGroup>
+
 </Project>

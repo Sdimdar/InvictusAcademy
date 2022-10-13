@@ -1,9 +1,9 @@
 ﻿using Ardalis.Result;
 using MediatR;
 
-namespace Request.Application.Features.Requests.Commands.CreateRequest;
+namespace ServicesContracts.Request.Requests.Commands;
 
-public class CreateRequestCommand : IRequest<Result>
+public class CreateRequestCommand : IRequest<Result<string>>
 {
     public string UserName { get; set; }
     public string PhoneNumber { get; set; }

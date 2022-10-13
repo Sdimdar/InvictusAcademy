@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Request.Application.Contracts;
+using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.CreateRequest;
 

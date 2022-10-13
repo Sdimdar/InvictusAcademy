@@ -19,4 +19,8 @@
     <ProjectReference Include="..\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Request\Querries\" />
+  </ItemGroup>
+
 </Project>
