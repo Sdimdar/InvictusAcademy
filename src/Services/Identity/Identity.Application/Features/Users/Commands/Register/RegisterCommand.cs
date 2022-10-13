@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Identity.Application.Features.Users.Commands.Register;
 
-public class RegisterCommand : IRequest<(List<Claim>?, Result<RegisterVm>)>
+public class RegisterCommand : IRequest<Result<RegisterVm>>
 {
     public string Email { get; set; }
     public string Password { get; set; }
