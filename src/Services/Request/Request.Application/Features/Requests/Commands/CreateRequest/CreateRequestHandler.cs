@@ -5,10 +5,11 @@ using FluentValidation;
 using MediatR;
 using Request.Application.Contracts;
 using Request.Domain.Entities;
+using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.CreateRequest;
 
-public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result>
+public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result<string>>
 {
     private readonly IMapper _mapper;
     private readonly IRequestRepository _requestRepository;
@@ -21,7 +22,7 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
         _validator = validator;
     }
 
-    public async Task<Result> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
     {
         request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "")
             .Replace("-", "").Replace(" ", "").Replace("+", "");

@@ -6,11 +6,12 @@ using Identity.Application.Contracts;
 using Identity.Domain.Entities;
 using MediatR;
 using PasswordsHash;
-using System.Security.Claims;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 
 namespace Identity.Application.Features.Users.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Claim>?, Result<RegisterCommandVm>)>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<RegisterVm>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<RegisterCommand> _validator;
@@ -25,12 +26,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Cla
         _mapper = mapper;
     }
 
-    public async Task<(List<Claim>?, Result<RegisterCommandVm>)> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<Result<RegisterVm>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
 
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid) return (null, Result.Invalid(validationResult.AsErrors()));
+        if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
 
         request.Password = request.Password.Hash();
 
@@ -39,15 +40,11 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Cla
         try
         {
             var result = await _userRepository.AddAsync(user);
-            List<Claim> claims = new()
-            {
-                new Claim(ClaimTypes.Email, result.Email)
-            };
-            return (claims ,Result.Success(_mapper.Map<RegisterCommandVm>(result)));
+            return Result.Success(_mapper.Map<RegisterVm>(result));
         }
         catch (Exception ex)
         {
-            return (null, Result.Error(ex.Message));
+            return Result.Error(ex.Message);
         }
     }
 }

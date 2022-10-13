@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 using Request.Application.Mappings;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new RequestMapping());
+            cfg.AddProfile(new DefaultResponceObjectProfile());
         }).CreateMapper());
         return services;
     }

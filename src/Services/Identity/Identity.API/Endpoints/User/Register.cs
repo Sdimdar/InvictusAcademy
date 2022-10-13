@@ -1,37 +1,37 @@
 ﻿using Ardalis.ApiEndpoints;
+using AutoMapper;
 using DataTransferLib.Models;
-using Identity.API.Extensions;
-using Identity.Application.Features.Users.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
 
 public class Register : EndpointBaseAsync
     .WithRequest<RegisterCommand>
-    .WithResult<ActionResult>
+    .WithActionResult<DefaultResponceObject<RegisterVm>>
 {
     private readonly IMediator _mediator;
-    private readonly JWTSettings _jwtSettings;
+    private readonly IMapper _mapper;
 
-    public Register(IMediator mediator, IOptions<JWTSettings> jwtSettings)
+    public Register(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
-        _jwtSettings = jwtSettings.Value;
+        _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
     }
 
-    [HttpPost("/user/register")]
+    [HttpPost("/User/Register")]
     [SwaggerOperation(
         Summary = "Регистрация нового пользователя",
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult> HandleAsync(RegisterCommand request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponceObject<RegisterVm>>> HandleAsync([FromBody] RegisterCommand request,
+                                                                                                   CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        if (result.Item2.IsSuccess) HttpContext.Response.Cookies.SetJwtToken(result.Item1, _jwtSettings);
-        return Ok(result.Item2);
+        return Ok(_mapper.Map<DefaultResponceObject<RegisterVm>>(result));
     }
 }

@@ -1,33 +1,38 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
-using Identity.Application.Features.Users.Queries.GetUserData;
+using AutoMapper;
+using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Requests.Querries;
+using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Identity.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithRequest<string>
-    .WithResult<ActionResult>
+    .WithActionResult<DefaultResponceObject<UserVm>>
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public GetUserData(IMediator mediator)
+    public GetUserData(IMediator mediator, IMapper mapper)
     {
-        _mediator = mediator;
+        _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
+        _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
     }
 
-    [HttpGet("/user/getUserData")]
+    [HttpGet("/User/GetUserData")]
     [SwaggerOperation(
         Summary = "Получение данных о пользователе",
         Description = "Для получения данных о пользователе необходимо передать его email через параметры в строке",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult> HandleAsync(string email, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponceObject<UserVm>>> HandleAsync(string email,
+                                                                                        CancellationToken cancellationToken = default)
     {
         GetUserDataQuerry command = new(email);
-        return Ok(await _mediator.Send(command, cancellationToken));
+        var result = await _mediator.Send(command, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(result));
     }
 }

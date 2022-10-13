@@ -1,6 +1,7 @@
 using FluentValidation;
 using Identity.Application.Contracts;
 using Identity.Application.Features.Users.Commands.Register;
+using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.Application.Features.Users.Commands.Edit;
 
