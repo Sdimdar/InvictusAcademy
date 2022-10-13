@@ -24,7 +24,7 @@ public class GetUserData : EndpointBaseAsync
         _mapper = mapper;
     }
 
-    [HttpPost("User/GetUserData")]
+    [HttpGet("User/GetUserData")]
     [SwaggerOperation(
         Summary = "Получение данных о пользователе",
         Description = "Для получения данных пользователь должен быть залогинен",

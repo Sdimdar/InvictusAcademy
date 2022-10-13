@@ -58,7 +58,15 @@ export default {
     async checkLogin(){
       try {
         const response = await fetchLoginedUserData();
-        this.autorize(response.data.email);
+        console.log(response)
+        if (response.data.isSuccess) {
+          this.autorize(response.data.value.email);
+        }
+        else{
+          response.data.errors.forEach(error => {
+            console.log(error)
+          });
+        }
       } catch (e) {
         console.log(e.message);
         this.unautorize()

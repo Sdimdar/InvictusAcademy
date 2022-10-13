@@ -16,6 +16,8 @@ public static class DependencyInjection
             options.IdleTimeout = TimeSpan.FromMinutes(20);
             options.Cookie.Name = ".InvictusAcademy.Session";
             options.Cookie.IsEssential = true;
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
         return services;
     }
