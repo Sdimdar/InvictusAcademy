@@ -6,11 +6,12 @@ using Identity.Application.Contracts;
 using Identity.Domain.Entities;
 using MediatR;
 using PasswordsHash;
+using SessionGatewayService.Domain.Entities;
 using System.Security.Claims;
 
 namespace Identity.Application.Features.Users.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Claim>?, Result<RegisterCommandVm>)>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Claim>?, Result<RegisterVm>)>
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<RegisterCommand> _validator;
@@ -25,7 +26,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Cla
         _mapper = mapper;
     }
 
-    public async Task<(List<Claim>?, Result<RegisterCommandVm>)> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<(List<Claim>?, Result<RegisterVm>)> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         request.PhoneNumber = request.PhoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
 
@@ -43,7 +44,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, (List<Cla
             {
                 new Claim(ClaimTypes.Email, result.Email)
             };
-            return (claims ,Result.Success(_mapper.Map<RegisterCommandVm>(result)));
+            return (claims ,Result.Success(_mapper.Map<RegisterVm>(result)));
         }
         catch (Exception ex)
         {

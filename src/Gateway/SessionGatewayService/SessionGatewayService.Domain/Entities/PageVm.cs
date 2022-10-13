@@ -1,4 +1,4 @@
-﻿namespace Identity.Application.Features.Users.Queries.GetUsersData;
+﻿namespace SessionGatewayService.Domain.Entities;
 
 public class PageVm
 {

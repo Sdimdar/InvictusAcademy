@@ -1,10 +1,11 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SessionGatewayService.Domain.Entities;
 
 namespace Identity.Application.Features.Users.Queries.GetUsersData;
 
-public class GetUsersDataQuerry : IRequest<Result<UsersDataVm>>
+public class GetUsersDataQuerry : IRequest<Result<UsersVm>>
 {
     [FromQuery]public int Page { get; set; }
     [FromQuery]public int PageSize { get; set; }
