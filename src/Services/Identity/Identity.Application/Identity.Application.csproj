@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
+    <ProjectReference Include="..\..\Request\Request.Application\Request.Application.csproj" />
     <ProjectReference Include="..\..\..\Gateway\SessionGatewayService\SessionGatewayService.Domain\SessionGatewayService.Domain.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>

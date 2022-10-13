@@ -54,3 +54,4 @@ export const fetchlogout = () => api.post("/User/Logout");
 export const createRequest = (payload) => api.post('/Request/Create', payload);
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/Request/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/Request/Count');
+export const editProfile = (payload) => api.post('/User/Edit', payload);
