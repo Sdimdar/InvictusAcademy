@@ -39,7 +39,7 @@ public class Edit : EndpointBaseAsync
             var responce = await _mediator.Send(request, cancellationToken);
             return Ok(_mapper.Map<DefaultResponceObject<string>>(responce));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             return Ok(_mapper.Map<DefaultResponceObject<string>>(Result.Error("User is not Autorized")));
         }

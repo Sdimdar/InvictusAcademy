@@ -94,7 +94,7 @@
           const response = await editProfile(this.editData);
           if (response.data.isSuccess) {
             this.editDialog = false;
-            // this.$emit("autorize", response.data.email);
+            this.$emit("autorize");
             notify.showSucsessNotify("Изменения успешно сохранены");
           }
           else {

@@ -56,7 +56,7 @@
           <q-separator />
 
             <q-card-actions >
-              <editProfile-button />
+              <editProfile-button @autorize="getUserData"/>
               <q-btn color="primary" label="Изменить пароль" />
             </q-card-actions>
         </q-card>
