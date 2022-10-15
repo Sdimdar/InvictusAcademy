@@ -1,7 +1,8 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using ServicesContracts.Request.Responses;
 
-namespace Request.Application.Features.Requests.Queries.GetAllRequest;
+namespace ServicesContracts.Request.Requests.Querries;
 
 public class GetAllRequestCommand : IRequest<Result<GetAllRequestVm>>
 {

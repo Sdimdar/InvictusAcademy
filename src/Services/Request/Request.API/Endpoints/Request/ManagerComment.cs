@@ -1,31 +1,36 @@
 ﻿using Ardalis.ApiEndpoints;
+using AutoMapper;
+using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Request.Application.Features.Requests.Commands.ManagerComment;
+using ServicesContracts.Request.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Request.API.Endpoints.Request;
 
 public class ManagerComment : EndpointBaseAsync
     .WithRequest<ManagerCommentCommand>
-    .WithResult<ActionResult>
+    .WithActionResult<DefaultResponceObject<string>>
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public ManagerComment(IMediator mediator)
+    public ManagerComment(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
-    [HttpPost("request/comment")]
+    [HttpPost("Request/AddComment")]
     [SwaggerOperation(
         Summary = "Сохранение комментария для заявки",
         Description = "Необходимо передать id заявки и комментарий",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult> HandleAsync(ManagerCommentCommand request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync(ManagerCommentCommand request,
+                                                                                        CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request);
-        return Ok(result);
+        return Ok(_mapper.Map<DefaultResponceObject<string>>(result));
     }
 }

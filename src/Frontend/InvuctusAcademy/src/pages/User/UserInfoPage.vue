@@ -35,13 +35,13 @@
     <q-page-container>
 
     
-      <div class="q-pa-md items-start q-gutter-md">
-        <q-card class="my-card" flat bordered>
+      <div class="q-pa-md items-start q-gutter-md" >
+        <q-card class="my-card" flat bordered >
           <q-card-section class="text-center">
             <q-avatar size="100px">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                   </q-avatar>
-            <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs"> {{ firstName }} {{ lastName }} {{ middleName }}</div>
+            <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs"> {{ lastName }} {{ firstName }} {{ middleName }}</div>
           </q-card-section>
           
           <q-separator />
@@ -56,7 +56,7 @@
           <q-separator />
 
             <q-card-actions >
-              <editProfile-button />
+              <editProfile-button @autorize="getUserData"/>
               <q-btn color="primary" label="Изменить пароль" />
             </q-card-actions>
         </q-card>

@@ -3,10 +3,11 @@ using Ardalis.Result.FluentValidation;
 using FluentValidation;
 using MediatR;
 using Request.Application.Contracts;
+using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.ManagerComment;
 
-public class ManagerCommentHandler: IRequestHandler<ManagerCommentCommand, Result>
+public class ManagerCommentHandler: IRequestHandler<ManagerCommentCommand, Result<string>>
 {
     private readonly IRequestRepository _requestRepository;
     private readonly IValidator<ManagerCommentCommand> _validator;
@@ -17,7 +18,7 @@ public class ManagerCommentHandler: IRequestHandler<ManagerCommentCommand, Resul
         _validator = validator;
     }
 
-    public async Task<Result> Handle(ManagerCommentCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(ManagerCommentCommand request, CancellationToken cancellationToken)
     {
         var result = await _requestRepository.GetFirstOrDefaultAsync(r => r.Id == request.Id);
         if(result == null)

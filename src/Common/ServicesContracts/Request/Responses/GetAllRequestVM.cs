@@ -1,6 +1,6 @@
 ﻿using Request.Domain.Entities;
 
-namespace Request.Application.Features.Requests.Queries.GetAllRequest;
+namespace ServicesContracts.Request.Responses;
 
 public class GetAllRequestVm
 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using Identity.Domain.Entities;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
@@ -13,6 +14,5 @@ public class MappingProfile : Profile
 		CreateMap<UserDbModel, UserVm>();
 		CreateMap<UserDbModel, RegisterVm>();
 		CreateMap<EditCommand, UserDbModel>();
-
 	}
 }

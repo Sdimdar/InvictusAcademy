@@ -76,6 +76,16 @@
     methods: {
       async getUserData (){
         this.editDialog = true
+        const autorize = await fetchLoginedUserData();
+        this.autorizeEmail = autorize.data.value.email
+        const response = await fetchUserData(this.autorizeEmail);
+        this.data = response.data.value;
+        this.editData.firstName = response.data.value.firstName
+        this.editData.lastName = response.data.value.lastName
+        this.editData.middleName = response.data.value.middleName
+        this.editData.phoneNumber = response.data.value.phoneNumber
+        this.editData.instagramLink = response.data.value.instagramLink
+        this.editData.citizenship = response.data.value.citizenship
       },
       async onSubmit() {
         try {
@@ -84,7 +94,7 @@
           const response = await editProfile(this.editData);
           if (response.data.isSuccess) {
             this.editDialog = false;
-            // this.$emit("autorize", response.data.email);
+            this.$emit("autorize");
             notify.showSucsessNotify("Изменения успешно сохранены");
           }
           else {
@@ -103,7 +113,7 @@
         this.editData.citizenship = "";
         this.editDialog = false;
         this.errorMessage = "";
-      },
+      }
     },
   });
   </script>

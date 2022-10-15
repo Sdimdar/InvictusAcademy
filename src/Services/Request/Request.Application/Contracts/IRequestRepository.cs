@@ -1,6 +1,6 @@
 using CommonRepository.Abstractions;
-using Request.Application.Features.Requests.Queries.GetAllRequest;
 using Request.Domain.Entities;
+using ServicesContracts.Request.Requests.Querries;
 
 namespace Request.Application.Contracts;
 

@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Request\Requests\Querries\" />
-    <Folder Include="Request\Responses\" />
+    <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Request.Application.Contracts;
+using ServicesContracts.Request.Requests.Querries;
 
 namespace Request.Application.Features.Requests.Queries.GetPagesCount;
 

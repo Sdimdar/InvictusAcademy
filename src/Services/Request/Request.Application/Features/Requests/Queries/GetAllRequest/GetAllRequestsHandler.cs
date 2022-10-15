@@ -1,6 +1,8 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Request.Application.Contracts;
+using ServicesContracts.Request.Requests.Querries;
+using ServicesContracts.Request.Responses;
 
 namespace Request.Application.Features.Requests.Queries.GetAllRequest;
 
