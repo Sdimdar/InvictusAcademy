@@ -19,7 +19,7 @@ public class GetUserDataTests
         {
             new UserDbModel()
             {
-                Id = 2,
+                Id = 1,
                 AvatarLink = null,
                 Citizenship = "Казахстан",
                 Email = "test@test.ru",
@@ -44,7 +44,7 @@ public class GetUserDataTests
                     services.Remove(dbContextDescriptor!);
                     services.AddDbContext<IdentityDbContext>(options =>
                     {
-                        options.UseInMemoryDatabase("identity_db");
+                        options.UseInMemoryDatabase("identity_getuserdata_db");
                     });
                 });
             });

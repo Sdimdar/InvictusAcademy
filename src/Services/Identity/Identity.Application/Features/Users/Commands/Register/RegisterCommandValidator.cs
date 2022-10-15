@@ -49,6 +49,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MustAsync(IsUniqueNumber).WithMessage("PhoneNumber already registered")
             .NotEmpty().WithMessage("PhoneNumber is Required")
             .NotNull()
+            .MinimumLength(11).WithMessage("PhoneNumber must be longer than 11 characters long")
             .MaximumLength(13).WithMessage("PhoneNumber must be less than 13 characters long")
             .Must(phoneNumber => phoneNumber.All(Char.IsDigit)).WithMessage("PhoneNumber must contain only numbers");
         RuleFor(q => q.FirstName)
@@ -64,6 +65,8 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
         RuleFor(q => q.InstagramLink)
             .MaximumLength(100).WithMessage("InstagramLink must be less than 100 characters long");
         RuleFor(q => q.Citizenship)
+            .NotEmpty().WithMessage("FirstName is Required")
+            .NotNull()
             .MaximumLength(60).WithMessage("Citizenship must be less than 60 characters long");
     }
 
