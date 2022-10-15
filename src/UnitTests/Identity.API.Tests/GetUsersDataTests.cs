@@ -194,7 +194,7 @@ public class GetUsersDataTests
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
+        Assert.That(data.IsSuccess, Is.EqualTo(false));
         Assert.That(data.Value, Is.Null);
         Assert.That(data.Errors, Is.Not.Null);
     }
