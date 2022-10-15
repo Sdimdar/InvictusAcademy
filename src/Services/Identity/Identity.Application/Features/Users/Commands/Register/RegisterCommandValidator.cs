@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Identity.Application.Contracts;
+using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.Application.Features.Users.Commands.Register;
 
@@ -54,26 +55,18 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .NotEmpty().WithMessage("FirstName is Required")
             .NotNull()
             .MaximumLength(100).WithMessage("FirstName must be less than 100 characters long");
-        RuleFor(q => q.MiddleName)
-            .MaximumLength(100).WithMessage("MiddleName must be less than 100 characters long");
         RuleFor(q => q.LastName)
             .NotEmpty().WithMessage("LastName is Required")
             .NotNull()
             .MaximumLength(100).WithMessage("LastName must be less than 100 characters long");
-        RuleFor(q => q.InstagramLink)
-            .MaximumLength(100).WithMessage("InstagramLink must be less than 100 characters long");
-        RuleFor(q => q.Citizenship)
-            .NotEmpty().WithMessage("Citizenship is Required")
-            .NotNull()
-            .MaximumLength(60).WithMessage("Citizenship must be less than 60 characters long");
     }
 
     private async Task<bool> IsUniqueEmail(string email, CancellationToken arg2)
     {
-        return await _userRepository.GetByPredicateAsync(u => u.Email == email) is null;
+        return await _userRepository.GetFirstOrDefaultAsync(u => u.Email == email) is null;
     }
     private async Task<bool> IsUniqueNumber(string phoneNumber, CancellationToken arg3)
     {
-        return await _userRepository.GetByPredicateAsync(u => u.PhoneNumber == phoneNumber) is null;
+        return await _userRepository.GetFirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber) is null;
     }
 }

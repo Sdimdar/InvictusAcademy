@@ -1,0 +1,21 @@
+﻿using Ardalis.Result;
+using MediatR;
+using Request.Application.Contracts;
+
+namespace Request.Application.Features.Requests.Queries.GetPagesCount;
+
+public class GetRequestsCountQuerryHandler : IRequestHandler<GetRequestsCountQuerry, Result<int>>
+{
+    private readonly IRequestRepository _requestRepository;
+
+    public GetRequestsCountQuerryHandler(IRequestRepository requestRepository)
+    {
+        _requestRepository = requestRepository;
+    }
+
+    public async Task<Result<int>> Handle(GetRequestsCountQuerry request, CancellationToken cancellationToken)
+    {
+        var result = await _requestRepository.GetRequestsCount();
+        return Result.Success(result);
+    }
+}

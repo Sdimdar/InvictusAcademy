@@ -5,7 +5,7 @@ namespace Identity.Infrastructure.Extensions;
 
 public static class UserRepositoryExtensions
 {
-    public static IQueryable<User> Filter(this IQueryable<User> users, string? filterByName)
+    public static IQueryable<UserDbModel> Filter(this IQueryable<UserDbModel> users, string? filterByName)
     {
         return string.IsNullOrEmpty(filterByName)
             ? users
@@ -18,7 +18,7 @@ public static class UserRepositoryExtensions
             );
     }
 
-    public static async Task<(IQueryable<User>, int)> GetABatchOfData(this IQueryable<User> users, int page, int pageSize)
+    public static async Task<(IQueryable<UserDbModel>, int)> GetABatchOfData(this IQueryable<UserDbModel> users, int page, int pageSize)
     {
         int count = await users.CountAsync();
         return (users.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize), count);
