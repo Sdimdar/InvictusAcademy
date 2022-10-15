@@ -21,7 +21,7 @@ public class ChangeCalledStatus : EndpointBaseAsync
         _mapper = mapper;
     }
 
-    [HttpPost("/request/calledStatus")]
+    [HttpPost("/Request/SetCalledStatus")]
     [SwaggerOperation(
         Summary = "Изменения статуса заявки",
         Description = "Необходимо передать id заявки",

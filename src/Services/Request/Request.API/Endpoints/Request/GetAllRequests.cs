@@ -1,33 +1,37 @@
 ﻿using Ardalis.ApiEndpoints;
+using AutoMapper;
+using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Request.Application.Features.Requests.Queries.GetAllRequest;
+using ServicesContracts.Request.Requests.Querries;
+using ServicesContracts.Request.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Request.API.Endpoints.Request;
 
 public class GetAllRequests : EndpointBaseAsync
     .WithRequest<GetAllRequestCommand>
-    .WithResult<ActionResult>
+    .WithActionResult<DefaultResponceObject<GetAllRequestVm>>
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-
-    //надо добавить для возможность запроса, только для определенной роли
-    public GetAllRequests(IMediator mediator)
+    public GetAllRequests(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
-    [HttpGet("/request/getall")]
+    [HttpGet("/Request/GetAll")]
     [SwaggerOperation(
         Summary = "Запрос на выгрузку всех заявок",
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult> HandleAsync([FromQuery] GetAllRequestCommand request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponceObject<GetAllRequestVm>>> HandleAsync([FromQuery] GetAllRequestCommand request,
+                                                                                                 CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return Ok(response);
+        return Ok(_mapper.Map<DefaultResponceObject<GetAllRequestVm>>(response));
     }
 }

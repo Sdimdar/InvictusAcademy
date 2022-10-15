@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Request\Requests\Querries\" />
-    <Folder Include="Request\Responses\" />
+    <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />
   </ItemGroup>
 
 </Project>

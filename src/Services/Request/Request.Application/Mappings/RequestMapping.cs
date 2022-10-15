@@ -3,6 +3,7 @@ using Request.Application.Features.Requests.Commands.CreateRequest;
 using Request.Application.Features.Requests.Queries.GetAllRequest;
 using Request.Domain.Entities;
 using ServicesContracts.Request.Requests.Commands;
+using ServicesContracts.Request.Requests.Querries;
 
 namespace Request.Application.Mappings;
 

@@ -1,9 +1,9 @@
 using CommonRepository;
 using Microsoft.EntityFrameworkCore;
 using Request.Application.Contracts;
-using Request.Application.Features.Requests.Queries.GetAllRequest;
 using Request.Domain.Entities;
 using Request.Infrastructure.Persistence;
+using ServicesContracts.Request.Requests.Querries;
 
 namespace Request.Infrastructure.Repositories;
 
