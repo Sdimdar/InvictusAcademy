@@ -4,8 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Configurations>Debug;Release</Configurations>
-    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\CommonRepository\CommonRepository.csproj" />
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
     <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\..\Request\Request.Application\Request.Application.csproj" />
