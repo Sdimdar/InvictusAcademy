@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.ManagerComment;
 
@@ -7,6 +8,6 @@ public class ManagerCommentCommandValidator:AbstractValidator<ManagerCommentComm
     public ManagerCommentCommandValidator()
     {
         RuleFor(e => e.ManagerComment)
-            .MaximumLength(100).WithMessage("Maximum 100 symbols");
+            .MaximumLength(100).WithMessage("Maximum comment length - 100 symbols");
     }
 }
