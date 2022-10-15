@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Request.Application.Features.Requests.Commands.CreateRequest;
-using Request.Application.Features.Requests.Queries.GetAllRequest;
 using Request.Domain.Entities;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Requests.Querries;
+using ServicesContracts.Request.Responses;
 
 namespace Request.Application.Mappings;
 
