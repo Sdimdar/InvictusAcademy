@@ -1,5 +1,7 @@
 using Admin.MVC.Models;
 using Admin.MVC.Models.DbModels;
+using Admin.MVC.Services;
+using Admin.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +14,8 @@ services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
 services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
+
+services.AddTransient<IAdminCreate, CreateAdmin>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

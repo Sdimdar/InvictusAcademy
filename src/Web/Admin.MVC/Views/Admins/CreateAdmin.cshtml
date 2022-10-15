@@ -19,7 +19,7 @@
     ViewBag.Title = "Create Admin";
     Layout = "_Layout";
 }
-
+<h4 style="text-align: center; color: red">@ViewData["Error"]</h4>
 <div class="center" style="width: 400px">
     <h3 style="text-align: center">Создание нового админа</h3>
     <form asp-action="CreateAdmin" asp-controller="Admins" method="post">
@@ -50,13 +50,7 @@
                     <td>@description[i]</td>
                 </tr>
             </table>
-            @* <div class="row"> *@
-            @*     <div class="col-3"> *@
-            @*         <input type="checkbox" asp-for=@Model.Roles[i] value=@roles[i] /> *@
-            @*     </div> *@
-            @*     <div class="col">@description[i]</div> *@
-            @* </div> *@
-            @* <hr/> *@
+            
             
         }
         <button type="submit" class="btn btn-info">Зарегистрировать</button>

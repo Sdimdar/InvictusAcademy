@@ -1,6 +1,7 @@
 ﻿
 using Admin.MVC.Models;
 using Admin.MVC.Models.DbModels;
+using Admin.MVC.Services.Interfaces;
 using Admin.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,17 +15,15 @@ namespace Admin.MVC.Controllers;
 public class AdminsController : Controller
 {
     private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly AdminDbContext _db;
+    private readonly IAdminCreate _adminCreate;
 
     
-    public AdminsController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, AdminDbContext db)
+    public AdminsController(UserManager<User> userManager,  AdminDbContext db, IAdminCreate adminCreate)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
-        _roleManager = roleManager;
         _db = db;
+        _adminCreate = adminCreate;
     }
 
     [HttpGet]
@@ -39,26 +38,10 @@ public class AdminsController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new User
-            {
-                UserName = model.UserName
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                foreach (var role in model.Roles)
-                {
-                    if (role == "false")
-                        continue;
-                    await _userManager.AddToRoleAsync(user, role);
-                }
-                await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Login", "Accounts");
-            }
-        
-            foreach (var error in result.Errors)
-                ModelState.AddModelError(string.Empty, error.Description);
+            if(await _adminCreate.CreateNewAdmin(model))
+                return RedirectToAction("EditProfile");
         }
+        ViewData["Error"] = "Произошла ошибка создания админа.";
         return RedirectToAction("CreateAdmin");
         
     }
@@ -67,6 +50,7 @@ public class AdminsController : Controller
     public IActionResult EditProfile()
     {
         var users = _userManager.Users.ToList();
+        
         users.Remove(users[0]);
         return View(new EditProfileVm
         {

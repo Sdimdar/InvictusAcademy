@@ -5,8 +5,8 @@ namespace Admin.MVC.ViewModels;
 
 public class CreateAdminVM
 {
-    [Required(ErrorMessage = "Укажите название роли")]
-    [Remote(action:"CheckUserName", controller:"Validation", ErrorMessage = "Такая роль уже существует")]
+    [Required(ErrorMessage = "Укажите логин")]
+    [Remote(action:"CheckUserName", controller:"Validation", ErrorMessage = "Такой логин уже существует")]
     [StringLength(40, MinimumLength = 4, ErrorMessage = "Минимальное количество знаков должно быть больше 4")]
     public string UserName { get; set; }
     [Required(ErrorMessage = "Введите пароль")]
