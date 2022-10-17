@@ -1,13 +1,13 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistance.DbMap;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Persistance;
 
-public class IdentityDbContext : IdentityDbContext<User>
+public class IdentityDbContext : DbContext
 {
-    public DbSet<Request> Requests { get; set; }
+    
+    public DbSet<UserDbModel> Users { get; set; }
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -15,6 +15,5 @@ public class IdentityDbContext : IdentityDbContext<User>
         base.OnModelCreating(builder);
 
         builder.ApplyConfiguration(new UserDbMap());
-        builder.ApplyConfiguration(new RequestDbMap());
     }
 }

@@ -8,7 +8,7 @@ import axios from 'axios'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://localhost:7210",
+  baseURL: "https://localhost:7000",
   timeout: 30000,
 });
 
@@ -49,8 +49,9 @@ export const fetchUserData = (email) => api.get('/User/GetUserData', { params: {
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
 export const login = (payload) => api.post("/User/Login", payload);
 export const register = (payload) => api.post("/User/Register", payload);
-export const fetchLoginedUserData = () => api.get('/User/GetLoginedUserData');
+export const fetchLoginedUserData = () => api.get('/User/GetUserData');
 export const fetchlogout = () => api.post("/User/Logout");
 export const createRequest = (payload) => api.post('/Request/Create', payload);
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/Request/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/Request/Count');
+export const editProfile = (payload) => api.post('/User/Edit', payload);
