@@ -19,7 +19,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                
+
                 @if (User.IsInRole("admin"))
                 {
                     <ul class="navbar-nav flex-grow-1">
@@ -29,11 +29,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admins" asp-action="EditProfile">Управление админами</a>
                         </li>
-                           
-                            
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="GetAllRegisteredUsers">Список всех пользователей</a>
+                        </li>
+
+
                     </ul>
                 }
-                    
+
             </div>
             <div class="head-cell" style="text-align: end">
                 @if (User.Identity.IsAuthenticated)
@@ -58,7 +61,6 @@
         @RenderBody()
     </main>
 </div>
-
 
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

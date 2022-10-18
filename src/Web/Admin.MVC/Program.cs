@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var configuration = builder.Configuration;
 
 
 string connection = builder.Configuration.GetConnectionString("AdminConnetion");
@@ -16,6 +17,7 @@ services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbConte
 services.AddControllersWithViews();
 
 services.AddTransient<IAdminCreate, CreateAdmin>();
+services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

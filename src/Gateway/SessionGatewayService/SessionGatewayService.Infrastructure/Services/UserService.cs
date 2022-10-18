@@ -21,7 +21,6 @@ public class UserService : IUserService
         var responce = await _httpClient.PostAsJsonAsync("/User/Edit", command, cancellationToken);
         return await responce.ReadContentAs<DefaultResponceObject<string>>();
     }
-
     public async Task<DefaultResponceObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
         var responce = await _httpClient.GetAsync($"/User/GetUserData?email={email}", cancellationToken);
@@ -30,7 +29,6 @@ public class UserService : IUserService
 
     public async Task<DefaultResponceObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken)
     {
-
         var responce = await _httpClient.PostAsJsonAsync("/User/Register", command, cancellationToken);
         return await responce.ReadContentAs<DefaultResponceObject<RegisterVm>>();
     }
