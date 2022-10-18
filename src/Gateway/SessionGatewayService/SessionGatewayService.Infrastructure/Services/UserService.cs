@@ -22,6 +22,14 @@ public class UserService : IUserService
         return await responce.ReadContentAs<DefaultResponceObject<string>>();
     }
 
+    public async Task<DefaultResponceObject<string>> EditPasswordAsync(EditPasswordCommand command, 
+        CancellationToken cancellationToken)
+    {
+        var responce = await _httpClient.PostAsJsonAsync("/User/EditPassword", 
+            command, cancellationToken);
+        return await responce.ReadContentAs<DefaultResponceObject<string>>();
+    }
+
     public async Task<DefaultResponceObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
         var responce = await _httpClient.GetAsync($"/User/GetUserData?email={email}", cancellationToken);
