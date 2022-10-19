@@ -1,0 +1,48 @@
+﻿@using System.Collections.Specialized
+@using ServicesContracts.Request.Responses
+@model ServicesContracts.Request.Responses.GetAllRequestVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">UserName</th>
+        <th scope="col">PhoneNumber</th>
+        <th scope="col">ManagerComment</th>
+        <th scope="col">WasCalled</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var request in Model.Requests)
+    {
+        await Html.RenderPartialAsync("PartialViews/RequestPartialView", request);
+    }
+    </tbody>
+</table>
+<input id="total_count" type="text" hidden value="@Model.TotalPages">
+<div id="link_box"></div>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetAll"
+        asp-route-pageNumber="@(Model.PageNumber - 1)"
+        class="btn btn-default btn">
+         <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetAll"
+        asp-route-pageNumber="@(Model.PageNumber + 1)"
+        class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
+

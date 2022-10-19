@@ -1,3 +1,4 @@
+using Admin.MVC.DependencyInjection;
 using Admin.MVC.Models;
 using Admin.MVC.Models.DbModels;
 using Admin.MVC.Services;
@@ -15,7 +16,11 @@ services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbConte
 // Add services to the container.
 services.AddControllersWithViews();
 
+
+
 services.AddTransient<IAdminCreate, CreateAdmin>();
+services.AddScoped<IRequestService, RequestService>();
+services.AddHttpClients(builder.Configuration);
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -33,6 +38,8 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(e, "An error occurred while seeding the database.");
     }
 }
+
+
 
 
 // Configure the HTTP request pipeline.
