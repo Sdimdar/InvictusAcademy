@@ -7,11 +7,10 @@ using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.API.Tests;
 
-[TestFixture]
 public class EditTests
 {
     private readonly List<UserDbModel> _users;
-    private readonly HttpClient _client;
+    private readonly HttpClient _httpClient;
 
     public EditTests()
     {
@@ -44,19 +43,22 @@ public class EditTests
                     services.Remove(dbContextDescriptor!);
                     services.AddDbContext<IdentityDbContext>(options =>
                     {
-                        options.UseInMemoryDatabase("identity_edit_db");
+                        options.UseInMemoryDatabase("identity_editdata_db");
                     });
                 });
             });
 
         var dbContext = application.Services.CreateScope().ServiceProvider.GetService<IdentityDbContext>();
-        dbContext!.Users.AddRange(_users);
-        dbContext!.SaveChanges();
+        if (dbContext.Users.Count() == 0)
+        {
+            dbContext!.Users.AddRange(_users);
+            dbContext!.SaveChanges();
+        }
 
-        _client = application.CreateClient();
+        _httpClient = application.CreateClient();
     }
 
-    [Test]
+    [Fact]
     public async Task Edit_SendRequestWithCorrectData()
     {
         // Arrange
@@ -73,7 +75,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -82,15 +84,16 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
     }
 
-    [Test]
+    [Fact]
     public async Task Edit_SendRequestWithInvalidEmail()
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "testi@mail.ru",
@@ -103,7 +106,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -112,19 +115,25 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.Errors, Is.EqualTo(new string[] { "An error occurred while creating the request" }));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Errors.Should().BeEquivalentTo(new string[] { "An error occurred while creating the request" });
     }
 
-    private static readonly string[] _invalidNumbers = { "12931", "asd", "" };
+    public static IEnumerable<object[]> InvalidPhoneNumbers()
+    {
+        yield return new object[] { "12931" };
+        yield return new object[] { "asd" };
+        yield return new object[] { "" };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidNumbers))]
+    [Theory]
+    [MemberData(nameof(InvalidPhoneNumbers))]
     public async Task Edit_SendRequestWithInvalidPhoneNumber(string invalidNumber)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -137,7 +146,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -146,21 +155,25 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "PhoneNumber"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "PhoneNumber");
     }
 
+    public static IEnumerable<object[]> InvalidFirstNames()
+    {
+        yield return new object[] { "" };
+        yield return new object[] { new string('s', 300) };
+    }
 
-    private static readonly string[] _invalidFirstNames = { "", new string('s', 300) };
-
-    [Test]
-    [TestCaseSource(nameof(_invalidFirstNames))]
+    [Theory]
+    [MemberData(nameof(InvalidFirstNames))]
     public async Task Edit_SendRequestWithInvalidFirstName(string invalidFirstName)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -173,7 +186,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -182,20 +195,24 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "FirstName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "FirstName");
     }
 
-    private static readonly string[] _invalidMiddleNames = { new string('s', 300) };
+    public static IEnumerable<object[]> InvalidMiddleNames()
+    {
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidMiddleNames))]
+    [Theory]
+    [MemberData(nameof(InvalidMiddleNames))]
     public async Task Edit_SendRequestWithInvalidMiddleName(string invalidMiddleName)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -208,7 +225,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -217,20 +234,25 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "MiddleName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "MiddleName");
     }
 
-    private static readonly string[] _invalidLastNames = { "", new string('s', 300) };
+    public static IEnumerable<object[]> InvalidLastNames()
+    {
+        yield return new object[] { "" };
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidLastNames))]
+    [Theory]
+    [MemberData(nameof(InvalidLastNames))]
     public async Task Edit_SendRequestWithInvalidLastName(string invalidLastName)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -243,7 +265,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -252,20 +274,24 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "LastName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "LastName");
     }
 
-    private static readonly string[] _invalidInstagramLinks = { new string('s', 300) };
+    public static IEnumerable<object[]> InvalidInstagramLinks()
+    {
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidInstagramLinks))]
+    [Theory]
+    [MemberData(nameof(InvalidInstagramLinks))]
     public async Task Edit_SendRequestWithInvalidInstagramLink(string invalidInstagramLink)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -278,7 +304,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -287,20 +313,24 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "InstagramLink"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "InstagramLink");
     }
 
-    private static readonly string[] _invalidCitizenships = { "", new string('s', 300) };
+    public static IEnumerable<object[]> InvalidCitizenships()
+    {
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidCitizenships))]
+    [Theory]
+    [MemberData(nameof(InvalidCitizenships))]
     public async Task Edit_SendRequestWithInvalidCitizenship(string invalidCitizenship)
     {
         // Arrange
+
         EditCommand command = new()
         {
             Email = "test@mail.ru",
@@ -313,7 +343,7 @@ public class EditTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Edit", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
         DefaultResponceObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -322,10 +352,10 @@ public class EditTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "Citizenship"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "Citizenship");
     }
 }

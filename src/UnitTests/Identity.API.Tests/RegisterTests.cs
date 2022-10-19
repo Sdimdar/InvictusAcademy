@@ -8,11 +8,10 @@ using ServicesContracts.Identity.Responses;
 
 namespace Identity.API.Tests;
 
-[TestFixture]
 public class RegisterTests
 {
     private readonly List<UserDbModel> _users;
-    private readonly HttpClient _client;
+    private readonly HttpClient _httpClient;
 
     public RegisterTests()
     {
@@ -45,22 +44,26 @@ public class RegisterTests
                     services.Remove(dbContextDescriptor!);
                     services.AddDbContext<IdentityDbContext>(options =>
                     {
-                        options.UseInMemoryDatabase("identity_register_db");
+                        options.UseInMemoryDatabase("identity_registerdata_db");
                     });
                 });
             });
 
         var dbContext = application.Services.CreateScope().ServiceProvider.GetService<IdentityDbContext>();
-        dbContext!.Users.AddRange(_users);
-        dbContext!.SaveChanges();
+        if (dbContext.Users.Count() == 0)
+        {
+            dbContext!.Users.AddRange(_users);
+            dbContext!.SaveChanges();
+        }
 
-        _client = application.CreateClient();
+        _httpClient = application.CreateClient();
     }
 
-    [Test]
+    [Fact]
     public async Task Register_SendRequestWithCorrectData()
     {
         // Arrange
+
 
         RegisterCommand command = new()
         {
@@ -76,7 +79,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -85,20 +88,20 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
-        Assert.That(data.Value, Is.Not.Null);
-        Assert.That(data.Value.Email, Is.EqualTo(command.Email));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
+        data.Value.Should().NotBeNull();
+        data.Value.Email.Should().Be(command.Email);
     }
 
-    [Test]
+    [Fact]
     public async Task Register_SendRequestWithInvalidEmail()
     {
         // Arrange
         RegisterCommand command = new()
         {
-            Email = "new_test@mail.ru",
+            Email = "test@mail.ru",
             Password = "123_QWEasd",
             PasswordConfirm = "123_QWEasd",
             FirstName = "Famine",
@@ -110,7 +113,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -119,31 +122,31 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.Errors, Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Errors.Should().NotBeNull();
     }
 
-    private static readonly (string, string)[] _invalidPasswordPairs = 
-        { 
-            ("12341231", "12341231"), 
-            ("sdfasdvae", "sdfasdvae"), 
-            ("123_QWEasd", "123qweasd"), 
-            ("a1_A", "a1_A"), 
-            ("", ""),
-        };
+    public static IEnumerable<object[]> InvalidPasswords()
+    {
+        yield return new object[] { "12341231", "12341231" };
+        yield return new object[] { "sdfasdvae", "sdfasdvae" };
+        yield return new object[] { "123_QWEasd", "123qweasd" };
+        yield return new object[] { "a1_A", "a1_A" };
+        yield return new object[] { "", "" };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidPasswordPairs))]
-    public async Task Register_SendRequestWithInvalidPhoneNumber((string, string) invalidPasswordPair)
+    [Theory]
+    [MemberData(nameof(InvalidPasswords))]
+    public async Task Register_SendRequestWithInvalidPasswords(string password, string passwordConfirm)
     {
         // Arrange
         RegisterCommand command = new()
         {
             Email = "new_test1@mail.ru",
-            Password = invalidPasswordPair.Item1,
-            PasswordConfirm = invalidPasswordPair.Item2,
+            Password = password,
+            PasswordConfirm = passwordConfirm,
             FirstName = "Famine",
             MiddleName = "Famine",
             LastName = "Famine",
@@ -153,7 +156,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -162,17 +165,22 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "Password" || e.Identifier == "PasswordConfirm"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "Password" || e.Identifier == "PasswordConfirm");
     }
 
-    private static readonly string[] _invalidNumbers = { "12931", "asd", "" };
+    public static IEnumerable<object[]> InvalidPhoneNumbers()
+    {
+        yield return new object[] { "12931" };
+        yield return new object[] { "asd" };
+        yield return new object[] { "" };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidNumbers))]
+    [Theory]
+    [MemberData(nameof(InvalidPhoneNumbers))]
     public async Task Register_SendRequestWithInvalidPhoneNumber(string invalidNumber)
     {
         // Arrange
@@ -190,7 +198,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -199,18 +207,21 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "PhoneNumber"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "PhoneNumber");
     }
 
+    public static IEnumerable<object[]> InvalidFirstNames()
+    {
+        yield return new object[] { "" };
+        yield return new object[] { new string('s', 300) };
+    }
 
-    private static readonly string[] _invalidFirstNames = { "", new string('s', 300) };
-
-    [Test]
-    [TestCaseSource(nameof(_invalidFirstNames))]
+    [Theory]
+    [MemberData(nameof(InvalidFirstNames))]
     public async Task Register_SendRequestWithInvalidFirstName(string invalidFirstName)
     {
         // Arrange
@@ -228,7 +239,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -237,17 +248,20 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "FirstName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "FirstName");
     }
 
-    private static readonly string[] _invalidMiddleNames = { new string('s', 300) };
+    public static IEnumerable<object[]> InvalidMiddleNames()
+    {
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidMiddleNames))]
+    [Theory]
+    [MemberData(nameof(InvalidMiddleNames))]
     public async Task Register_SendRequestWithInvalidMiddleName(string invalidMiddleName)
     {
         // Arrange
@@ -265,7 +279,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -274,17 +288,21 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "MiddleName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "MiddleName");
     }
 
-    private static readonly string[] _invalidLastNames = { "", new string('s', 300) };
+    public static IEnumerable<object[]> InvalidLastNames()
+    {
+        yield return new object[] { "" };
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidLastNames))]
+    [Theory]
+    [MemberData(nameof(InvalidLastNames))]
     public async Task Register_SendRequestWithInvalidLastName(string invalidLastName)
     {
         // Arrange
@@ -302,7 +320,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -311,17 +329,20 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "LastName"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "LastName");
     }
 
-    private static readonly string[] _invalidInstagramLinks = { new string('s', 300) };
+    public static IEnumerable<object[]> InvalidInstagramLinks()
+    {
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidInstagramLinks))]
+    [Theory]
+    [MemberData(nameof(InvalidInstagramLinks))]
     public async Task Register_SendRequestWithInvalidInstagramLink(string invalidInstagramLink)
     {
         // Arrange
@@ -339,7 +360,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -348,17 +369,21 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "InstagramLink"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "InstagramLink");
     }
 
-    private static readonly string[] _invalidCitizenships = { "", new string('s', 300) };
+    public static IEnumerable<object[]> InvalidCitizenships()
+    {
+        yield return new object[] { "" };
+        yield return new object[] { new string('s', 300) };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidCitizenships))]
+    [Theory]
+    [MemberData(nameof(InvalidCitizenships))]
     public async Task Register_SendRequestWithInvalidCitizenship(string invalidCitizenship)
     {
         // Arrange
@@ -376,7 +401,7 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/User/Register", command);
+        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
         DefaultResponceObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -385,10 +410,10 @@ public class RegisterTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.ValidationErrors, Is.Not.Null);
-        Assert.That(data.ValidationErrors.FirstOrDefault(e => e.Identifier == "Citizenship"), Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.ValidationErrors.Should().NotBeNull();
+        data.ValidationErrors.Should().Contain(e => e.Identifier == "Citizenship");
     }
 }

@@ -7,11 +7,10 @@ using ServicesContracts.Identity.Responses;
 
 namespace Identity.API.Tests;
 
-[TestFixture]
 public class GetUsersDataTests
 {
     private readonly List<UserDbModel> _users;
-    private readonly HttpClient _client;
+    private readonly HttpClient _httpClient;
 
     public GetUsersDataTests()
     {
@@ -100,24 +99,31 @@ public class GetUsersDataTests
             });
 
         var dbContext = application.Services.CreateScope().ServiceProvider.GetService<IdentityDbContext>();
-        dbContext!.Users.AddRange(_users);
-        dbContext!.SaveChanges();
+        if (dbContext.Users.Count() == 0)
+        {
+            dbContext!.Users.AddRange(_users);
+            dbContext!.SaveChanges();
+        }
 
-        _client = application.CreateClient();
+        _httpClient = application.CreateClient();
     }
 
-    private static readonly (int, int)[] _validPages = { (1, 2), (2, 3), (1, 5), (1, 100) };
+    public static IEnumerable<object[]> CorrectDataWithoutFilter()
+    {
+        yield return new object[] { 1, 2 };
+        yield return new object[] { 1, 5 };
+        yield return new object[] { 2, 3 };
+        yield return new object[] { 1, 100 };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_validPages))]
-    public async Task GetUsersData_SendRequestWithCorrectDataWithoutFilter((int, int) pagesData)
+    [Theory]
+    [MemberData(nameof(CorrectDataWithoutFilter))]
+    public async Task GetUsersData_SendRequestWithCorrectDataWithoutFilter(int page, int pageSize)
     {
         // Arrange
-        int page = pagesData.Item1;
-        int pageSize = pagesData.Item2;
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
         DefaultResponceObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -126,34 +132,31 @@ public class GetUsersDataTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
-        Assert.That(data.Value, Is.Not.Null);
-        Assert.That(data.Value.Users.Count, Is.EqualTo(_users.Count - (pageSize * (page - 1)) < pageSize ? _users.Count - (pageSize * (page - 1)) : pageSize));
-        Assert.That(data.Value.PageVm.PageNumber, Is.EqualTo(page));
-        Assert.That(data.Value.PageVm.TotalPages, Is.EqualTo((int)Math.Ceiling(_users.Count / (double)pageSize)));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
+        data.Value.Should().NotBeNull();
+        data.Value.Users.Count().Should().Be(_users.Count - pageSize * (page - 1) < pageSize ? _users.Count - pageSize * (page - 1) : pageSize);
+        data.Value.PageVm.PageNumber.Should().Be(page);
+        data.Value.PageVm.TotalPages.Should().Be((int)Math.Ceiling(_users.Count / (double)pageSize));
     }
 
-    private static readonly (int, int, string)[] _validPagesWithFilter = 
-        { 
-            (1, 2, "Famine"), 
-            (2, 3, "test"), 
-            (1, 5, "Famine"), 
-            (1, 100, "test") 
-        };
+    public static IEnumerable<object[]> CorrectDataWithFilter()
+    {
+        yield return new object[] { 1, 2, "Famine" };
+        yield return new object[] { 2, 3, "test" };
+        yield return new object[] { 1, 5, "Famine" };
+        yield return new object[] { 1, 100, "test" };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_validPagesWithFilter))]
-    public async Task GetUsersData_SendRequestWithCorrectDataWithFilter((int, int, string) pagesData)
+    [Theory]
+    [MemberData(nameof(CorrectDataWithFilter))]
+    public async Task GetUsersData_SendRequestWithCorrectDataWithFilter(int page, int pageSize, string filter)
     {
         // Arrange
-        int page = pagesData.Item1;
-        int pageSize = pagesData.Item2;
-        string filter = pagesData.Item3;
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}&FilterString={filter}");
+        var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}&FilterString={filter}");
         DefaultResponceObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -162,28 +165,25 @@ public class GetUsersDataTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
-        Assert.That(data.Value, Is.Not.Null);
-        Assert.That(data.Value.Users.Count, Is.EqualTo(_users.Count - (pageSize * (page - 1)) < pageSize ? _users.Count - (pageSize * (page - 1)) : pageSize));
-        Assert.That(data.Value.PageVm.PageNumber, Is.EqualTo(page));
-        Assert.That(data.Value.PageVm.TotalPages, Is.EqualTo((int)Math.Ceiling(_users.Count / (double)pageSize)));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
+        data.Value.Should().NotBeNull();
+        data.Value.Users.Count().Should().Be(_users.Count - pageSize * (page - 1) < pageSize ? _users.Count - pageSize * (page - 1) : pageSize);
+        data.Value.PageVm.PageNumber.Should().Be(page);
+        data.Value.PageVm.TotalPages.Should().Be((int)Math.Ceiling(_users.Count / (double)pageSize));
     }
 
 
-    private static readonly (int, int)[] _invalidPages = { (-1, 2), (0, 3), (1, 0), (1, -100) };
-
-    [Test]
-    [TestCaseSource(nameof(_invalidPages))]
-    public async Task GetUsersData_SendRequestWithWrongDataWithoutFilter((int, int) pagesData)
+    [Fact]
+    public async Task GetAllUsersData_SendRequestWithCorrectDataWithoutFilter()
     {
         // Arrange
-        int page = pagesData.Item1;
-        int pageSize = pagesData.Item2;
+        int page = 1;
+        int pageSize = 0;
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
         DefaultResponceObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -192,10 +192,42 @@ public class GetUsersDataTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.Value, Is.Null);
-        Assert.That(data.Errors, Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
+        data.Value.Should().NotBeNull();
+        data.Value.Users.Count().Should().Be(_users.Count);
+        data.Value.PageVm.PageNumber.Should().Be(page);
+        data.Value.PageVm.TotalPages.Should().Be(1);
+    }
+
+    public static IEnumerable<object[]> InvalidDataWithoutFilter()
+    {
+        yield return new object[] { -1, 2 };
+        yield return new object[] { 0, 3 };
+        yield return new object[] { 1, -100 };
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidDataWithoutFilter))]
+    public async Task GetUsersData_SendRequestWithWrongDataWithoutFilter(int page, int pageSize)
+    {
+        // Arrange
+
+        // Act
+        var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        DefaultResponceObject<UsersVm>? data = null;
+        if (response.IsSuccessStatusCode)
+        {
+            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            data = JsonConvert.DeserializeObject<DefaultResponceObject<UsersVm>>(dataAsString);
+        }
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Value.Should().NotBeNull();
+        data.Errors.Should().NotBeNull();
     }
 }

@@ -7,12 +7,11 @@ using ServicesContracts.Identity.Responses;
 
 namespace Identity.API.Tests;
 
-[TestFixture]
 public class GetUserDataTests
 {
     private readonly List<UserDbModel> _users;
-    private readonly HttpClient _client;
-        
+    private readonly HttpClient _httpClient;
+
     public GetUserDataTests()
     {
         _users = new()
@@ -50,20 +49,23 @@ public class GetUserDataTests
             });
 
         var dbContext = application.Services.CreateScope().ServiceProvider.GetService<IdentityDbContext>();
-        dbContext!.Users.AddRange(_users);
-        dbContext!.SaveChanges();
+        if (dbContext.Users.Count() == 0)
+        {
+            dbContext!.Users.AddRange(_users);
+            dbContext!.SaveChanges();
+        }
 
-        _client = application.CreateClient();
+        _httpClient = application.CreateClient();
     }
 
-    [Test]
-    public async Task GetUserData_SendRequestWithCorrectData()
+    [Theory]
+    [InlineData("test@test.ru")]
+    public async Task GetUserData_SendRequestWithCorrectData(string email)
     {
         // Arrange
-        string email = "test@test.ru";
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUserData?email={email}");
+        var response = await _httpClient.GetAsync($"/User/GetUserData?email={email}");
         DefaultResponceObject<UserVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -72,23 +74,27 @@ public class GetUserDataTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(true));
-        Assert.That(data.Value, Is.Not.Null);
-        Assert.That(data.Value.Email, Is.EqualTo(email));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeTrue();
+        data.Value.Should().NotBeNull();
+        data.Value.Email.Should().Be(email);
     }
 
-    private static readonly string[] _invalidEmails = { "testi@mail.ru", "asd" };
+    public static IEnumerable<object[]> InvalidEmails()
+    {
+        yield return new object[] { "testi@mail.ru" };
+        yield return new object[] { "asd" };
+    }
 
-    [Test]
-    [TestCaseSource(nameof(_invalidEmails))]
+    [Theory]
+    [MemberData(nameof(InvalidEmails))]
     public async Task GetUserData_SendRequestWithInvalidEmail(string invalidEmail)
     {
         // Arrange
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUserData?email={invalidEmail}");
+        var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
         DefaultResponceObject<UserVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
@@ -97,28 +103,22 @@ public class GetUserDataTests
         }
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(data, Is.Not.Null);
-        Assert.That(data.IsSuccess, Is.EqualTo(false));
-        Assert.That(data.Errors, Is.Not.Null);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Errors.Should().NotBeNull();
     }
 
-    [Test]
-    public async Task GetUserData_SendRequestWithInvalidEmail()
+    [Theory]
+    [InlineData("")]
+    public async Task GetUserData_SendRequestWithEmptyStringEmail(string invalidEmail)
     {
         // Arrange
-        string invalidEmail = "";
 
         // Act
-        var response = await _client.GetAsync($"/User/GetUserData?email={invalidEmail}");
-        DefaultResponceObject<UserVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UserVm>>(dataAsString);
-        }
+        var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
