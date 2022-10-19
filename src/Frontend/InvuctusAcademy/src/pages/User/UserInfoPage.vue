@@ -57,7 +57,7 @@
 
             <q-card-actions >
               <editProfile-button @autorize="getUserData"/>
-              <q-btn color="primary" label="Изменить пароль" />
+              <editPassword-button />
             </q-card-actions>
         </q-card>
 
@@ -73,11 +73,13 @@ import { defineComponent } from "vue";
 import { fetchUserData } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
 import EditProfileButton from 'components/EditProfileButton.vue'
+import EditPasswordButton from 'components/EditPasswordButton.vue'
 
 export default defineComponent({
   name: "UserInfoPage",
   components: {
-    EditProfileButton
+    EditProfileButton,
+    EditPasswordButton
   },
   data() {
     return {

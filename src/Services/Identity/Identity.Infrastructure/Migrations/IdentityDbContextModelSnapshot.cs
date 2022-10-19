@@ -17,7 +17,7 @@ namespace Identity.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -34,7 +34,6 @@ namespace Identity.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(60)");
 
                     b.Property<string>("Citizenship")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(60)");
 
                     b.Property<DateTime>("CreatedDate")
