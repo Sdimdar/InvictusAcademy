@@ -86,11 +86,13 @@ public class RequestMockRepository : IRequestRepository
 
     public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
     {
+        if (pageInfo.PageNumber == 0)
+            return _repositoryData.ToList();
         return _repositoryData.OrderByDescending(v => v.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize).ToList();
     }
 
     public async Task<int> GetRequestsCount()
     {
-        return _repositoryData.Capacity;
+        return _repositoryData.Count;
     }
 }

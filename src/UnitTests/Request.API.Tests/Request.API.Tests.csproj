@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\DataTransferLib\DataTransferLib.csproj" />
     <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
+    <ProjectReference Include="..\..\Services\Request\Request.API\Request.API.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Application\Request.Application.csproj" />
   </ItemGroup>
 
