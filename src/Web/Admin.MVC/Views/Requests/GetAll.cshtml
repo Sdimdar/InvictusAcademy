@@ -1,13 +1,15 @@
 ﻿@using System.Collections.Specialized
 @using ServicesContracts.Request.Responses
 @model ServicesContracts.Request.Responses.GetAllRequestVm
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<table class="table table-dark">
+<button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+<table id="tbl_exporttable_to_xls" class="table table-dark">
     <thead>
     <tr>
         <th scope="col">UserName</th>
@@ -42,6 +44,19 @@
         Вперед
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
+}
+
+@section Scripts
+{
+    <script>
+        function ExportToExcel(type, fn, dl) {
+           var elt = document.getElementById('tbl_exporttable_to_xls');
+           var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+           return dl ?
+             XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+             XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+        };
+    </script>
 }
 
 
