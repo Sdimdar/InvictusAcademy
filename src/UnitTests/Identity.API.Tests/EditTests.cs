@@ -1,7 +1,7 @@
-﻿using Identity.Domain.Entities;
-using Identity.Infrastructure.Persistance;
+﻿using Identity.API.Tests.Repository;
+using Identity.Application.Contracts;
+using Identity.Domain.Entities;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ServicesContracts.Identity.Requests.Commands;
 
@@ -39,20 +39,16 @@ public class EditTests
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<IdentityDbContext>));
-                    services.Remove(dbContextDescriptor!);
-                    services.AddDbContext<IdentityDbContext>(options =>
-                    {
-                        options.UseInMemoryDatabase("identity_editdata_db");
-                    });
+                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository));
+                    services.Remove(repositoryDescriptor!);
+                    services.AddSingleton<IUserRepository, UserMockRepository>();
                 });
             });
 
-        var dbContext = application.Services.CreateScope().ServiceProvider.GetService<IdentityDbContext>();
-        if (dbContext.Users.Count() == 0)
+        var repository = application.Services.CreateScope().ServiceProvider.GetService<IUserRepository>();
+        if (repository is UserMockRepository userMockRepository)
         {
-            dbContext!.Users.AddRange(_users);
-            dbContext!.SaveChanges();
+            userMockRepository.InitialData(_users);
         }
 
         _httpClient = application.CreateClient();
