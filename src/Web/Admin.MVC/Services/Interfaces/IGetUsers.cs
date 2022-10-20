@@ -4,5 +4,5 @@ namespace Admin.MVC.Services.Interfaces;
 
 public interface IGetUsers
 {
-    Task<RegisteredUsersVM> GetUsersAsync(CancellationToken cancellationToken);
+    Task<RegisteredUsersVM> GetUsersAsync(CancellationToken cancellationToken, int page, int pageSize);
 }

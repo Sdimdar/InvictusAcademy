@@ -13,9 +13,12 @@ public class UsersController : Controller
         _iGetUsers = iGetUsers;
     }
     // GET
-    public IActionResult GetAllRegisteredUsers(CancellationToken cancellationToken)
+    public IActionResult GetAllRegisteredUsers( CancellationToken cancellationToken, int page, int pageSize)
     {
-        var response = _iGetUsers.GetUsersAsync(cancellationToken);
+        page = 1;
+        pageSize = 10;
+        
+        var response = _iGetUsers.GetUsersAsync(cancellationToken, page, pageSize);
         var usersList = response.Result.RegisteredUsers;
         return View(usersList);
     }
