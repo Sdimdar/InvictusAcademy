@@ -8,6 +8,7 @@ public class GetAllRequestVm
     public int PageSize { get; set; }
     public int TotalPages { get; set; }
     public List<RequestDbModel> Requests { get; set; }
+    public int RequestsCount { get; set; }
     public bool HasPreviousPage
     {
         get

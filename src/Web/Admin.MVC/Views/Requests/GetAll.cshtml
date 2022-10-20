@@ -9,22 +9,26 @@
 }
 
 <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
-<table id="tbl_exporttable_to_xls" class="table table-dark">
-    <thead>
-    <tr>
-        <th scope="col">UserName</th>
-        <th scope="col">PhoneNumber</th>
-        <th scope="col">ManagerComment</th>
-        <th scope="col">WasCalled</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var request in Model.Requests)
-    {
-        await Html.RenderPartialAsync("PartialViews/RequestPartialView", request);
-    }
-    </tbody>
-</table>
+<a asp-action="GetAll" asp-route-pageSize="@Model.RequestsCount" asp-route-pageNumber="1" type="button" class="btn btn-dark">Get All</a>
+<div style="height: 550px; overflow: auto">
+    <table id="tbl_exporttable_to_xls" class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">UserName</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col">ManagerComment</th>
+            <th scope="col">WasCalled</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var request in Model.Requests)
+        {
+            await Html.RenderPartialAsync("PartialViews/RequestPartialView", request);
+        }
+        </tbody>
+    </table>
+</div>
+
 <input id="total_count" type="text" hidden value="@Model.TotalPages">
 <div id="link_box"></div>
 @if (Model.HasPreviousPage)

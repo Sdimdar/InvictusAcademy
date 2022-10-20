@@ -1,4 +1,5 @@
 ﻿using Admin.MVC.Services.Interfaces;
+using Admin.MVC.ViewModels;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Request.Requests.Commands;
@@ -16,36 +17,96 @@ public class RequestsController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 5)
+    public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
     {
-        var responce = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
-        var responceCount = await _requestService.GetRequestsCountAsync();
-        GetAllRequestVm requests = new GetAllRequestVm
+        try
         {
-            PageNumber = pageNumber,
-            PageSize = pageSize,
-            Requests = responce.Value.Requests,
-            TotalPages = (int)Math.Ceiling(responceCount.Value / (double)pageSize)
-        };
-        TempData["pageNumber"] = pageNumber;
-        TempData["pageSize"] = pageSize;
-        return View(requests);
+            var responce = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
+            if (responce is null)
+            {
+                ErrorVM error = new ErrorVM("Requests couldn't find");
+                return View("../Errors/ErrorPage", error);
+            }
+            var responceCount = await _requestService.GetRequestsCountAsync();
+            if (responceCount is null)
+            {
+                ErrorVM error = new ErrorVM("Requests count couldn't find");
+                return View("../Errors/ErrorPage", error);
+            }
+            GetAllRequestVm requests = new GetAllRequestVm
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Requests = responce.Value.Requests,
+                TotalPages = (int)Math.Ceiling(responceCount.Value / (double)pageSize),
+                RequestsCount = responceCount.Value
+            };
+            TempData["pageNumber"] = pageNumber;
+            TempData["pageSize"] = pageSize;
+            return View(requests);
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return View("../Errors/ErrorPage", error);
+        }
     }
 
     [HttpPost]
     public async Task<IActionResult> ChangeCalled(ChangeCalledStatusCommand command)
     {
-        await _requestService.ChangeCalledStatusAsync(command);
-        await GetAll(Convert.ToInt32(TempData["pageNumber"]), Convert.ToInt32(TempData["pageSize"]));
-        return PartialView("GetAll");
+        try
+        {
+            if (command is null)
+            {
+                ErrorVM error = new ErrorVM("ViewModel is null");
+                return View("../Errors/ErrorPage", error);
+            }
+            if (command.Id == 0)
+            {
+                ErrorVM error = new ErrorVM("Id was not assigned");
+                return View("../Errors/ErrorPage", error);
+            }
+            await _requestService.ChangeCalledStatusAsync(command);
+            await GetAll(Convert.ToInt32(TempData["pageNumber"]), Convert.ToInt32(TempData["pageSize"]));
+            return PartialView("GetAll");
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return View("../Errors/ErrorPage", error);
+        }
     }
 
     [HttpPost]
     public async Task<IActionResult> ManagerComment(ManagerCommentCommand command)
     {
-        await _requestService.ManagerCommentAsync(command);
-        await GetAll(Convert.ToInt32(TempData["pageNumber"]), Convert.ToInt32(TempData["pageSize"]));
-        return PartialView("GetAll");
+        try
+        {
+            if (command is null)
+            {
+                ErrorVM error = new ErrorVM("ViewModel is null");
+                return View("../Errors/ErrorPage", error);
+            }
+            if (command.Id == 0)
+            {
+                ErrorVM error = new ErrorVM("Id was not assigned");
+                return View("../Errors/ErrorPage", error);
+            }
+            if (string.IsNullOrEmpty(command.ManagerComment))
+            {
+                ErrorVM error = new ErrorVM("ManagerComment must not be empty");
+                return View("../Errors/ErrorPage", error);
+            }
+            await _requestService.ManagerCommentAsync(command);
+            await GetAll(Convert.ToInt32(TempData["pageNumber"]), Convert.ToInt32(TempData["pageSize"]));
+            return PartialView("GetAll");
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return View("../Errors/ErrorPage", error);
+        }
     }
 }
 

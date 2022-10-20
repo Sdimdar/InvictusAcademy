@@ -4,7 +4,7 @@
     <th scope="row">@Model.UserName</th>
     <td>@Model.PhoneNumber</td>
     <td>
-        @if (@Model.ManagerComment is null)
+        @if (string.IsNullOrEmpty(@Model.ManagerComment))
         {
             <div class="input-group mb-3">
                 <form asp-action="ManagerComment" asp-controller="Requests" method="post" enctype="multipart/form-data">
