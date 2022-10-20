@@ -1,31 +1,34 @@
+using Courses.API;
+using Courses.Application;
 using Courses.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 var services = builder.Services;
 
-services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
+services.AddMvc();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddControllers();
+services.AddSwaggerConfiguration();
 
+// Add API services
 services.AddInfrastructureServices(builder.Configuration);
+services.AddApplicationServices();
+
+// Add Automapper maps
+services.SetAutomapperProfiles();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

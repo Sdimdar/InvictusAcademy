@@ -6,11 +6,11 @@ public interface IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
 {
     public Task<List<T>> GetAsync();
 
-    public Task<T?> GetAsync(int id);
+    public Task<T?> GetAsync(string id);
 
     public Task CreateAsync(T newBook);
 
-    public Task UpdateAsync(int id, T updatedBook);
+    public Task UpdateAsync(string id, T updatedBook);
 
-    public Task RemoveAsync(int id);
+    public Task RemoveAsync(string id);
 }

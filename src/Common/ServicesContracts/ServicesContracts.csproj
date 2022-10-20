@@ -17,4 +17,9 @@
     <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Courses\Requests\Querries\" />
+    <Folder Include="Courses\Responses\" />
+  </ItemGroup>
+
 </Project>

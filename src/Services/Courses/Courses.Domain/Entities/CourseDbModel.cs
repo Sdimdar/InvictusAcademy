@@ -10,5 +10,5 @@ public class CourseDbModel : MongoBaseRepositoryEntity
     [BsonElement("Name")]
     public string CourseTitle { get; set; }
     public string CourseDescription { get; set; }
-    public List<int> ModulesIentificators { get; set; }
+    public List<string>? ModulesIdentificators { get; set; }
 }

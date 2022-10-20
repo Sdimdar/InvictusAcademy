@@ -12,9 +12,9 @@ public static class DependencyInjection
     {
         services.Configure<InvictusProjectDatabaseSettings>(options => 
         {
-            options.ConnectionString = configuration.GetSection("InvictusAcademy:ConnectionString").Value;
-            options.CollectionName = configuration.GetSection("InvictusAcademy:CollectionName").Value;
-            options.DatabaseName = configuration.GetSection("InvictusAcademy:DatabaseName").Value;
+            options.ConnectionString = configuration.GetSection("InvictusAcademyDatabase:ConnectionString").Value;
+            options.CollectionName = configuration.GetSection("InvictusAcademyDatabase:CollectionName").Value;
+            options.DatabaseName = configuration.GetSection("InvictusAcademyDatabase:DatabaseName").Value;
         } );
         services.AddSingleton<ICoursesRepository, CoursesRepository>();
         return services;
