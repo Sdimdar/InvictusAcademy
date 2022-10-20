@@ -14,12 +14,10 @@ public class GetUsers : IGetUsers
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
     
-    public async Task<RegisteredUsersVM> GetUsersAsync(CancellationToken cancellationToken, int page, int pageSize)
+    public async Task<RegisteredUsersVM> GetUsersAsync()
     {
-        page = 1;
-        pageSize = 20;
-        var responce = await _httpClient.GetAsync("/User/GetUsersData", cancellationToken);
-        return await responce.ReadContentAs<RegisteredUsersVM>();
+        var response = await _httpClient.GetAsync("/User/GetUsersData");
+        return await response.ReadContentAs<RegisteredUsersVM>();
     }
 
 }

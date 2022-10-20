@@ -22,4 +22,9 @@
       <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+      <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
+    </ItemGroup>
+
 </Project>
