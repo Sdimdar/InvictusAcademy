@@ -1,11 +1,11 @@
 <template>
     <div>
-        <q-card class="my-card" flat bordered>
+        <q-card :class="$attrs.class" class="my-card" flat bordered>
             <q-card-section horizontal class="flex justify-between">
                 <q-card-section class="q-pt-xs">
-                    <div class="text-h5 q-mt-sm q-mb-xs">{{ title }}</div>
+                    <div class="text-h5 q-mt-sm q-mb-xs">{{ data.title }}</div>
                     <div class="text-caption text-grey">
-                        {{ courseDescription }}
+                        {{ data.courseDescription }}
                     </div>
                 </q-card-section>
 
@@ -17,8 +17,11 @@
             <q-separator />
 
             <q-card-actions class="flex justify-end">
-                <q-btn flat color="primary">
+                <q-btn v-if="data.purchased" flat color="primary">
                     Перейти к курсу
+                </q-btn>
+                <q-btn v-if="!data.purchased" flat color="primary">
+                    Купить
                 </q-btn>
             </q-card-actions>
         </q-card>
@@ -27,11 +30,8 @@
 
 <script>
 export default {
-    data() {
-        return {
-            title: "TestCourse",
-            courseDescription: "Some Description about course"
-        }
+    props: {
+        data: Object
     }
 }
 </script>
