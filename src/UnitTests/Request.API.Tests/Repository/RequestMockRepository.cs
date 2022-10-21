@@ -20,10 +20,9 @@ public class RequestMockRepository : IRequestRepository
         _repositoryData = data;
     }
 
-    public async Task<RequestDbModel> AddAsync(RequestDbModel entity)
+    public Task<RequestDbModel> AddAsync(RequestDbModel entity)
     {
-        if (_repositoryData.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null) return entity;
-        throw new InvalidOperationException("User with this data is exists");
+        return Task.FromResult(entity);
     }
 
     public async Task DeleteAsync(RequestDbModel entity)

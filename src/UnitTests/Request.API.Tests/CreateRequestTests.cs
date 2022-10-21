@@ -1,52 +1,16 @@
 ﻿using FluentAssertions;
-using Identity.API.Tests.Repository;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using Request.Application.Contracts;
-using Request.Domain.Entities;
 using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.API.Tests;
 
-public class CreateRequestTests
+public class CreateRequestTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly List<RequestDbModel> _requests;
     private readonly HttpClient _httpClient;
-
-    public CreateRequestTests()
+    private readonly WebApplicationFactory<Program> _factory;
+    public CreateRequestTests(WebApplicationFactory<Program> factory)
     {
-        _requests = new()
-        {
-            new RequestDbModel()
-            {
-                Id = 1,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            }
-        };
-
-        var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IRequestRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IRequestRepository, RequestMockRepository>();
-                });
-            });
-
-        var repository = application.Services.CreateScope().ServiceProvider.GetService<IRequestRepository>();
-        if (repository is RequestMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_requests);
-        }
-
-        _httpClient = application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Fact]
