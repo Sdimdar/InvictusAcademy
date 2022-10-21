@@ -16,30 +16,30 @@ public class UserService : IUserService
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
-    public async Task<DefaultResponceObject<string>> EditAsync(EditCommand command, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<string>> EditAsync(EditCommand command, CancellationToken cancellationToken)
     {
-        var responce = await _httpClient.PostAsJsonAsync("/User/Edit", command, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponceObject<string>>();
+        var Response = await _httpClient.PostAsJsonAsync("/User/Edit", command, cancellationToken);
+        return await Response.ReadContentAs<DefaultResponseObject<string>>();
     }
 
-    public async Task<DefaultResponceObject<string>> EditPasswordAsync(EditPasswordCommand command, 
+    public async Task<DefaultResponseObject<string>> EditPasswordAsync(EditPasswordCommand command, 
         CancellationToken cancellationToken)
     {
-        var responce = await _httpClient.PostAsJsonAsync("/User/EditPassword", 
+        var Response = await _httpClient.PostAsJsonAsync("/User/EditPassword", 
             command, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponceObject<string>>();
+        return await Response.ReadContentAs<DefaultResponseObject<string>>();
     }
 
-    public async Task<DefaultResponceObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
-        var responce = await _httpClient.GetAsync($"/User/GetUserData?email={email}", cancellationToken);
-        return await responce.ReadContentAs<DefaultResponceObject<UserVm>>();
+        var Response = await _httpClient.GetAsync($"/User/GetUserData?email={email}", cancellationToken);
+        return await Response.ReadContentAs<DefaultResponseObject<UserVm>>();
     }
 
-    public async Task<DefaultResponceObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken)
     {
 
-        var responce = await _httpClient.PostAsJsonAsync("/User/Register", command, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponceObject<RegisterVm>>();
+        var Response = await _httpClient.PostAsJsonAsync("/User/Register", command, cancellationToken);
+        return await Response.ReadContentAs<DefaultResponseObject<RegisterVm>>();
     }
 }

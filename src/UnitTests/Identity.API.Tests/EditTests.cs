@@ -72,11 +72,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -103,11 +103,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -143,11 +143,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -183,11 +183,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -222,11 +222,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -262,11 +262,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -301,11 +301,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -340,11 +340,11 @@ public class EditTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert

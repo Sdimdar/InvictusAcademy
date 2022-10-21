@@ -60,11 +60,11 @@ public class ChangeCalledStatusTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/Request/SetCalledStatus", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert
@@ -84,11 +84,11 @@ public class ChangeCalledStatusTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/Request/SetCalledStatus", command);
-        DefaultResponceObject<string>? data = null;
+        DefaultResponseObject<string>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
         }
 
         // Assert

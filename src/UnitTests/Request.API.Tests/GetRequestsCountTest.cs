@@ -44,7 +44,7 @@ public class GetRequestsCountTest
         var response = await _httpClient.GetAsync($"Request/Count");
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<int>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<int>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);

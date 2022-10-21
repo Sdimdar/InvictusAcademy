@@ -64,11 +64,11 @@ public class GetUserDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUserData?email={email}");
-        DefaultResponceObject<UserVm>? data = null;
+        DefaultResponseObject<UserVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UserVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UserVm>>(dataAsString);
         }
 
         // Assert
@@ -93,11 +93,11 @@ public class GetUserDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
-        DefaultResponceObject<UserVm>? data = null;
+        DefaultResponseObject<UserVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UserVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UserVm>>(dataAsString);
         }
 
         // Assert

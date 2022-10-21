@@ -10,7 +10,7 @@ namespace Request.API.Endpoints.Request;
 
 public class CreateRequest : EndpointBaseAsync
     .WithRequest<CreateRequestCommand>
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,10 +27,10 @@ public class CreateRequest : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса поля",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync(CreateRequestCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(CreateRequestCommand request,
                                                                                         CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<string>>(response));
+        return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }

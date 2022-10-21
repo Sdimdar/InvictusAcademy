@@ -78,11 +78,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -112,11 +112,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -155,11 +155,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -197,11 +197,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -238,11 +238,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -278,11 +278,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -319,11 +319,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -359,11 +359,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert
@@ -400,11 +400,11 @@ public class RegisterTests
 
         // Act
         var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponceObject<RegisterVm>? data = null;
+        DefaultResponseObject<RegisterVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<RegisterVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
         }
 
         // Assert

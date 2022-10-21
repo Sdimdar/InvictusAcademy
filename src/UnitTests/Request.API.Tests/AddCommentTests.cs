@@ -64,7 +64,7 @@ public class AddCommentTests
         var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -86,7 +86,7 @@ public class AddCommentTests
         var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -109,7 +109,7 @@ public class AddCommentTests
         var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<string>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);

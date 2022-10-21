@@ -108,7 +108,7 @@ public class GetAllRequestsTests
         var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<GetAllRequestVm>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -134,7 +134,7 @@ public class GetAllRequestsTests
         var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<GetAllRequestVm>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -168,7 +168,7 @@ public class GetAllRequestsTests
         var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<GetAllRequestVm>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -196,7 +196,7 @@ public class GetAllRequestsTests
         var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
         response.EnsureSuccessStatusCode();
         string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponceObject<GetAllRequestVm>>(dataAsString);
+        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -12,7 +12,7 @@ namespace SessionGatewayService.API.Endpoints.User;
 
 public class Edit : EndpointBaseAsync
     .WithRequest<EditCommand>
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,19 +29,19 @@ public class Edit : EndpointBaseAsync
         Description = "Для изменения данных пользователь должен быть залогинен, необходимо ввести данные в виде JSON",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponceObject<string>>> HandleAsync([FromBody] EditCommand request,
+    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditCommand request,
                                                                                   CancellationToken cancellationToken = default)
     {
         try
         {
             string email = HttpContext.Session.GetData("user")!.Email;
             request.Email = email;
-            var responce = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponceObject<string>>(responce));
+            var Response = await _mediator.Send(request, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<string>>(Response));
         }
         catch (Exception ex)
         {
-            return Ok(_mapper.Map<DefaultResponceObject<string>>(Result.Error("User is not Autorized")));
+            return Ok(_mapper.Map<DefaultResponseObject<string>>(Result.Error("User is not Autorized")));
         }
     }
 }

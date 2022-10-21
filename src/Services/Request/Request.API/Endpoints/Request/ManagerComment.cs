@@ -10,7 +10,7 @@ namespace Request.API.Endpoints.Request;
 
 public class ManagerComment : EndpointBaseAsync
     .WithRequest<ManagerCommentCommand>
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,10 +27,10 @@ public class ManagerComment : EndpointBaseAsync
         Description = "Необходимо передать id заявки и комментарий",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync(ManagerCommentCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(ManagerCommentCommand request,
                                                                                         CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request);
-        return Ok(_mapper.Map<DefaultResponceObject<string>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<string>>(result));
     }
 }

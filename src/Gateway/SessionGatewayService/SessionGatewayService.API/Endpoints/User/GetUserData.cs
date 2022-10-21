@@ -13,7 +13,7 @@ namespace SessionGatewayService.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<DefaultResponceObject<UserVm>>
+    .WithActionResult<DefaultResponseObject<UserVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -30,18 +30,18 @@ public class GetUserData : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponceObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public async override Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         try
         {
             string email = HttpContext.Session.GetData("user")!.Email;
             GetUserDataQuerry querry = new() { Email = email };
-            var responce = await _mediator.Send(querry, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponceObject<GetUserDataVm>>(responce));
+            var Response = await _mediator.Send(querry, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(Response));
         }
         catch (Exception)
         {
-            return Ok(_mapper.Map<DefaultResponceObject<GetUserDataVm>>(Result.Error("User is not Autorized")));
+            return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(Result.Error("User is not Autorized")));
         }
         
     }

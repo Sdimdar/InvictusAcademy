@@ -122,11 +122,11 @@ public class GetUsersDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
-        DefaultResponceObject<UsersVm>? data = null;
+        DefaultResponseObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UsersVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UsersVm>>(dataAsString);
         }
 
         // Assert
@@ -155,11 +155,11 @@ public class GetUsersDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}&FilterString={filter}");
-        DefaultResponceObject<UsersVm>? data = null;
+        DefaultResponseObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UsersVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UsersVm>>(dataAsString);
         }
 
         // Assert
@@ -182,11 +182,11 @@ public class GetUsersDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
-        DefaultResponceObject<UsersVm>? data = null;
+        DefaultResponseObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UsersVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UsersVm>>(dataAsString);
         }
 
         // Assert
@@ -214,11 +214,11 @@ public class GetUsersDataTests
 
         // Act
         var response = await _httpClient.GetAsync($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
-        DefaultResponceObject<UsersVm>? data = null;
+        DefaultResponseObject<UsersVm>? data = null;
         if (response.IsSuccessStatusCode)
         {
             string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponceObject<UsersVm>>(dataAsString);
+            data = JsonConvert.DeserializeObject<DefaultResponseObject<UsersVm>>(dataAsString);
         }
 
         // Assert
