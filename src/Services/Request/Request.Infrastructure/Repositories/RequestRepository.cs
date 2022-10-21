@@ -18,7 +18,7 @@ public class RequestRepository : BaseRepository<RequestDbModel, RequestDbContext
     {
         if (pageInfo.PageNumber == 0)
             return await _context.Requests.ToListAsync();
-        IQueryable<RequestDbModel> requestsPerPage = _context.Requests.OrderBy(r => r.Id).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
+        IQueryable<RequestDbModel> requestsPerPage = _context.Requests.OrderByDescending(r => r.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
         var result = await requestsPerPage.ToListAsync();
         return result;
     }
