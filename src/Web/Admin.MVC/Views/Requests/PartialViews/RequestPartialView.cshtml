@@ -31,7 +31,10 @@
         }
         else
         {
-            @Model.WasCalled
+            <form asp-action="ChangeCalled" asp-controller="Requests" method="post" enctype="multipart/form-data">
+                <input id="request_id" asp-for="Id" type="text" hidden value="@Model.Id">
+                <button id="change_button" type="submit" class="btn btn-secondary btn-sm">Cancel</button>
+            </form>
         }
     </td>
 </tr>
