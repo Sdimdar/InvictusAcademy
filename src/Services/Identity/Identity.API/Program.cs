@@ -1,6 +1,8 @@
 using Identity.API;
 using Identity.Application;
 using Identity.Infrastructure;
+using Identity.Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -20,6 +22,9 @@ services.SetAutomapperProfiles();
 
 
 var app = builder.Build();
+
+using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+serviceScope.ServiceProvider.GetRequiredService<IdentityDbContext>().Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))

@@ -1,0 +1,78 @@
+version: '3.4'
+
+services:
+  sessionsdb:
+    image: postgres
+    container_name: sessionsdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    restart: always
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_data:/var/lib/postgressql/sessionsData
+  
+  identitydb:
+    image: postgres
+    container_name: identitydb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=IdentityDb
+    restart: always
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgressql/identityData
+
+  invictus.pgadmin:
+    container_name: invictus.pgadmin
+    image: dpage/pgadmin4
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"
+
+  user-frontend:
+    image: ${DOCKER_REGISTRY-}userfrontend
+    build:
+      context: .
+      dockerfile: Frontend/InvuctusAcademy/Dockerfile
+    container_name: user-frontend
+    ports:
+      - "80:80"
+
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: Gateway/SessionGatewayService/SessionGatewayService.API/Dockerfile
+    container_name: gateway.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SessionConnectionString=Server=sessionsdb;Port=5432;UserId=postgres;Password=admin;"
+      - "ApiSettings:IdentityUrl=http://identity.api"
+    depends_on:
+      - sessionsdb
+      - identity.api
+    ports: 
+      - "7000:80"
+  
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
+    container_name: identity.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:IdentityConnectionString=Server=sessionsdb;Port=5432;Database=IdentityDb;UserId=postgres;Password=admin;"
+    depends_on:
+      - identitydb
+    ports: 
+      - "7001:80"
+
+volumes:
+  postgres_data:    

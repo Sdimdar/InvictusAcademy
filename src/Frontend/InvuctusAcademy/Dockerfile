@@ -5,14 +5,14 @@ FROM node AS build
 WORKDIR /app
 
 # install and cache app dependencies
-COPY package.json /app/package.json
-RUN npm install
+COPY ["Frontend/InvuctusAcademy/package.json", "package.json"]
+RUN npm install 
 
 # add app
-COPY . .
+COPY "Frontend/InvuctusAcademy/" .
 
 # generate build
-RUN npx quasar build
+RUN npx quasar build 
 
 ############
 ### prod ###
@@ -26,6 +26,9 @@ RUN rm -rf /usr/share/nginx/html/*
 
 # copy artifact build from the 'build environment'
 COPY --from=build /app/dist/spa /usr/share/nginx/html
+
+# Add nginx config
+COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
 
 # expose port 80
 EXPOSE 80
