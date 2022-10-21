@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Courses\Commands\" />
     <Folder Include="Features\Request\Querries\" />
   </ItemGroup>
 

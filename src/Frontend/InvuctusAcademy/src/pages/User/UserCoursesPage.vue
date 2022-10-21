@@ -95,7 +95,7 @@ export default {
       try {
         const response = await getCurrentCourses();
         if (response.data.isSuccess) {
-          this.currentCourses = response.data.value;
+          this.currentCourses = response.data.value.courses;
         }
       } catch (error) {
         console.log(error.message);
@@ -103,7 +103,7 @@ export default {
       try {
         const response = await getCompletedCourses();
         if (response.data.isSuccess) {
-          this.completedCourses = response.data.value;
+          this.completedCourses = response.data.value.courses;
         }
       } catch (error) {
         console.log(error.message);
@@ -111,7 +111,7 @@ export default {
       try {
         const response = await getWishedCourses();
         if (response.data.isSuccess) {
-          this.wishedCourses = response.data.value;
+          this.wishedCourses = response.data.value.courses;
         }
       } catch (error) {
         console.log(error.message);
