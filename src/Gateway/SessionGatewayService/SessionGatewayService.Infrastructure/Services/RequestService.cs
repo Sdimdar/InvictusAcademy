@@ -17,7 +17,7 @@ public class RequestService : IRequestService
 
     public async Task<DefaultResponseObject<string>> CreateResponseAsync(CreateRequestCommand command, CancellationToken cancellationToken)
     {
-        var Response = await _httpClient.PostAsJsonAsync("/Request/Create", command, cancellationToken);
-        return await Response.ReadContentAs<DefaultResponseObject<string>>();
+        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command, cancellationToken);
+        return await response.ReadContentAs<DefaultResponseObject<string>>();
     }
 }

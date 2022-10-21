@@ -34,12 +34,12 @@ public class Register : EndpointBaseAsync
     public async override Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
                                                                                       CancellationToken cancellationToken = default)
     {
-        var Response = await _mediator.Send(request, cancellationToken);
-        if (Response.IsSuccess)
+        var response = await _mediator.Send(request, cancellationToken);
+        if (response.IsSuccess)
         {
             HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
             return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
         }
-        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Response));
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
     }
 }

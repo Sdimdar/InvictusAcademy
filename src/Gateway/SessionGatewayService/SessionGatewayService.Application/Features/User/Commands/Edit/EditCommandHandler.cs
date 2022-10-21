@@ -16,9 +16,9 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
 
     public async Task<Result> Handle(EditCommand request, CancellationToken cancellationToken)
     {
-        var Response = await _userService.EditAsync(request, cancellationToken);
-        if (Response.IsSuccess) return Result.Success();
-        if (Response.Errors.Count() != 0) return Result.Error(Response.Errors);
-        return Result.Invalid(Response.ValidationErrors.ToList());
+        var response = await _userService.EditAsync(request, cancellationToken);
+        if (response.IsSuccess) return Result.Success();
+        if (response.Errors.Count() != 0) return Result.Error(response.Errors);
+        return Result.Invalid(response.ValidationErrors.ToList());
     }
 }
