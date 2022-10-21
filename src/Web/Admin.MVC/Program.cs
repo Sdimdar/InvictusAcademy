@@ -1,7 +1,9 @@
+using Admin.MVC.Mappings;
 using Admin.MVC.Models;
 using Admin.MVC.Models.DbModels;
 using Admin.MVC.Services;
 using Admin.MVC.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,10 @@ services.AddControllersWithViews();
 
 services.AddTransient<IAdminCreate, CreateAdmin>();
 services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
+services.AddSingleton(provider => new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new MappingProfile());
+}).CreateMapper());
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
