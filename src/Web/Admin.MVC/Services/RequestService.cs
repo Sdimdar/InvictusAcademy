@@ -1,9 +1,6 @@
 ﻿using Admin.MVC.HttpClientExtensions;
 using Admin.MVC.Services.Interfaces;
-using Admin.MVC.ViewModels;
-using DataTransferLib.Mappings;
 using DataTransferLib.Models;
-using ServicesContracts.Identity.Responses;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
 
