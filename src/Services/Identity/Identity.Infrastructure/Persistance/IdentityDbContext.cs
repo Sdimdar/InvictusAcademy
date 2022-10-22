@@ -8,7 +8,10 @@ public class IdentityDbContext : DbContext
 {
     
     public DbSet<UserDbModel> Users { get; set; }
-    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) 
+    {
+        Database.Migrate();
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
