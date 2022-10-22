@@ -1,53 +1,15 @@
-﻿using FluentAssertions;
-using Identity.API.Tests.Repository;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using Request.Application.Contracts;
-using Request.Domain.Entities;
-using ServicesContracts.Request.Requests.Commands;
+﻿using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.API.Tests;
 
-public class AddCommentTests
+public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _application;
-    private readonly List<RequestDbModel> _requests;
     private readonly HttpClient _httpClient;
-
-    public AddCommentTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public AddCommentTests(CustomApplicationFactory<Program> factory)
     {
-        _requests = new()
-        {
-            new RequestDbModel()
-            {
-                Id = 1,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            }
-        };
-
-        _application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IRequestRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IRequestRepository, RequestMockRepository>();
-                });
-            });
-
-        var repository = _application.Services.CreateScope().ServiceProvider.GetService<IRequestRepository>();
-        if (repository is RequestMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_requests);
-        }
-
-        _httpClient = _application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Fact]
@@ -61,13 +23,9 @@ public class AddCommentTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
     }
@@ -78,18 +36,14 @@ public class AddCommentTests
         // Arrange
         ManagerCommentCommand command = new()
         {
-            Id = 3,
+            Id = 0,
             ManagerComment = "sadfasdfas"
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.Errors.Should().NotBeNull();
@@ -106,13 +60,9 @@ public class AddCommentTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/AddComment", command);
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();

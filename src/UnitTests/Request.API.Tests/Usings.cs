@@ -1,6 +1,9 @@
-global using Xunit;
-global using Microsoft.AspNetCore.Mvc.Testing;
+global using DataTransferLib.Models;
+global using FluentAssertions;
+global using Microsoft.Extensions.DependencyInjection;
+global using Newtonsoft.Json;
 global using System.Net;
 global using System.Net.Http.Json;
-global using DataTransferLib.Models;
-global using Newtonsoft.Json;
+global using Xunit;
+global using Request.API.Tests.Fixture;
+global using DataTransferLib.Extensions;

@@ -4,20 +4,57 @@ using Request.Domain.Entities;
 using ServicesContracts.Request.Requests.Querries;
 using System.Linq.Expressions;
 
-namespace Identity.API.Tests.Repository;
+namespace Request.API.Tests.Repository;
 
 public class RequestMockRepository : IRequestRepository
 {
-    private List<RequestDbModel> _repositoryData;
+    private readonly List<RequestDbModel> _repositoryData;
 
     public RequestMockRepository()
     {
-        _repositoryData = new List<RequestDbModel>();
-    }
-
-    public void InitialData(List<RequestDbModel> data)
-    {
-        _repositoryData = data;
+        _repositoryData = new List<RequestDbModel>()
+        {
+            new RequestDbModel()
+            {
+                Id = 1,
+                PhoneNumber = "82739348372",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                ManagerComment = "",
+                UserName = "Famine",
+                WasCalled = false
+            },
+            new RequestDbModel()
+            {
+                Id = 2,
+                PhoneNumber = "89348473402",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                ManagerComment = "",
+                UserName = "Famine",
+                WasCalled = false
+            },
+            new RequestDbModel()
+            {
+                Id = 3,
+                PhoneNumber = "82739348372",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                ManagerComment = "",
+                UserName = "Famine",
+                WasCalled = false
+            },
+            new RequestDbModel()
+            {
+                Id = 4,
+                PhoneNumber = "82739348372",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                ManagerComment = "",
+                UserName = "Famine",
+                WasCalled = false
+            }
+        };
     }
 
     public Task<RequestDbModel> AddAsync(RequestDbModel entity)
@@ -25,15 +62,16 @@ public class RequestMockRepository : IRequestRepository
         return Task.FromResult(entity);
     }
 
-    public async Task DeleteAsync(RequestDbModel entity)
+    public Task DeleteAsync(RequestDbModel entity)
     {
         if (_repositoryData.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
+        return Task.CompletedTask;
     }
 
-    public async Task<IReadOnlyList<RequestDbModel>> GetAllAsync()
+    public Task<IReadOnlyList<RequestDbModel>> GetAllAsync()
     {
-        return _repositoryData.ToList();
+        return Task.FromResult((IReadOnlyList<RequestDbModel>)_repositoryData.ToList());
     }
 
     public async Task<IReadOnlyList<RequestDbModel>> GetAsync(Expression<Func<RequestDbModel, bool>> predicate)
@@ -67,31 +105,32 @@ public class RequestMockRepository : IRequestRepository
         return await query.ToListAsync();
     }
 
-    public async Task<RequestDbModel?> GetByIdAsync(int id)
+    public Task<RequestDbModel?> GetByIdAsync(int id)
     {
-        return _repositoryData.FirstOrDefault(e => e.Id == id);
+        return Task.FromResult(_repositoryData.FirstOrDefault(e => e.Id == id));
     }
 
-    public async Task<RequestDbModel?> GetFirstOrDefaultAsync(Expression<Func<RequestDbModel, bool>> predicate)
+    public Task<RequestDbModel?> GetFirstOrDefaultAsync(Expression<Func<RequestDbModel, bool>> predicate)
     {
-        return _repositoryData.AsQueryable().FirstOrDefault(predicate);
+        return Task.FromResult(_repositoryData.AsQueryable().FirstOrDefault(predicate));
     }
 
-    public async Task UpdateAsync(RequestDbModel entity)
+    public Task UpdateAsync(RequestDbModel entity)
     {
         if (_repositoryData.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
+        return Task.CompletedTask;
     }
 
-    public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
+    public Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
     {
         if (pageInfo.PageNumber == 0)
-            return _repositoryData.ToList();
-        return _repositoryData.OrderByDescending(v => v.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize).ToList();
+            return Task.FromResult(_repositoryData.ToList());
+        return Task.FromResult(_repositoryData.OrderByDescending(v => v.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize).ToList());
     }
 
-    public async Task<int> GetRequestsCount()
+    public Task<int> GetRequestsCount()
     {
-        return _repositoryData.Count;
+        return Task.FromResult(_repositoryData.Count);
     }
 }

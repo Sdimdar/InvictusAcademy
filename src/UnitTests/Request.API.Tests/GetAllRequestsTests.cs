@@ -1,86 +1,17 @@
-﻿using FluentAssertions;
-using Identity.API.Tests.Repository;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using Request.Application.Contracts;
-using Request.Domain.Entities;
-using ServicesContracts.Request.Requests.Querries;
+﻿using ServicesContracts.Request.Requests.Querries;
 using ServicesContracts.Request.Responses;
 
 namespace Request.API.Tests;
 
-public class GetAllRequestsTests
+public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly List<RequestDbModel> _requests;
-    private readonly WebApplicationFactory<Program> _application;
+    private const int USERS_COUNT = 4;
     private readonly HttpClient _httpClient;
-
-    public GetAllRequestsTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public GetAllRequestsTests(CustomApplicationFactory<Program> factory)
     {
-        #region Requests Init
-        _requests = new()
-        {
-            new RequestDbModel()
-            {
-                Id = 1,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            },
-            new RequestDbModel()
-            {
-                Id = 2,
-                PhoneNumber = "89348473402",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            },
-            new RequestDbModel()
-            {
-                Id = 3,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            },
-            new RequestDbModel()
-            {
-                Id = 4,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                ManagerComment = "",
-                UserName = "Famine",
-                WasCalled = false
-            }
-        };
-        #endregion
-
-        _application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IRequestRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IRequestRepository, RequestMockRepository>();
-                });
-            });
-
-        var repository = _application.Services.CreateScope().ServiceProvider.GetService<IRequestRepository>();
-        if (repository is RequestMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_requests);
-        }
-
-        _httpClient = _application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     public static IEnumerable<object[]> CorrectPagesData()
@@ -105,19 +36,15 @@ public class GetAllRequestsTests
         };
 
         // Act
-        var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
+        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
         data.Value.PageSize.Should().Be(pageSize);
         data.Value.PageNumber.Should().Be(pageNumber);
-        data.Value.Requests.Count.Should().Be(_requests.Count - pageSize * (pageNumber - 1) < pageSize ? _requests.Count - pageSize * (pageNumber - 1) : pageSize);
+        data.Value.Requests.Count.Should().Be(USERS_COUNT - pageSize * (pageNumber - 1) < pageSize ? USERS_COUNT - pageSize * (pageNumber - 1) : pageSize);
     }
 
     [Fact]
@@ -131,19 +58,15 @@ public class GetAllRequestsTests
         };
 
         // Act
-        var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
+        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.PageSize.Should().Be(_requests.Count);
+        data.Value.PageSize.Should().Be(4);
         data.Value.PageNumber.Should().Be(command.PageNumber);
-        data.Value.Requests.Count.Should().Be(_requests.Count);
+        data.Value.Requests.Count.Should().Be(USERS_COUNT);
     }
 
     public static IEnumerable<object[]> InvalidPagesData()
@@ -165,43 +88,11 @@ public class GetAllRequestsTests
         };
 
         // Act
-        var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
+        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
-        data.Errors.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task GetAllRequests_NoDataInDb()
-    {
-        // Arrange
-        GetAllRequestCommand command = new()
-        {
-            PageNumber = 1,
-            PageSize = 10
-        };
-        var repository = _application.Services.CreateScope().ServiceProvider.GetService<IRequestRepository>();
-        if (repository is RequestMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(new());
-        }
-
-        // Act
-        var response = await _httpClient.GetAsync($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
-        response.EnsureSuccessStatusCode();
-        string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var data = JsonConvert.DeserializeObject<DefaultResponseObject<GetAllRequestVm>>(dataAsString);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.Should().NotBeNull();
-        data.IsSuccess.Should().BeFalse();
         data.Errors.Should().NotBeNull();
     }
 }

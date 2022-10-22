@@ -1,13 +1,12 @@
-﻿using FluentAssertions;
-using ServicesContracts.Request.Requests.Commands;
+﻿using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.API.Tests;
 
-public class CreateRequestTests : IClassFixture<WebApplicationFactory<Program>>
+public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
-    private readonly WebApplicationFactory<Program> _factory;
-    public CreateRequestTests(WebApplicationFactory<Program> factory)
+    private readonly CustomApplicationFactory<Program> _factory;
+    public CreateRequestTests(CustomApplicationFactory<Program> factory)
     {
         _factory = factory;
         _httpClient = _factory.CreateClient();
@@ -24,16 +23,9 @@ public class CreateRequestTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
     }
@@ -55,16 +47,9 @@ public class CreateRequestTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -92,16 +77,9 @@ public class CreateRequestTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
