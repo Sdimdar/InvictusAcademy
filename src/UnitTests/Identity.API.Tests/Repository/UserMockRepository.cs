@@ -7,35 +7,97 @@ namespace Identity.API.Tests.Repository;
 
 public class UserMockRepository : IUserRepository
 {
-    private List<UserDbModel> _repositoryData;
+    private readonly List<UserDbModel> _repositoryData;
 
     public UserMockRepository()
     {
-        _repositoryData = new List<UserDbModel>();
+        _repositoryData = new List<UserDbModel>()
+        {
+            new UserDbModel()
+            {
+                Id = 1,
+                AvatarLink = null,
+                Citizenship = "Казахстан",
+                Email = "test@mail.ru",
+                FirstName = "Famine",
+                MiddleName = "Famine",
+                LastName = "Famine",
+                InstagramLink = null,
+                PhoneNumber = "82739348372",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Password = "ADUW344ryoKSA8iyKGjTgYWHVpTj1u9stDjCxRCj28Uppq0ujck4iv3gUkTMvrBRlQ==", // 123_QWEasd
+                RegistrationDate = DateTime.Now
+            },
+            new UserDbModel()
+            {
+                Id = 2,
+                AvatarLink = null,
+                Citizenship = "Казахстан",
+                Email = "test@test.ru",
+                FirstName = "Famine",
+                MiddleName = "Famine",
+                LastName = "Famine",
+                InstagramLink = null,
+                PhoneNumber = "82739234234",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Password = "ADUW344ryoKSA8iyKGjTgYWHVpTj1u9stDjCxRCj28Uppq0ujck4iv3gUkTMvrBRlQ==", // 123_QWEasd
+                RegistrationDate = DateTime.Now
+            },
+            new UserDbModel()
+            {
+                Id = 3,
+                AvatarLink = null,
+                Citizenship = "Казахстан",
+                Email = "test@test.ru",
+                FirstName = "Famine",
+                MiddleName = "Famine",
+                LastName = "Famine",
+                InstagramLink = null,
+                PhoneNumber = "82739234234",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Password = "ADUW344ryoKSA8iyKGjTgYWHVpTj1u9stDjCxRCj28Uppq0ujck4iv3gUkTMvrBRlQ==", // 123_QWEasd
+                RegistrationDate = DateTime.Now
+            },
+            new UserDbModel()
+            {
+                Id = 4,
+                AvatarLink = null,
+                Citizenship = "Казахстан",
+                Email = "test@test.ru",
+                FirstName = "Famine",
+                MiddleName = "Famine",
+                LastName = "Famine",
+                InstagramLink = null,
+                PhoneNumber = "82739234234",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Password = "ADUW344ryoKSA8iyKGjTgYWHVpTj1u9stDjCxRCj28Uppq0ujck4iv3gUkTMvrBRlQ==", // 123_QWEasd
+                RegistrationDate = DateTime.Now
+            }
+        };
     }
 
-    public void InitialData(List<UserDbModel> data)
-    {
-        _repositoryData = data;
-    }
-
-    public async Task<UserDbModel> AddAsync(UserDbModel entity)
+    public Task<UserDbModel> AddAsync(UserDbModel entity)
     {
         if (_repositoryData.FirstOrDefault(e => e.Email == entity.Email
-                                             || e.PhoneNumber == entity.PhoneNumber) == null) return entity;
+                                             || e.PhoneNumber == entity.PhoneNumber) == null) return Task.FromResult(entity);
         throw new InvalidOperationException("User with this data is exists");
     }
 
-    public async Task DeleteAsync(UserDbModel entity)
+    public Task DeleteAsync(UserDbModel entity)
     {
         if (_repositoryData.FirstOrDefault(e => e.Email == entity.Email
                                              || e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
+        return Task.CompletedTask;
     }
 
-    public async Task<IReadOnlyList<UserDbModel>> GetAllAsync()
+    public Task<IReadOnlyList<UserDbModel>> GetAllAsync()
     {
-        return _repositoryData.ToList();
+        return Task.FromResult((IReadOnlyList<UserDbModel>)_repositoryData.ToList());
     }
 
     public async Task<IReadOnlyList<UserDbModel>> GetAsync(Expression<Func<UserDbModel, bool>> predicate)
@@ -69,17 +131,17 @@ public class UserMockRepository : IUserRepository
         return await query.ToListAsync();
     }
 
-    public async Task<UserDbModel?> GetByIdAsync(int id)
+    public Task<UserDbModel?> GetByIdAsync(int id)
     {
-        return _repositoryData.FirstOrDefault(e => e.Id == id);
+        return Task.FromResult(_repositoryData.FirstOrDefault(e => e.Id == id));
     }
 
-    public async Task<UserDbModel?> GetFirstOrDefaultAsync(Expression<Func<UserDbModel, bool>> predicate)
+    public Task<UserDbModel?> GetFirstOrDefaultAsync(Expression<Func<UserDbModel, bool>> predicate)
     {
-        return _repositoryData.AsQueryable().FirstOrDefault(predicate);
+        return Task.FromResult(_repositoryData.AsQueryable().FirstOrDefault(predicate));
     }
 
-    public async Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
+    public Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
         IEnumerable<UserDbModel> data = _repositoryData;
         if (filterString != null)
@@ -91,13 +153,14 @@ public class UserMockRepository : IUserRepository
                                 || v.Email.ToLower().Contains(filterString.ToLower())
                                 || v.Citizenship.ToLower().Contains(filterString.ToLower()));
         }
-        return (data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize), data.Count());
+        return Task.FromResult((data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize), data.Count()));
     }
 
-    public async Task UpdateAsync(UserDbModel entity)
+    public Task UpdateAsync(UserDbModel entity)
     {
         if (_repositoryData.FirstOrDefault(e => e.Email == entity.Email
                                              || e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
+        return Task.CompletedTask;
     }
 }

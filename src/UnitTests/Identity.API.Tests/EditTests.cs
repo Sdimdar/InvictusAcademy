@@ -1,57 +1,15 @@
-﻿using Identity.API.Tests.Repository;
-using Identity.Application.Contracts;
-using Identity.Domain.Entities;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using ServicesContracts.Identity.Requests.Commands;
+﻿using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.API.Tests;
 
-public class EditTests
+public class EditTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly List<UserDbModel> _users;
     private readonly HttpClient _httpClient;
-
-    public EditTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public EditTests(CustomApplicationFactory<Program> factory)
     {
-        _users = new()
-        {
-            new UserDbModel()
-            {
-                Id = 1,
-                AvatarLink = null,
-                Citizenship = "Казахстан",
-                Email = "test@mail.ru",
-                FirstName = "Famine",
-                MiddleName = "Famine",
-                LastName = "Famine",
-                InstagramLink = null,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                Password = "asdfhadjkfhakjsdfhladhfkadhsjhad",
-                RegistrationDate = DateTime.Now
-            }
-        };
-
-        var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IUserRepository, UserMockRepository>();
-                });
-            });
-
-        var repository = application.Services.CreateScope().ServiceProvider.GetService<IUserRepository>();
-        if (repository is UserMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_users);
-        }
-
-        _httpClient = application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Fact]
@@ -71,16 +29,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
     }
@@ -102,16 +53,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.Errors.Should().BeEquivalentTo(new string[] { "An error occurred while creating the request" });
@@ -142,16 +86,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -182,16 +119,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -221,16 +151,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -261,16 +184,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -300,16 +216,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -339,16 +248,9 @@ public class EditTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditCommand, string>(command, "/User/Edit");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();

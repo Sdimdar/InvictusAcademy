@@ -1,59 +1,15 @@
-﻿using Identity.API.Tests.Repository;
-using Identity.Application.Contracts;
-using Identity.Domain.Entities;
-using Identity.Infrastructure.Persistance;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using ServicesContracts.Identity.Responses;
+﻿using ServicesContracts.Identity.Responses;
 
 namespace Identity.API.Tests;
 
-public class GetUserDataTests
+public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly List<UserDbModel> _users;
     private readonly HttpClient _httpClient;
-
-    public GetUserDataTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public GetUserDataTests(CustomApplicationFactory<Program> factory)
     {
-        _users = new()
-        {
-            new UserDbModel()
-            {
-                Id = 1,
-                AvatarLink = null,
-                Citizenship = "Казахстан",
-                Email = "test@test.ru",
-                FirstName = "Famine",
-                MiddleName = "Famine",
-                LastName = "Famine",
-                InstagramLink = null,
-                PhoneNumber = "82739234234",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                Password = "asdfhadjkfhakjsdfhladhfkadhsjhad",
-                RegistrationDate = DateTime.Now
-            }
-        };
-
-        var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IUserRepository, UserMockRepository>();
-                });
-            });
-
-        var repository = application.Services.CreateScope().ServiceProvider.GetService<IUserRepository>();
-        if (repository is UserMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_users);
-        }
-
-        _httpClient = application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Theory]
@@ -63,16 +19,9 @@ public class GetUserDataTests
         // Arrange
 
         // Act
-        var response = await _httpClient.GetAsync($"/User/GetUserData?email={email}");
-        DefaultResponseObject<UserVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<UserVm>>(dataAsString);
-        }
+        var data = await _httpClient.GetAndReturnResponseAsync<UserVm>($"/User/GetUserData?email={email}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
@@ -92,16 +41,9 @@ public class GetUserDataTests
         // Arrange
 
         // Act
-        var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
-        DefaultResponseObject<UserVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<UserVm>>(dataAsString);
-        }
+        var data = await _httpClient.GetAndReturnResponseAsync<UserVm>($"/User/GetUserData?email={invalidEmail}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.Errors.Should().NotBeNull();

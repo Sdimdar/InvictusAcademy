@@ -1,57 +1,16 @@
-﻿using Identity.API.Tests.Repository;
-using Identity.Application.Contracts;
-using Identity.Domain.Entities;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Identity.API.Tests.Fixture;
 using ServicesContracts.Identity.Requests.Commands;
 
 namespace Identity.API.Tests;
 
-public class EditPasswordTests
+public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly List<UserDbModel> _users;
     private readonly HttpClient _httpClient;
-
-    public EditPasswordTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public EditPasswordTests(CustomApplicationFactory<Program> factory)
     {
-        _users = new()
-        {
-            new UserDbModel()
-            {
-                Id = 1,
-                AvatarLink = null,
-                Citizenship = "Казахстан",
-                Email = "test@mail.ru",
-                FirstName = "Famine",
-                MiddleName = "Famine",
-                LastName = "Famine",
-                InstagramLink = null,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                Password = "ADUW344ryoKSA8iyKGjTgYWHVpTj1u9stDjCxRCj28Uppq0ujck4iv3gUkTMvrBRlQ==", // 123_QWEasd
-                RegistrationDate = DateTime.Now
-            }
-        };
-
-        var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IUserRepository, UserMockRepository>();
-                });
-            });
-
-        var repository = application.Services.CreateScope().ServiceProvider.GetService<IUserRepository>();
-        if (repository is UserMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_users);
-        }
-
-        _httpClient = application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Fact]
@@ -67,16 +26,9 @@ public class EditPasswordTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/EditPassword", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
     }
@@ -102,16 +54,9 @@ public class EditPasswordTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/EditPassword", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.Errors.Should().NotBeNull();
@@ -140,16 +85,9 @@ public class EditPasswordTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/EditPassword", command);
-        DefaultResponseObject<string>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<string>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();

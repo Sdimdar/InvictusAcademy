@@ -1,68 +1,22 @@
-﻿using Identity.API.Tests.Repository;
-using Identity.Application.Contracts;
-using Identity.Domain.Entities;
-using Identity.Infrastructure.Persistance;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using ServicesContracts.Identity.Requests.Commands;
+﻿using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 
 namespace Identity.API.Tests;
 
-public class RegisterTests
+public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly List<UserDbModel> _users;
     private readonly HttpClient _httpClient;
-
-    public RegisterTests()
+    private readonly CustomApplicationFactory<Program> _factory;
+    public RegisterTests(CustomApplicationFactory<Program> factory)
     {
-        _users = new()
-        {
-            new UserDbModel()
-            {
-                Id = 1,
-                AvatarLink = null,
-                Citizenship = "Казахстан",
-                Email = "test@mail.ru",
-                FirstName = "Famine",
-                MiddleName = "Famine",
-                LastName = "Famine",
-                InstagramLink = null,
-                PhoneNumber = "82739348372",
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = DateTime.Now,
-                Password = "asdfhadjkfhakjsdfhladhfkadhsjhad",
-                RegistrationDate = DateTime.Now
-            }
-        };
-
-        var application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    var repositoryDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository));
-                    services.Remove(repositoryDescriptor!);
-                    services.AddSingleton<IUserRepository, UserMockRepository>();
-                });
-            });
-
-        var repository = application.Services.CreateScope().ServiceProvider.GetService<IUserRepository>();
-        if (repository is UserMockRepository userMockRepository)
-        {
-            userMockRepository.InitialData(_users);
-        }
-
-        _httpClient = application.CreateClient();
+        _factory = factory;
+        _httpClient = _factory.CreateClient();
     }
 
     [Fact]
     public async Task Register_SendRequestWithCorrectData()
     {
         // Arrange
-
-
         RegisterCommand command = new()
         {
             Email = "new_test@mail.ru",
@@ -77,16 +31,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
@@ -111,16 +58,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.Errors.Should().NotBeNull();
@@ -154,16 +94,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -196,16 +129,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -237,16 +163,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -277,16 +196,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -318,16 +230,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -358,16 +263,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
@@ -399,16 +297,9 @@ public class RegisterTests
         };
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command);
-        DefaultResponseObject<RegisterVm>? data = null;
-        if (response.IsSuccessStatusCode)
-        {
-            string dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            data = JsonConvert.DeserializeObject<DefaultResponseObject<RegisterVm>>(dataAsString);
-        }
+        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
         data.ValidationErrors.Should().NotBeNull();
