@@ -2,8 +2,13 @@
 
 public class PageVm
 {
-    public int PageNumber { get; private set; }
-    public int TotalPages { get; private set; }
+    public int PageNumber { get; set; }
+    public int TotalPages { get; set; }
+
+    public PageVm()
+    {
+
+    }
 
     public PageVm(int count, int pageNumber, int pageSize)
     {

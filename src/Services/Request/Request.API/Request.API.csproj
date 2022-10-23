@@ -25,9 +25,9 @@
       <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
       <ProjectReference Include="..\Request.Infrastructure\Request.Infrastructure.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Endpoints" />
-    </ItemGroup>
-    
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Request.API.Tests" />
+	</ItemGroup>
 
 </Project>

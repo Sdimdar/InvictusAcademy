@@ -18,7 +18,7 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-        <router-view :logined="logined" :loginedUserEmail="loginedUserEmail"/>
+        <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail"/>
     </q-page-container>
   </q-layout>
   
@@ -43,7 +43,8 @@ export default {
   data(){
     return{
       logined: false,
-      loginedUserEmail: ""
+      loginedUserEmail: "",
+      initialized: false
     }
   },
   methods:{
@@ -73,8 +74,9 @@ export default {
       }
     }
   },
-  mounted() {
-    this.checkLogin()
+  async created() {
+    await this.checkLogin()
+    this.initialized = true
   }
 }
 </script>

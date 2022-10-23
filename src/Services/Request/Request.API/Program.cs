@@ -18,9 +18,6 @@ services.AddApplicationServices();
 // Add Automapper maps
 services.SetAutomapperProfiles();
 
-// Configure CORS Policy and Cookie
-services.SetCorsPolicy();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,3 +34,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+public partial class Program { }
