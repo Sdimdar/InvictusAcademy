@@ -5,7 +5,9 @@ namespace ServicesContracts.Courses.Requests.Commands;
 
 public class CreateCourseCommand : IRequest<Result<string>>
 {
-    public string CourseTitle { get; set; }
-    public string CourseDescription { get; set; }
-    public List<string>? ModulesIdentificators { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string? VideoLink { get; set; }
+    public decimal Cost { get; set; }
+    public bool IsActive { get; set; }
 }

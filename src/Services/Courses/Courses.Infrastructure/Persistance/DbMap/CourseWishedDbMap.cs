@@ -1,7 +1,6 @@
 ﻿using Courses.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using User.Domain.Entities;
 
 namespace Courses.Infrastructure.Persistance.DbMap;
 

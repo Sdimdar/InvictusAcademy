@@ -14,7 +14,7 @@ public class CourseDbMap : IEntityTypeConfiguration<CourseDbModel>
         builder.Property(p => p.Name).HasColumnType("VARCHAR(100)").HasDefaultValue("").IsRequired();
         builder.Property(p => p.Description).HasColumnType("VARCHAR(500)").HasDefaultValue("").IsRequired();
         builder.Property(p => p.VideoLink).HasColumnType("VARCHAR(100)");
-        builder.Property(p => p.Cost).HasColumnType("NUMERIC(7,2)").IsRequired();
+        builder.Property(p => p.Cost).HasColumnType("NUMERIC(15,2)").IsRequired();
         builder.Property(p => p.IsActive).HasColumnType("BOOLEAN").HasDefaultValue(false).IsRequired();
         builder.HasMany<CoursePurchasedDbModel>(p => p.CoursePurchased)
                .WithOne(s => s.Course)
