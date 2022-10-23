@@ -1,6 +1,7 @@
 ﻿using ServicesContracts.Identity.Requests.Commands;
+using User.API.Tests.Fixture;
 
-namespace Identity.API.Tests;
+namespace User.API.Tests;
 
 public class EditTests : IClassFixture<CustomApplicationFactory<Program>>
 {

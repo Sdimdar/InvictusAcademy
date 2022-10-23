@@ -1,6 +1,7 @@
 ﻿using ServicesContracts.Identity.Responses;
+using User.API.Tests.Fixture;
 
-namespace Identity.API.Tests;
+namespace User.API.Tests;
 
 public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
