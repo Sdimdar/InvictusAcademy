@@ -1,11 +1,10 @@
-﻿using Admin.MVC.Services.Interfaces;
-using Admin.MVC.ViewModels;
-using DataTransferLib.Models;
+﻿using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
 
-namespace Admin.MVC.Controllers;
+namespace AdminGateway.MVC.Controllers;
 
 public class RequestsController : Controller
 {
@@ -15,7 +14,7 @@ public class RequestsController : Controller
     {
         _requestService = requestService;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
     {

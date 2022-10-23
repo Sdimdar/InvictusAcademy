@@ -1,6 +1,6 @@
-﻿namespace Admin.MVC.ViewModels;
+﻿namespace AdminGateway.MVC.ViewModels;
 
 public class RequestVM
 {
-    
+
 }

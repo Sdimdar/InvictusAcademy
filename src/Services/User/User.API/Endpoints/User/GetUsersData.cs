@@ -31,6 +31,8 @@ public class GetUsersData : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuerry command,
                                                                                              CancellationToken cancellationToken = default)
     {
+        command.Page = 1;
+        command.PageSize = 10;
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
     }

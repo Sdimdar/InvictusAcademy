@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace AdminGateway.MVC.HttpClientExtensions;
+namespace Admin.MVC.Extensions;
 
 public static class HttpClientExtensions
 {

@@ -1,0 +1,16 @@
+@using Admin.MVC.ViewModels
+@model List<RegisteredUserVM>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Список зарегистрированных пользователей</h2>
+
+<div>
+    @foreach (var user in @Model)
+    {
+        <div>@user.Email</div>
+    }
+</div>

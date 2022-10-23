@@ -1,15 +1,16 @@
-using Admin.MVC.DependencyInjection;
-using Admin.MVC.Services;
-using Admin.MVC.Services.Interfaces;
+using AdminGateway.MVC.DependencyInjection;
+using AdminGateway.MVC.Mappings;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
 using AdminGateway.MVC.Services;
 using AdminGateway.MVC.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var configuration = builder.Configuration;
 
 
 string connection = builder.Configuration.GetConnectionString("AdminConnetion");
@@ -21,6 +22,11 @@ services.AddControllersWithViews();
 
 
 services.AddTransient<IAdminCreate, CreateAdmin>();
+services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
+services.AddSingleton(provider => new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new MappingProfile());
+}).CreateMapper());
 services.AddScoped<IRequestService, RequestService>();
 services.AddHttpClients(builder.Configuration);
 

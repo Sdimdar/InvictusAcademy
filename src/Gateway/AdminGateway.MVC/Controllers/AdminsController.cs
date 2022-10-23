@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 namespace AdminGateway.MVC.Controllers;
 
 [Authorize(Roles = "admin")]

@@ -1,10 +1,10 @@
-﻿using Admin.MVC.HttpClientExtensions;
-using Admin.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.HttpClientExtensions;
+using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
 
-namespace Admin.MVC.Services;
+namespace AdminGateway.MVC.Services;
 
 public class RequestService : IRequestService
 {

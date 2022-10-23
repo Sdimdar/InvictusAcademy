@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Admin.MVC.Migrations
+namespace AdminGateway.MVC.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20221011143815_Init")]
+    [Migration("20221023052346_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace Admin.MVC.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Admin.MVC.Models.DbModels.User", b =>
+            modelBuilder.Entity("AdminGateway.MVC.Models.DbModels.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -234,7 +234,7 @@ namespace Admin.MVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Admin.MVC.Models.DbModels.User", null)
+                    b.HasOne("AdminGateway.MVC.Models.DbModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +243,7 @@ namespace Admin.MVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Admin.MVC.Models.DbModels.User", null)
+                    b.HasOne("AdminGateway.MVC.Models.DbModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -258,7 +258,7 @@ namespace Admin.MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Admin.MVC.Models.DbModels.User", null)
+                    b.HasOne("AdminGateway.MVC.Models.DbModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -267,7 +267,7 @@ namespace Admin.MVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Admin.MVC.Models.DbModels.User", null)
+                    b.HasOne("AdminGateway.MVC.Models.DbModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

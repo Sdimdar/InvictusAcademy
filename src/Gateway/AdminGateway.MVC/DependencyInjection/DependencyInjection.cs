@@ -1,8 +1,7 @@
-﻿using Admin.MVC.Services;
-using Admin.MVC.Services.Interfaces;
-using Microsoft.OpenApi.Models;
+﻿using AdminGateway.MVC.Services;
+using AdminGateway.MVC.Services.Interfaces;
 
-namespace Admin.MVC.DependencyInjection;
+namespace AdminGateway.MVC.DependencyInjection;
 
 public static class DependencyInjection
 {
