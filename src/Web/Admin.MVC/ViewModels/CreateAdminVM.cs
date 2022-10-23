@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Admin.MVC.ViewModels;
 
-public class CreateAdminVM
+public class CreateAdminVm
 {
     [Required(ErrorMessage = "Укажите логин")]
     [Remote(action:"CheckUserName", controller:"Validation", ErrorMessage = "Такой логин уже существует")]

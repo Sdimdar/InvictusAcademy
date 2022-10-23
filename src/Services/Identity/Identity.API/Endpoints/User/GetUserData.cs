@@ -11,7 +11,7 @@ namespace Identity.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithRequest<string>
-    .WithActionResult<DefaultResponceObject<UserVm>>
+    .WithActionResult<DefaultResponseObject<UserVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -28,11 +28,11 @@ public class GetUserData : EndpointBaseAsync
         Description = "Для получения данных о пользователе необходимо передать его email через параметры в строке",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<UserVm>>> HandleAsync(string email,
+    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(string email,
                                                                                         CancellationToken cancellationToken = default)
     {
         GetUserDataQuerry command = new(email);
         var result = await _mediator.Send(command, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(result));
     }
 }

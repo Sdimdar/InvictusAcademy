@@ -28,6 +28,9 @@
     <ItemGroup>
       <Folder Include="Endpoints" />
     </ItemGroup>
-    
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Request.API.Tests" />
+	</ItemGroup>
 
 </Project>

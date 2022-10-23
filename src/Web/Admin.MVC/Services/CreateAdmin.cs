@@ -14,7 +14,7 @@ public class CreateAdmin:IAdminCreate
         _userManager = userManager;
     }
 
-    public async Task<bool> CreateNewAdmin(CreateAdminVM model)
+    public async Task<bool> CreateNewAdmin(CreateAdminVm model)
     {
         var user = new User
         {

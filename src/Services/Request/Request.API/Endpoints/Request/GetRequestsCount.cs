@@ -10,7 +10,7 @@ namespace Request.API.Endpoints.Request;
 
 public class GetRequestsCount : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<DefaultResponceObject<int>>
+    .WithActionResult<DefaultResponseObject<int>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,9 +27,9 @@ public class GetRequestsCount : EndpointBaseAsync
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<int>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(new GetRequestsCountQuerry(), cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<int>>(response));
+        return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

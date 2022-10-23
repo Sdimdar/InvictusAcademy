@@ -11,7 +11,7 @@ namespace SessionGatewayService.API.Endpoints.User;
 
 public class Logout : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMapper _mapper;
 
@@ -26,9 +26,9 @@ public class Logout : EndpointBaseAsync
         Description = "Сработает вне зависимости от того залогинен пользователь или нет",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponceObject<string>>> HandleAsync(CancellationToken cancellationToken = default)
+    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         HttpContext.Session.Remove("user");
-        return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(Result.Success()));
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

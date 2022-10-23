@@ -3,7 +3,7 @@ using MediatR;
 using Request.Application.Contracts;
 using ServicesContracts.Request.Requests.Querries;
 
-namespace Request.Application.Features.Requests.Queries.GetPagesCount;
+namespace Request.Application.Features.Requests.Queries.GetRequestsCount;
 
 public class GetRequestsCountQuerryHandler : IRequestHandler<GetRequestsCountQuerry, Result<int>>
 {

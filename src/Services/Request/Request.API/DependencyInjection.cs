@@ -12,7 +12,7 @@ public static class DependencyInjection
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new RequestMapping());
-            cfg.AddProfile(new DefaultResponceObjectProfile());
+            cfg.AddProfile(new DefaultResponseObjectProfile());
         }).CreateMapper());
         return services;
     }
