@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\CommonRepository\CommonRepository.csproj" />
+    <ProjectReference Include="..\..\User\User.Domain\User.Domain.csproj" />
   </ItemGroup>
 
 </Project>

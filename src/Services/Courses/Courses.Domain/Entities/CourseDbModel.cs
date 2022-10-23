@@ -1,14 +1,14 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using CommonRepository.Models;
+﻿using CommonRepository.Models;
 
 namespace Courses.Domain.Entities;
 
-public class CourseDbModel : MongoBaseRepositoryEntity
+public class CourseDbModel : BaseRepositoryEntity
 {
-
-    [BsonElement("Name")]
-    public string CourseTitle { get; set; }
-    public string CourseDescription { get; set; }
-    public List<string>? ModulesIdentificators { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string? VideoLink { get; set; }
+    public decimal Cost { get; set; }
+    public bool IsActive { get; set; }
+    public ICollection<CoursePurchasedDbModel> CoursePurchased { get; set; }
+    public ICollection<CourseWishedDbModel> CourseWished { get; set; }
 }

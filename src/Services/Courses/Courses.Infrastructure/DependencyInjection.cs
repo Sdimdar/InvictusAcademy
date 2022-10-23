@@ -1,6 +1,8 @@
 ﻿using CommonRepository.Models;
 using Courses.Application.Contracts;
+using Courses.Infrastructure.Persistance;
 using Courses.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +18,12 @@ public static class DependencyInjection
             options.CollectionName = configuration.GetSection("InvictusAcademyDatabase:CollectionName").Value;
             options.DatabaseName = configuration.GetSection("InvictusAcademyDatabase:DatabaseName").Value;
         } );
-        services.AddSingleton<ICoursesRepository, CoursesRepository>();
+        services.AddSingleton<ICourseInfosRepository, CourseInfosRepository>();
+        services.AddDbContext<CoursesDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("CoursesConnectionString")));
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<ICoursePurchasedRepository, CoursePurchasedRepository>();
+        services.AddScoped<ICourseWishedRepository, CourseWishedRepository>();
         return services;
     }
 }

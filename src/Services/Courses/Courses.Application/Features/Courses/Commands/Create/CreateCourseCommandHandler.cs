@@ -9,10 +9,10 @@ namespace Courses.Application.Features.Courses.Commands.Create;
 
 public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Result<string>>
 {
-    private readonly ICoursesRepository _coursesRepository;
+    private readonly ICourseInfosRepository _coursesRepository;
     private readonly IMapper _mapper;
 
-    public CreateCourseCommandHandler(ICoursesRepository coursesRepository, IMapper mapper)
+    public CreateCourseCommandHandler(ICourseInfosRepository coursesRepository, IMapper mapper)
     {
         _coursesRepository = coursesRepository;
         _mapper = mapper;
@@ -22,7 +22,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, R
     {
         try
         {
-            var entity = _mapper.Map<CourseDbModel>(request);
+            var entity = _mapper.Map<CourseInfoDbModel>(request);
             await _coursesRepository.CreateAsync(entity);
             return Result.Success();
         }
