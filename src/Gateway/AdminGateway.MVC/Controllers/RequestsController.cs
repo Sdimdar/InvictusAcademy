@@ -1,10 +1,13 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
+using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Request.Requests.Commands;
+using ServicesContracts.Request.Responses;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
-
+[Route("AdminPanel/[controller]/[action]")]
 public class RequestsController : Controller
 {
     private readonly IRequestService _requestService;
@@ -13,8 +16,13 @@ public class RequestsController : Controller
         _requestService = requestService;
     }
 
+    
     [HttpGet]
-    public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
+    [SwaggerOperation(
+        Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
+        Description = "Необходимо передать номер страницы и количество на странице")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber = 1, int pageSize = 10)
     {
         try
         {
@@ -29,7 +37,10 @@ public class RequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetRequestsCount()
+    [SwaggerOperation(
+        Summary = "Возвращает количество записей Request , для пагинации")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetRequestsCount()
     {
         try
         {
@@ -44,7 +55,11 @@ public class RequestsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ChangeCalled(ChangeCalledStatusCommand command)
+    [SwaggerOperation(
+        Summary = "Изменяет статус для Request обзвонен/необзвонен",
+        Description = "Необходимо передать id")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled(ChangeCalledStatusCommand command)
     {
         try
         {
@@ -64,7 +79,11 @@ public class RequestsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ManagerComment(ManagerCommentCommand command)
+    [SwaggerOperation(
+        Summary = "Добавляет комментарий",
+        Description = "Необходимо передать id и комментарий")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment(ManagerCommentCommand command)
     {
         try
         {

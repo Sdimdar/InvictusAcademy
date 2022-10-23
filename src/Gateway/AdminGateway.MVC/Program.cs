@@ -1,10 +1,6 @@
 using AdminGateway.MVC.DependencyInjection;
-using AdminGateway.MVC.Mappings;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
-using AdminGateway.MVC.Services;
-using AdminGateway.MVC.Services.Interfaces;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,17 +14,17 @@ services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
 services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
+//swagger
+services.AddSwaggerConfiguration();
+
+//custom services
+services.AddCustomServices();
+
+//mapper
+services.SetAutomapperProfiles();
 
 
-
-services.AddTransient<IAdminCreate, CreateAdmin>();
-services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
-services.AddSingleton(provider => new MapperConfiguration(cfg =>
-{
-    cfg.AddProfile(new MappingProfile());
-}).CreateMapper());
-services.AddScoped<IRequestService, RequestService>();
-services.AddHttpClients(builder.Configuration);
+services.AddHttpClients(configuration);
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -51,11 +47,10 @@ using (var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -66,6 +61,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Accounts}/{action=Login}/{id?}");
