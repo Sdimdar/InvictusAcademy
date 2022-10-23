@@ -36,8 +36,8 @@ public class Edit : EndpointBaseAsync
         {
             string email = HttpContext.Session.GetData("user")!.Email;
             request.Email = email;
-            var responce = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<string>>(responce));
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
         }
         catch (Exception ex)
         {

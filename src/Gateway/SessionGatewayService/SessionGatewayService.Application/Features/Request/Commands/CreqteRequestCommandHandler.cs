@@ -17,9 +17,9 @@ public class CreqteRequestCommandHandler : IRequestHandler<CreateRequestCommand,
 
     public async Task<Result<string>> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
     {
-        var responce = await _requestService.CreateResponceAsync(request, cancellationToken);
-        if (responce.IsSuccess) return Result.Success();
-        if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
-        return Result.Invalid(responce.ValidationErrors.ToList());
+        var response = await _requestService.CreateResponseAsync(request, cancellationToken);
+        if (response.IsSuccess) return Result.Success();
+        if (response.Errors.Count() != 0) return Result.Error(response.Errors);
+        return Result.Invalid(response.ValidationErrors.ToList());
     }
 }

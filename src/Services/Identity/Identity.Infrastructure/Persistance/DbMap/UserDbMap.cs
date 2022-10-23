@@ -20,7 +20,7 @@ public class UserDbMap : IEntityTypeConfiguration<UserDbModel>
         builder.Property(p => p.LastName).HasColumnType("VARCHAR(100)").IsRequired();
         builder.Property(p => p.InstagramLink).HasColumnType("VARCHAR(100)");
         builder.Property(p => p.RegistrationDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("now()").IsRequired();
-        builder.Property(p => p.Citizenship).HasColumnType("VARCHAR(60)").IsRequired();
+        builder.Property(p => p.Citizenship).HasColumnType("VARCHAR(60)");
         builder.Property(p => p.AvatarLink).HasColumnType("VARCHAR(60)");
     }
 }

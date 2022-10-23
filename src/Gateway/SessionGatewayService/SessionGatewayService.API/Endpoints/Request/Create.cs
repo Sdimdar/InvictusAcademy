@@ -30,8 +30,8 @@ namespace SessionGatewayService.API.Endpoints.Request
         public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] CreateRequestCommand request,
                                                                                       CancellationToken cancellationToken = default)
         {
-            var responce = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<string>>(responce));
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
         }
     }
 }

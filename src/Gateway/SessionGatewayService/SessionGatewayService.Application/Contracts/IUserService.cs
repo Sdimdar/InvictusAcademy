@@ -9,4 +9,5 @@ public interface IUserService
     Task<DefaultResponseObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken);
     Task<DefaultResponseObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken);
     Task<DefaultResponseObject<string>> EditAsync(EditCommand command, CancellationToken cancellationToken);
+    Task<DefaultResponseObject<string>> EditPasswordAsync(EditPasswordCommand command, CancellationToken cancellationToken);
 }

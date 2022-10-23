@@ -17,15 +17,15 @@ public class RequestRepository : BaseRepository<RequestDbModel, RequestDbContext
     public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
     {
         if (pageInfo.PageNumber == 0)
-            return await _context.Requests.ToListAsync();
-        IQueryable<RequestDbModel> requestsPerPage = _context.Requests.OrderByDescending(r => r.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
+            return await Context.Requests.ToListAsync();
+        IQueryable<RequestDbModel> requestsPerPage = Context.Requests.OrderByDescending(r => r.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
         var result = await requestsPerPage.ToListAsync();
         return result;
     }
 
     public async Task<int> GetRequestsCount()
     {
-        IQueryable<RequestDbModel> result = _context.Requests;
+        IQueryable<RequestDbModel> result = Context.Requests;
         return result.Count();
 
     }

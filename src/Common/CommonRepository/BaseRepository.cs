@@ -5,20 +5,20 @@ using System.Linq.Expressions;
 
 namespace CommonRepository;
 
-public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEntity where C : DbContext
+public class BaseRepository<T, TC> : IBaseRepository<T> where T: BaseRepositoryEntity where TC : DbContext
 {
-    protected readonly C _context;
-    public BaseRepository(C dbContext)
+    protected readonly TC Context;
+    public BaseRepository(TC dbContext)
     {
-        _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        Context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
     public virtual async Task<IReadOnlyList<T>> GetAllAsync()
     {
-        return await _context.Set<T>().ToListAsync();
+        return await Context.Set<T>().ToListAsync();
     }
     public virtual async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _context.Set<T>().Where(predicate).ToListAsync();
+        return await Context.Set<T>().Where(predicate).ToListAsync();
     }
 
     public virtual async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
@@ -26,7 +26,7 @@ public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEn
                                                          string? includedString = null,
                                                          bool disableTracking = true)
     {
-        IQueryable<T> query = _context.Set<T>();
+        IQueryable<T> query = Context.Set<T>();
         if (disableTracking) query = query.AsNoTracking();
         if (!string.IsNullOrWhiteSpace(includedString)) query = query.Include(includedString);
         if (predicate != null) query = query.Where(predicate);
@@ -39,7 +39,7 @@ public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEn
                                                          List<Expression<Func<T, object>>>? includes = null,
                                                          bool disableTracking = true)
     {
-        IQueryable<T> query = _context.Set<T>();
+        IQueryable<T> query = Context.Set<T>();
         if (disableTracking) query = query.AsNoTracking();
         if (includes != null) includes.Aggregate(query, (current, include) => current.Include(include));
         if (predicate != null) query = query.Where(predicate);
@@ -49,34 +49,34 @@ public class BaseRepository<T, C> : IBaseRepository<T> where T: BaseRepositoryEn
 
     public virtual async Task<T?> GetByIdAsync(int id)
     {
-        return await _context.Set<T>()
+        return await Context.Set<T>()
                               .FirstOrDefaultAsync(i => i.Id == id);
     }
 
     public virtual async Task<T> AddAsync(T entity)
     {
         entity.CreatedDate = DateTime.Now;
-        _context.Set<T>().Add(entity);
-        await _context.SaveChangesAsync();
+        Context.Set<T>().Add(entity);
+        await Context.SaveChangesAsync();
         return entity;
     }
 
     public virtual async Task UpdateAsync(T entity)
     {
         entity.LastModifiedDate = DateTime.Now;
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        Context.Entry(entity).State = EntityState.Modified;
+        await Context.SaveChangesAsync();
     }
 
     public virtual async Task DeleteAsync(T entity)
     {
-        _context.Set<T>().Remove(entity);
-        await _context.SaveChangesAsync();
+        Context.Set<T>().Remove(entity);
+        await Context.SaveChangesAsync();
     }
 
     public virtual async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _context.Set<T>()
+        return await Context.Set<T>()
                               .FirstOrDefaultAsync(predicate);
     }
 }

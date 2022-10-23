@@ -15,9 +15,9 @@ public class RequestService : IRequestService
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
-    public async Task<DefaultResponseObject<string>> CreateResponceAsync(CreateRequestCommand command, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<string>> CreateResponseAsync(CreateRequestCommand command, CancellationToken cancellationToken)
     {
-        var responce = await _httpClient.PostAsJsonAsync("/Request/Create", command, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponseObject<string>>();
+        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command, cancellationToken);
+        return await response.ReadContentAs<DefaultResponseObject<string>>();
     }
 }

@@ -17,9 +17,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Re
 
     public async Task<Result<RegisterVm>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        var responce = await _userService.RegisterAsync(request, cancellationToken);
-        if (responce.IsSuccess) return Result.Success();
-        if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
-        return Result.Invalid(responce.ValidationErrors.ToList());
+        var response = await _userService.RegisterAsync(request, cancellationToken);
+        if (response.IsSuccess) return Result.Success();
+        if (response.Errors.Count() != 0) return Result.Error(response.Errors);
+        return Result.Invalid(response.ValidationErrors.ToList());
     }
 }

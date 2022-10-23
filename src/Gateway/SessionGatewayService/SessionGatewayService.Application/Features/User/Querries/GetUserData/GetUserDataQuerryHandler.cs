@@ -18,10 +18,10 @@ public class GetUserDataQuerryHandler : IRequestHandler<GetUserDataQuerry, Resul
 
     public async Task<Result<GetUserDataVm>> Handle(GetUserDataQuerry request, CancellationToken cancellationToken)
     {
-        var responce = await _userService.GetUserAsync(request.Email, cancellationToken);
-        var data = _mapper.Map<GetUserDataVm>(responce.Value);
-        if (responce.IsSuccess) return Result.Success(data);
-        if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
-        return Result.Invalid(responce.ValidationErrors.ToList());
+        var response = await _userService.GetUserAsync(request.Email, cancellationToken);
+        var data = _mapper.Map<GetUserDataVm>(response.Value);
+        if (response.IsSuccess) return Result.Success(data);
+        if (response.Errors.Count() != 0) return Result.Error(response.Errors);
+        return Result.Invalid(response.ValidationErrors.ToList());
     }
 }
