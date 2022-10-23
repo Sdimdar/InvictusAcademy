@@ -1,0 +1,9 @@
+global using DataTransferLib.Models;
+global using FluentAssertions;
+global using Identity.API.Tests.Fixture;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Newtonsoft.Json;
+global using System.Net;
+global using System.Net.Http.Json;
+global using Xunit;
+global using DataTransferLib.Extensions;

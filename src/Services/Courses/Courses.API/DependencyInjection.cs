@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new MappingProfile());
-            cfg.AddProfile(new DefaultResponceObjectProfile());
+            cfg.AddProfile(new DefaultResponseObjectProfile());
         }).CreateMapper());
         return services;
     }
@@ -20,7 +20,7 @@ public static class DependencyInjection
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity.API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Courses.API", Version = "v1" });
             c.EnableAnnotations();
         });
         return services;

@@ -34,7 +34,7 @@ public class AdminsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAdmin(CreateAdminVM model)
+    public async Task<IActionResult> CreateAdmin(CreateAdminVm model)
     {
         if (ModelState.IsValid)
         {

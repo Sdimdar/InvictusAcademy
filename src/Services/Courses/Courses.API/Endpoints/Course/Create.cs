@@ -12,7 +12,7 @@ namespace Courses.API.Endpoints.Course;
 
 public class Create : EndpointBaseAsync
     .WithRequest<CreateCourseCommand>
-    .WithActionResult<DefaultResponceObject<CourseDbModel>>
+    .WithActionResult<DefaultResponseObject<CourseDbModel>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,10 +29,10 @@ public class Create : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса данные по новому курсу",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<CourseDbModel>>> HandleAsync([FromBody] CreateCourseCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<CourseDbModel>>> HandleAsync([FromBody] CreateCourseCommand request,
                                                                                                CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<CourseDbModel>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<CourseDbModel>>(result));
     }
 }

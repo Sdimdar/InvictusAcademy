@@ -6,5 +6,5 @@ namespace SessionGatewayService.Application.Contracts;
 
 public interface ICoursesService
 {
-    Task<DefaultResponceObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuerry querry, CancellationToken cancellationToken);
+    Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuerry querry, CancellationToken cancellationToken);
 }

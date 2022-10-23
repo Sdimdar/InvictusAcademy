@@ -16,9 +16,9 @@ public class EditPasswordCommandHandler : IRequestHandler<EditPasswordCommand, R
     
     public async Task<Result> Handle(EditPasswordCommand request, CancellationToken cancellationToken)
     {
-        var responce = await _userService.EditPasswordAsync(request, cancellationToken);
-        if (responce.IsSuccess) return Result.Success();
-        if (responce.Errors.Count() != 0) return Result.Error(responce.Errors);
-        return Result.Invalid(responce.ValidationErrors.ToList());
+        var response = await _userService.EditPasswordAsync(request, cancellationToken);
+        if (response.IsSuccess) return Result.Success();
+        if (response.Errors.Count() != 0) return Result.Error(response.Errors);
+        return Result.Invalid(response.ValidationErrors.ToList());
     }
 }

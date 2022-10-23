@@ -16,7 +16,7 @@ public class CoursesService : ICoursesService
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
-    public async Task<DefaultResponceObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuerry querry, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuerry querry, CancellationToken cancellationToken)
     {
         var requestMessage = new HttpRequestMessage()
         {
@@ -25,6 +25,6 @@ public class CoursesService : ICoursesService
             RequestUri = new Uri(_httpClient.BaseAddress, "/Courses/GetCourses")
         };
         var responce = await _httpClient.SendAsync(requestMessage, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponceObject<CoursesVm>?>();
+        return await responce.ReadContentAs<DefaultResponseObject<CoursesVm>?>();
     }
 }

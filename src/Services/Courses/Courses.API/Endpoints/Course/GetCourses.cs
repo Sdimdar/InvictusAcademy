@@ -8,10 +8,10 @@ namespace Courses.API.Endpoints.Course
 {
     public class GetCourses : EndpointBaseAsync
         .WithRequest<GetCoursesQuerry>
-        .WithActionResult<DefaultResponceObject<CoursesVm>>
+        .WithActionResult<DefaultResponseObject<CoursesVm>>
     {
         [HttpGet("/Courses/GetCourses")]
-        public async override Task<ActionResult<DefaultResponceObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuerry request,
+        public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuerry request,
                                                                                                CancellationToken cancellationToken = default)
         {
             List<CourseVm> list = new();
@@ -94,7 +94,7 @@ namespace Courses.API.Endpoints.Course
                         };
                     break;
             }
-            DefaultResponceObject<CoursesVm> result = new() 
+            DefaultResponseObject<CoursesVm> result = new() 
             { 
                 Errors = null, 
                 IsSuccess = true, 
