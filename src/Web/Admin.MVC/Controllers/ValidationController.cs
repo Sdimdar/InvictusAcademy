@@ -1,19 +1,19 @@
-﻿using Admin.MVC.Models.DbModels;
+﻿using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Admin.MVC.Controllers;
+namespace AdminGateway.MVC.Controllers;
 
 public class ValidationController : Controller
 {
     private readonly UserManager<User> _userManager;
 
-    public ValidationController( UserManager<User> userManager)
+    public ValidationController(UserManager<User> userManager)
     {
-           
+
         _userManager = userManager;
     }
-    
+
 
     public bool CheckUserName(string userName)
     {
@@ -23,5 +23,5 @@ public class ValidationController : Controller
         return true;
     }
 
-    
+
 }

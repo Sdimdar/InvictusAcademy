@@ -1,11 +1,11 @@
-﻿using Admin.MVC.Models.DbModels;
-using Admin.MVC.Services.Interfaces;
-using Admin.MVC.ViewModels;
+﻿using AdminGateway.MVC.Models.DbModels;
+using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Admin.MVC.Services;
+namespace AdminGateway.MVC.Services;
 
-public class CreateAdmin:IAdminCreate
+public class CreateAdmin : IAdminCreate
 {
     private readonly UserManager<User> _userManager;
 

@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Admin.MVC.ViewModels;
+namespace AdminGateway.MVC.ViewModels;
 
 public class CreateAdminVm
 {
     [Required(ErrorMessage = "Укажите логин")]
-    [Remote(action:"CheckUserName", controller:"Validation", ErrorMessage = "Такой логин уже существует")]
+    [Remote(action: "CheckUserName", controller: "Validation", ErrorMessage = "Такой логин уже существует")]
     [StringLength(40, MinimumLength = 4, ErrorMessage = "Минимальное количество знаков должно быть больше 4")]
     public string UserName { get; set; }
     [Required(ErrorMessage = "Введите пароль")]

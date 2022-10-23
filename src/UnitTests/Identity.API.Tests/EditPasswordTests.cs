@@ -1,7 +1,7 @@
-﻿using Identity.API.Tests.Fixture;
-using ServicesContracts.Identity.Requests.Commands;
+﻿using ServicesContracts.Identity.Requests.Commands;
+using User.API.Tests.Fixture;
 
-namespace Identity.API.Tests;
+namespace User.API.Tests;
 
 public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>>
 {

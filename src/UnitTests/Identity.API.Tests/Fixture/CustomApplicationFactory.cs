@@ -1,9 +1,9 @@
-﻿using Identity.API.Tests.Repository;
-using Identity.Application.Contracts;
+﻿using User.Application.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using User.API.Tests.Repository;
 
-namespace Identity.API.Tests.Fixture;
+namespace User.API.Tests.Fixture;
 
 public class CustomApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {

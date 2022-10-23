@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Admin.MVC.ViewModels;
+namespace AdminGateway.MVC.ViewModels;
 
 public class LoginViewModel
 {
@@ -9,7 +9,7 @@ public class LoginViewModel
     [Required(ErrorMessage = "Не указан пароль")]
     [DataType(DataType.Password)]
     public string Password { get; set; }
-    public string? ReturnUrl  { get; set; }
+    public string? ReturnUrl { get; set; }
     [Display(Name = "Запомнить?")]
     public bool RememberMe { get; set; }
 }

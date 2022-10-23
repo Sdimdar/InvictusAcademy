@@ -1,7 +1,7 @@
-using Admin.MVC.Models;
-using Admin.MVC.Models.DbModels;
-using Admin.MVC.Services;
-using Admin.MVC.Services.Interfaces;
+using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Models.DbModels;
+using AdminGateway.MVC.Services;
+using AdminGateway.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +36,7 @@ using (var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

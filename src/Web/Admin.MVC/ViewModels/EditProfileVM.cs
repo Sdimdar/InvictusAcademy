@@ -1,6 +1,6 @@
-﻿using Admin.MVC.Models.DbModels;
+﻿using AdminGateway.MVC.Models.DbModels;
 
-namespace Admin.MVC.ViewModels;
+namespace AdminGateway.MVC.ViewModels;
 
 public class EditProfileVm
 {

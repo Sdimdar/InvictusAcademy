@@ -1,6 +1,6 @@
-﻿using Admin.MVC.ViewModels;
+﻿using AdminGateway.MVC.ViewModels;
 
-namespace Admin.MVC.Services.Interfaces;
+namespace AdminGateway.MVC.Services.Interfaces;
 
 public interface IAdminCreate
 {

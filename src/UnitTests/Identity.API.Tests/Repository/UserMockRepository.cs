@@ -1,9 +1,9 @@
-﻿using Identity.Application.Contracts;
-using Identity.Domain.Entities;
+﻿using User.Application.Contracts;
+using User.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Identity.API.Tests.Repository;
+namespace User.API.Tests.Repository;
 
 public class UserMockRepository : IUserRepository
 {

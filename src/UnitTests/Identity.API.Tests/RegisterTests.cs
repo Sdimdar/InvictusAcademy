@@ -1,7 +1,8 @@
 ﻿using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
+using User.API.Tests.Fixture;
 
-namespace Identity.API.Tests;
+namespace User.API.Tests;
 
 public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
 {

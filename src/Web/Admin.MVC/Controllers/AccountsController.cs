@@ -1,10 +1,9 @@
-﻿
-using Admin.MVC.Models.DbModels;
-using Admin.MVC.ViewModels;
+﻿using AdminGateway.MVC.Models.DbModels;
+using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Admin.MVC.Controllers;
+namespace AdminGateway.MVC.Controllers;
 
 public class AccountsController : Controller
 {
@@ -18,7 +17,7 @@ public class AccountsController : Controller
 
     public IActionResult Login(string returnUrl = null)
     {
-        return View(new LoginViewModel{ReturnUrl = returnUrl});
+        return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
     [HttpPost]
@@ -28,7 +27,7 @@ public class AccountsController : Controller
         if (ModelState.IsValid)
         {
             User user = await _userManager.FindByNameAsync(model.Login);
-           
+
             if (user == null)
             {
                 ViewData["Message"] = "Такой пользователь не найден";
@@ -50,17 +49,17 @@ public class AccountsController : Controller
                 {
                     return Redirect(model.ReturnUrl);
                 }
-        
+
                 return RedirectToAction("Login", "Accounts");
             }
-            ModelState.AddModelError("","Неверный логин и(или) пароль");
-                
+            ModelState.AddModelError("", "Неверный логин и(или) пароль");
+
         }
-        
+
         return View(model);
-        
+
     }
-    
+
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();
