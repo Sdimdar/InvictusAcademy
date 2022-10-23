@@ -1,0 +1,66 @@
+﻿@using System.Collections.Specialized
+@using ServicesContracts.Request.Responses
+@model ServicesContracts.Request.Responses.GetAllRequestVm
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+<a asp-action="GetAll" asp-route-pageSize="@Model.RequestsCount" asp-route-pageNumber="1" type="button" class="btn btn-dark">Get All</a>
+<div style="height: 550px; overflow: auto">
+    <table id="tbl_exporttable_to_xls" class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">UserName</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col">ManagerComment</th>
+            <th scope="col">WasCalled</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var request in Model.Requests)
+        {
+            await Html.RenderPartialAsync("PartialViews/RequestPartialView", request);
+        }
+        </tbody>
+    </table>
+</div>
+
+<input id="total_count" type="text" hidden value="@Model.TotalPages">
+<div id="link_box"></div>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetAll"
+        asp-route-pageNumber="@(Model.PageNumber - 1)"
+        class="btn btn-default btn">
+         <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetAll"
+        asp-route-pageNumber="@(Model.PageNumber + 1)"
+        class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@section Scripts
+{
+    <script>
+        function ExportToExcel(type, fn, dl) {
+           var elt = document.getElementById('tbl_exporttable_to_xls');
+           var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+           return dl ?
+             XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+             XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+        };
+    </script>
+}
+
+
+
