@@ -11,7 +11,7 @@ namespace Identity.API.Endpoints.User;
 
 public class Register : EndpointBaseAsync
     .WithRequest<RegisterCommand>
-    .WithActionResult<DefaultResponceObject<RegisterVm>>
+    .WithActionResult<DefaultResponseObject<RegisterVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -28,10 +28,10 @@ public class Register : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<RegisterVm>>> HandleAsync([FromBody] RegisterCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync([FromBody] RegisterCommand request,
                                                                                                    CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<RegisterVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<RegisterVm>>(result));
     }
 }

@@ -10,7 +10,7 @@ namespace Identity.API.Endpoints.User;
 
 public class Edit : EndpointBaseAsync
     .WithRequest<EditCommand>
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,10 +27,10 @@ public class Edit : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса новые данные пользователя",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync([FromBody] EditCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditCommand request,
                                                                                         CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<string>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<string>>(result));
     }
 }

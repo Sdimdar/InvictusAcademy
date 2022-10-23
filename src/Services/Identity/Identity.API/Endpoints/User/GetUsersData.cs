@@ -11,7 +11,7 @@ namespace Identity.API.Endpoints.User;
 
 public class GetUsersData : EndpointBaseAsync
     .WithRequest<GetUsersDataQuerry>
-    .WithActionResult<DefaultResponceObject<UsersVm>>
+    .WithActionResult<DefaultResponseObject<UsersVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -28,10 +28,10 @@ public class GetUsersData : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuerry command,
+    public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuerry command,
                                                                                              CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(command, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<UsersVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
     }
 }

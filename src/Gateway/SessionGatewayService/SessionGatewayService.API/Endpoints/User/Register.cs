@@ -14,7 +14,7 @@ namespace SessionGatewayService.API.Endpoints.User;
 
 public class Register : EndpointBaseAsync
     .WithRequest<RegisterCommand>
-    .WithActionResult<DefaultResponceObject<RegisterVm>>
+    .WithActionResult<DefaultResponseObject<RegisterVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -31,15 +31,15 @@ public class Register : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponceObject<RegisterVm>>> HandleAsync(RegisterCommand request,
+    public async override Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
                                                                                       CancellationToken cancellationToken = default)
     {
         var responce = await _mediator.Send(request, cancellationToken);
         if (responce.IsSuccess)
         {
             HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
-            return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(Result.Success()));
+            return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
         }
-        return Ok(_mapper.Map<DefaultResponceObject<UserVm>>(responce));
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(responce));
     }
 }

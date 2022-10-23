@@ -11,7 +11,7 @@ namespace Request.API.Endpoints.Request;
 
 public class GetAllRequests : EndpointBaseAsync
     .WithRequest<GetAllRequestCommand>
-    .WithActionResult<DefaultResponceObject<GetAllRequestVm>>
+    .WithActionResult<DefaultResponseObject<GetAllRequestVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -28,10 +28,10 @@ public class GetAllRequests : EndpointBaseAsync
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<GetAllRequestVm>>> HandleAsync([FromQuery] GetAllRequestCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> HandleAsync([FromQuery] GetAllRequestCommand request,
                                                                                                  CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<GetAllRequestVm>>(response));
+        return Ok(_mapper.Map<DefaultResponseObject<GetAllRequestVm>>(response));
     }
 }

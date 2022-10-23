@@ -5,5 +5,5 @@ namespace SessionGatewayService.Application.Contracts;
 
 public interface IRequestService
 {
-    Task<DefaultResponceObject<string>> CreateResponceAsync(CreateRequestCommand command, CancellationToken cancellationToken);
+    Task<DefaultResponseObject<string>> CreateResponceAsync(CreateRequestCommand command, CancellationToken cancellationToken);
 }

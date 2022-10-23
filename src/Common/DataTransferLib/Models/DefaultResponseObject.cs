@@ -2,7 +2,7 @@
 
 namespace DataTransferLib.Models;
 
-public class DefaultResponceObject<T>
+public class DefaultResponseObject<T>
 {
     public T? Value { get; set; }
     public bool IsSuccess { get; set; }

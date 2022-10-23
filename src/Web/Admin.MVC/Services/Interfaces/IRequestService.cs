@@ -7,8 +7,8 @@ namespace Admin.MVC.Services.Interfaces;
 
 public interface IRequestService
 { 
-    public Task<DefaultResponceObject<GetAllRequestVm>> GetAllRequestsAsync(int pageNumber, int pageSize);
-    public Task<DefaultResponceObject<string>> ChangeCalledStatusAsync(ChangeCalledStatusCommand command);
-    public Task<DefaultResponceObject<string>> ManagerCommentAsync(ManagerCommentCommand request);
-    public Task<DefaultResponceObject<int>> GetRequestsCountAsync();
+    public Task<DefaultResponseObject<GetAllRequestVm>> GetAllRequestsAsync(int pageNumber, int pageSize);
+    public Task<DefaultResponseObject<string>> ChangeCalledStatusAsync(ChangeCalledStatusCommand command);
+    public Task<DefaultResponseObject<string>> ManagerCommentAsync(ManagerCommentCommand request);
+    public Task<DefaultResponseObject<int>> GetRequestsCountAsync();
 }

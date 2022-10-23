@@ -10,7 +10,7 @@ namespace SessionGatewayService.API.Endpoints.Request
 {
     public class Create : EndpointBaseAsync
         .WithRequest<CreateRequestCommand>
-        .WithActionResult<DefaultResponceObject<string>>
+        .WithActionResult<DefaultResponseObject<string>>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -27,11 +27,11 @@ namespace SessionGatewayService.API.Endpoints.Request
             Description = "Для оформления заявки необходимо ввести телефон и имя",
             Tags = new[] { "Request" })
         ]
-        public async override Task<ActionResult<DefaultResponceObject<string>>> HandleAsync([FromBody] CreateRequestCommand request,
+        public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] CreateRequestCommand request,
                                                                                       CancellationToken cancellationToken = default)
         {
             var responce = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponceObject<string>>(responce));
+            return Ok(_mapper.Map<DefaultResponseObject<string>>(responce));
         }
     }
 }
