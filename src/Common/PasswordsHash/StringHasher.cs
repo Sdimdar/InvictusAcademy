@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace PasswordsHash;
+namespace StringHash;
 
 public static class StringHasher
 {
@@ -35,7 +35,7 @@ public static class StringHasher
             throw new ArgumentNullException(nameof(entity));
         }
         byte[] src = Convert.FromBase64String(hashedString);
-        if ((src.Length != 0x31) || (src[0] != 0))
+        if (src.Length != 0x31 || src[0] != 0)
         {
             return false;
         }

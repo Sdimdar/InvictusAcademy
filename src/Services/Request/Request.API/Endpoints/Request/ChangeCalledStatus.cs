@@ -10,7 +10,7 @@ namespace Request.API.Endpoints.Request;
 
 public class ChangeCalledStatus : EndpointBaseAsync
     .WithRequest<ChangeCalledStatusCommand>
-    .WithActionResult<DefaultResponceObject<string>>
+    .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,9 +27,9 @@ public class ChangeCalledStatus : EndpointBaseAsync
         Description = "Необходимо передать id заявки",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponceObject<string>>> HandleAsync(ChangeCalledStatusCommand request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(ChangeCalledStatusCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponceObject<string>>(response));
+        return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }

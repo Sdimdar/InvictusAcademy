@@ -1,0 +1,17 @@
+﻿@model             ErrorVM
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div class="err_page">
+    <div class="err_page_left">
+        <img src="https://github.com/abhinanduN/codepen/blob/master/err.png?raw=true" width=360px height=250px/>
+    </div>
+    <div class="err_page_right">
+        <h1>404</h1>
+        <h4>@Model.ErrorMessage</h4>
+    </div>	
+    <a class="err_btn" asp-action="GetAll">Back to home</a>
+	
+</div>
