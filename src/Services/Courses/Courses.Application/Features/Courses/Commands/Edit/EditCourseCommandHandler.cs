@@ -12,14 +12,12 @@ namespace Courses.Application.Features.Courses.Commands.Edit;
 public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result<string>>
 {
     private readonly ICourseRepository _courseRepository;
-    private readonly IMapper _mapper;
     private readonly IValidator<EditCourseCommand> _validator;
 
 
-    public EditCourseCommandHandler(ICourseRepository courseRepository, IMapper mapper, IValidator<EditCourseCommand> validator)
+    public EditCourseCommandHandler(ICourseRepository courseRepository, IValidator<EditCourseCommand> validator)
     {
         _courseRepository = courseRepository;
-        _mapper = mapper;
         _validator = validator;
     }
 
@@ -33,8 +31,7 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if(!validationResult.IsValid)
                 return Result.Invalid(validationResult.AsErrors());
-            // var entity = _mapper.Map<CourseDbModel>(request);
-            // await _courseRepository.UpdateAsync(entity);
+            
             course.Name = request.Name;
             course.Description = request.Description;
             course.VideoLink = request.VideoLink;

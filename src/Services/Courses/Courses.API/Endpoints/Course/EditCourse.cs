@@ -32,7 +32,7 @@ public class EditCourse : EndpointBaseAsync
 
     public override async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> HandleAsync(EditCourseCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
-        var result = _mediator.Send(request, cancellationToken);
+        var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<CourseInfoDbModel>>(result));
     }
 }
