@@ -10,4 +10,5 @@ public class EditCourseCommand : IRequest<Result<string>>
     public string Description { get; set; }
     public string? VideoLink { get; set; }
     public decimal Cost { get; set; }
+    public bool IsActive { get; set; }
 }

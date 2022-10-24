@@ -33,8 +33,14 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if(!validationResult.IsValid)
                 return Result.Invalid(validationResult.AsErrors());
-            var entity = _mapper.Map<CourseDbModel>(request);
-            await _courseRepository.UpdateAsync(entity);
+            // var entity = _mapper.Map<CourseDbModel>(request);
+            // await _courseRepository.UpdateAsync(entity);
+            course.Name = request.Name;
+            course.Description = request.Description;
+            course.VideoLink = request.VideoLink;
+            course.Cost = request.Cost;
+            course.IsActive = request.IsActive;
+            await _courseRepository.UpdateAsync(course);
             return Result.Success();
         }
         catch (Exception ex)
