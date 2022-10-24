@@ -8,6 +8,7 @@ using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;
+using UserGateway.Application.Features.Courses.Queries.GetCourses;
 using UserGateway.Application.Features.User.Querries.GetUserData;
 
 namespace UserGateway.API.Endpoints.Courses;
@@ -36,7 +37,7 @@ public class GetCurrent : EndpointBaseAsync
         try
         {
             string email = HttpContext.Session.GetData("user")!.Email;
-            var result = await _mediator.Send(new GetCoursesQuerry() { Email = email, Type = CourseTypes.Current }, cancellationToken);
+            var result = await _mediator.Send(new GetGatewayCoursesQuery() { Email = email, Type = CourseTypes.Current }, cancellationToken);
             return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
         }
         catch (Exception ex)

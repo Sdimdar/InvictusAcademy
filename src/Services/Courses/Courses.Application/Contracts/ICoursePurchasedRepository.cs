@@ -3,6 +3,6 @@ using Courses.Domain.Entities;
 
 namespace Courses.Application.Contracts;
 
-public interface ICoursesRepository : IMongoBaseRepository<CourseDbModel>
+public interface ICoursePurchasedRepository : IBaseRepository<CoursePurchasedDbModel>
 {
 }
