@@ -1,8 +1,6 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
-using AutoMapper;
 using Courses.Application.Contracts;
-using Courses.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using ServicesContracts.Courses.Requests.Commands;
@@ -31,7 +29,7 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if(!validationResult.IsValid)
                 return Result.Invalid(validationResult.AsErrors());
-            
+           
             course.Name = request.Name;
             course.Description = request.Description;
             course.VideoLink = request.VideoLink;

@@ -7,11 +7,11 @@ using ServicesContracts.Courses.Responses;
 namespace Courses.API.Endpoints.Course
 {
     public class GetCourses : EndpointBaseAsync
-        .WithRequest<GetCoursesQuerry>
+        .WithRequest<GetCoursesQuery>
         .WithActionResult<DefaultResponseObject<CoursesVm>>
     {
         [HttpGet("/Courses/GetCourses")]
-        public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuerry request,
+        public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuery request,
                                                                                                CancellationToken cancellationToken = default)
         {
             List<CourseVm> list = new();
