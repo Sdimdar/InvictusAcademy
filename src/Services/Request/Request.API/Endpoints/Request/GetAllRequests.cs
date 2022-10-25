@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Request.API.Endpoints.Request;
 
 public class GetAllRequests : EndpointBaseAsync
-    .WithRequest<GetAllRequestCommand>
+    .WithRequest<GetAllRequestsQuery>
     .WithActionResult<DefaultResponseObject<GetAllRequestVm>>
 {
     private readonly IMediator _mediator;
@@ -28,7 +28,7 @@ public class GetAllRequests : EndpointBaseAsync
         Description = "Могут запрашивать только пользователи с ролью админ",
         Tags = new[] { "Request" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> HandleAsync([FromQuery] GetAllRequestCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> HandleAsync([FromQuery] GetAllRequestsQuery request,
                                                                                                  CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);

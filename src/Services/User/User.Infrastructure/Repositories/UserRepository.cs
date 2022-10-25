@@ -11,10 +11,15 @@ public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IU
 {
     public UserRepository(IdentityDbContext context) : base(context) { }
 
-    public async Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
+    public async Task<IEnumerable<UserDbModel>> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
-        var result = await Context.Users.Filter(filterString)
-                                         .GetABatchOfData(page, pageSize);
-        return (result.Item1.ToArray(), result.Item2);
+        var result = Context.Users.Filter(filterString)
+                                  .GetABatchOfData(page, pageSize);
+        return await result.ToListAsync();
+    }
+
+    public async Task<int> GetUsersCountAsync()
+    {
+        return await Context.Users.CountAsync();
     }
 }

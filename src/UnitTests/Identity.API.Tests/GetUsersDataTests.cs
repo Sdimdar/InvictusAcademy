@@ -105,7 +105,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         // Assert
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
-        data.Value.Should().NotBeNull();
-        data.Errors.Should().NotBeNull();
+        data.Value.Should().BeNull();
+        data.ValidationErrors.Should().NotBeNull();
     }
 }

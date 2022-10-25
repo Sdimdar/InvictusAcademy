@@ -3,14 +3,14 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
-using User.Application.Features.Users.Queries.GetUsersData;
 
 namespace User.API.Endpoints.User;
 
 public class GetUsersData : EndpointBaseAsync
-    .WithRequest<GetUsersDataQuerry>
+    .WithRequest<GetUsersDataQuery>
     .WithActionResult<DefaultResponseObject<UsersVm>>
 {
     private readonly IMediator _mediator;
@@ -28,11 +28,9 @@ public class GetUsersData : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuerry command,
+    public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuery command,
                                                                                              CancellationToken cancellationToken = default)
     {
-        command.Page = 1;
-        command.PageSize = 10;
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
     }
