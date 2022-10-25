@@ -3,9 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Responses;
 
-namespace User.Application.Features.Users.Queries.GetUsersData;
+namespace ServicesContracts.Identity.Requests.Queries;
 
-public class GetUsersDataQuerry : IRequest<Result<UsersVm>>
+public class GetUsersDataQuery : IRequest<Result<UsersVm>>
 {
     [FromQuery] public int Page { get; set; }
     [FromQuery] public int PageSize { get; set; }

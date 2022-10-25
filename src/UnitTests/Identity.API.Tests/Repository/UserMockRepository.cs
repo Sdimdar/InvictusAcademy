@@ -141,7 +141,7 @@ public class UserMockRepository : IUserRepository
         return Task.FromResult(_repositoryData.AsQueryable().FirstOrDefault(predicate));
     }
 
-    public Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
+    public Task<IEnumerable<UserDbModel>> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
         IEnumerable<UserDbModel> data = _repositoryData;
         if (filterString != null)
@@ -153,7 +153,12 @@ public class UserMockRepository : IUserRepository
                                 || v.Email.ToLower().Contains(filterString.ToLower())
                                 || v.Citizenship.ToLower().Contains(filterString.ToLower()));
         }
-        return Task.FromResult((data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize), data.Count()));
+        return Task.FromResult(data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize));
+    }
+
+    public Task<int> GetUsersCountAsync()
+    {
+        return Task.FromResult(_repositoryData.Count);
     }
 
     public Task UpdateAsync(UserDbModel entity)

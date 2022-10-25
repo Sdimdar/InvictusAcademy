@@ -20,7 +20,7 @@ public class UsersController : Controller
     {
         var response = await _iGetUsers.GetUsersAsync();
         var usersList = response.Value;
-
-        return View(_mapper.Map<List<RegisteredUserVM>>(usersList.Users));
+        return Ok();
+        //return View(_mapper.Map<List<RegisteredUserVM>>(usersList.Users));
     }
 }

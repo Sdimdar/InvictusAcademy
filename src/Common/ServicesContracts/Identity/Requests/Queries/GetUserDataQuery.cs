@@ -2,13 +2,13 @@
 using MediatR;
 using ServicesContracts.Identity.Responses;
 
-namespace ServicesContracts.Identity.Requests.Querries;
+namespace ServicesContracts.Identity.Requests.Queries;
 
-public class GetUserDataQuerry : IRequest<Result<UserVm>>
+public class GetUserDataQuery : IRequest<Result<UserVm>>
 {
     public string Email { get; set; }
 
-    public GetUserDataQuerry(string email)
+    public GetUserDataQuery(string email)
     {
         Email = email;
     }
