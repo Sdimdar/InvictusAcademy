@@ -1,5 +1,4 @@
-﻿using AdminGateway.MVC.Models.DbModels;
-using AdminGateway.MVC.ViewModels;
+﻿using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

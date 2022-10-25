@@ -2,6 +2,7 @@
 using User.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using ServicesContracts.Identity.Responses;
 
 namespace User.API.Tests.Repository;
 
@@ -162,5 +163,15 @@ public class UserMockRepository : IUserRepository
                                              || e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
+    }
+
+    public Task<List<UserDbModel>> GetUsersByPage(GetAllUsersCommand pageInfo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> GetUsersCount()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -23,4 +23,5 @@ public class UsersController : Controller
 
         return View(_mapper.Map<List<RegisteredUserVM>>(usersList.Users));
     }
+    
 }
