@@ -20,7 +20,7 @@ public class GetUsersCount : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    [HttpGet("/User/GetAll")]
+    [HttpGet("/User/GetUsersCount")]
     [SwaggerOperation(
         Summary = "Запрос на выгрузку всех пользователей",
         Description = "Могут запрашивать только пользователи с ролью админ",

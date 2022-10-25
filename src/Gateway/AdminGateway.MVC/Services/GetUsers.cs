@@ -9,18 +9,22 @@ namespace AdminGateway.MVC.Services;
 public class GetUsers : IGetUsers
 {
     private readonly HttpClient _httpClient;
-    private readonly IMapper _mapper;
 
-    public GetUsers(HttpClient httpClient, IMapper mapper)
+    public GetUsers(HttpClient httpClient)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
+    
 
-    public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync()
+    public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize)
     {
-        var response = await _httpClient.GetAsync("/User/GetUsersData");
+        var response = await _httpClient.GetAsync($"/User/GetAllRegisteredUsersData?pageNumber={pageNumber}&pageSize={pageSize}");
         return await response.ReadContentAs<DefaultResponseObject<UsersVm>>();
     }
 
+    public async Task<DefaultResponseObject<int>> GetUsersCountAsync()
+    {
+        var response = await _httpClient.GetAsync($"/User/GetUsersCount");
+        return await response.ReadContentAs<DefaultResponseObject<int>>();
+    }
 }

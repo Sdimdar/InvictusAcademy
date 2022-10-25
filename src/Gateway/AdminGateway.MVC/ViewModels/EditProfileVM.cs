@@ -4,5 +4,5 @@ namespace AdminGateway.MVC.ViewModels;
 
 public class EditProfileVm
 {
-    public List<User> Users { get; set; }
+    public List<AdminUser> Users { get; set; }
 }

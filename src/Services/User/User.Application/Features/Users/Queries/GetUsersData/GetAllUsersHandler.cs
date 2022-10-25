@@ -6,7 +6,7 @@ using User.Application.Contracts;
 
 namespace User.Application.Features.Users.Queries.GetUsersData;
 
-public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<GetAllRegisteredUsersVM>>
+public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<UsersVm>>
 {
     private readonly IUserRepository _userRepository;
     public GetAllUsersHandler(IUserRepository userRepository)
@@ -14,7 +14,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Get
         _userRepository = userRepository;
     }
 
-    public async Task<Result<GetAllRegisteredUsersVM>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
+    public async Task<Result<UsersVm>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
     {
         var result = await _userRepository.GetUsersByPage(request);
         if (!result.Any())
@@ -22,7 +22,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Get
             return Result.Error("Request list is empty");
         }
 
-        var response = new GetAllRegisteredUsersVM()
+        var response = new UsersVm()
         {
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,

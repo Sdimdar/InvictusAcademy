@@ -7,16 +7,16 @@ namespace AdminGateway.MVC.Services;
 
 public class CreateAdmin : IAdminCreate
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<AdminUser> _userManager;
 
-    public CreateAdmin(UserManager<User> userManager)
+    public CreateAdmin(UserManager<AdminUser> userManager)
     {
         _userManager = userManager;
     }
 
     public async Task<bool> CreateNewAdmin(CreateAdminVm model)
     {
-        var user = new User
+        var user = new AdminUser
         {
             UserName = model.UserName
         };
