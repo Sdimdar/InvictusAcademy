@@ -32,17 +32,9 @@ public class GetUserData : EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        try
-        {
-            string email = HttpContext.Session.GetData("user")!.Email;
-            GetUserDataQuerry querry = new() { Email = email };
-            var response = await _mediator.Send(querry, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(response));
-        }
-        catch (Exception)
-        {
-            return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(Result.Error("User is not Autorized")));
-        }
-
+        string email = HttpContext.Session.GetData("user").Email;
+        GetUserDataQuerry query = new() { Email = email };
+        var response = await _mediator.Send(query, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(response));
     }
 }

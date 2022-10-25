@@ -1,4 +1,5 @@
-﻿using ServicesContracts.Identity.Responses;
+﻿using ExceptionHandlerMiddleware.Exceptions;
+using ServicesContracts.Identity.Responses;
 using User.API.Tests.Fixture;
 
 namespace User.API.Tests;
@@ -57,11 +58,14 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
         // Arrange
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<string>($"/User/GetUserData?email={invalidEmail}");
-
-        // Assert
-        data.Should().NotBeNull();
-        data.IsSuccess.Should().BeFalse();
-        data.Errors.Should().NotBeNull();
+        try
+        {
+            var data = await _httpClient.GetAndReturnResponseAsync<string>($"/User/GetUserData?email={invalidEmail}");
+        }
+        catch (Exception e)
+        {
+            // Assert
+            e.Should().BeOfType(typeof(InternalServiceException));
+        }
     }
 }

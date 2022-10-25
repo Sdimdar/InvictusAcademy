@@ -40,6 +40,10 @@ public class ExceptionHandlerMiddleware
                 context.Response.StatusCode = internalServiceException.StatusCode;
                 data = "InternalServiceException: " + internalServiceException.Message;
                 break;
+            case UnauthorizedAccessException unauthorizedAccessException:
+                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                data = "Authorize exception: " + unauthorizedAccessException.Message;
+                break;
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 data = exception.Message;

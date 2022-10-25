@@ -25,16 +25,8 @@ namespace AdminGateway.MVC.Controllers
         ]
         public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            try
-            {
-                var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                ErrorVM error = new ErrorVM(e.Message);
-                return View("../Errors/ErrorPage", error);
-            }
+            var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -43,16 +35,8 @@ namespace AdminGateway.MVC.Controllers
         ]
         public async Task<ActionResult<DefaultResponseObject<int>>> GetRequestsCount()
         {
-            try
-            {
-                var response = await _requestService.GetRequestsCountAsync();
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                ErrorVM error = new ErrorVM(e.Message);
-                return View("../Errors/ErrorPage", error);
-            }
+            var response = await _requestService.GetRequestsCountAsync();
+            return Ok(response);
         }
 
         [HttpPost]
@@ -62,21 +46,13 @@ namespace AdminGateway.MVC.Controllers
         ]
         public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled(ChangeCalledStatusCommand command)
         {
-            try
+            if (command.Id <= 0)
             {
-                if (command.Id <= 0)
-                {
-                    ErrorVM error = new ErrorVM("Id was not assigned");
-                    return View("../Errors/ErrorPage", error);
-                }
-                var response = await _requestService.ChangeCalledStatusAsync(command);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                ErrorVM error = new ErrorVM(e.Message);
+                ErrorVM error = new ErrorVM("Id was not assigned");
                 return View("../Errors/ErrorPage", error);
             }
+            var response = await _requestService.ChangeCalledStatusAsync(command);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -86,22 +62,13 @@ namespace AdminGateway.MVC.Controllers
         ]
         public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment(ManagerCommentCommand command)
         {
-            try
+            if (command.Id <= 0)
             {
-           
-                if (command.Id <= 0)
-                {
-                    ErrorVM error = new ErrorVM("Id was not assigned");
-                    return View("../Errors/ErrorPage", error);
-                }
-                var response = await _requestService.ManagerCommentAsync(command);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                ErrorVM error = new ErrorVM(e.Message);
+                ErrorVM error = new ErrorVM("Id was not assigned");
                 return View("../Errors/ErrorPage", error);
             }
+            var response = await _requestService.ManagerCommentAsync(command);
+            return Ok(response);
         }
     }
 }

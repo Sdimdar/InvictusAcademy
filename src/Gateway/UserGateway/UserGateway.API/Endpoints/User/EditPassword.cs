@@ -32,16 +32,8 @@ public class EditPassword : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditPasswordCommand request,
         CancellationToken cancellationToken = default)
     {
-        try
-        {
-            string email = HttpContext.Session.GetData("user")!.Email;
-            request.Email = email;
-            var response = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
-        }
-        catch (Exception ex)
-        {
-            return Ok(_mapper.Map<DefaultResponseObject<string>>(Result.Error("User is not Autorized")));
-        }
+        request.Email = HttpContext.Session.GetData("user").Email;
+        var response = await _mediator.Send(request, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }
