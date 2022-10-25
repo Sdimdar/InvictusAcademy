@@ -5,12 +5,12 @@ namespace User.API.Tests;
 
 public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public EditPasswordTests(CustomApplicationFactory<Program> factory)
     {
         _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new HttpClientWrapper(_factory.CreateClient());
     }
 
     [Fact]

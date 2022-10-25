@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AdminGateway.MVC.Models.DbModels;
-
-public class User : IdentityUser
+namespace AdminGateway.MVC.Models.DbModels
 {
-    public bool Ban { get; set; } = false;
+    public class User : IdentityUser
+    {
+        public bool Ban { get; set; } = false;
+    }
 }

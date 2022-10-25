@@ -6,70 +6,71 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminGateway.MVC.Controllers;
-
-[Authorize(Roles = "admin")]
-public class AdminsController : Controller
+namespace AdminGateway.MVC.Controllers
 {
-    private readonly UserManager<User> _userManager;
-    private readonly AdminDbContext _db;
-    private readonly IAdminCreate _adminCreate;
-
-
-    public AdminsController(UserManager<User> userManager, AdminDbContext db, IAdminCreate adminCreate)
+    [Authorize(Roles = "admin")]
+    public class AdminsController : Controller
     {
-        _userManager = userManager;
-        _db = db;
-        _adminCreate = adminCreate;
-    }
+        private readonly UserManager<User> _userManager;
+        private readonly AdminDbContext _db;
+        private readonly IAdminCreate _adminCreate;
 
-    [HttpGet]
-    public IActionResult CreateAdmin()
-    {
 
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateAdmin(CreateAdminVm model)
-    {
-        if (ModelState.IsValid)
+        public AdminsController(UserManager<User> userManager, AdminDbContext db, IAdminCreate adminCreate)
         {
-            if (await _adminCreate.CreateNewAdmin(model))
-                return RedirectToAction("EditProfile");
+            _userManager = userManager;
+            _db = db;
+            _adminCreate = adminCreate;
         }
-        ViewData["Error"] = "Произошла ошибка создания админа.";
-        return RedirectToAction("CreateAdmin");
 
-    }
-
-    [HttpGet]
-    public IActionResult EditProfile()
-    {
-        var users = _userManager.Users.ToList();
-
-        users.Remove(users[0]);
-        return View(new EditProfileVm
+        [HttpGet]
+        public IActionResult CreateAdmin()
         {
-            Users = users
-        });
-    }
 
-    [HttpPost]
-    public IActionResult EditProfile([FromBody] UserIdVm model)
-    {
-        var user = _userManager.Users.FirstOrDefault(u => u.Id == model.UserId);
-        if (user is not null)
-        {
-            if (user.Ban)
-                user.Ban = false;
-            else
-                user.Ban = true;
-            _db.SaveChanges();
-            return Ok(user.Ban);
+            return View();
         }
-        return BadRequest();
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAdmin(CreateAdminVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _adminCreate.CreateNewAdmin(model))
+                    return RedirectToAction("EditProfile");
+            }
+            ViewData["Error"] = "Произошла ошибка создания админа.";
+            return RedirectToAction("CreateAdmin");
+
+        }
+
+        [HttpGet]
+        public IActionResult EditProfile()
+        {
+            var users = _userManager.Users.ToList();
+
+            users.Remove(users[0]);
+            return View(new EditProfileVm
+            {
+                Users = users
+            });
+        }
+
+        [HttpPost]
+        public IActionResult EditProfile([FromBody] UserIdVm model)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == model.UserId);
+            if (user is not null)
+            {
+                if (user.Ban)
+                    user.Ban = false;
+                else
+                    user.Ban = true;
+                _db.SaveChanges();
+                return Ok(user.Ban);
+            }
+            return BadRequest();
+
+        }
 
     }
-
 }

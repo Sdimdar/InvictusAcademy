@@ -31,7 +31,7 @@ public class Login : EndpointBaseAsync
         Description = "Для входа пользователя необходимо ввести логин и пароль",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
                                                                                         CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);

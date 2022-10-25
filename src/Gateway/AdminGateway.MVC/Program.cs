@@ -1,30 +1,24 @@
-using AdminGateway.MVC.DependencyInjection;
+using AdminGateway.MVC;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var configuration = builder.Configuration;
 
-
-string connection = builder.Configuration.GetConnectionString("AdminConnetion");
-services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
-services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
+
 //swagger
 services.AddSwaggerConfiguration();
 
 //custom services
 services.AddCustomServices();
+services.AddDbServices(builder.Configuration);
+services.AddHttpClients(builder.Configuration);
 
 //mapper
 services.SetAutomapperProfiles();
-
-
-services.AddHttpClients(configuration);
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -42,9 +36,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(e, "An error occurred while seeding the database.");
     }
 }
-
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))

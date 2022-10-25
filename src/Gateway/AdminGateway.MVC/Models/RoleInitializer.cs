@@ -1,30 +1,31 @@
 ﻿using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminGateway.MVC.Models;
-
-public class RoleInitializer
+namespace AdminGateway.MVC.Models
 {
-    public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public class RoleInitializer
     {
-        string headAdmin = "admin@gmail.com";
-        string password = "Aa12345!";
-
-        var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
-        foreach (var role in roles)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            if (await roleManager.FindByNameAsync(role) is null)
-                await roleManager.CreateAsync(new IdentityRole(role));
-        }
+            string headAdmin = "admin@gmail.com";
+            string password = "Aa12345!";
 
-
-        if (await userManager.FindByNameAsync(headAdmin) == null)
-        {
-            User admin = new User { Email = headAdmin, UserName = headAdmin };
-            IdentityResult result = await userManager.CreateAsync(admin, password);
-            if (result.Succeeded)
+            var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
+            foreach (var role in roles)
             {
-                await userManager.AddToRoleAsync(admin, "admin");
+                if (await roleManager.FindByNameAsync(role) is null)
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+
+            if (await userManager.FindByNameAsync(headAdmin) == null)
+            {
+                User admin = new User { Email = headAdmin, UserName = headAdmin };
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "admin");
+                }
             }
         }
     }

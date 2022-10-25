@@ -29,7 +29,7 @@ public class Edit : EndpointBaseAsync
         Description = "Для изменения данных пользователь должен быть залогинен, необходимо ввести данные в виде JSON",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditCommand request,
                                                                                   CancellationToken cancellationToken = default)
     {
         try

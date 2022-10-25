@@ -31,7 +31,7 @@ public class Register : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
                                                                                       CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 
-namespace AdminGateway.MVC.Mappings;
-
-internal class MappingProfile : Profile
+namespace AdminGateway.MVC.Mappings
 {
+    internal class MappingProfile : Profile
+    {
+    }
 }

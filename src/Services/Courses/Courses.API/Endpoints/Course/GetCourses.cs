@@ -11,7 +11,7 @@ namespace Courses.API.Endpoints.Course
         .WithActionResult<DefaultResponseObject<CoursesVm>>
     {
         [HttpGet("/Courses/GetCourses")]
-        public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuery request,
+        public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromBody] GetCoursesQuery request,
                                                                                                CancellationToken cancellationToken = default)
         {
             List<CourseVm> list = new();

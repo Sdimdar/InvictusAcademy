@@ -1,8 +1,9 @@
 ﻿using AdminGateway.MVC.ViewModels;
 
-namespace AdminGateway.MVC.Services.Interfaces;
-
-public interface IAdminCreate
+namespace AdminGateway.MVC.Services.Interfaces
 {
-    Task<bool> CreateNewAdmin(CreateAdminVm model);
+    public interface IAdminCreate
+    {
+        Task<bool> CreateNewAdmin(CreateAdminVm model);
+    }
 }

@@ -1,8 +1,9 @@
 ﻿using AdminGateway.MVC.Models.DbModels;
 
-namespace AdminGateway.MVC.ViewModels;
-
-public class EditProfileVm
+namespace AdminGateway.MVC.ViewModels
 {
-    public List<User> Users { get; set; }
+    public class EditProfileVm
+    {
+        public List<User> Users { get; set; }
+    }
 }

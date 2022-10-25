@@ -5,12 +5,12 @@ namespace User.API.Tests;
 
 public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public GetUserDataTests(CustomApplicationFactory<Program> factory)
     {
         _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new HttpClientWrapper(_factory.CreateClient());
     }
 
     [Theory]
@@ -57,9 +57,11 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
         // Arrange
 
         // Act
-        var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
+        var data = await _httpClient.GetAndReturnResponseAsync<string>($"/User/GetUserData?email={invalidEmail}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        data.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Errors.Should().NotBeNull();
     }
 }

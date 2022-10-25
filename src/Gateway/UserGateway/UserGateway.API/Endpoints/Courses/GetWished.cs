@@ -32,7 +32,7 @@ public class GetWished : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "Courses" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         try
         {

@@ -25,7 +25,7 @@ public class Logout : EndpointBaseAsync
         Description = "Сработает вне зависимости от того залогинен пользователь или нет",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         HttpContext.Session.Remove("user");
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));

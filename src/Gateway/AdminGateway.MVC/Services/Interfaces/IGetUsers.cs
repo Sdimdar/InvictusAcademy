@@ -1,9 +1,10 @@
 using DataTransferLib.Models;
 using ServicesContracts.Identity.Responses;
 
-namespace AdminGateway.MVC.Services.Interfaces;
-
-public interface IGetUsers
+namespace AdminGateway.MVC.Services.Interfaces
 {
-    Task<DefaultResponseObject<UsersVm>> GetUsersAsync();
+    public interface IGetUsers
+    {
+        Task<DefaultResponseObject<UsersVm>> GetUsersAsync();
+    }
 }

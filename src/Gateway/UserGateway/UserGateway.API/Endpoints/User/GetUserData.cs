@@ -30,7 +30,7 @@ public class GetUserData : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         try
         {

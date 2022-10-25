@@ -29,7 +29,7 @@ public class EditPassword : EndpointBaseAsync
         Description = "Для изменения данных пользователь должен быть залогинен, необходимо ввести данные в виде JSON",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditPasswordCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditPasswordCommand request,
         CancellationToken cancellationToken = default)
     {
         try
