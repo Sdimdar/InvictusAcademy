@@ -51,21 +51,16 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
         data.Errors.Should().NotBeNull();
     }
 
-    [Theory]
-    [InlineData("")]
-    public async Task GetUserData_SendRequestWithEmptyStringEmail(string invalidEmail)
+    [Fact]
+    public async Task GetUserData_SendRequestWithEmptyStringEmail()
     {
         // Arrange
+        const string invalidEmail = "";
 
         // Act
-        try
-        {
-            var data = await _httpClient.GetAndReturnResponseAsync<string>($"/User/GetUserData?email={invalidEmail}");
-        }
-        catch (Exception e)
-        {
-            // Assert
-            e.Should().BeOfType(typeof(InternalServiceException));
-        }
+        var response = await _httpClient.HttpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
+        
+        // Assert
+        response.IsSuccessStatusCode.Should().BeFalse();
     }
 }

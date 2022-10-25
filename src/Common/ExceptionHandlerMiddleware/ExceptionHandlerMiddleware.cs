@@ -29,7 +29,7 @@ public class ExceptionHandlerMiddleware
     
     private static Task HandleExceptionMessageAsync(HttpContext context, Exception exception)
     {
-        object? data = null;
+        object? data;
         switch (exception)
         {
             case PostgresException postgresException:
@@ -38,7 +38,11 @@ public class ExceptionHandlerMiddleware
                 break;
             case InternalServiceException internalServiceException:
                 context.Response.StatusCode = internalServiceException.StatusCode;
-                data = "InternalServiceException: " + internalServiceException.Message;
+                data = "Internal service exception: " + internalServiceException.Message;
+                break;
+            case InvalidCastException invalidCastException:
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                data = "Invalid type cast exception: " + invalidCastException.Message;
                 break;
             case UnauthorizedAccessException unauthorizedAccessException:
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

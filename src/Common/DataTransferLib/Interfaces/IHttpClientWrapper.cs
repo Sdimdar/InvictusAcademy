@@ -4,21 +4,13 @@ namespace DataTransferLib.Interfaces;
 
 public interface IHttpClientWrapper
 {
-    HttpClient HttpClient { set; }
-    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri);
-    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TResponse>(string uri);
-    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TRequest, TResponse>( TRequest request, string uri);
-    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TResponse>(string uri);
-    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri);
-    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TResponse>(string uri);
-    public Task<DefaultResponseObject<TResponse>> DeleteAndReturnResponseAsync<TRequest, TResponse>( TRequest request, string uri);
-    public Task<DefaultResponseObject<TResponse>> DeleteAndReturnResponseAsync<TResponse>(string uri);
-    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TRequest, TResponse>( TRequest request, string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken);
-    public Task<DefaultResponseObject<TResponse>> DeleteAndReturnResponseAsync<TRequest, TResponse>( TRequest request, string uri, CancellationToken cancellationToken);
+    HttpClient HttpClient { get; set; }
+    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> GetAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> PostAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> PutAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken = new());
+    public Task<DefaultResponseObject<TResponse>> DeleteAndReturnResponseAsync<TRequest, TResponse>( TRequest request, string uri, CancellationToken cancellationToken = new());
     public Task<DefaultResponseObject<TResponse>> DeleteAndReturnResponseAsync<TResponse>(string uri, CancellationToken cancellationToken);
 }
