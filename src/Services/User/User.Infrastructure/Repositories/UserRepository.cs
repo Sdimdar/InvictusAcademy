@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CommonRepository;
+﻿using CommonRepository;
 using User.Application.Contracts;
 using User.Domain.Entities;
 using User.Infrastructure.Persistance;
-using User.Infrastructure.Extensions;
 
 namespace User.Infrastructure.Repositories;
 
@@ -11,15 +9,16 @@ public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IU
 {
     public UserRepository(IdentityDbContext context) : base(context) { }
 
-    public async Task<IEnumerable<UserDbModel>> GetPaginatedAll(string? filterString, int pageSize, int page)
+    protected override IQueryable<UserDbModel> FilterByString(IQueryable<UserDbModel> query, string? filterString)
     {
-        var result = Context.Users.Filter(filterString)
-                                  .GetABatchOfData(page, pageSize);
-        return await result.ToListAsync();
-    }
-
-    public async Task<int> GetUsersCountAsync()
-    {
-        return await Context.Users.CountAsync();
+        return string.IsNullOrEmpty(filterString)
+            ? query
+            : query.Where(v => v.FirstName.ToLower().Contains(filterString.ToLower())
+                                     || v.MiddleName!.ToLower().Contains(filterString.ToLower())
+                                     || v.LastName.ToLower().Contains(filterString.ToLower())
+                                     || v.PhoneNumber.ToLower().Contains(filterString.ToLower())
+                                     || v.Email.ToLower().Contains(filterString.ToLower())
+                                     || v.Citizenship!.ToLower().Contains(filterString.ToLower())
+            );
     }
 }

@@ -10,4 +10,9 @@ public class CoursePurchasedRepository : BaseRepository<CoursePurchasedDbModel, 
     public CoursePurchasedRepository(CoursesDbContext dbContext) : base(dbContext)
     {
     }
+
+    protected override IQueryable<CoursePurchasedDbModel> FilterByString(IQueryable<CoursePurchasedDbModel> query, string? filterString)
+    {
+        return query;
+    }
 }

@@ -1,32 +1,20 @@
 using CommonRepository;
-using Microsoft.EntityFrameworkCore;
 using Request.Application.Contracts;
 using Request.Domain.Entities;
 using Request.Infrastructure.Persistence;
-using ServicesContracts.Request.Requests.Querries;
 
 namespace Request.Infrastructure.Repositories;
 
 public class RequestRepository : BaseRepository<RequestDbModel, RequestDbContext>, IRequestRepository
 {
+    public RequestRepository(RequestDbContext dbContext) : base(dbContext) {}
 
-    public RequestRepository(RequestDbContext dbContext) : base(dbContext)
+    protected override IQueryable<RequestDbModel> FilterByString(IQueryable<RequestDbModel> query, string? filterString)
     {
-    }
-
-    public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestsQuery pageInfo)
-    {
-        if (pageInfo.PageNumber == 0)
-            return await Context.Requests.ToListAsync();
-        IQueryable<RequestDbModel> requestsPerPage = Context.Requests.OrderByDescending(r => r.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
-        var result = await requestsPerPage.ToListAsync();
-        return result;
-    }
-
-    public async Task<int> GetRequestsCount()
-    {
-        IQueryable<RequestDbModel> result = Context.Requests;
-        return result.Count();
-
+        return string.IsNullOrEmpty(filterString)
+            ? query
+            : query.Where(v => v.UserName.ToLower().Contains(filterString.ToLower())
+                            || v.PhoneNumber.ToLower().Contains(filterString.ToLower())
+            );
     }
 }

@@ -27,7 +27,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
 
-        var usersCount = _userRepository.GetUsersCountAsync();
+        var usersCount = _userRepository.GetCountAsync();
         if (request.PageSize == 0)
         {
             request.Page = 1;
@@ -36,7 +36,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
 
         if (await usersCount == 0) return Result.Error("Users list is empty");
         
-        var data = await _userRepository.GetPaginatedAll(request.FilterString, request.PageSize, request.Page);
+        var data = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.Page, request.FilterString);
         UsersVm model = new()
         {
             Users = _mapper.Map<List<UserVm>>(data),

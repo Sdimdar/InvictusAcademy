@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.API\Request.API.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Application\Request.Application.csproj" />
+    <ProjectReference Include="..\TestCommonRepository\TestCommonRepository.csproj" />
   </ItemGroup>
 
 </Project>
