@@ -7,6 +7,6 @@ namespace Request.Application.Contracts;
 public interface IRequestRepository : IBaseRepository<RequestDbModel>
 {
 
-    Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo);
+    Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestsQuery pageInfo);
     Task<int> GetRequestsCount();
 }
