@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+    <ProjectReference Include="..\..\..\Common\ExceptionHandlerMiddleware\ExceptionHandlerMiddleware.csproj" />
     <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\Courses.Infrastructure\Courses.Infrastructure.csproj" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using DataTransferLib.Interfaces;
 using DataTransferLib.Models;
+using ExceptionHandlerMiddleware.Exceptions;
 using Newtonsoft.Json;
 
 namespace DataTransferLib;
@@ -205,18 +206,15 @@ public class HttpClientWrapper : IHttpClientWrapper
 
     private async Task<DefaultResponseObject<TResponse>> ExchangeAsync<TResponse>(HttpRequestMessage message, CancellationToken cancellationToken)
     {
-        try
+        var response = await HttpClient.SendAsync(message, cancellationToken);
+        if (response.IsSuccessStatusCode)
         {
-            var response = await HttpClient.SendAsync(message, cancellationToken);
-            response.EnsureSuccessStatusCode();
             var dataAsString = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             var result = JsonConvert.DeserializeObject<DefaultResponseObject<TResponse>>(dataAsString);
             if (result == null) throw new InvalidCastException($"Cast to {typeof(DefaultResponseObject<TResponse>)} is dropped");
             return result;
         }
-        catch (Exception ex)
-        {
-            return new DefaultResponseObject<TResponse>() { Errors = new[] { "Internal server request error \n" + ex.Message } };
-        }
+        var errorMessage = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+        throw new InternalServiceException((int)response.StatusCode, errorMessage + " Exception from: " + message.RequestUri);
     }
 }

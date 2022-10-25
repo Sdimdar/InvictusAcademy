@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+    <ProjectReference Include="..\..\..\Common\ExceptionHandlerMiddleware\ExceptionHandlerMiddleware.csproj" />
     <ProjectReference Include="..\UserGateway.Application\UserGateway.Application.csproj" />
     <ProjectReference Include="..\UserGateway.Domain\UserGateway.Domain.csproj" />
     <ProjectReference Include="..\UserGateway.Infrastructure\UserGateway.Infrastructure.csproj" />

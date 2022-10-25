@@ -1,6 +1,7 @@
 using AdminGateway.MVC;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
+using ExceptionHandlerMiddleware.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +52,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseExceptionHandlerMiddleware();
 
 // app.MapControllers();
 app.MapControllerRoute(

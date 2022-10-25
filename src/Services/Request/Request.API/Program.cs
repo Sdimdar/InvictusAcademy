@@ -1,3 +1,4 @@
+using ExceptionHandlerMiddleware.Extensions;
 using Request.API;
 using Request.Application;
 using Request.Infrastructure;
@@ -28,7 +29,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 }
 
 app.UseHttpsRedirection();
-
+app.UseExceptionHandlerMiddleware();
 app.UseAuthorization();
 
 app.MapControllers();

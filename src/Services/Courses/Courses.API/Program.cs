@@ -1,6 +1,7 @@
 using Courses.API;
 using Courses.Application;
 using Courses.Infrastructure;
+using ExceptionHandlerMiddleware.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -30,5 +31,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseExceptionHandlerMiddleware();
 
 app.Run();

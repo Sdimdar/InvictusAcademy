@@ -1,3 +1,4 @@
+using ExceptionHandlerMiddleware.Extensions;
 using UserGateway.API;
 using UserGateway.Application;
 using UserGateway.Infrastructure;
@@ -37,6 +38,7 @@ app.UseAuthorization();
 app.UseRouting();
 app.UseSession();
 app.MapControllers();
+app.UseExceptionHandlerMiddleware();
 
 
 app.Run();
