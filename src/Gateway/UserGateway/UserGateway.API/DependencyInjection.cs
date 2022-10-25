@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DataTransferLib;
+using DataTransferLib.Interfaces;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 using UserGateway.Application.Mappings;
@@ -46,6 +48,7 @@ public static class DependencyInjection
         services.AddHttpClient<IUserService, UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
         services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
         services.AddHttpClient<ICoursesService, CoursesService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
+        services.AddScoped<IHttpClientWrapper, HttpClientWrapper>();
         return services;
     }
 

@@ -6,7 +6,7 @@ namespace User.API.Tests;
 public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private const int USERS_COUNT = 4;
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public GetUsersDataTests(CustomApplicationFactory<Program> factory)
     {

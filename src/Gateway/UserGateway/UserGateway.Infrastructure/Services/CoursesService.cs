@@ -1,32 +1,23 @@
 ﻿using DataTransferLib.Models;
-using Newtonsoft.Json;
 using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
-using System.Text;
+using DataTransferLib.Interfaces;
 using UserGateway.Application.Contracts;
-using UserGateway.Application.Features.Courses.Queries.GetCourses;
-using UserGateway.Infrastructure.Extensions;
 
 namespace UserGateway.Infrastructure.Services;
 
 public class CoursesService : ICoursesService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
 
-    public CoursesService(HttpClient httpClient)
+    public CoursesService(HttpClient httpClient, IHttpClientWrapper httpClientWrapper)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        _httpClient = httpClientWrapper ?? throw new ArgumentNullException(nameof(httpClientWrapper));
+        _httpClient.HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
-        var requestMessage = new HttpRequestMessage()
-        {
-            Method = HttpMethod.Get,
-            Content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, "application/json"),
-            RequestUri = new Uri(_httpClient.BaseAddress, "/Courses/GetCourses")
-        };
-        var responce = await _httpClient.SendAsync(requestMessage, cancellationToken);
-        return await responce.ReadContentAs<DefaultResponseObject<CoursesVm>?>();
+        return await _httpClient.GetAndReturnResponseAsync<GetCoursesQuery, CoursesVm>(query, "/Courses/GetCourses", cancellationToken);
     }
     
 }

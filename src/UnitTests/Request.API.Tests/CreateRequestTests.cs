@@ -4,7 +4,7 @@ namespace Request.API.Tests;
 
 public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public CreateRequestTests(CustomApplicationFactory<Program> factory)
     {
@@ -23,7 +23,7 @@ public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program
         };
 
         // Act
-        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program
         };
 
         // Act
-        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();

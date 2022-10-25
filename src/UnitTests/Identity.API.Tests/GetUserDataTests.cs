@@ -5,7 +5,7 @@ namespace User.API.Tests;
 
 public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public GetUserDataTests(CustomApplicationFactory<Program> factory)
     {

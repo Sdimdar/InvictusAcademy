@@ -2,7 +2,7 @@
 
 public class GetRequestsCountTest : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public GetRequestsCountTest(CustomApplicationFactory<Program> factory)
     {

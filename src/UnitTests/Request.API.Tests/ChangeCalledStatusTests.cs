@@ -4,7 +4,7 @@ namespace Request.API.Tests;
 
 public class ChangeCalledStatusTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public ChangeCalledStatusTests(CustomApplicationFactory<Program> factory)
     {
@@ -22,7 +22,7 @@ public class ChangeCalledStatusTests : IClassFixture<CustomApplicationFactory<Pr
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<ChangeCalledStatusCommand, string>(command, "/Request/SetCalledStatus");
+        var data = await _httpClient.PostAndReturnResponseAsync<ChangeCalledStatusCommand, string>(command, "/Request/SetCalledStatus", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();

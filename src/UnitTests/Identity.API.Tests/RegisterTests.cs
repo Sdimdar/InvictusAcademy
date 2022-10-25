@@ -6,7 +6,7 @@ namespace User.API.Tests;
 
 public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public RegisterTests(CustomApplicationFactory<Program> factory)
     {

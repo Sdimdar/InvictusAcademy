@@ -5,7 +5,7 @@ namespace User.API.Tests;
 
 public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public EditPasswordTests(CustomApplicationFactory<Program> factory)
     {
@@ -26,7 +26,7 @@ public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword");
+        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -54,7 +54,7 @@ public class EditPasswordTests : IClassFixture<CustomApplicationFactory<Program>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword");
+        var data = await _httpClient.PostAndReturnResponseAsync<EditPasswordCommand, string>(command, "/User/EditPassword", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();

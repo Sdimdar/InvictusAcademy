@@ -18,22 +18,22 @@ namespace AdminGateway.MVC.Services
 
         public async Task<DefaultResponseObject<GetAllRequestVm>> GetAllRequestsAsync(int pageNumber, int pageSize)
         {
-            return await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={pageNumber}&pageSize={pageSize}");
+            return await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={pageNumber}&pageSize={pageSize}", new CancellationToken());
         }
 
         public async Task<DefaultResponseObject<string>> ChangeCalledStatusAsync(ChangeCalledStatusCommand command)
         {
-            return await _httpClient.PostAndReturnResponseAsync<ChangeCalledStatusCommand, string>(command, $"/Request/SetCalledStatus");
+            return await _httpClient.PostAndReturnResponseAsync<ChangeCalledStatusCommand, string>(command, $"/Request/SetCalledStatus", new CancellationToken());
         }
 
         public async Task<DefaultResponseObject<string>> ManagerCommentAsync(ManagerCommentCommand request)
         {
-            return await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(request, "/Request/AddComment");
+            return await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(request, "/Request/AddComment", new CancellationToken());
         }
 
         public async Task<DefaultResponseObject<int>> GetRequestsCountAsync()
         {
-            return await _httpClient.GetAndReturnResponseAsync<int>("/Request/Count");
+            return await _httpClient.GetAndReturnResponseAsync<int>("/Request/Count", new CancellationToken());
         }
     }
 }

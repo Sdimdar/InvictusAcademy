@@ -5,7 +5,7 @@ namespace User.API.Tests;
 
 public class EditTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public EditTests(CustomApplicationFactory<Program> factory)
     {

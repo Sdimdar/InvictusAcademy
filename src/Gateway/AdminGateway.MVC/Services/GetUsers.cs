@@ -17,7 +17,7 @@ namespace AdminGateway.MVC.Services
 
         public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync()
         {
-            return await _httpClient.GetAndReturnResponseAsync<UsersVm>("/User/GetUsersData");
+            return await _httpClient.GetAndReturnResponseAsync<UsersVm>("/User/GetUsersData", new CancellationToken());
         }
 
     }

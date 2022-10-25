@@ -4,7 +4,7 @@ namespace Request.API.Tests;
 
 public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClientWrapper _httpClient;
+    private readonly IHttpClientWrapper _httpClient;
     private readonly CustomApplicationFactory<Program> _factory;
     public AddCommentTests(CustomApplicationFactory<Program> factory)
     {
@@ -23,7 +23,7 @@ public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -41,7 +41,7 @@ public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
