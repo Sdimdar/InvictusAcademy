@@ -1,6 +1,5 @@
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using AutoMapper;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

@@ -1,8 +1,10 @@
-﻿namespace ServicesContracts.Identity.Responses;
+﻿using User.Domain.Entities;
+
+namespace ServicesContracts.Identity.Responses;
 
 public class UsersVm
 {
-    public IEnumerable<UserVm> Users { get; set; }
+    public List<UserDbModel> Users { get; set; }
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
     public int TotalPages { get; set; }
