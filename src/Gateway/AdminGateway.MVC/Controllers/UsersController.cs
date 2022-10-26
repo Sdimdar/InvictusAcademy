@@ -2,6 +2,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -31,10 +32,6 @@ public class UsersController : Controller
             ErrorVM error = new ErrorVM(e.Message);
             return View("../Errors/ErrorPage", error);
         }
-        //var response = await _iGetUsers.GetUsersAsync();
-        //var usersList = response.Value;
-
-        //return View(_mapper.Map<List<RegisteredUserVM>>(usersList.Users));
     }
     
     [HttpGet]
@@ -46,6 +43,29 @@ public class UsersController : Controller
         try
         {
             var response = await _iGetUsers.GetUsersCountAsync();
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return View("../Errors/ErrorPage", error);
+        }
+    }
+    [HttpPost]
+    [SwaggerOperation(
+        Summary = "Изменяет статус для User бан/не бан",
+        Description = "Необходимо передать id")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<string>>> ToBan([FromQuery]ToBanCommand command)
+    {
+        try
+        {
+            if (command.Id <= 0)
+            {
+                ErrorVM error = new ErrorVM("Id was not assigned");
+                return View("../Errors/ErrorPage", error);
+            }
+            var response = await _iGetUsers.ChangeBanStatusAsync(command);
             return Ok(response);
         }
         catch (Exception e)

@@ -2,6 +2,7 @@ using AdminGateway.MVC.HttpClientExtensions;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
 using DataTransferLib.Models;
+using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 
 namespace AdminGateway.MVC.Services;
@@ -26,5 +27,11 @@ public class GetUsers : IGetUsers
     {
         var response = await _httpClient.GetAsync($"/User/GetUsersCount");
         return await response.ReadContentAs<DefaultResponseObject<int>>();
+    }
+
+    public async Task<DefaultResponseObject<string>> ChangeBanStatusAsync(ToBanCommand command)
+    {
+        var response = await _httpClient.PostAsJsonAsync($"/User/SetBanStatus", command);
+        return await response.ReadContentAs<DefaultResponseObject<string>>();
     }
 }
