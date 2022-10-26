@@ -5,4 +5,6 @@ namespace Courses.Application.Contracts;
 
 public interface ICourseRepository : IBaseRepository<CourseDbModel>
 {
+    Task<List<CourseDbModel>> GetAllActiveCourses();
+    
 }
