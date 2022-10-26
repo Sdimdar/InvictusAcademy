@@ -9,7 +9,7 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 
-string connection = builder.Configuration.GetConnectionString("AdminConnetion");
+string connection = builder.Configuration.GetConnectionString("AdminConnection");
 services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
 services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.

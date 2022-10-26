@@ -8,7 +8,7 @@ import axios from 'axios'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://localhost:7000",
+  baseURL: "https://localhost:8000",
   timeout: 30000,
 });
 
@@ -44,24 +44,12 @@ export default boot(({ app }) => {
 })
 
 export { api }
+//
+export const login = (payload) => api.post("/Admin/Login", payload);
+export const fetchLoginedUserData = () => api.get('/Admin/GetUserData');
+export const fetchlogout = () => api.post("/Admin/Logout");
 
-// user
-export const login = (payload) => api.post("/User/Login", payload);
-export const register = (payload) => api.post("/User/Register", payload);
-export const fetchLoginedUserData = () => api.get('/User/GetUserData');
-export const fetchlogout = () => api.post("/User/Logout");
-export const editProfile = (payload) => api.post('/User/Edit', payload);
-export const editPassword = (payload) => api.post("/User/EditPassword", payload);
-
-// request
-export const createRequest = (payload) => api.post('/Request/Create', payload);
-
-// course
-export const getCurrentCourses = () => api.get('/Courses/GetCurrent');
-export const getCompletedCourses = () => api.get('/Courses/GetCompleted');
-export const getWishedCourses = () => api.get('/Courses/GetWished');
-
-// на последующее удаление огрызки от админки
+// admin
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });

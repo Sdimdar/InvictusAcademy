@@ -2,6 +2,7 @@
 using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
 
@@ -20,9 +21,14 @@ public class AccountsController : Controller
         return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
-    [HttpPost]
+    [HttpPost("Admin/Login")]
+    [SwaggerOperation(
+        Summary = "Вход админа в систему",
+        Description = "Для входа админа необходимо ввести логин и пароль",
+        Tags = new[] { "Admin" })
+    ]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model)
+    public async Task<IActionResult> Login([FromBody]LoginViewModel model)
     {
         if (ModelState.IsValid)
         {
@@ -59,7 +65,8 @@ public class AccountsController : Controller
         return View(model);
 
     }
-
+    
+    [HttpPost("Admin/Logout")]
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();
