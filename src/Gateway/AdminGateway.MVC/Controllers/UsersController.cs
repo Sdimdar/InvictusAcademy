@@ -19,7 +19,7 @@ public class UsersController : Controller
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<IActionResult> GetAllRegisteredUsers(int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> GetAllRegisteredUsers([FromQuery]int pageNumber = 1, int pageSize = 10)
     {
         try
         {

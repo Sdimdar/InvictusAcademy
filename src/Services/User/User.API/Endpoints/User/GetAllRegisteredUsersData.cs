@@ -28,7 +28,7 @@ public class GetAllRegisteredUsersData : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync(GetAllUsersCommand request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery]GetAllUsersCommand request, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
