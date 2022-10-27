@@ -6,9 +6,9 @@ namespace AdminGateway.MVC.Controllers;
 
 public class ValidationController : Controller
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<AdminUser> _userManager;
 
-    public ValidationController(UserManager<User> userManager)
+    public ValidationController(UserManager<AdminUser> userManager)
     {
 
         _userManager = userManager;

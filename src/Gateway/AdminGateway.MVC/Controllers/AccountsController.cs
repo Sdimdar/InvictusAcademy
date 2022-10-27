@@ -7,9 +7,9 @@ namespace AdminGateway.MVC.Controllers;
 
 public class AccountsController : Controller
 {
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
-    public AccountsController(SignInManager<User> signInManager, UserManager<User> userManager)
+    private readonly SignInManager<AdminUser> _signInManager;
+    private readonly UserManager<AdminUser> _userManager;
+    public AccountsController(SignInManager<AdminUser> signInManager, UserManager<AdminUser> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -26,7 +26,7 @@ public class AccountsController : Controller
     {
         if (ModelState.IsValid)
         {
-            User user = await _userManager.FindByNameAsync(model.Login);
+            AdminUser user = await _userManager.FindByNameAsync(model.Login);
 
             if (user == null)
             {
