@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminGateway.MVC.Models;
 
-public class AdminDbContext : IdentityDbContext<User>
+public class AdminDbContext : IdentityDbContext<AdminUser>
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<AdminUser> Users { get; set; }
     public AdminDbContext(DbContextOptions<AdminDbContext> options) : base(options)
     {
         Database.Migrate();

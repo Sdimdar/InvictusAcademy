@@ -14,7 +14,7 @@ public class RequestRepository : BaseRepository<RequestDbModel, RequestDbContext
     {
     }
 
-    public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
+    public async Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestsQuery pageInfo)
     {
         if (pageInfo.PageNumber == 0)
             return await Context.Requests.ToListAsync();

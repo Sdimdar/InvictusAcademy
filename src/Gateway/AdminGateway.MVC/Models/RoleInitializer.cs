@@ -5,7 +5,7 @@ namespace AdminGateway.MVC.Models;
 
 public class RoleInitializer
 {
-    public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task InitializeAsync(UserManager<AdminUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         string headAdmin = "admin@gmail.com";
         string password = "Aa12345!";
@@ -20,7 +20,7 @@ public class RoleInitializer
 
         if (await userManager.FindByNameAsync(headAdmin) == null)
         {
-            User admin = new User { Email = headAdmin, UserName = headAdmin };
+            AdminUser admin = new AdminUser { Email = headAdmin, UserName = headAdmin };
             IdentityResult result = await userManager.CreateAsync(admin, password);
             if (result.Succeeded)
             {

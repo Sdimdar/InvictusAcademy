@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Identity.Requests.Querries;
+using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -31,7 +31,7 @@ public class GetUserData : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(string email,
                                                                                         CancellationToken cancellationToken = default)
     {
-        GetUserDataQuerry command = new(email);
+        GetUserDataQuery command = new(email);
         var result = await _mediator.Send(command, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(result));
     }

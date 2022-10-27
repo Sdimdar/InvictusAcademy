@@ -2,6 +2,7 @@
 using User.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using ServicesContracts.Identity.Responses;
 
 namespace User.API.Tests.Repository;
 
@@ -141,7 +142,7 @@ public class UserMockRepository : IUserRepository
         return Task.FromResult(_repositoryData.AsQueryable().FirstOrDefault(predicate));
     }
 
-    public Task<(IEnumerable<UserDbModel>, int)> GetPaginatedAll(string? filterString, int pageSize, int page)
+    public Task<IEnumerable<UserDbModel>> GetPaginatedAll(string? filterString, int pageSize, int page)
     {
         IEnumerable<UserDbModel> data = _repositoryData;
         if (filterString != null)
@@ -153,7 +154,12 @@ public class UserMockRepository : IUserRepository
                                 || v.Email.ToLower().Contains(filterString.ToLower())
                                 || v.Citizenship.ToLower().Contains(filterString.ToLower()));
         }
-        return Task.FromResult((data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize), data.Count()));
+        return Task.FromResult(data.OrderByDescending(v => v.RegistrationDate).Skip((page - 1) * pageSize).Take(pageSize));
+    }
+
+    public Task<int> GetUsersCountAsync()
+    {
+        return Task.FromResult(_repositoryData.Count);
     }
 
     public Task UpdateAsync(UserDbModel entity)
@@ -162,5 +168,29 @@ public class UserMockRepository : IUserRepository
                                              || e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
+    }
+
+    public Task<List<UserDbModel>> GetUsersByPage(GetAllUsersCommand pageInfo)
+    {
+        if (pageInfo.PageNumber == 0)
+            return Task.FromResult(_repositoryData.ToList());
+        IQueryable<UserDbModel> requestsPerPage = _repositoryData.AsQueryable()
+                                                                 .OrderByDescending(r => r.CreatedDate)
+                                                                 .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
+                                                                 .Take(pageInfo.PageSize);
+        if (pageInfo.FilterString != null)
+            return Task.FromResult(requestsPerPage.Where(v => v.FirstName.ToLower().Contains(pageInfo.FilterString.ToLower())
+                                                              || v.MiddleName.ToLower().Contains(pageInfo.FilterString.ToLower())
+                                                              || v.LastName.ToLower().Contains(pageInfo.FilterString.ToLower())
+                                                              || v.PhoneNumber.ToLower().Contains(pageInfo.FilterString.ToLower())
+                                                              || v.Email.ToLower().Contains(pageInfo.FilterString.ToLower())
+                                                              || v.Citizenship.ToLower().Contains(pageInfo.FilterString.ToLower()))
+                .ToList());
+        return Task.FromResult(requestsPerPage.ToList());
+    }
+
+    public Task<int> GetUsersCount()
+    {
+        return Task.FromResult(_repositoryData.Count());
     }
 }
