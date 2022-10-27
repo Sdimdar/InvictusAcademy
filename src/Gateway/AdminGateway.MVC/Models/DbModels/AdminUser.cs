@@ -2,7 +2,7 @@
 
 namespace AdminGateway.MVC.Models.DbModels;
 
-public class User : IdentityUser
+public class AdminUser : IdentityUser
 {
     public bool Ban { get; set; } = false;
 }

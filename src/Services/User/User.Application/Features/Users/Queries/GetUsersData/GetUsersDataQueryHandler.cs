@@ -13,12 +13,10 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<GetUsersDataQuery> _validator;
-    private readonly IMapper _mapper;
 
-    public GetUsersDataQueryHandler(IUserRepository userRepository, IMapper mapper, IValidator<GetUsersDataQuery> validator)
+    public GetUsersDataQueryHandler(IUserRepository userRepository, IValidator<GetUsersDataQuery> validator)
     {
         _userRepository = userRepository;
-        _mapper = mapper;
         _validator = validator;
     }
 
@@ -35,11 +33,18 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
         }
 
         if (await usersCount == 0) return Result.Error("Users list is empty");
+
+        var command = new GetAllUsersCommand()
+        {
+            PageSize = request.PageSize,
+            PageNumber = request.Page,
+            FilterString = request.FilterString
+        };
         
-        var data = await _userRepository.GetPaginatedAll(request.FilterString, request.PageSize, request.Page);
+        var data = await _userRepository.GetUsersByPage(command);
         UsersVm model = new()
         {
-            Users = _mapper.Map<List<UserVm>>(data),
+            Users = data,
             Filter = request.FilterString,
             PageVm = new PageVm(await usersCount, request.Page, request.PageSize)
         };

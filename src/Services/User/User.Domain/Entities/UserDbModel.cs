@@ -14,4 +14,5 @@ public class UserDbModel : BaseRepositoryEntity
     public DateTime RegistrationDate { get; set; } = DateTime.Now;
     public string? Citizenship { get; set; }
     public string? AvatarLink { get; set; }
+    public bool IsBanned { get; set; } = false;
 }

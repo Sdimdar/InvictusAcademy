@@ -16,7 +16,7 @@ public class GetUsersCountTests : IClassFixture<CustomApplicationFactory<Program
         // Arrange
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<int>("/User/Count");
+        var data = await _httpClient.GetAndReturnResponseAsync<int>("/User/GetUsersCount");
 
         // Assert
         data.Should().NotBeNull();

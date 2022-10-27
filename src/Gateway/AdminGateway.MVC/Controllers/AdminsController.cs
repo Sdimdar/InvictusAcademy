@@ -11,12 +11,12 @@ namespace AdminGateway.MVC.Controllers;
 [Authorize(Roles = "admin")]
 public class AdminsController : Controller
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<AdminUser> _userManager;
     private readonly AdminDbContext _db;
     private readonly IAdminCreate _adminCreate;
 
 
-    public AdminsController(UserManager<User> userManager, AdminDbContext db, IAdminCreate adminCreate)
+    public AdminsController(UserManager<AdminUser> userManager, AdminDbContext db, IAdminCreate adminCreate)
     {
         _userManager = userManager;
         _db = db;

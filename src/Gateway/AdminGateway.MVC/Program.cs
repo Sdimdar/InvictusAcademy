@@ -11,7 +11,7 @@ var configuration = builder.Configuration;
 
 string connection = builder.Configuration.GetConnectionString("AdminConnetion");
 services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
-services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
+services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
 //swagger
@@ -32,7 +32,7 @@ using (var scope = app.Services.CreateScope())
     var options = scope.ServiceProvider;
     try
     {
-        var userManager = options.GetRequiredService<UserManager<User>>();
+        var userManager = options.GetRequiredService<UserManager<AdminUser>>();
         var rolesManager = options.GetRequiredService<RoleManager<IdentityRole>>();
         await RoleInitializer.InitializeAsync(userManager, rolesManager);
     }
