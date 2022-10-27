@@ -122,7 +122,7 @@ public class RequestMockRepository : IRequestRepository
         return Task.CompletedTask;
     }
 
-    public Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestCommand pageInfo)
+    public Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestsQuery pageInfo)
     {
         if (pageInfo.PageNumber == 0)
             return Task.FromResult(_repositoryData.ToList());

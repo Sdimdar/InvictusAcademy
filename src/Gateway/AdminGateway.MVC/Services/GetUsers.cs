@@ -19,7 +19,7 @@ public class GetUsers : IGetUsers
 
     public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize)
     {
-        var response = await _httpClient.GetAsync($"/User/GetAllRegisteredUsersData?pageNumber={pageNumber}&pageSize={pageSize}");
+        var response = await _httpClient.GetAsync($"/User/GetAllRegisteredUsersData?page={pageNumber}&pageSize={pageSize}");
         return await response.ReadContentAs<DefaultResponseObject<UsersVm>>();
     }
 

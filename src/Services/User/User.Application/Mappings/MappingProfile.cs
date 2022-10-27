@@ -25,7 +25,7 @@ public class MappingProfile : Profile
 
 		//REQUESTS
 		CreateMap<CreateRequestCommand, RequestDbModel>();
-		CreateMap<GetAllRequestCommand, GetAllRequestVm>();
+		CreateMap<GetAllRequestsQuery, GetAllRequestVm>();
 
 	}
 }
