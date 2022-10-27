@@ -11,9 +11,6 @@ public class MappingProfile : Profile
 	{
 		CreateMap<CreateCourseCommand, CourseDbModel>();
 		CreateMap<EditCourseCommand, CourseDbModel>();
-		CreateMap<List<CoursePurchasedDbModel>,List<CourseVm>>();
-		CreateMap<List<CourseDbModel>,List<CourseVm>>();
-		CreateMap<List<CourseWishedDbModel>,List<CourseVm>>();
-		CreateMap<List<CourseVm>, CoursesVm>();
+		CreateMap<CourseDbModel, CourseVm>();
 	}
 }

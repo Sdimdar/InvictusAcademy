@@ -7,7 +7,7 @@ using ServicesContracts.Courses.Responses;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseByType;
 
-public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<CoursesVm>>
+public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<List<CourseVm>>>
 {
     
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<Cour
         _wishedRepository = wishedRepository;
     }
 
-    public async Task<Result<CoursesVm>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CourseVm>>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
     {
         List<CourseVm> list = new();
         switch (request.Type)
@@ -42,11 +42,11 @@ public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<Cour
                 break;
         }
 
-        var result = _mapper.Map<CoursesVm>(list);
-        if (!result.Courses.Any())
+        
+        if (!list.Any())
             return Result.Error("Request list is empty");
-        if (result.Courses == null)
+        if (list == null)
             return Result.NotFound();
-        return Result.Success(result);
+        return Result.Success(list);
     }
 }

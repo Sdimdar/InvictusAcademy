@@ -5,5 +5,5 @@ namespace Courses.Application.Contracts;
 
 public interface ICourseWishedRepository : IBaseRepository<CourseWishedDbModel>
 {
-    Task<List<CourseWishedDbModel>> GetWishedCourses(int userId);
+    Task<List<CourseDbModel>> GetWishedCourses(int userId);
 }

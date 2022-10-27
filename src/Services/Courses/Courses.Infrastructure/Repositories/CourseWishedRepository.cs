@@ -3,6 +3,8 @@ using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using Courses.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using ServicesContracts.Courses.Responses;
+using ZstdSharp.Unsafe;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -12,9 +14,13 @@ public class CourseWishedRepository : BaseRepository<CourseWishedDbModel, Course
     {
     }
 
-    public async Task<List<CourseWishedDbModel>> GetWishedCourses(int userId)
+    public async Task<List<CourseDbModel>> GetWishedCourses(int userId)
     {
-        IQueryable<CourseWishedDbModel> result = Context.CourseWisheds.Where(c => c.UserId == userId);
-        return await result.ToListAsync();
+        var query = from course in Context.Courses
+            join w in Context.CourseWisheds on course.Id equals w.CourseId
+            where w.UserId == userId
+            select course;
+        return await query.ToListAsync();
+       
     }
 }

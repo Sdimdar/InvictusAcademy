@@ -12,17 +12,22 @@ public class CoursePurchasedRepository : BaseRepository<CoursePurchasedDbModel, 
     {
     }
 
-    public async Task<List<CoursePurchasedDbModel>>  GetStartedCourses(int userId)
+    public async Task<List<CourseDbModel>>  GetStartedCourses(int userId)
     {
-        IQueryable<CoursePurchasedDbModel> result = Context.CoursePurchaseds
-            .Where(c => c.UserId == userId && !c.IsCompleted);
-        return await result.ToListAsync();
+        var query = from course in Context.Courses
+            join p in Context.CoursePurchaseds on course.Id equals p.CourseId
+            where p.UserId == userId && !p.IsCompleted
+            select course;
+        return await query.ToListAsync();
+        
     }
 
-    public async Task<List<CoursePurchasedDbModel>> GetCompletedCourses(int userId)
+    public async Task<List<CourseDbModel>> GetCompletedCourses(int userId)
     {
-        IQueryable<CoursePurchasedDbModel> result = Context.CoursePurchaseds
-            .Where(c =>c.UserId == userId  && c.IsCompleted);
-        return await result.ToListAsync();
+        var query = from course in Context.Courses
+            join p in Context.CoursePurchaseds on course.Id equals p.CourseId
+            where p.UserId == userId && p.IsCompleted
+            select course;
+        return await query.ToListAsync();
     }
 }
