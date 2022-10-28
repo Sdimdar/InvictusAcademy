@@ -45,12 +45,12 @@ export default boot(({ app }) => {
 
 export { api }
 //
-export const login = (payload) => api.post("/Admin/Login", payload);
-export const fetchLoginedUserData = () => api.get('/Admin/GetUserData');
-export const fetchlogout = () => api.post("/Admin/Logout");
+export const login = (payload) => api.post('/AdminPanel/Accounts/Login', payload);
+export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdminData");
+export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
 
 // admin
-export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
+export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');

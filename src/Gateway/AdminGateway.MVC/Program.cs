@@ -22,9 +22,10 @@ services.AddCustomServices();
 
 //mapper
 services.SetAutomapperProfiles();
-
-
 services.AddHttpClients(configuration);
+
+// Configure CORS Policy and Cookie
+services.SetCorsPolicy();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -43,9 +44,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
@@ -54,16 +52,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseCors("CorsPolicy");
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// app.MapControllers();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Accounts}/{action=Login}/{id?}");
+app.MapControllers();
 
 app.Run();

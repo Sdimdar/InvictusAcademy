@@ -51,14 +51,14 @@
       const pagination = ref({
         sortBy: 'desc',
         descending: false,
-        page: 1,
+        pageNumber: 1,
         rowsPerPage: 3,
         rowsNumber: 10
       })
   
       async function onRequest (props) {
         console.log(props)
-        let { page, rowsPerPage, sortBy, descending } = props.pagination
+        let { pageNumber, rowsPerPage, sortBy, descending } = props.pagination
         const filter = props.filter
         
         // пока что запретил показывать All
@@ -67,7 +67,7 @@
         loading.value = true
   
         try {
-          const response = await fetchUsersData(filter, rowsPerPage, page);
+          const response = await fetchUsersData(filter, rowsPerPage, pageNumber);
           loading.value = false
           
           console.log("Response:")
@@ -84,7 +84,7 @@
             rows.value.splice(0, rows.value.length, ...returnedData)
   
             // don't forget to update local pagination object
-            pagination.value.page = page
+            pagination.value.pageNumber = pageNumber
             pagination.value.rowsPerPage = rowsPerPage
             pagination.value.sortBy = sortBy
             pagination.value.descending = descending

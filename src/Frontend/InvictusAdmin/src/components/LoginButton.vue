@@ -12,7 +12,7 @@
               label="E-mail"
               type="email"
               dense
-              v-model="loginData.email"
+              v-model="loginData.login"
               autofocus
               lazy-rules
               :rules="[
@@ -76,9 +76,8 @@
     data() {
       return {
         loginData: {
-          email: "",
+          login: "",
           password: "",
-          rememberMe: false,
         },
         isPwd: true,
         loginDialog: false,
@@ -101,7 +100,7 @@
         }
       },
       onReset() {
-        this.loginData.email = "";
+        this.loginData.login = "";
         this.loginData.password = "";
         this.loginData.rememberMe = false;
         this.loginDialog = false;

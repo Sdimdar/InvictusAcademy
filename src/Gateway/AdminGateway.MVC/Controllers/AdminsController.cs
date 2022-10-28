@@ -22,14 +22,7 @@ public class AdminsController : Controller
         _db = db;
         _adminCreate = adminCreate;
     }
-
-    [HttpGet]
-    public IActionResult CreateAdmin()
-    {
-
-        return View();
-    }
-
+    
     [HttpPost]
     public async Task<IActionResult> CreateAdmin(CreateAdminVm model)
     {
@@ -49,10 +42,7 @@ public class AdminsController : Controller
         var users = _userManager.Users.ToList();
 
         users.Remove(users[0]);
-        return View(new EditProfileVm
-        {
-            Users = users
-        });
+        return Ok();
     }
 
     [HttpPost]
