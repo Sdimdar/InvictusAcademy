@@ -1,14 +1,15 @@
 using AdminGateway.MVC;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
-using ExceptionHandlerMiddleware.Extensions;
 using Microsoft.AspNetCore.Identity;
+using GlobalExceptionHandler.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 // Add services to the container.
 services.AddControllersWithViews();
+services.AddExceptionHandlers(options => { });
 
 //swagger
 services.AddSwaggerConfiguration();
@@ -45,6 +46,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwaggerUI();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -52,7 +54,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseExceptionHandlerMiddleware();
 
 // app.MapControllers();
 app.MapControllerRoute(

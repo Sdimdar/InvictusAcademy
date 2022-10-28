@@ -1,4 +1,4 @@
-using ExceptionHandlerMiddleware.Extensions;
+using GlobalExceptionHandler.Extensions;
 using Request.API;
 using Request.Application;
 using Request.Infrastructure;
@@ -11,6 +11,7 @@ services.AddMvc();
 services.AddEndpointsApiExplorer();
 services.AddControllers().AddNewtonsoftJson();
 services.AddSwaggerConfiguration();
+services.AddExceptionHandlers(options => { });
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
@@ -28,13 +29,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseExceptionHandlerMiddleware();
-app.UseAuthorization();
-
+app.UseGlobalExceptionHandler();
 app.MapControllers();
 
 app.Run();
-
 
 public partial class Program { }

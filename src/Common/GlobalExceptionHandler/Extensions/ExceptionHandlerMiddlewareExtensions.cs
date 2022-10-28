@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
+using GlobalExceptionHandler.Exceptions;
 using GlobalExceptionHandler.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace GlobalExceptionHandler.Extensions;
 
@@ -46,5 +48,7 @@ public static class ExceptionHandlerMiddlewareExtensions
     {
         options.Add(typeof(UnauthorizedAccessException), new UnauthorizedAccessExceptionHandler());
         options.Add(typeof(InvalidCastException), new InvalidCastExceptionHandler());
+        options.Add(typeof(PostgresException), new PostgresExceptionHandler());
+        options.Add(typeof(InternalServiceException), new InternalServiceExceptionHandler());
     }
 }

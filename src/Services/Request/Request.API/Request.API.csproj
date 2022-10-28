@@ -23,7 +23,7 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
-      <ProjectReference Include="..\..\..\Common\ExceptionHandlerMiddleware\ExceptionHandlerMiddleware.csproj" />
+      <ProjectReference Include="..\..\..\Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj" />
       <ProjectReference Include="..\Request.Infrastructure\Request.Infrastructure.csproj" />
     </ItemGroup>
 

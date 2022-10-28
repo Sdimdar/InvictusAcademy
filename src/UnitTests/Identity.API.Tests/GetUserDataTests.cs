@@ -1,6 +1,4 @@
-﻿using ExceptionHandlerMiddleware.Exceptions;
-using ServicesContracts.Identity.Responses;
-using User.API.Tests.Fixture;
+﻿using ServicesContracts.Identity.Responses;
 
 namespace User.API.Tests;
 
@@ -59,7 +57,7 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
 
         // Act
         var response = await _httpClient.HttpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
-        
+
         // Assert
         response.IsSuccessStatusCode.Should().BeFalse();
     }

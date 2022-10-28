@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using DataTransferLib.Interfaces;
 using DataTransferLib.Models;
-using ExceptionHandlerMiddleware.Exceptions;
+using GlobalExceptionHandler.Exceptions;
 using Newtonsoft.Json;
 
 namespace DataTransferLib;

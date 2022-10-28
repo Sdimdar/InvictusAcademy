@@ -1,7 +1,6 @@
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using DataTransferLib.Models;
-using ExceptionHandlerMiddleware.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Commands;
