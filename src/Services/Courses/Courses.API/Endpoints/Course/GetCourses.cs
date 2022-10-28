@@ -10,7 +10,7 @@ namespace Courses.API.Endpoints.Course
 {
     public class GetCourses : EndpointBaseAsync
         .WithRequest<GetCoursesQuery>
-        .WithActionResult<DefaultResponseObject<List<CourseVm>>>
+        .WithActionResult<DefaultResponseObject<CoursesVm>>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Courses.API.Endpoints.Course
         }
 
         [HttpGet("/Courses/GetCourses")]
-        public  override async Task<ActionResult<DefaultResponseObject<List<CourseVm>>>> HandleAsync([FromQuery]GetCoursesQuery request,
+        public  override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromQuery]GetCoursesQuery request,
                                                                                                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(request, cancellationToken);

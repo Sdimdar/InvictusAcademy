@@ -5,6 +5,5 @@ namespace Courses.Application.Contracts;
 
 public interface ICoursePurchasedRepository : IBaseRepository<CoursePurchasedDbModel>
 {
-    Task<List<CourseDbModel>> GetStartedCourses(int userId);
-    Task<List<CourseDbModel>> GetCompletedCourses(int userId);
+    
 }

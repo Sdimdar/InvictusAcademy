@@ -4,7 +4,7 @@ using ServicesContracts.Courses.Responses;
 
 namespace ServicesContracts.Courses.Requests.Querries;
 
-public class GetCoursesQuery : IRequest<Result<List<CourseVm>>>
+public class GetCoursesQuery : IRequest<Result<CoursesVm>>
 {
     public int UserId { get; set; }
     public CourseTypes Type { get; set; }

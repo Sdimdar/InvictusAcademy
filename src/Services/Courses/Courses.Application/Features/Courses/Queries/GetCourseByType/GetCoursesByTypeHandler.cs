@@ -7,23 +7,19 @@ using ServicesContracts.Courses.Responses;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseByType;
 
-public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<List<CourseVm>>>
+public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<CoursesVm>>
 {
     
     private readonly IMapper _mapper;
     private readonly ICourseRepository _courseRepository;
-    private readonly ICoursePurchasedRepository _purchasedRepository;
-    private readonly ICourseWishedRepository _wishedRepository;
 
-    public GetCoursesByTypeHandler(IMapper mapper, ICourseRepository courseRepository, ICoursePurchasedRepository purchasedRepository, ICourseWishedRepository wishedRepository)
+    public GetCoursesByTypeHandler(IMapper mapper, ICourseRepository courseRepository)
     {
         _mapper = mapper;
         _courseRepository = courseRepository;
-        _purchasedRepository = purchasedRepository;
-        _wishedRepository = wishedRepository;
     }
 
-    public async Task<Result<List<CourseVm>>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<CoursesVm>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
     {
         List<CourseVm> list = new();
         switch (request.Type)
@@ -32,13 +28,13 @@ public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<List
                 list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetAllActiveCourses());
                 break;
             case CourseTypes.Wished:
-                list = _mapper.Map<List<CourseVm>>(await _wishedRepository.GetWishedCourses(request.UserId));
+                list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetWishedCourses(request.UserId));
                 break;
             case CourseTypes.Current:
-                list = _mapper.Map<List<CourseVm>>(await _purchasedRepository.GetStartedCourses(request.UserId));
+                list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetStartedCourses(request.UserId));
                 break;
             case CourseTypes.Completed:
-                list = _mapper.Map<List<CourseVm>>(await _purchasedRepository.GetCompletedCourses(request.UserId));
+                list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetCompletedCourses(request.UserId));
                 break;
         }
 
@@ -47,6 +43,11 @@ public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<List
             return Result.Error("Request list is empty");
         if (list == null)
             return Result.NotFound();
-        return Result.Success(list);
+
+        var result = new CoursesVm
+        {
+            Courses = list
+        };
+        return Result.Success(result);
     }
 }

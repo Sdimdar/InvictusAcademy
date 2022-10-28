@@ -14,13 +14,5 @@ public class CourseWishedRepository : BaseRepository<CourseWishedDbModel, Course
     {
     }
 
-    public async Task<List<CourseDbModel>> GetWishedCourses(int userId)
-    {
-        var query = from course in Context.Courses
-            join w in Context.CourseWisheds on course.Id equals w.CourseId
-            where w.UserId == userId
-            select course;
-        return await query.ToListAsync();
-       
-    }
+    
 }
