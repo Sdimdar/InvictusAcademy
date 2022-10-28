@@ -43,11 +43,7 @@
                 />
               </template>
             </q-input>
-            <q-checkbox
-              size="xs"
-              v-model="loginData.rememberMe"
-              label="Запомнить?"
-            />
+         
           </q-card-section>
   
           <q-card-actions align="right" class="text-primary">
@@ -77,7 +73,7 @@
       return {
         loginData: {
           login: "",
-          password: "",
+          password: ""
         },
         isPwd: true,
         loginDialog: false,

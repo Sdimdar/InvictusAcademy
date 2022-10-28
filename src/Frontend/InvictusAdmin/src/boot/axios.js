@@ -8,7 +8,7 @@ import axios from 'axios'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://localhost:8000",
+  baseURL: "https://localhost:7153",
   timeout: 30000,
 });
 
