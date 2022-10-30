@@ -1,176 +1,165 @@
 <template>
-    <q-btn
-      :class="$attrs.class"
-      label="Зарегистрироваться"
-      @click="registerDialog = true"
-    />
-  
-    <q-dialog v-model="registerDialog">
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6 text-center">Регистрация</div>
+  <q-btn color="primary" label="Создать администратора" @click="createAdminDialog = true" />
+
+  <q-dialog v-model="createAdminDialog">
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6 text-center">Создать нового админа</div>
+      </q-card-section>
+      <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
+        <q-card-section class="q-pt-none">
+
+          <q-input 
+          dense 
+          v-model="newAdminData.userName" 
+          label="Имя пользователя" 
+          lazy-rules
+            :rules="[
+              (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+              (val) => validateEmail(val) || 'Это не E-mail',
+            ]"/>
+
+          <q-input 
+          dense 
+          v-model="newAdminData.password" 
+          :type="isNewPwd ? 'password' : 'text'"
+          label="Пароль" 
+          lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length > 6 && val.length < 21) ||
+                'Пароль должен быть от 6 до 20 символов',
+              (val) =>
+                validatePassword(val) ||
+                'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
+            ]">
+         <template v-slot:append>
+              <q-icon
+                :name="isNewPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isNewPwd = !isNewPwd"
+              />
+            </template>
+          </q-input>
+
+          <q-input 
+          dense 
+          v-model="newAdminData.confirmPassword" 
+          :type="isPwdConfirm ? 'password' : 'text'"
+          label="Подтвердить пароль" 
+          lazy-rules
+            :rules="[
+              (val) =>
+                val === newAdminData.password || 'Пароли должны совпадать',
+              (val) =>
+                (val && val.length > 6 && val.length < 21) ||
+                'Пароль должен быть от 6 до 20 символов',
+              (val) =>
+                validatePassword(val) ||
+                'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
+            ]"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwdConfirm ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwdConfirm = !isPwdConfirm"
+              />
+            </template>
+          </q-input>
+
+         <q-select
+          v-model="newAdminData.roles"
+          filled
+          multiple
+          :options="options"
+          label="Выбрать роль"
+        />
         </q-card-section>
-        <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
-          <q-card-section class="q-pt-none">
-            <q-input
-              dense
-              v-model="registerData.email"
-              autofocus
-              label="E-mail"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
-                (val) => validateEmail(val) || 'Это не E-mail',
-              ]"
-            />
-            <q-input
-              :type="isPwd ? 'password' : 'text'"
-              dense
-              v-model="registerData.password"
-              label="Пароль"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length > 6 && val.length < 21) ||
-                  'Пароль должен быть от 6 до 20 символов',
-                (val) =>
-                  validatePassword(val) ||
-                  'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
-              ]"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
-              </template>
-            </q-input>
-            <q-input
-              :type="isPwdConfirm ? 'password' : 'text'"
-              dense
-              v-model="registerData.passwordConfirm"
-              label="Повтор пароля"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  val === registerData.password || 'Пароли должны совпадать',
-                (val) =>
-                  (val && val.length > 6 && val.length < 21) ||
-                  'Пароль должен быть от 6 до 20 символов',
-                (val) =>
-                  validatePassword(val) ||
-                  'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
-              ]"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwdConfirm ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwdConfirm = !isPwdConfirm"
-                />
-              </template>
-            </q-input>
-            <q-input
-              dense
-              mask="#(###) ### - ####"
-              v-model="registerData.phoneNumber"
-              label="Телефонный номер"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length === 17) || 'Номер должен содержать 11 цифр',
-              ]"
-            />
-            <q-input
-              dense
-              v-model="registerData.firstName"
-              label="Имя"
-              lazy-rules
-              :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
-            />
-            <q-input
-              dense
-              v-model="registerData.lastName"
-              label="Фамилия"
-              lazy-rules
-              :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
-            />
-          </q-card-section>
-          <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
-          <q-card-actions class="text-primary">
-            <q-btn flat label="Отмена" v-close-popup type="reset" />
-            <q-btn flat label="Зарегистрироваться" type="submit" />
-          </q-card-actions>
-        </q-form>
-      </q-card>
-    </q-dialog>
-  </template>
+
+        <q-card-actions class="text-primary">
+          <q-btn flat type="reset" label="Отмена" />
+          <q-btn flat type="submit" label="Сохранить" />
+        </q-card-actions>
+      </q-form>
+    </q-card>
+  </q-dialog>
+</template>
   
-  <script>
-  import { defineComponent, ref } from "vue";
-  import notify from "boot/notifyes";
-  import constants from "../static/constants";
-  import { register } from "boot/axios";
-  
-  export default defineComponent({
-    name: "register-button",
-    data() {
-      return {
-        registerData: {
-          email: "",
-          password: "",
-          passwordConfirm: "",
-          phoneNumber: "",
-          firstName: "",
-          lastName: "",
-        },
-        registerDialog: ref(false),
-        isPwd: ref(true),
-        isPwdConfirm: ref(true),
-        errorMessages:"",
-      };
-    },
-    props: {
-      logined: {
-        type: Boolean,
-        required: true,
+<script>
+import { defineComponent, ref } from "vue";
+import { fetchLoginedUserData, createAdmin } from "boot/axios";
+import notify from "boot/notifyes";
+import constants from "../static/constants";
+
+export default defineComponent({
+  name: "createAdmin-button",
+  data() {
+    return {
+      data: [],
+      newAdminData: {
+          userName: "",
+          password:"",
+          confirmPassword:"",
+          roles: ref(null),
       },
-    },
-    methods: {
-      async onSubmit() {
-        try {
-          const response = await register(this.registerData);
-          if(response.data.isSuccess){
-            this.registerDialog = false;
-            this.$emit("autorize", response.data.email);
-            notify.showSucsessNotify("Добро пожаловать");
-          }
-          else{
-            this.errorMessages = response.data.validationErrors
-          }
-          
-        } catch (e) {
-          notify.showErrorNotify(e.message);
-          console.log(e);
+      options: ["manager", "copywriter", "instructor", "moderator"],
+      createAdminDialog: false,
+      isNewPwd: ref(true),
+      isPwdConfirm: ref(true),
+    };
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        // const autorize = await fetchLoginedUserData();
+      //   if (autorize.data.isSuccess) {
+      //     const response = await createAdmin(this.newAdminData);
+      //     if (response.data.isSuccess) {
+      //     this.createAdminDialog = false;
+      //     notify.showSucsessNotify("Администратор успешно создан");
+      //   }
+      //   else {
+      //     notify.showSucsessNotify("Пользователь не залогинен");
+      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+      //   }
+      //   }
+      //   else{
+      //     response.data.errors.forEach(error => {
+      //       console.log(error)
+      //     });
+      // }
+      console.log(this.newAdminData);
+      const response = await createAdmin(this.newAdminData);
+          if (response.data.isSuccess) {
+          this.createAdminDialog = false;
+          notify.showSucsessNotify("Администратор успешно создан");
         }
-      },
-      onReset() {
-        this.registerData.email = "";
-        this.registerData.password = "";
-        this.registerData.phoneNumber = "";
-        this.registerData.firstName = "";
-        this.registerData.lastName = "";
-        this.registerDialog = false;
-        errorMessages = "";
-      },
-      validateEmail(value) {
-        return constants.EMAIL_REGEXP.test(value);
-      },
-      validatePassword(value) {
-        return constants.PWD_REGEXP.test(value);
-      },
+        else {
+          notify.showSucsessNotify("Пользователь не залогинен");
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+        }
+
+      }
+      catch (e) {
+        notify.showErrorNotify(e.message);
+    }
+  },
+    onReset() {
+      this.newAdminData.userName = "";
+      this.newAdminData.password = "";
+      this.newAdminData.confirmPassword = "";
+      this.newAdminData.roles = ref(null);
+      this.createAdminDialog = false;
+      this.errorMessage = "";
+    }, 
+    validateEmail(value) {
+      return constants.EMAIL_REGEXP.test(value);
     },
-  });
-  </script>
+    validatePassword(value) {
+      return constants.PWD_REGEXP.test(value);
+    },
+  },
+});
+</script>
   

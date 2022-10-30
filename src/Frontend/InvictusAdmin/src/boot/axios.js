@@ -57,3 +57,4 @@ export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequest
 
 export const managerComment = (payload) => api.post('/AdminPanel/Requests/ManagerComment', payload);
 export const changeCalled = (payload) => api.post('/AdminPanel/Requests/ChangeCalled', payload);
+export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin', payload);

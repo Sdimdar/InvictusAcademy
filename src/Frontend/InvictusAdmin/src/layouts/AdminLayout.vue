@@ -8,10 +8,11 @@
         <q-space />
         <template v-if="!logined" >
           <login-button class="nav-button" :logined="logined" @autorize="autorize"/>
+          <q-btn to="/admin-panel/createAdmin" class="nav-button" label="Создать админа"/>
           
         </template>
         <template v-else>
-          <q-btn to="/showAllUser" class="nav-button" label="Список пользователей"/>
+          <q-btn to="/admin-panel/showAllUser" class="nav-button" label="Список пользователей"/>
           <q-btn to="/admin-panel/requests" class="nav-button" label="Список заявок"/>
           <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
         </template>

@@ -59,16 +59,16 @@ public class AdminService : IAdminService
 
     public async Task<Result<bool>> CreateNewAdmin(CreateAdminVm model, CancellationToken cancellationToken)
     {
-        var user = new AdminUser
+        var admin = new AdminUser
         {
             UserName = model.UserName
         };
-        var result = await _adminManager.CreateAsync(user, model.Password);
+        var result = await _adminManager.CreateAsync(admin, model.Password);
         if (result.Succeeded)
         {
             foreach (var role in model.Roles)
             {
-                await _adminManager.AddToRoleAsync(user, role);
+                await _adminManager.AddToRoleAsync(admin, role);
             }
 
             return Result.Success(true);

@@ -16,9 +16,7 @@ export default {
   },
   data(){
     return{
-      logined: false,
-      loginedUserEmail: "",
-      initialized: false
+      
     }
   },
   methods:{
