@@ -59,7 +59,7 @@ public class RequestsController : Controller
         Summary = "Изменяет статус для Request обзвонен/необзвонен",
         Description = "Необходимо передать id")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled(ChangeCalledStatusCommand command)
+    public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled([FromBody] ChangeCalledStatusCommand command)
     {
         try
         {
@@ -83,7 +83,7 @@ public class RequestsController : Controller
         Summary = "Добавляет комментарий",
         Description = "Необходимо передать id и комментарий")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment(ManagerCommentCommand command)
+    public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment([FromBody] ManagerCommentCommand command)
     {
         try
         {

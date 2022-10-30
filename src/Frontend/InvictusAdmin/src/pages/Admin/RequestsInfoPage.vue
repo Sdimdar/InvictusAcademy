@@ -22,12 +22,13 @@
           <q-td key="createdDate" :props="props">
             {{ props.row.createdDate }}
           </q-td>
-          <q-td key="managerComment" :props="props">
-            <q-input v-model="props.row.managerComment" type="text" />
+          <q-td key="managerComment" :props="props" >
+            <q-input v-model="props.row.managerComment" type="text" 
+            @keyup.enter='managerCommentHadler(props.row.id, props.row.managerComment, $event)'/>
           </q-td>
           <q-td key="wasCalled" :props="props">
             <q-toggle
-              v-model="props.row.wasCalled"
+              v-model="props.row.wasCalled" @click="changeCalledHadler(props.row.id)"
               color="green"
             />
           </q-td>
@@ -38,7 +39,7 @@
 </template>
   
 <script>
-import { fetchAllRequest, fetchRequestsCount } from "boot/axios";
+import { fetchAllRequest, fetchRequestsCount, managerComment, changeCalled } from "boot/axios";
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 
@@ -137,6 +138,48 @@ export default {
       rows,
       onRequest      
     }
+  }, methods:{
+    async managerCommentHadler(rowId, comment, event){
+      let payload = {
+        Id: rowId,
+        ManagerComment: comment
+      }
+      try {
+        const response = await managerComment(payload);
+        event.target.blur();
+      if (response.data.isSuccess) {
+          notify.showSucsessNotify("Изменения сохранены");
+        }
+        else{
+          response.data.errors.forEach(error => {
+            console.log(error)
+          });
+        }
+      } catch (error) {
+        console.log(e.message);
+      }
+      },
+      async changeCalledHadler(rowId){
+      let payload = {
+        Id: rowId
+      }
+      try {
+        const response = await changeCalled(payload);
+      if (response.data.isSuccess) {
+          notify.showSucsessNotify("Изменения сохранены");
+        }
+        else{
+          if(this.props.row.wasCalled){
+            this.props.row.wasCalled = false;
+          }
+          response.data.errors.forEach(error => {
+            console.log(error)
+          });
+        }
+      } catch (error) {
+        console.log(e.message);
+      }
+      }
+    }
   }
-}
 </script>

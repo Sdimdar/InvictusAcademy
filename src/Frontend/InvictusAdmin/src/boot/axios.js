@@ -50,7 +50,10 @@ export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdmin
 export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
 
 // admin
-export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
+export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchUserData = (email) => api.get('/AdminPanel/Users/GetUsersCount', { params: { email: email } });
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
+
+export const managerComment = (payload) => api.post('/AdminPanel/Requests/ManagerComment', payload);
+export const changeCalled = (payload) => api.post('/AdminPanel/Requests/ChangeCalled', payload);
