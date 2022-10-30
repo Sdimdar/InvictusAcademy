@@ -2,6 +2,7 @@
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using Courses.Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -10,4 +11,6 @@ public class CoursePurchasedRepository : BaseRepository<CoursePurchasedDbModel, 
     public CoursePurchasedRepository(CoursesDbContext dbContext) : base(dbContext)
     {
     }
+
+    
 }
