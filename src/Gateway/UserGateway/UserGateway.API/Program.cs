@@ -12,7 +12,7 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerConfiguration();
 services.ConfigureSessionServices();
 services.SetAutomapperProfiles();
-services.AddExceptionHandlers(options => { });
+services.AddExceptionHandlers();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);

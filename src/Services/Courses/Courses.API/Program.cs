@@ -11,7 +11,7 @@ services.AddMvc();
 services.AddEndpointsApiExplorer();
 services.AddControllers();
 services.AddSwaggerConfiguration();
-services.AddExceptionHandlers(options => { });
+services.AddExceptionHandlers();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
