@@ -1,6 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Courses.Domain.Entities;
+using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
