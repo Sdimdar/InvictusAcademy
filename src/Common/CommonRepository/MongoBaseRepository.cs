@@ -7,33 +7,30 @@ namespace CommonRepository;
 
 public class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
 {
-    private readonly IMongoCollection<T> _booksCollection;
+    protected IMongoCollection<T> Collection { get; init; }
+    protected IMongoDatabase MongoDb { get; init; }
 
-    public MongoBaseRepository(
-        IOptions<InvictusProjectDatabaseSettings> bookStoreDatabaseSettings)
+    public MongoBaseRepository(IOptions<InvictusProjectDatabaseSettings> databaseSettings)
     {
-        var mongoClient = new MongoClient(
-            bookStoreDatabaseSettings.Value.ConnectionString);
+        var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
 
-        var mongoDatabase = mongoClient.GetDatabase(
-            bookStoreDatabaseSettings.Value.DatabaseName);
+        MongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
-        _booksCollection = mongoDatabase.GetCollection<T>(
-            bookStoreDatabaseSettings.Value.CollectionName);
+        Collection = MongoDb.GetCollection<T>(databaseSettings.Value.CollectionName);
     }
 
-    public async Task<List<T>> GetAsync() =>
-        await _booksCollection.Find(_ => true).ToListAsync();
+    public async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
+        await Collection.Find(_ => true).ToListAsync(cancellationToken);
 
-    public async Task<T?> GetAsync(int id) =>
-        await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    public async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
+        await Collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
-    public async Task CreateAsync(T entity) =>
-        await _booksCollection.InsertOneAsync(entity);
+    public async Task CreateAsync(T entity, CancellationToken cancellationToken) =>
+        await Collection.InsertOneAsync(entity, cancellationToken);
 
-    public async Task UpdateAsync(int id, T entity) =>
-        await _booksCollection.ReplaceOneAsync(x => x.Id == id, entity);
+    public async Task UpdateAsync(int id, T entity, CancellationToken cancellationToken) =>
+        await Collection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
 
-    public async Task RemoveAsync(int id) =>
-        await _booksCollection.DeleteOneAsync(x => x.Id == id);
+    public async Task RemoveAsync(int id, CancellationToken cancellationToken) =>
+        await Collection.DeleteOneAsync(x => x.Id == id, cancellationToken);
 }

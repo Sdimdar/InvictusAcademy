@@ -7,6 +7,6 @@ public class MongoBaseRepositoryEntity
 {
 
     [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
+    [BsonRepresentation(BsonType.Int32)]
     public int Id { get; set; }
 }

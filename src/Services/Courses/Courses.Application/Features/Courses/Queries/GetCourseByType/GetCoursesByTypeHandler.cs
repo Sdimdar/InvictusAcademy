@@ -7,9 +7,9 @@ using ServicesContracts.Courses.Responses;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseByType;
 
-public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<CoursesVm>>
+public class GetCoursesByTypeHandler : IRequestHandler<GetCoursesQuery, Result<CoursesVm>>
 {
-    
+
     private readonly IMapper _mapper;
     private readonly ICourseRepository _courseRepository;
 
@@ -38,7 +38,7 @@ public class GetCoursesByTypeHandler:IRequestHandler<GetCoursesQuery,Result<Cour
                 break;
         }
 
-        
+
         if (!list.Any())
             return Result.Error("Request list is empty");
         if (list == null)
