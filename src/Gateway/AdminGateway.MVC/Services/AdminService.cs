@@ -61,7 +61,8 @@ public class AdminService : IAdminService
     {
         var admin = new AdminUser
         {
-            UserName = model.UserName
+            UserName = model.UserName,
+            Email = model.UserName
         };
         var result = await _adminManager.CreateAsync(admin, model.Password);
         if (result.Succeeded)

@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-
 string connection = builder.Configuration.GetConnectionString("AdminConnection");
 services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
 services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();

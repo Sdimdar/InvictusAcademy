@@ -89,6 +89,7 @@
             notify.showSucsessNotify("Добро пожаловать");
           }
           else{
+            console.log(response)
             response.data.errors.forEach(element => { notify.showErrorNotify(element); });
           } 
         } catch (e) {

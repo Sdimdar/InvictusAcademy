@@ -29,8 +29,8 @@ public class AccountsController : Controller
         CancellationToken cancellationToken = default)
     { 
         try
-        {
-            var response = await _adminService.LoginAdminAsync(request, cancellationToken);
+        { 
+            var response = await _adminService.LoginAdminAsync(request, cancellationToken); 
             return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
         }
         catch (Exception e)

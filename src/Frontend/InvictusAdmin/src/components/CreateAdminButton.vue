@@ -112,25 +112,9 @@ export default defineComponent({
   methods: {
     async onSubmit() {
       try {
-        // const autorize = await fetchLoginedUserData();
-      //   if (autorize.data.isSuccess) {
-      //     const response = await createAdmin(this.newAdminData);
-      //     if (response.data.isSuccess) {
-      //     this.createAdminDialog = false;
-      //     notify.showSucsessNotify("Администратор успешно создан");
-      //   }
-      //   else {
-      //     notify.showSucsessNotify("Пользователь не залогинен");
-      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-      //   }
-      //   }
-      //   else{
-      //     response.data.errors.forEach(error => {
-      //       console.log(error)
-      //     });
-      // }
-      console.log(this.newAdminData);
-      const response = await createAdmin(this.newAdminData);
+        const autorize = await fetchLoginedUserData();
+        if (autorize.data.isSuccess) {
+          const response = await createAdmin(this.newAdminData);
           if (response.data.isSuccess) {
           this.createAdminDialog = false;
           notify.showSucsessNotify("Администратор успешно создан");
@@ -139,7 +123,12 @@ export default defineComponent({
           notify.showSucsessNotify("Пользователь не залогинен");
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
-
+        }
+        else{
+          response.data.errors.forEach(error => {
+            console.log(error)
+          });
+      }
       }
       catch (e) {
         notify.showErrorNotify(e.message);
