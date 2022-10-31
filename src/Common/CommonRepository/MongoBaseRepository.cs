@@ -25,15 +25,15 @@ public class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBas
     public async Task<List<T>> GetAsync() =>
         await _booksCollection.Find(_ => true).ToListAsync();
 
-    public async Task<T?> GetAsync(string id) =>
+    public async Task<T?> GetAsync(int id) =>
         await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-    public async Task CreateAsync(T newBook) =>
-        await _booksCollection.InsertOneAsync(newBook);
+    public async Task CreateAsync(T entity) =>
+        await _booksCollection.InsertOneAsync(entity);
 
-    public async Task UpdateAsync(string id, T updatedBook) =>
-        await _booksCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+    public async Task UpdateAsync(int id, T entity) =>
+        await _booksCollection.ReplaceOneAsync(x => x.Id == id, entity);
 
-    public async Task RemoveAsync(string id) =>
+    public async Task RemoveAsync(int id) =>
         await _booksCollection.DeleteOneAsync(x => x.Id == id);
 }
