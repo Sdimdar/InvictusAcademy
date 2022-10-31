@@ -3,37 +3,36 @@ using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminGateway.MVC.Services
+namespace AdminGateway.MVC.Services;
+
+public class CreateAdmin : IAdminCreate
 {
-    public class CreateAdmin : IAdminCreate
+    private readonly UserManager<AdminUser> _userManager;
+
+    public CreateAdmin(UserManager<AdminUser> userManager)
     {
-        private readonly UserManager<User> _userManager;
+        _userManager = userManager;
+    }
 
-        public CreateAdmin(UserManager<User> userManager)
+    public async Task<bool> CreateNewAdmin(CreateAdminVm model)
+    {
+        var user = new AdminUser
         {
-            _userManager = userManager;
-        }
-
-        public async Task<bool> CreateNewAdmin(CreateAdminVm model)
+            UserName = model.UserName
+        };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
         {
-            var user = new User
+            foreach (var role in model.Roles)
             {
-                UserName = model.UserName
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                foreach (var role in model.Roles)
-                {
-                    if (role == "false")
-                        continue;
-                    await _userManager.AddToRoleAsync(user, role);
-                }
-
-                return true;
+                if (role == "false")
+                    continue;
+                await _userManager.AddToRoleAsync(user, role);
             }
 
-            return false;
+            return true;
         }
+
+        return false;
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Courses.API;
 using Courses.Application;
 using Courses.Infrastructure;

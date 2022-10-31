@@ -1,4 +1,6 @@
-﻿using Courses.Domain.Entities;
+﻿using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
+using Courses.Domain.Entities;
 using Courses.Infrastructure.Persistance.DbMap;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,8 @@ public class CoursesDbContext : DbContext
 	{
 		Database.Migrate();
 	}
+	
+
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -23,4 +27,5 @@ public class CoursesDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CoursePurchasedDbMap());
         modelBuilder.ApplyConfiguration(new CourseWishedDbMap());
     }
+
 }

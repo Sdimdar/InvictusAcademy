@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Courses.Application.Mappings;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
+            //cfg.AddCollectionMappers();
             cfg.AddProfile(new MappingProfile());
             cfg.AddProfile(new DefaultResponseObjectProfile());
         }).CreateMapper());

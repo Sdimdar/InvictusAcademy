@@ -1,14 +1,14 @@
 ﻿using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdminGateway.MVC.Models
+namespace AdminGateway.MVC.Models;
+
+public class RoleInitializer
 {
-    public class RoleInitializer
+    public static async Task InitializeAsync(UserManager<AdminUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            string headAdmin = "admin@gmail.com";
-            string password = "Aa12345!";
+        string headAdmin = "admin@gmail.com";
+        string password = "Aa12345!";
 
             var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
             foreach (var role in roles)
@@ -18,14 +18,13 @@ namespace AdminGateway.MVC.Models
             }
 
 
-            if (await userManager.FindByNameAsync(headAdmin) == null)
+        if (await userManager.FindByNameAsync(headAdmin) == null)
+        {
+            AdminUser admin = new AdminUser { Email = headAdmin, UserName = headAdmin };
+            IdentityResult result = await userManager.CreateAsync(admin, password);
+            if (result.Succeeded)
             {
-                User admin = new User { Email = headAdmin, UserName = headAdmin };
-                IdentityResult result = await userManager.CreateAsync(admin, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                }
+                await userManager.AddToRoleAsync(admin, "admin");
             }
         }
     }

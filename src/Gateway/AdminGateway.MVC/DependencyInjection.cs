@@ -51,7 +51,7 @@ namespace AdminGateway.MVC
         public static IServiceCollection AddDbServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("AdminConnection")));
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
+            services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
             return services;
         }
         

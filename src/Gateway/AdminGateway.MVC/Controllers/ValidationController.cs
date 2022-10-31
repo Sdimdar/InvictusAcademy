@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminGateway.MVC.Controllers
-{
-    public class ValidationController : Controller
-    {
-        private readonly UserManager<User> _userManager;
+namespace AdminGateway.MVC.Controllers;
 
-        public ValidationController(UserManager<User> userManager)
-        {
+public class ValidationController : Controller
+{
+    private readonly UserManager<AdminUser> _userManager;
+
+    public ValidationController(UserManager<AdminUser> userManager)
+    {
 
             _userManager = userManager;
         }
@@ -25,4 +25,3 @@ namespace AdminGateway.MVC.Controllers
 
 
     }
-}

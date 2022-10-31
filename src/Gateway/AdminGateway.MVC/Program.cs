@@ -3,10 +3,15 @@ using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
 using GlobalExceptionHandler.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+
+string connection = builder.Configuration.GetConnectionString("AdminConnetion");
+services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
+services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
 services.AddExceptionHandlers();
@@ -28,7 +33,7 @@ using (var scope = app.Services.CreateScope())
     var options = scope.ServiceProvider;
     try
     {
-        var userManager = options.GetRequiredService<UserManager<User>>();
+        var userManager = options.GetRequiredService<UserManager<AdminUser>>();
         var rolesManager = options.GetRequiredService<RoleManager<IdentityRole>>();
         await RoleInitializer.InitializeAsync(userManager, rolesManager);
     }

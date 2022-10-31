@@ -1,4 +1,5 @@
 ﻿using CommonRepository;
+using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 using User.Domain.Entities;
 using User.Infrastructure.Persistance;

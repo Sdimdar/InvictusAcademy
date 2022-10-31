@@ -1,10 +1,11 @@
 using DataTransferLib.Models;
+using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 
-namespace AdminGateway.MVC.Services.Interfaces
+namespace AdminGateway.MVC.Services.Interfaces;
+
+public interface IGetUsers
 {
-    public interface IGetUsers
-    {
-        Task<DefaultResponseObject<UsersVm>> GetUsersAsync();
-    }
+    Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize);
+    Task<DefaultResponseObject<string>> ChangeBanStatusAsync(ToBanCommand command);
 }

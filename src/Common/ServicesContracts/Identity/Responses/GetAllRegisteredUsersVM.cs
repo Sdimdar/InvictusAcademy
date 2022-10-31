@@ -1,15 +1,14 @@
-﻿using User.Domain.Entities;
+using User.Domain.Entities;
 
 namespace ServicesContracts.Identity.Responses;
 
-public class UsersVm
+public class GetAllRegisteredUsersVM
 {
-    public List<UserDbModel> Users { get; set; }
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
     public int TotalPages { get; set; }
-    public string? Filter { get; set; }
-    public PageVm PageVm { get; set; }
+    
+    public List<UserDbModel> Users { get; set; }
     
     public int UsersCount { get; set; }
     public bool HasPreviousPage

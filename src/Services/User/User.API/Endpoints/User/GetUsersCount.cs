@@ -3,7 +3,8 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Identity.Requests.Queries;
+using ServicesContracts.Identity.Requests.Querries;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace User.API.Endpoints.User;
 
@@ -19,11 +20,15 @@ public class GetUsersCount : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-
-    [HttpGet("/User/Count")]
-    public override async Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
+    [HttpGet("/User/GetUsersCount")]
+    [SwaggerOperation(
+        Summary = "Запрос на выгрузку всех пользователей",
+        Description = "Могут запрашивать только пользователи с ролью админ",
+        Tags = new[] { "User" })
+    ]
+    public override async Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(new GetUsersCountQuery(), cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<int>>(result));
+        var response = await _mediator.Send(new GetAllUsersCountQuery(), cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }
