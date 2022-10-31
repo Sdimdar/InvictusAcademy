@@ -6,9 +6,9 @@ using Microsoft.Extensions.Options;
 
 namespace Courses.Infrastructure.Repositories;
 
-public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICourseInfoRepository
+public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IModuleInfoRepository
 {
-    public CourseInfosRepository(IOptions<InvictusProjectDatabaseSettings> bookStoreDatabaseSettings) : base(bookStoreDatabaseSettings)
+    public ModuleInfoRepository(IOptions<InvictusProjectDatabaseSettings> bookStoreDatabaseSettings) : base(bookStoreDatabaseSettings)
     {
     }
 }

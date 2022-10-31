@@ -18,7 +18,7 @@ public static class DependencyInjection
             options.CollectionName = configuration.GetSection("InvictusAcademyDatabase:CollectionName").Value;
             options.DatabaseName = configuration.GetSection("InvictusAcademyDatabase:DatabaseName").Value;
         } );
-        services.AddSingleton<ICourseInfosRepository, CourseInfosRepository>();
+        services.AddSingleton<ICourseInfoRepository, CourseInfosRepository>();
         services.AddDbContext<CoursesDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("CoursesConnectionString")));
         services.AddScoped<ICourseRepository, CourseRepository>();
