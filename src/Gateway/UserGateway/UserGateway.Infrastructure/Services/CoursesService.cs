@@ -1,23 +1,22 @@
 ﻿using DataTransferLib.Models;
 using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
-using DataTransferLib.Interfaces;
+using ExtendedHttpClient;
+using ExtendedHttpClient.Interfaces;
 using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
 
-public class CoursesService : ICoursesService
+public class CoursesService : IUseExtendedHttpClient<CoursesService> ,ICoursesService
 {
-    private readonly IHttpClientWrapper _httpClient;
-
-    public CoursesService(HttpClient httpClient, IHttpClientWrapper httpClientWrapper)
+    public ExtendedHttpClient<CoursesService> ExtendedHttpClient { get; set; }
+    public CoursesService(ExtendedHttpClient<CoursesService> extendedHttpClient)
     {
-        _httpClient = httpClientWrapper ?? throw new ArgumentNullException(nameof(httpClientWrapper));
-        _httpClient.HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ExtendedHttpClient = extendedHttpClient;
     }
+
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
-        return await _httpClient.GetAndReturnResponseAsync<GetCoursesQuery, CoursesVm>(query, "/Courses/GetCourses", cancellationToken);
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);
     }
-    
-}
+} 

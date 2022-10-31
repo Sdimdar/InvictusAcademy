@@ -32,7 +32,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+    <ProjectReference Include="..\..\Common\ExtendedHttpClient\ExtendedHttpClient.csproj" />
     <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
+    <ProjectReference Include="..\..\Gateway\UserGateway\UserGateway.Infrastructure\UserGateway.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.API\Request.API.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Application\Request.Application.csproj" />
     <ProjectReference Include="..\TestCommonRepository\TestCommonRepository.csproj" />

@@ -1,39 +1,45 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
-using DataTransferLib.Interfaces;
 using DataTransferLib.Models;
+using ExtendedHttpClient;
+using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
 
 namespace AdminGateway.MVC.Services
 {
-    public class RequestService : IRequestService
+    public class RequestService :IUseExtendedHttpClient<RequestService>, IRequestService
     {
-        private readonly IHttpClientWrapper _httpClient;
-
-        public RequestService(HttpClient httpClient, IHttpClientWrapper httpClientWrapper)
+        public ExtendedHttpClient<RequestService> ExtendedHttpClient { get; set; }
+        public RequestService(ExtendedHttpClient<RequestService> extendedHttpClient)
         {
-            _httpClient = httpClientWrapper ?? throw new ArgumentNullException(nameof(httpClientWrapper));
-            _httpClient.HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            ExtendedHttpClient = extendedHttpClient;
         }
+
 
         public async Task<DefaultResponseObject<GetAllRequestVm>> GetAllRequestsAsync(int pageNumber, int pageSize)
         {
-            return await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={pageNumber}&pageSize={pageSize}", new CancellationToken());
+            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<GetAllRequestVm>>(
+                $"/Request/GetAll?pageNumber={pageNumber}&pageSize={pageSize}");
         }
 
         public async Task<DefaultResponseObject<string>> ChangeCalledStatusAsync(ChangeCalledStatusCommand command)
         {
-            return await _httpClient.PostAndReturnResponseAsync<ChangeCalledStatusCommand, string>(command, $"/Request/SetCalledStatus", new CancellationToken());
+            return await ExtendedHttpClient
+                .PostAndReturnResponseAsync<ChangeCalledStatusCommand, DefaultResponseObject<string>>(command,
+                    $"/Request/SetCalledStatus");
         }
 
         public async Task<DefaultResponseObject<string>> ManagerCommentAsync(ManagerCommentCommand request)
         {
-            return await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(request, "/Request/AddComment", new CancellationToken());
+            return await ExtendedHttpClient
+                .PostAndReturnResponseAsync<ManagerCommentCommand, DefaultResponseObject<string>>(request,
+                    "/Request/AddComment");
         }
 
         public async Task<DefaultResponseObject<int>> GetRequestsCountAsync()
         {
-            return await _httpClient.GetAndReturnResponseAsync<int>("/Request/Count", new CancellationToken());
+            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<int>>("/Request/Count");
         }
+
     }
 }

@@ -4,8 +4,7 @@ using AdminGateway.MVC.Models.DbModels;
 using AdminGateway.MVC.Services;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
-using DataTransferLib;
-using DataTransferLib.Interfaces;
+using ExtendedHttpClient.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -18,7 +17,8 @@ namespace AdminGateway.MVC
         {
             services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
             services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
-            services.AddScoped<IHttpClientWrapper, HttpClientWrapper>();
+            services.AddScoped<IUseExtendedHttpClient<GetUsers>, GetUsers>();
+            services.AddScoped<IUseExtendedHttpClient<RequestService>, RequestService>();
             return services;
         }
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
