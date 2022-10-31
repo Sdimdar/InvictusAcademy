@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CommonRepository;
-using Request.Domain.Entities;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 using User.Domain.Entities;
 using User.Infrastructure.Persistance;
-using User.Infrastructure.Extensions;
 
 namespace User.Infrastructure.Repositories;
 
@@ -17,14 +15,17 @@ public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IU
     {
         if (pageInfo.PageNumber == 0)
             return await Context.Users.ToListAsync();
-        IQueryable<UserDbModel> requestsPerPage = Context.Users.OrderByDescending(r => r.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize);
+        IQueryable<UserDbModel> requestsPerPage = Context.Users.OrderByDescending(r => r.CreatedDate)
+                                                               .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
+                                                               .Take(pageInfo.PageSize);
+        if (pageInfo.FilterString != null)
+            return await requestsPerPage.Where(u => u.FirstName == pageInfo.FilterString).ToListAsync();
         var result = await requestsPerPage.ToListAsync();
         return result;
     }
-
-    public async Task<int> GetUsersCount()
+    
+    public async Task<int> GetUsersCountAsync()
     {
-        IQueryable<UserDbModel> result = Context.Users;
-        return result.Count();
+        return await Context.Users.CountAsync();
     }
 }

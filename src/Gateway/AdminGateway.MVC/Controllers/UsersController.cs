@@ -1,20 +1,25 @@
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
+
 [Route("AdminPanel/[controller]/[action]")]
 public class UsersController : Controller
 {
     private readonly IGetUsers _iGetUsers;
+    private readonly IMapper _mapper;
 
-    public UsersController(IGetUsers iGetUsers)
+    public UsersController(IGetUsers iGetUsers, IMapper mapper)
     {
         _iGetUsers = iGetUsers;
+        _mapper = mapper;
     }
+    
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",

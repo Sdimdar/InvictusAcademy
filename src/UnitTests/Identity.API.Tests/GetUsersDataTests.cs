@@ -29,7 +29,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         // Arrange
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetAllRegisteredUsersData?Page={page}&PageSize={pageSize}");
 
         // Assert
         data.Should().NotBeNull();
@@ -55,7 +55,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         // Arrange
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetUsersData?Page={page}&PageSize={pageSize}&FilterString={filter}");
+        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetAllRegisteredUsersData?Page={page}&PageSize={pageSize}&FilterString={filter}");
 
         // Assert
         data.Should().NotBeNull();
@@ -75,7 +75,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         int pageSize = 0;
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetAllRegisteredUsersData?Page={page}&PageSize={pageSize}");
 
         // Assert
         data.Should().NotBeNull();
@@ -100,12 +100,12 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         // Arrange
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetUsersData?Page={page}&PageSize={pageSize}");
+        var data = await _httpClient.GetAndReturnResponseAsync<UsersVm>($"/User/GetAllRegisteredUsersData?Page={page}&PageSize={pageSize}");
 
         // Assert
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
-        data.Value.Should().NotBeNull();
-        data.Errors.Should().NotBeNull();
+        data.Value.Should().BeNull();
+        data.ValidationErrors.Should().NotBeNull();
     }
 }

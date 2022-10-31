@@ -11,7 +11,7 @@ public class RequestMapping : Profile
     public RequestMapping()
     {
         CreateMap<CreateRequestCommand, RequestDbModel>();
-        CreateMap<GetAllRequestCommand, GetAllRequestVm>();
+        CreateMap<GetAllRequestsQuery, GetAllRequestVm>();
     }
 
 }

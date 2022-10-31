@@ -29,7 +29,7 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
     public async Task GetAllRequests_SendRequestWithCorrectData(int pageNumber, int pageSize)
     {
         // Arrange
-        GetAllRequestCommand command = new()
+        GetAllRequestsQuery command = new()
         {
             PageNumber = pageNumber,
             PageSize = pageSize
@@ -51,9 +51,9 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
     public async Task GetAllRequests_SendRequestWithGetAll()
     {
         // Arrange
-        GetAllRequestCommand command = new()
+        GetAllRequestsQuery command = new()
         {
-            PageNumber = 0,
+            PageNumber = 1,
             PageSize = 0
         };
 
@@ -73,15 +73,15 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
     {
         yield return new object[] { -1, 100 };
         yield return new object[] { 1, -4 };
-        yield return new object[] { 3, 10 };
+        yield return new object[] { 0, 10 };
     }
 
     [Theory]
     [MemberData(nameof(InvalidPagesData))]
-    public async Task GetAllRequests_SendRequestWithINvalidData(int pageNumber, int pageSize)
+    public async Task GetAllRequests_SendRequestWithInvalidData(int pageNumber, int pageSize)
     {
         // Arrange
-        GetAllRequestCommand command = new()
+        GetAllRequestsQuery command = new()
         {
             PageNumber = pageNumber,
             PageSize = pageSize
@@ -92,7 +92,8 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
 
         // Assert
         data.Should().NotBeNull();
-        data.IsSuccess.Should().BeTrue();
-        data.Errors.Should().NotBeNull();
+        data.IsSuccess.Should().BeFalse();
+        data.Value.Should().BeNull();
+        data.ValidationErrors.Should().NotBeNull();
     }
 }
