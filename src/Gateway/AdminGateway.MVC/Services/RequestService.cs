@@ -7,10 +7,10 @@ using ServicesContracts.Request.Responses;
 
 namespace AdminGateway.MVC.Services
 {
-    public class RequestService :IUseExtendedHttpClient<RequestService>, IRequestService
+    public class RequestService :IRequestService
     {
-        public ExtendedHttpClient<RequestService> ExtendedHttpClient { get; set; }
-        public RequestService(ExtendedHttpClient<RequestService> extendedHttpClient)
+        public ExtendedHttpClient<IRequestService> ExtendedHttpClient { get; set; }
+        public RequestService(ExtendedHttpClient<IRequestService> extendedHttpClient)
         {
             ExtendedHttpClient = extendedHttpClient;
         }

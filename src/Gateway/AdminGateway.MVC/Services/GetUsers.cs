@@ -7,11 +7,11 @@ using ServicesContracts.Identity.Responses;
 
 namespace AdminGateway.MVC.Services;
 
-public class GetUsers :IUseExtendedHttpClient<GetUsers>, IGetUsers
+public class GetUsers : IGetUsers
 {
-    public ExtendedHttpClient<GetUsers> ExtendedHttpClient { get; set; }
+    public ExtendedHttpClient<IGetUsers> ExtendedHttpClient { get; set; }
 
-    public GetUsers(ExtendedHttpClient<GetUsers> extendedHttpClient)
+    public GetUsers(ExtendedHttpClient<IGetUsers> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
     }

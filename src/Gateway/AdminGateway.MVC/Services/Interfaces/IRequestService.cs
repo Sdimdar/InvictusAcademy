@@ -1,10 +1,11 @@
 ﻿using DataTransferLib.Models;
+using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
 
 namespace AdminGateway.MVC.Services.Interfaces
 {
-    public interface IRequestService
+    public interface IRequestService:IUseExtendedHttpClient<IRequestService>
     {
         Task<DefaultResponseObject<GetAllRequestVm>> GetAllRequestsAsync(int pageNumber, int pageSize);
 

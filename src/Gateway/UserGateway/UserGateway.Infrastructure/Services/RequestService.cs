@@ -6,10 +6,10 @@ using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
 
-public class RequestService :IUseExtendedHttpClient<RequestService>, IRequestService
+public class RequestService : IRequestService
 {
-    public ExtendedHttpClient<RequestService> ExtendedHttpClient { get; set; }
-    public RequestService(ExtendedHttpClient<RequestService> extendedHttpClient)
+    public ExtendedHttpClient<IRequestService> ExtendedHttpClient { get; set; }
+    public RequestService(ExtendedHttpClient<IRequestService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
     }
@@ -20,4 +20,6 @@ public class RequestService :IUseExtendedHttpClient<RequestService>, IRequestSer
             .PostAndReturnResponseAsync<CreateRequestCommand, DefaultResponseObject<string>>(command,
                 "/Request/Create", cancellationToken);
     }
+
+    
 }

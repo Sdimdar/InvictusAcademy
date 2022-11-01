@@ -7,10 +7,10 @@ using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
 
-public class CoursesService : IUseExtendedHttpClient<CoursesService> ,ICoursesService
+public class CoursesService : ICoursesService
 {
-    public ExtendedHttpClient<CoursesService> ExtendedHttpClient { get; set; }
-    public CoursesService(ExtendedHttpClient<CoursesService> extendedHttpClient)
+    public ExtendedHttpClient<ICoursesService> ExtendedHttpClient { get; set; }
+    public CoursesService(ExtendedHttpClient<ICoursesService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
     }

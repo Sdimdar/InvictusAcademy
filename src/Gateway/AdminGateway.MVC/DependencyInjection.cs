@@ -4,6 +4,7 @@ using AdminGateway.MVC.Models.DbModels;
 using AdminGateway.MVC.Services;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
+using ExtendedHttpClient.Extensions;
 using ExtendedHttpClient.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,10 @@ namespace AdminGateway.MVC
     {
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient<IUseExtendedHttpClient<GetUsers>,GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
-            services.AddHttpClient<IUseExtendedHttpClient<RequestService>,RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
+            services.AddExtendedHttpClient();
+            services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
+                configuration["ApiSettings:RequestUrl"]);
+            services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
             return services;
         }
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
