@@ -24,7 +24,7 @@ public static class Extensions
         return services;
     }
     
-    private static IServiceCollection AddServiceWithExtendedHttpClient<TClass>(this IServiceCollection services, Action<HttpClient> httpOptions)
+    public static IServiceCollection AddServiceWithExtendedHttpClient<TClass>(this IServiceCollection services, Action<HttpClient> httpOptions)
         where TClass : class, IUseExtendedHttpClient<TClass>
     {
         if (!_isInitialized) throw new InvalidOperationException("ExtendedHttpClient is not initialized, use method: AddExtendedHttpClient");
@@ -45,7 +45,7 @@ public static class Extensions
         return services;
     }
     
-    private static IServiceCollection AddServiceWithExtendedHttpClient<TClass, TImplementation>(this IServiceCollection services, Action<HttpClient> httpOptions)
+    public static IServiceCollection AddServiceWithExtendedHttpClient<TClass, TImplementation>(this IServiceCollection services, Action<HttpClient> httpOptions)
         where TClass : class, IUseExtendedHttpClient<TClass>
         where TImplementation : class, TClass
     {
