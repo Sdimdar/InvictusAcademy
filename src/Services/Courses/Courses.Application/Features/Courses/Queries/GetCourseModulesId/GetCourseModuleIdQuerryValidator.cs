@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseModulesId;
 
@@ -7,6 +7,7 @@ public class GetCourseModuleIdQuerryValidator : AbstractValidator<GetCourseModul
 {
     public GetCourseModuleIdQuerryValidator()
     {
-        RuleFor(p => p.CourseId).GreaterThan(0).WithMessage("Course ID can't be less then 1");
+        RuleFor(p => p.CourseId)
+            .GreaterThan(-1).WithMessage("Course ID can't be less then 0");
     }
 }

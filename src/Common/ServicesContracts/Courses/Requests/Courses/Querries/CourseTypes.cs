@@ -1,4 +1,4 @@
-﻿namespace ServicesContracts.Courses.Requests.Querries;
+﻿namespace ServicesContracts.Courses.Requests.Courses.Querries;
 
 public enum CourseTypes
 {

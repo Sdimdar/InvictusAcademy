@@ -2,7 +2,7 @@
 using User.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Requests.Queries;
 
 namespace User.API.Tests.Repository;
 

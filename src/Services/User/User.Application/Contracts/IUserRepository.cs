@@ -1,5 +1,5 @@
 ﻿using CommonRepository.Abstractions;
-using ServicesContracts.Identity.Responses;
+using ServicesContracts.Identity.Requests.Queries;
 using User.Domain.Entities;
 
 namespace User.Application.Contracts;

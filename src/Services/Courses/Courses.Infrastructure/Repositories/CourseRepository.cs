@@ -22,7 +22,13 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
 
         var mongoDatabase = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
-        _collection = mongoDatabase.GetCollection<CourseInfoDbModel>(databaseSettings.Value.CollectionName);
+        _collection = mongoDatabase.GetCollection<CourseInfoDbModel>(databaseSettings.Value.CollectionNames.GetValueOrDefault(typeof(CourseInfoDbModel)));
+    }
+
+    public override async Task DeleteAsync(CourseDbModel entity)
+    {
+        await base.DeleteAsync(entity);
+        await _collection.DeleteOneAsync(e => e.Id == entity.Id);
     }
 
     public override async Task<CourseDbModel> AddAsync(CourseDbModel entity)

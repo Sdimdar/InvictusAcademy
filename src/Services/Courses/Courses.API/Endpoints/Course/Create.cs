@@ -5,7 +5,7 @@ using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Course;

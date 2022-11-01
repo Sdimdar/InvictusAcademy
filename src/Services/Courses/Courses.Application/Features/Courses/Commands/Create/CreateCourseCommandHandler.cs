@@ -5,7 +5,7 @@ using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 
 namespace Courses.Application.Features.Courses.Commands.Create;
 

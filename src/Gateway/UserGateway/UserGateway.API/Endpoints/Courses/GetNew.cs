@@ -4,7 +4,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;

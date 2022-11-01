@@ -5,9 +5,9 @@ using MongoDB.Driver;
 
 namespace CommonRepository;
 
-public class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
+public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
 {
-    protected IMongoCollection<T> Collection { get; init; }
+    protected IMongoCollection<T> BaseCollection { get; init; }
     protected IMongoDatabase MongoDb { get; init; }
 
     public MongoBaseRepository(IOptions<InvictusProjectDatabaseSettings> databaseSettings)
@@ -16,21 +16,29 @@ public class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBas
 
         MongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
-        Collection = MongoDb.GetCollection<T>(databaseSettings.Value.CollectionName);
+        BaseCollection = MongoDb.GetCollection<T>(databaseSettings.Value.CollectionNames.GetValueOrDefault(typeof(T)));
     }
 
-    public async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
-        await Collection.Find(_ => true).ToListAsync(cancellationToken);
+    public virtual async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
+        await BaseCollection.Find(_ => true).ToListAsync(cancellationToken);
 
-    public async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
-        await Collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+    public virtual async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
+        await BaseCollection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
-    public async Task CreateAsync(T entity, CancellationToken cancellationToken) =>
-        await Collection.InsertOneAsync(entity, cancellationToken);
+    [Obsolete]
+    public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken)
+    {
+        await BaseCollection.InsertOneAsync(entity, cancellationToken);
+        return entity;
+    }
 
-    public async Task UpdateAsync(int id, T entity, CancellationToken cancellationToken) =>
-        await Collection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
+    public virtual async Task<T> UpdateAsync(int id, T entity, CancellationToken cancellationToken)
+    {
+        var result = await BaseCollection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
+        if (result.ModifiedCount == 0) throw new InvalidOperationException("Element with this ID is not found");
+        return entity;
+    }
 
-    public async Task RemoveAsync(int id, CancellationToken cancellationToken) =>
-        await Collection.DeleteOneAsync(x => x.Id == id, cancellationToken);
+    public virtual async Task RemoveAsync(int id, CancellationToken cancellationToken) =>
+        await BaseCollection.DeleteOneAsync(x => x.Id == id, cancellationToken);
 }

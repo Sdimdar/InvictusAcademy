@@ -2,7 +2,7 @@
 using Courses.Domain.Entities.CourseInfo;
 using MediatR;
 
-namespace ServicesContracts.Courses.Requests.Commands;
+namespace ServicesContracts.Courses.Requests.Courses.Commands;
 
 public class InsertModulesCommand : IRequest<Result<CourseInfoDbModel>>
 {

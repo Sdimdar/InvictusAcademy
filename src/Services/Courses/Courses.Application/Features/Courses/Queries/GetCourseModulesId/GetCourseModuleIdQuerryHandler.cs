@@ -4,7 +4,7 @@ using AutoMapper;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseModulesId;
 

@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -31,7 +31,15 @@ public class ChangeAllModules : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> HandleAsync([FromBody] ChangeAllModulesCommand request,
                                                                                               CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));
+        try
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 }

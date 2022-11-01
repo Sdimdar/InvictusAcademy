@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 
-namespace ServicesContracts.Courses.Requests.Querries;
+namespace ServicesContracts.Courses.Requests.Courses.Querries;
 
 public class GetCourseModulesIdQuerry : IRequest<Result<List<int>>>
 {

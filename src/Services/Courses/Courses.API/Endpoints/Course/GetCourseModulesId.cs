@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Course;

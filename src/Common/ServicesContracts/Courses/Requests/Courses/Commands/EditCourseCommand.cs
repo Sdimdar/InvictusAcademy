@@ -1,10 +1,11 @@
 ﻿using Ardalis.Result;
 using MediatR;
 
-namespace ServicesContracts.Courses.Requests.Commands;
+namespace ServicesContracts.Courses.Requests.Courses.Commands;
 
-public class CreateCourseCommand : IRequest<Result<string>>
+public class EditCourseCommand : IRequest<Result<string>>
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string? VideoLink { get; set; }

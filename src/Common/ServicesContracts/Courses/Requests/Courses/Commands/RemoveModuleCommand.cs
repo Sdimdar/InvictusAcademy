@@ -2,11 +2,10 @@
 using Courses.Domain.Entities.CourseInfo;
 using MediatR;
 
-namespace ServicesContracts.Courses.Requests.Commands;
+namespace ServicesContracts.Courses.Requests.Courses.Commands;
 
-public class InsertModuleCommand : IRequest<Result<CourseInfoDbModel>>
+public class RemoveModuleCommand : IRequest<Result<CourseInfoDbModel>>
 {
     public int CourseId { get; set; }
     public int ModuleId { get; set; }
-    public int Index { get; set; }
 }

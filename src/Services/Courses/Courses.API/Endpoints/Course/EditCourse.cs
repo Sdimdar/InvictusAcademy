@@ -4,7 +4,7 @@ using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Course;

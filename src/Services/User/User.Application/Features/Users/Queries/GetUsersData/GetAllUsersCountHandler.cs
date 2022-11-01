@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using AutoMapper;
 using MediatR;
-using ServicesContracts.Identity.Requests.Querries;
+using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 

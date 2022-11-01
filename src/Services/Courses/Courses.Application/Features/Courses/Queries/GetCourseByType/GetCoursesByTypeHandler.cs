@@ -2,7 +2,7 @@
 using AutoMapper;
 using Courses.Application.Contracts;
 using MediatR;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseByType;

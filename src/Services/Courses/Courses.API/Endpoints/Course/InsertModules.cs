@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -33,6 +33,6 @@ public class InsertModules : EndpointBaseAsync
                                                                                               CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(request));
+        return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));
     }
 }
