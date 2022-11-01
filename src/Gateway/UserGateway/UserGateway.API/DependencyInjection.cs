@@ -44,12 +44,9 @@ public static class DependencyInjection
 
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<IUserService, UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
-        services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
-        services.AddHttpClient<ICoursesService, CoursesService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
-        services.AddScoped<IUseExtendedHttpClient<CoursesService>,CoursesService>();
-        services.AddScoped<IUseExtendedHttpClient<RequestService>,RequestService>();
-        services.AddScoped<IUseExtendedHttpClient<UserService>,UserService>();
+        services.AddHttpClient<IUseExtendedHttpClient<CoursesService>,CoursesService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
+        services.AddHttpClient<IUseExtendedHttpClient<RequestService>,RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
+        services.AddHttpClient<IUseExtendedHttpClient<UserService>,UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
         return services;
     }
 

@@ -15,10 +15,8 @@ namespace AdminGateway.MVC
     {
         public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
-            services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
-            services.AddScoped<IUseExtendedHttpClient<GetUsers>, GetUsers>();
-            services.AddScoped<IUseExtendedHttpClient<RequestService>, RequestService>();
+            services.AddHttpClient<IUseExtendedHttpClient<GetUsers>,GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
+            services.AddHttpClient<IUseExtendedHttpClient<RequestService>,RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
             return services;
         }
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
