@@ -24,7 +24,7 @@ public class RemoveModule : EndpointBaseAsync
 
     [HttpPost("/Course/RemoveModule")]
     [SwaggerOperation(
-        Summary = "Удвление модуля из курса",
+        Summary = "Удаление модуля из курса",
         Description = "Необходимо передать в теле запроса Id курса, Id удяляемого модуля",
         Tags = new[] { "Course" })
     ]

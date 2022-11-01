@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using AutoMapper;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;

@@ -4,5 +4,7 @@ namespace Courses.Domain.Entities.CourseInfo;
 
 public class ModuleInfoDbModel : MongoBaseRepositoryEntity
 {
-    public ModuleInfo ModuleInfo { get; set; }
+    public string Title { get; set; }
+    public string ShortDescription { get; set; }
+    public List<Articles> Articles { get; set; }
 }

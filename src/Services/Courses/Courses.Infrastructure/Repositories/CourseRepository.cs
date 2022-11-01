@@ -29,12 +29,9 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
     {
         var course = await base.AddAsync(entity);
         await _collection.InsertOneAsync(new CourseInfoDbModel()
-        { 
+        {
             Id = entity.Id,
-            CourseInfo = new CourseInfo()
-            { 
-                ModulesString = ""
-            }
+            ModulesString = ""
         });
         return course;
     }
@@ -47,27 +44,27 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
     public async Task<List<CourseDbModel>> GetWishedCourses(int userId)
     {
         var query = from course in Context.Courses
-            join w in Context.CourseWisheds on course.Id equals w.CourseId
-            where w.UserId == userId
-            select course;
+                    join w in Context.CourseWisheds on course.Id equals w.CourseId
+                    where w.UserId == userId
+                    select course;
         return await query.ToListAsync();
     }
-    public async Task<List<CourseDbModel>>  GetStartedCourses(int userId)
+    public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
     {
         var query = from course in Context.Courses
-            join p in Context.CoursePurchaseds on course.Id equals p.CourseId
-            where p.UserId == userId && !p.IsCompleted
-            select course;
+                    join p in Context.CoursePurchaseds on course.Id equals p.CourseId
+                    where p.UserId == userId && !p.IsCompleted
+                    select course;
         return await query.ToListAsync();
-        
+
     }
 
     public async Task<List<CourseDbModel>> GetCompletedCourses(int userId)
     {
         var query = from course in Context.Courses
-            join p in Context.CoursePurchaseds on course.Id equals p.CourseId
-            where p.UserId == userId && p.IsCompleted
-            select course;
+                    join p in Context.CoursePurchaseds on course.Id equals p.CourseId
+                    where p.UserId == userId && p.IsCompleted
+                    select course;
         return await query.ToListAsync();
     }
 }

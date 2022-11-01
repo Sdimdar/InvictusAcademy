@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Courses.Application.Mappings;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;

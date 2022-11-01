@@ -16,10 +16,10 @@ public class MappingProfile : Profile
 		CreateMap<CourseInfoDbModel, CourseInfoVm>()
 			.ForMember(p => p.ModulesId,
 					   opt => opt.MapFrom(src =>
-										  src.CourseInfo.ModulesString.Split(',', StringSplitOptions.None)
-																	  .AsParallel()
-																	  .Select(e => int.Parse(e))
-																	  .ToList()
+										  src.ModulesString.Split(',', StringSplitOptions.None)
+														   .AsParallel()
+														   .Select(e => int.Parse(e))
+														   .ToList()
 										 )
 					   );
 	}

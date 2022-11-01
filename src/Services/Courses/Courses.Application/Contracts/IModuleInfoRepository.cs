@@ -5,4 +5,5 @@ namespace Courses.Application.Contracts;
 
 public interface IModuleInfoRepository : IMongoBaseRepository<ModuleInfoDbModel>
 {
+
 }

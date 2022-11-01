@@ -29,7 +29,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
                 throw new KeyNotFoundException($"Module with ID: {moduleId} is not found, abort operation");
         }
         string modulesString = string.Join(',', modulesId);
-        course.CourseInfo.ModulesString = modulesString;
+        course.ModulesString = modulesString;
         await UpdateAsync(courseId, course, cancellationToken);
         return course;
     }
@@ -38,7 +38,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
     {
         var course = await GetAsync(courseId, cancellationToken);
         if (course is null) throw new KeyNotFoundException($"Course with this ID: {courseId} is not found");
-        List<int> result = course.CourseInfo.ModulesString.Split(',')
+        List<int> result = course.ModulesString.Split(',')
                                                           .AsParallel()
                                                           .Select(e => int.Parse(e))
                                                           .ToList();
@@ -55,7 +55,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
         if ((await _moduleInfoCollection.FindAsync(e => e.Id == moduleId, cancellationToken: cancellationToken))
                                         .Any(cancellationToken: cancellationToken))
             throw new KeyNotFoundException($"Module with ID: {moduleId} is not found, abort operation");
-        List<int> modulesIdList = course.CourseInfo.ModulesString.Split(',')
+        List<int> modulesIdList = course.ModulesString.Split(',')
                                                                  .AsParallel()
                                                                  .Select(e => int.Parse(e))
                                                                  .ToList();
@@ -68,7 +68,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
             modulesIdList.Insert(index, moduleId);
         }
         string modulesString = string.Join(',', modulesIdList);
-        course.CourseInfo.ModulesString = modulesString;
+        course.ModulesString = modulesString;
         await UpdateAsync(courseId, course, cancellationToken);
         return course;
     }
@@ -86,7 +86,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
                                             .Any(cancellationToken: cancellationToken))
                 throw new KeyNotFoundException($"Module with ID: {moduleId} is not found, abort operation");
         }
-        List<int> modulesIdList = course.CourseInfo.ModulesString.Split(',')
+        List<int> modulesIdList = course.ModulesString.Split(',')
                                                                  .AsParallel()
                                                                  .Select(e => int.Parse(e))
                                                                  .ToList();
@@ -99,7 +99,7 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
             modulesIdList.InsertRange(startIndex, modulesId);
         }
         string modulesString = string.Join(',', modulesIdList);
-        course.CourseInfo.ModulesString = modulesString;
+        course.ModulesString = modulesString;
         await UpdateAsync(courseId, course, cancellationToken);
         return course;
     }
@@ -110,13 +110,13 @@ public class CourseInfosRepository : MongoBaseRepository<CourseInfoDbModel>, ICo
     {
         var course = await GetAsync(courseId, cancellationToken);
         if (course is null) throw new KeyNotFoundException($"Course with this ID: {courseId} is not found");
-        List<int> modulesIdList = course.CourseInfo.ModulesString.Split(',')
+        List<int> modulesIdList = course.ModulesString.Split(',')
                                                                  .AsParallel()
                                                                  .Select(e => int.Parse(e))
                                                                  .ToList();
         modulesIdList.Remove(moduleId);
         string modulesString = string.Join(',', modulesIdList);
-        course.CourseInfo.ModulesString = modulesString;
+        course.ModulesString = modulesString;
         await UpdateAsync(courseId, course, cancellationToken);
         return course;
     }

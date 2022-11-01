@@ -4,5 +4,5 @@ namespace Courses.Domain.Entities.CourseResults;
 
 public class CourseResultInfoDbModel : MongoBaseRepositoryEntity
 {
-    public CourseResultInfo CourseResultInfo { get; set; }
+    public List<ModuleProgress> ModuleProgresses { get; set; }
 }

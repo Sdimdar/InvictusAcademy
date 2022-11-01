@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace CommonRepository;
 
-public class BaseRepository<T, TC> : IBaseRepository<T> where T: BaseRepositoryEntity where TC : DbContext
+public class BaseRepository<T, TC> : IBaseRepository<T> where T : BaseRepositoryEntity where TC : DbContext
 {
     protected readonly TC Context;
     public BaseRepository(TC dbContext)
