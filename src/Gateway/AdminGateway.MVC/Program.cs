@@ -9,9 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 
-string connection = builder.Configuration.GetConnectionString("AdminConnetion");
-services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
-services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
+
 // Add services to the container.
 services.AddControllersWithViews();
 services.AddExceptionHandlers();
