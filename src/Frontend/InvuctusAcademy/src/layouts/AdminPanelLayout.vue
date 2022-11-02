@@ -8,6 +8,8 @@
         <q-space />
         <q-btn to="/admin-panel/showAllUser" class="nav-button" label="Список пользователей"/>
         <q-btn to="/admin-panel/requests" class="nav-button" label="Список заявок"/>
+        <q-btn to="/admin-panel/course" class="nav-button" label="Создать курс"/>
+
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -21,7 +23,7 @@
 
 export default {
   name: 'AdminPanelLayout',
-  
+
 }
 </script>
 

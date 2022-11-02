@@ -60,6 +60,7 @@ export const createRequest = (payload) => api.post('/Request/Create', payload);
 export const getCurrentCourses = () => api.get('/Courses/GetCurrent');
 export const getCompletedCourses = () => api.get('/Courses/GetCompleted');
 export const getWishedCourses = () => api.get('/Courses/GetWished');
+// export const createCourse = () => api.get('/Courses/Create');
 
 // на последующее удаление огрызки от админки
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
