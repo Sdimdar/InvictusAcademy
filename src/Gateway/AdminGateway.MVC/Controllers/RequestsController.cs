@@ -22,7 +22,7 @@ public class RequestsController : Controller
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber, int pageSize)
     {
         try
         {
@@ -32,7 +32,7 @@ public class RequestsController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
 
@@ -50,7 +50,7 @@ public class RequestsController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
 
@@ -59,14 +59,14 @@ public class RequestsController : Controller
         Summary = "Изменяет статус для Request обзвонен/необзвонен",
         Description = "Необходимо передать id")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled(ChangeCalledStatusCommand command)
+    public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled([FromBody] ChangeCalledStatusCommand command)
     {
         try
         {
             if (command.Id <= 0)
             {
                 ErrorVM error = new ErrorVM("Id was not assigned");
-                return View("../Errors/ErrorPage", error);
+                return Ok(error);
             }
             var response = await _requestService.ChangeCalledStatusAsync(command);
             return Ok(response);
@@ -74,7 +74,7 @@ public class RequestsController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
 
@@ -83,7 +83,7 @@ public class RequestsController : Controller
         Summary = "Добавляет комментарий",
         Description = "Необходимо передать id и комментарий")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment(ManagerCommentCommand command)
+    public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment([FromBody] ManagerCommentCommand command)
     {
         try
         {
@@ -91,7 +91,7 @@ public class RequestsController : Controller
             if (command.Id <= 0)
             {
                 ErrorVM error = new ErrorVM("Id was not assigned");
-                return View("../Errors/ErrorPage", error);
+                return Ok(error);
             }
             var response = await _requestService.ManagerCommentAsync(command);
             return Ok(response);
@@ -99,7 +99,7 @@ public class RequestsController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
 }

@@ -25,7 +25,7 @@ public class UsersController : Controller
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<IActionResult> GetAllRegisteredUsers([FromQuery]int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> GetAllRegisteredUsers([FromQuery]int pageNumber, int pageSize)
     {
         try
         {
@@ -35,7 +35,7 @@ public class UsersController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
     
@@ -53,7 +53,7 @@ public class UsersController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
     [HttpPost]
@@ -68,7 +68,7 @@ public class UsersController : Controller
             if (command.Id <= 0)
             {
                 ErrorVM error = new ErrorVM("Id was not assigned");
-                return View("../Errors/ErrorPage", error);
+                return Ok(error);
             }
             var response = await _iGetUsers.ChangeBanStatusAsync(command);
             return Ok(response);
@@ -76,7 +76,7 @@ public class UsersController : Controller
         catch (Exception e)
         {
             ErrorVM error = new ErrorVM(e.Message);
-            return View("../Errors/ErrorPage", error);
+            return Ok(error);
         }
     }
     

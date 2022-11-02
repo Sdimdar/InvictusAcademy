@@ -2,6 +2,8 @@
 using AdminGateway.MVC.Services;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
+using Community.Microsoft.Extensions.Caching.PostgreSql;
+using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 
 namespace AdminGateway.MVC.DependencyInjection;
@@ -24,20 +26,33 @@ public static class DependencyInjection
         return services;
     }
     
+    public static IServiceCollection SetCorsPolicy(this IServiceCollection services)
+    {
+        services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
+        {
+            policy.WithOrigins("http://localhost:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+        }));
+        services.ConfigureApplicationCookie(options => {
+            options.Cookie.SameSite = SameSiteMode.None;
+        });
+        return services;
+    }
+    
     public static IServiceCollection SetAutomapperProfiles(this IServiceCollection services)
     {
-        
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
         {
+            cfg.AddProfile(new DefaultResponseObjectProfile());
             cfg.AddProfile(new MappingProfile());
         }).CreateMapper());
         return services;
     }
-    
+
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
-        services.AddTransient<IAdminCreate, CreateAdmin>();
+        services.AddTransient<IAdminService, AdminService>();
         services.AddTransient<IRequestService, RequestService>();
+        services.AddTransient<IGetUsers, GetUsers>();
         return services;
     }
     

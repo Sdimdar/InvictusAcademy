@@ -1,69 +1,62 @@
 ﻿using AdminGateway.MVC.Models.DbModels;
+using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
-
+[Route("AdminPanel/[controller]/[action]")]
 public class AccountsController : Controller
 {
-    private readonly SignInManager<AdminUser> _signInManager;
-    private readonly UserManager<AdminUser> _userManager;
-    public AccountsController(SignInManager<AdminUser> signInManager, UserManager<AdminUser> userManager)
-    {
-        _signInManager = signInManager;
-        _userManager = userManager;
-    }
+    private readonly IAdminService _adminService;
+    private readonly IMapper _mapper;
 
-    public IActionResult Login(string returnUrl = null)
+    public AccountsController(IAdminService adminService, IMapper mapper)
     {
-        return View(new LoginViewModel { ReturnUrl = returnUrl });
+        _adminService = adminService;
+        _mapper = mapper;
     }
-
+    
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            AdminUser user = await _userManager.FindByNameAsync(model.Login);
-
-            if (user == null)
-            {
-                ViewData["Message"] = "Такой пользователь не найден";
-                return View(model);
-            }
-            if (user.Ban)
-            {
-                ViewData["Message"] = "Вы заблокированы администрацией.";
-                return View(model);
-            }
-            var result = await _signInManager.PasswordSignInAsync(
-                user,
-                model.Password,
-                model.RememberMe,
-                false);
-            if (result.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                {
-                    return Redirect(model.ReturnUrl);
-                }
-
-                return RedirectToAction("Login", "Accounts");
-            }
-            ModelState.AddModelError("", "Неверный логин и(или) пароль");
-
+    [SwaggerOperation(
+        Summary = "Вход админа в систему",
+        Description = "Для входа админа необходимо ввести логин и пароль",
+        Tags = new[] { "Admin" })
+    ]
+    public async Task<IActionResult> Login([FromBody]LoginViewModel request, 
+        CancellationToken cancellationToken = default)
+    { 
+        try
+        { 
+            var response = await _adminService.LoginAdminAsync(request, cancellationToken); 
+            return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
         }
-
-        return View(model);
-
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return Ok(error);
+        }
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Получение данных о пользователе",
+        Description = "Для получения данных пользователь должен быть залогинен",
+        Tags = new[] { "Admin" })
+    ]
+    public async Task<IActionResult> GetAdminData(CancellationToken cancellationToken = default)
+    {
+        var admin = await _adminService.GetAdminDataAsync(User, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(admin));
     }
 
-    public async Task<IActionResult> LogOff()
+    
+    [HttpPost]
+    public async Task<IActionResult> Logout()
     {
-        await _signInManager.SignOutAsync();
-        return RedirectToAction("Login", "Accounts");
-
+        var response = await _adminService.LogoutAdminAsync();
+        return Ok(response);
     }
 }
