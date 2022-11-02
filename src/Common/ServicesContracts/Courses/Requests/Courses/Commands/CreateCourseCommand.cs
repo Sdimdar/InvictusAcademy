@@ -1,9 +1,10 @@
 ﻿using Ardalis.Result;
+using Courses.Domain.Entities;
 using MediatR;
 
 namespace ServicesContracts.Courses.Requests.Courses.Commands;
 
-public class CreateCourseCommand : IRequest<Result<string>>
+public class CreateCourseCommand : IRequest<Result<CourseDbModel>>
 {
     public string Name { get; set; }
     public string Description { get; set; }

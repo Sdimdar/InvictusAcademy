@@ -1,5 +1,6 @@
 ﻿using CommonRepository;
 using CommonRepository.Models;
+using CommonStructures;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities.CourseInfo;
 using Microsoft.Extensions.Options;
@@ -62,5 +63,22 @@ public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IMod
     public async Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(IEnumerable<int> listOfId, CancellationToken cancellationToken)
     {
         return await (await BaseCollection.FindAsync(e => listOfId.Contains(e.Id), cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
+    }
+
+    public Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(UnicueList<int> listOfId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<UnicueList<int>> CheckModulesOnExist(UnicueList<int> listOfId, CancellationToken cancellationToken)
+    {
+        UnicueList<int> result = (UnicueList<int>)listOfId.Clone();
+        foreach (var moduleId in listOfId)
+        {
+            var module = await(await BaseCollection.FindAsync(e => e.Id == moduleId, cancellationToken: cancellationToken)).FirstOrDefaultAsync(cancellationToken);
+            if (module is null)
+                result.Remove(moduleId);
+        }
+        return result;
     }
 }

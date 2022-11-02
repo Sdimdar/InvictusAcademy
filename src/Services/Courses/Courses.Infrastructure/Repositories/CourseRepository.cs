@@ -25,10 +25,16 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         _collection = mongoDatabase.GetCollection<CourseInfoDbModel>(databaseSettings.Value.CollectionNames.GetValueOrDefault(typeof(CourseInfoDbModel)));
     }
 
-    public override async Task DeleteAsync(CourseDbModel entity)
+    public override async Task<bool> DeleteAsync(CourseDbModel entity)
     {
-        await base.DeleteAsync(entity);
-        await _collection.DeleteOneAsync(e => e.Id == entity.Id);
+        Context.Remove(entity);
+        var result = await _collection.DeleteOneAsync(e => e.Id == entity.Id);
+        if (result.IsAcknowledged)
+        {
+            await Context.SaveChangesAsync();
+            return true;
+        }
+        return false;
     }
 
     public override async Task<CourseDbModel> AddAsync(CourseDbModel entity)
@@ -36,8 +42,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         var course = await base.AddAsync(entity);
         await _collection.InsertOneAsync(new CourseInfoDbModel()
         {
-            Id = entity.Id,
-            ModulesString = ""
+            Id = entity.Id
         });
         return course;
     }
@@ -47,6 +52,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         IQueryable<CourseDbModel> result = Context.Courses.Where(c => c.IsActive);
         return await result.ToListAsync();
     }
+
     public async Task<List<CourseDbModel>> GetWishedCourses(int userId)
     {
         var query = from course in Context.Courses
@@ -55,6 +61,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
                     select course;
         return await query.ToListAsync();
     }
+
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
     {
         var query = from course in Context.Courses

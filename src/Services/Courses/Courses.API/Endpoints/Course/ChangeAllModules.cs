@@ -31,15 +31,8 @@ public class ChangeAllModules : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> HandleAsync([FromBody] ChangeAllModulesCommand request,
                                                                                               CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var result = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));
-        }
-        catch (Exception ex)
-        {
 
-            throw;
-        }
+        var result = await _mediator.Send(request, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));
     }
 }

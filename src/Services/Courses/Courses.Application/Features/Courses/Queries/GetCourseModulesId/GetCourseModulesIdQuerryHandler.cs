@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
-using AutoMapper;
+using CommonStructures;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
@@ -8,19 +8,19 @@ using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseModulesId;
 
-public class GetCourseModuleIdQuerryHandler : IRequestHandler<GetCourseModulesIdQuerry, Result<List<int>>>
+public class GetCourseModulesIdQuerryHandler : IRequestHandler<GetCourseModulesIdQuerry, Result<UnicueList<int>>>
 {
     private readonly ICourseInfoRepository _courseInfoRepository;
     private readonly IValidator<GetCourseModulesIdQuerry> _validator;
 
-    public GetCourseModuleIdQuerryHandler(ICourseInfoRepository courseInfoRepository,
+    public GetCourseModulesIdQuerryHandler(ICourseInfoRepository courseInfoRepository,
                                           IValidator<GetCourseModulesIdQuerry> validator)
     {
         _courseInfoRepository = courseInfoRepository;
         _validator = validator;
     }
 
-    public async Task<Result<List<int>>> Handle(GetCourseModulesIdQuerry request, CancellationToken cancellationToken)
+    public async Task<Result<UnicueList<int>>> Handle(GetCourseModulesIdQuerry request, CancellationToken cancellationToken)
     {
         var validatorResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validatorResult.IsValid)
@@ -30,7 +30,9 @@ public class GetCourseModuleIdQuerryHandler : IRequestHandler<GetCourseModulesId
 
         try
         {
-            return Result.Success(await _courseInfoRepository.GetModulesId(request.CourseId, cancellationToken));
+            var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
+            if (courseInfo is null) return Result.Error($"Course with Id: {request.CourseId} not found");
+            return Result.Success(courseInfo.ModulesId);
         }
         catch (KeyNotFoundException ex)
         {

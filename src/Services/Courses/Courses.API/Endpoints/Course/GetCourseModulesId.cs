@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace Courses.API.Endpoints.Course;
 
 public class GetCourseModulesId : EndpointBaseAsync
     .WithRequest<GetCourseModulesIdQuerry>
-    .WithActionResult<DefaultResponseObject<List<int>>>
+    .WithActionResult<DefaultResponseObject<UnicueList<int>>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -27,10 +28,10 @@ public class GetCourseModulesId : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса ID курса",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<List<int>>>> HandleAsync([FromQuery] GetCourseModulesIdQuerry request,
-                                                                                           CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> HandleAsync([FromQuery] GetCourseModulesIdQuerry request,
+                                                                                                 CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<int>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<UnicueList<int>>>(result));
     }
 }

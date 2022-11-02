@@ -34,8 +34,7 @@ public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T :
 
     public virtual async Task<T> UpdateAsync(int id, T entity, CancellationToken cancellationToken)
     {
-        var result = await BaseCollection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
-        if (result.ModifiedCount == 0) throw new InvalidOperationException("Element with this ID is not found");
+        await BaseCollection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
         return entity;
     }
 

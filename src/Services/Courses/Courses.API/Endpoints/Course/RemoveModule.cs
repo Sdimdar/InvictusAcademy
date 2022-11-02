@@ -29,7 +29,7 @@ public class RemoveModule : EndpointBaseAsync
         Tags = new[] { "Course" })
     ]
     public override async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> HandleAsync([FromBody] RemoveModuleCommand request,
-                                                                                              CancellationToken cancellationToken = default)
+                                                                                               CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<CourseInfoVm>>(result));

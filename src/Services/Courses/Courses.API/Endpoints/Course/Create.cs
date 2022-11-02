@@ -1,18 +1,17 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using ServicesContracts.Courses.Requests.Courses.Commands;
+using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Course;
 
 public class Create : EndpointBaseAsync
     .WithRequest<CreateCourseCommand>
-    .WithActionResult<DefaultResponseObject<CourseInfoDbModel>>
+    .WithActionResult<DefaultResponseObject<CourseVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,10 +28,10 @@ public class Create : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса данные по новому курсу",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> HandleAsync([FromBody] CreateCourseCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<CourseVm>>> HandleAsync([FromBody] CreateCourseCommand request,
                                                                                                CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CourseInfoDbModel>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<CourseVm>>(result));
     }
 }

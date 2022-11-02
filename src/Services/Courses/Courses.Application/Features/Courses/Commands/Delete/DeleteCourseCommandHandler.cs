@@ -26,9 +26,9 @@ public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, R
         {
             return Result.Invalid(validatorResult.AsErrors());
         }
-
         var entity = await _courseRepository.GetByIdAsync(request.Id);
-        await _courseRepository.DeleteAsync(entity!);
+        if (entity is null) return Result.Error($"Course with Id: {request.Id} not found");
+        await _courseRepository.DeleteAsync(entity);
         return Result.Success(); 
     }
 }

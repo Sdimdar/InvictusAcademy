@@ -6,5 +6,5 @@ namespace ServicesContracts.Courses.Requests.Modules.Queries;
 
 public class GetModulesByListOfIdQuery : IRequest<Result<List<ModuleInfoDbModel>?>>
 {
-    public IEnumerable<int> ModulesId { get; set; }
+    public List<int> ModulesId { get; set; }
 }

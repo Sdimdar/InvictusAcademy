@@ -2,6 +2,6 @@
 
 public class CourseInfoVm
 {
-    public int Id { get; set; }
+    public CourseVm CourseData { get; set; }
     public List<int> ModulesId { get; set; }
 }
