@@ -1,17 +1,15 @@
 ﻿using ServicesContracts.Identity.Responses;
-using User.API.Tests.Fixture;
 
 namespace User.API.Tests;
 
 public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private const int USERS_COUNT = 4;
-    private readonly IHttpClientWrapper _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public GetUsersDataTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = new HttpClientWrapper(_factory.CreateClient());
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     public static IEnumerable<object[]> CorrectDataWithoutFilter()

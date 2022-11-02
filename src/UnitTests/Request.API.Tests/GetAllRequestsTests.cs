@@ -6,12 +6,11 @@ namespace Request.API.Tests;
 public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private const int USERS_COUNT = 4;
-    private readonly IHttpClientWrapper _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public GetAllRequestsTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = new HttpClientWrapper(_factory.CreateClient());
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     public static IEnumerable<object[]> CorrectPagesData()

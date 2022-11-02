@@ -2,14 +2,13 @@
 
 public class GetUsersCountTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly IHttpClientWrapper _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public GetUsersCountTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = new HttpClientWrapper(_factory.CreateClient());
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
-    
+
     [Fact]
     public async Task GetRequestsCount_SendRequestWithCorrectData()
     {

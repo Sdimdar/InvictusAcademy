@@ -1,17 +1,15 @@
 ﻿using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
-using User.API.Tests.Fixture;
 
 namespace User.API.Tests;
 
 public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly IHttpClientWrapper _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public RegisterTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = new HttpClientWrapper(_factory.CreateClient());
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Fact]

@@ -4,12 +4,11 @@ namespace Request.API.Tests;
 
 public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly IHttpClientWrapper _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public AddCommentTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = new HttpClientWrapper(_factory.CreateClient());
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Fact]
