@@ -27,7 +27,7 @@ namespace Courses.API.Endpoints.Course
                                                                                                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<List<CourseVm>>>(result));
+            return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
         }
     }
 }
