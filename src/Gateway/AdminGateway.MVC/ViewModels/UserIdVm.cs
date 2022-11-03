@@ -1,6 +1,7 @@
-﻿namespace AdminGateway.MVC.ViewModels;
-
-public class UserIdVm
+﻿namespace AdminGateway.MVC.ViewModels
 {
-    public string UserId { get; set; }
+    public class UserIdVm
+    {
+        public string UserId { get; set; }
+    }
 }

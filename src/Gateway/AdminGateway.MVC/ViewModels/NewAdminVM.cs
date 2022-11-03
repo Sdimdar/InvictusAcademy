@@ -1,7 +1,8 @@
-﻿namespace AdminGateway.MVC.ViewModels;
-
-public class NewAdminVm
+﻿namespace AdminGateway.MVC.ViewModels
 {
-    public CreateAdminVm CreateModel { get; set; }
-    public Dictionary<string, string> Roles { get; set; }
+    public class NewAdminVm
+    {
+        public CreateAdminVm CreateModel { get; set; }
+        public Dictionary<string, string> Roles { get; set; }
+    }
 }

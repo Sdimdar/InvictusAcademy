@@ -11,17 +11,17 @@ public class ValidationController : Controller
     public ValidationController(UserManager<AdminUser> userManager)
     {
 
-        _userManager = userManager;
+            _userManager = userManager;
+        }
+
+
+        public bool CheckUserName(string userName)
+        {
+            var checkName = _userManager.Users.FirstOrDefault(u => u.UserName.ToLower() == userName.ToLower());
+            if (checkName != null)
+                return false;
+            return true;
+        }
+
+
     }
-
-
-    public bool CheckUserName(string userName)
-    {
-        var checkName = _userManager.Users.FirstOrDefault(u => u.UserName.ToLower() == userName.ToLower());
-        if (checkName != null)
-            return false;
-        return true;
-    }
-
-
-}

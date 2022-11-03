@@ -13,3 +13,4 @@ appSettings.Local.json
 # Vue-Quasar work folders
 .quasar
 node_modules
+/src/InvictusAcademyTestProject.sln.DotSettings.user

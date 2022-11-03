@@ -1,21 +1,28 @@
 ﻿using AdminGateway.MVC.Mappings;
+using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Models.DbModels;
 using AdminGateway.MVC.Services;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
-using Community.Microsoft.Extensions.Caching.PostgreSql;
 using DataTransferLib.Mappings;
+using ExtendedHttpClient.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace AdminGateway.MVC.DependencyInjection;
+namespace AdminGateway.MVC;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
-        services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
+        services.AddExtendedHttpClient();
+        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
+            configuration["ApiSettings:RequestUrl"]);
+        services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
         return services;
     }
+
     public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
@@ -25,19 +32,20 @@ public static class DependencyInjection
         });
         return services;
     }
-    
+
     public static IServiceCollection SetCorsPolicy(this IServiceCollection services)
     {
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
-        services.ConfigureApplicationCookie(options => {
+        services.ConfigureApplicationCookie(options =>
+        {
             options.Cookie.SameSite = SameSiteMode.None;
         });
         return services;
     }
-    
+
     public static IServiceCollection SetAutomapperProfiles(this IServiceCollection services)
     {
         services.AddSingleton(provider => new MapperConfiguration(cfg =>
@@ -55,5 +63,11 @@ public static class DependencyInjection
         services.AddTransient<IGetUsers, GetUsers>();
         return services;
     }
-    
+
+    public static IServiceCollection AddDbServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("AdminConnection")));
+        services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
+        return services;
+    }
 }

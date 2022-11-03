@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CommonRepository;
+﻿using CommonRepository;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 using User.Domain.Entities;
@@ -11,21 +10,16 @@ public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IU
 {
     public UserRepository(IdentityDbContext context) : base(context) { }
 
-    public async Task<List<UserDbModel>> GetUsersByPage(GetAllUsersCommand pageInfo)
+    protected override IQueryable<UserDbModel> FilterByString(IQueryable<UserDbModel> query, string? filterString)
     {
-        if (pageInfo.PageNumber == 0)
-            return await Context.Users.ToListAsync();
-        IQueryable<UserDbModel> requestsPerPage = Context.Users.OrderByDescending(r => r.CreatedDate)
-                                                               .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
-                                                               .Take(pageInfo.PageSize);
-        if (pageInfo.FilterString != null)
-            return await requestsPerPage.Where(u => u.FirstName == pageInfo.FilterString).ToListAsync();
-        var result = await requestsPerPage.ToListAsync();
-        return result;
-    }
-    
-    public async Task<int> GetUsersCountAsync()
-    {
-        return await Context.Users.CountAsync();
+        return string.IsNullOrEmpty(filterString)
+            ? query
+            : query.Where(v => v.FirstName.ToLower().Contains(filterString.ToLower())
+                                     || v.MiddleName!.ToLower().Contains(filterString.ToLower())
+                                     || v.LastName.ToLower().Contains(filterString.ToLower())
+                                     || v.PhoneNumber.ToLower().Contains(filterString.ToLower())
+                                     || v.Email.ToLower().Contains(filterString.ToLower())
+                                     || v.Citizenship!.ToLower().Contains(filterString.ToLower())
+            );
     }
 }

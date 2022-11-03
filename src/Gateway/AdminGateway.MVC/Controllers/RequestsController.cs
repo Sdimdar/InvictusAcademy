@@ -7,6 +7,7 @@ using ServicesContracts.Request.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
+
 [Route("AdminPanel/[controller]/[action]")]
 public class RequestsController : Controller
 {
@@ -16,24 +17,16 @@ public class RequestsController : Controller
         _requestService = requestService;
     }
 
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber, int pageSize)
+    public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber = 1, int pageSize = 10)
     {
-        try
-        {
-            var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
+        return Ok(response);
     }
 
     [HttpGet]
@@ -42,16 +35,8 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<int>>> GetRequestsCount()
     {
-        try
-        {
-            var response = await _requestService.GetRequestsCountAsync();
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _requestService.GetRequestsCountAsync();
+        return Ok(response);
     }
 
     [HttpPost]
@@ -61,21 +46,14 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled([FromBody] ChangeCalledStatusCommand command)
     {
-        try
+        if (command.Id <= 0)
         {
-            if (command.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
-            var response = await _requestService.ChangeCalledStatusAsync(command);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
+            ErrorVM error = new ErrorVM("Id was not assigned");
             return Ok(error);
         }
+        var response = await _requestService.ChangeCalledStatusAsync(command);
+        return Ok(response);
+
     }
 
     [HttpPost]
@@ -85,22 +63,13 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment([FromBody] ManagerCommentCommand command)
     {
-        try
+        if (command.Id <= 0)
         {
-           
-            if (command.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
-            var response = await _requestService.ManagerCommentAsync(command);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
+            ErrorVM error = new ErrorVM("Id was not assigned");
             return Ok(error);
         }
+        var response = await _requestService.ManagerCommentAsync(command);
+        return Ok(response);
     }
 }
 

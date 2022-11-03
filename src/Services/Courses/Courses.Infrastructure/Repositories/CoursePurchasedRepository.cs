@@ -2,7 +2,6 @@
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using Courses.Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -12,5 +11,8 @@ public class CoursePurchasedRepository : BaseRepository<CoursePurchasedDbModel, 
     {
     }
 
-    
+    protected override IQueryable<CoursePurchasedDbModel> FilterByString(IQueryable<CoursePurchasedDbModel> query, string? filterString)
+    {
+        return query;
+    }
 }

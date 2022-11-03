@@ -2,9 +2,6 @@
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using Courses.Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
-using ServicesContracts.Courses.Responses;
-using ZstdSharp.Unsafe;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -14,5 +11,8 @@ public class CourseWishedRepository : BaseRepository<CourseWishedDbModel, Course
     {
     }
 
-    
+    protected override IQueryable<CourseWishedDbModel> FilterByString(IQueryable<CourseWishedDbModel> query, string? filterString)
+    {
+        return query;
+    }
 }

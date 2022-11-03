@@ -67,7 +67,5 @@ public class AdminsController : Controller
             return Ok(user.Ban);
         }
         return BadRequest();
-
     }
-
 }
