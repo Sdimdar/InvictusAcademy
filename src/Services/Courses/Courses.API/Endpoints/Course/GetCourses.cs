@@ -26,13 +26,14 @@ public class GetCourses : EndpointBaseAsync
     [HttpGet("/Courses/GetCourses")]
     [SwaggerOperation(
         Summary = "Получение курсов по типу",
-        Description = "Необходимо передать в теле запроса данные об Id пользователя, а также тип запрашиваемых курсов",
+        Description = "Необходимо передать в теле запроса данные об Id пользователя, а также тип запрашиваемых курсов. " +
+                      "Что бы получить все активные курсы для неавторизованных, UserId не указывать, CourseType = 0",
         Tags = new[] { "Course" })
     ]
     public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromQuery] GetCoursesQuery request,
                                                                                            CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<CourseVm>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
     }
 }
