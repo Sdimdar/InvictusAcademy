@@ -1,37 +1,67 @@
 ﻿using AdminGateway.MVC.HttpClientExtensions;
 using AdminGateway.MVC.Services.Interfaces;
-using Courses.Domain.Entities;
+using CommonStructures;
+using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
-using ServicesContracts.Courses.Requests.Commands;
-using ServicesContracts.Courses.Requests.Querries;
+using ExtendedHttpClient;
+using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Courses.Requests.Courses.Commands;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace AdminGateway.MVC.Services;
 
 public class CoursesService : ICoursesService
 {
-    private readonly HttpClient _httpClient;
+    public ExtendedHttpClient<ICoursesService> ExtendedHttpClient { get; set; }
 
-    public CoursesService(HttpClient httpClient)
+    public CoursesService(ExtendedHttpClient<ICoursesService> extendedHttpClient)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ExtendedHttpClient = extendedHttpClient;
     }
     
-    public async Task<DefaultResponseObject<CourseInfoDbModel>> Create(CreateCourseCommand request)
+    public async Task<DefaultResponseObject<CourseVm>> Create(CreateCourseCommand request)
     {
-        var response = await _httpClient.PostAsJsonAsync($"/Course/Create", request);
-        return await response.ReadContentAs<DefaultResponseObject<CourseInfoDbModel>>();
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateCourseCommand, DefaultResponseObject<CourseVm>>(request,$"/Course/Create");
     }
 
     public async Task<DefaultResponseObject<CourseInfoDbModel>> EditCourse(EditCourseCommand request)
     {
-        var response = await _httpClient.PostAsJsonAsync($"/Course/Edit", request);
-        return await response.ReadContentAs<DefaultResponseObject<CourseInfoDbModel>>();
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<EditCourseCommand, DefaultResponseObject<CourseInfoDbModel>>(request, $"/Course/Edit");
     }
 
     public async Task<DefaultResponseObject<CoursesVm>> GetCourses(GetCoursesQuery request)
     {
-        var response = await _httpClient.PostAsJsonAsync($"/Courses/GetCourses", request);
-        return await response.ReadContentAs<DefaultResponseObject<CoursesVm>>();;
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(request,$"/Courses/GetCourses");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> ChangeAllModules(ChangeAllModulesCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<ChangeAllModulesCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/ChangeAllModules");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Delete(DeleteCourseCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<DeleteCourseCommand, DefaultResponseObject<bool>>(request, $"/Course/Delete");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UnicueList<int>>>($"/Course/GetModules");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<InsertModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/InsertModule");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModules(InsertModulesCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<InsertModulesCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/InsertModules");
+    }
+
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> RemoveModule(RemoveModuleCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
     }
 }

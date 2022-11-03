@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
             configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         return services;
     }
 
@@ -61,6 +62,7 @@ public static class DependencyInjection
         services.AddTransient<IAdminService, AdminService>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
+        services.AddTransient<ICoursesService, CoursesService>();
         return services;
     }
 
