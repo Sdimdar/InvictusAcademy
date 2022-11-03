@@ -6,6 +6,7 @@ const routes = [
       { path: "showAllUser", component: () => import("pages/Admin/UsersInfoPage.vue") },
       { path: "requests", component: () => import("pages/Admin/RequestsInfoPage.vue") },
       { path: "createAdmin", component: () => import("pages/Admin/CreateAdminPage.vue") },
+      { path: "content", component: () => import("pages/Admin/ContentPage.vue") },
       { path: "createCourse", component: () => import("pages/Admin/CreateCoursePage.vue") }
     ],
   },

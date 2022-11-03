@@ -14,6 +14,7 @@ public static class DependencyInjection
     {
         services.AddHttpClient<IGetUsers, GetUsers>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
         services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
+        services.AddHttpClient<IModuleService, ModuleService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
         return services;
     }
     public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
@@ -53,6 +54,7 @@ public static class DependencyInjection
         services.AddTransient<IAdminService, AdminService>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
+        services.AddTransient<IModuleService, ModuleService>();
         return services;
     }
     

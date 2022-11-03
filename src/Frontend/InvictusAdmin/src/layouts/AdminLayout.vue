@@ -63,7 +63,7 @@
               </q-item-section>
 
               <q-item-section>
-                <q-btn to="/admin-panel/createCourse" class="nav-button" label="Создать курс"/>
+                <q-btn to="/admin-panel/content" class="nav-button" label="Учебные материалы"/>
               </q-item-section>
             </q-item>
 
