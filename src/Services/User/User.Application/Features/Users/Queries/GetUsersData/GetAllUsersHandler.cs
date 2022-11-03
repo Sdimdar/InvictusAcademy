@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 

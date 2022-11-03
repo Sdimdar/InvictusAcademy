@@ -3,6 +3,7 @@ using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 using ExtendedHttpClient;
 using ExtendedHttpClient.Interfaces;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
@@ -14,7 +15,7 @@ public class CoursesService : ICoursesService
     {
         ExtendedHttpClient = extendedHttpClient;
     }
-
+    
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);
