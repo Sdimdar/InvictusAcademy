@@ -3,7 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Identity.Requests.Querries;
+using ServicesContracts.Identity.Requests.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace User.API.Endpoints.User;

@@ -1,16 +1,14 @@
 ﻿using ServicesContracts.Identity.Requests.Commands;
-using User.API.Tests.Fixture;
 
 namespace User.API.Tests;
 
 public class EditTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public EditTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Fact]

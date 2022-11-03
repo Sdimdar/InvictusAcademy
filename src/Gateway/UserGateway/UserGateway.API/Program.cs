@@ -1,3 +1,4 @@
+using GlobalExceptionHandler.Extensions;
 using UserGateway.API;
 using UserGateway.Application;
 using UserGateway.Infrastructure;
@@ -11,6 +12,7 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerConfiguration();
 services.ConfigureSessionServices();
 services.SetAutomapperProfiles();
+services.AddExceptionHandlers();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
@@ -30,6 +32,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwaggerUI();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
@@ -37,6 +40,5 @@ app.UseAuthorization();
 app.UseRouting();
 app.UseSession();
 app.MapControllers();
-
 
 app.Run();

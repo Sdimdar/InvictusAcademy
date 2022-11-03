@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace UserGateway.API.Endpoints.User;
 
-public class Logout : EndpointBaseAsync
+public class Logout : EndpointBaseSync
     .WithoutRequest
     .WithActionResult<DefaultResponseObject<string>>
 {
@@ -25,7 +25,7 @@ public class Logout : EndpointBaseAsync
         Description = "Сработает вне зависимости от того залогинен пользователь или нет",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override ActionResult<DefaultResponseObject<string>> Handle()
     {
         HttpContext.Session.Remove("user");
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
