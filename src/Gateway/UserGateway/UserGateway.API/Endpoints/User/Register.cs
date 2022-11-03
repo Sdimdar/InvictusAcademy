@@ -31,15 +31,12 @@ public class Register : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса необходимые поля",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<RegisterVm>>> HandleAsync(RegisterCommand request,
                                                                                       CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);
-        if (response.IsSuccess)
-        {
-            HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
-            return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
-        }
-        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
+        if (!response.IsSuccess) return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
+        HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

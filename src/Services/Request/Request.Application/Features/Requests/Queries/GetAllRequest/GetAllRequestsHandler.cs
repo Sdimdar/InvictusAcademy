@@ -25,7 +25,7 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, Result
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
         
-        var usersCount = _requestRepository.GetRequestsCount();
+        var usersCount = _requestRepository.GetCountAsync();
         if (request.PageSize == 0)
         {
             request.PageNumber = 1;
@@ -33,8 +33,8 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, Result
         }
         
         if (await usersCount == 0) return Result.Error("Request list is empty");
-        
-        var data = await _requestRepository.GetRequestsByPage(request);
+
+        var data = await _requestRepository.GetFilteredBatchOfData(request.PageSize, request.PageNumber);
 
         var response = new GetAllRequestVm
         {

@@ -5,11 +5,11 @@ using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 
 namespace Courses.Application.Features.Courses.Commands.Create;
 
-public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Result<string>>
+public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Result<CourseDbModel>>
 {
     private readonly ICourseRepository _coursesRepository;
     private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, R
         _validator = validator;
     }
 
-    public async Task<Result<string>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CourseDbModel>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -35,8 +35,8 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, R
             }
 
             var entity = _mapper.Map<CourseDbModel>(request);
-            await _coursesRepository.AddAsync(entity);
-            return Result.Success();
+            var result = await _coursesRepository.AddAsync(entity);
+            return Result.Success(result);
         }
         catch (Exception ex)
         {

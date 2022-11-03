@@ -2,7 +2,7 @@
 
 namespace AdminGateway.MVC.Mappings;
 
-internal class MappingProfile : Profile
+public class MappingProfile : Profile
 {
     public MappingProfile()
     {

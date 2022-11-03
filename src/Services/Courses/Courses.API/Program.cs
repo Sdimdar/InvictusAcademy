@@ -2,6 +2,7 @@ using AutoMapper;
 using Courses.API;
 using Courses.Application;
 using Courses.Infrastructure;
+using GlobalExceptionHandler.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -11,6 +12,7 @@ services.AddMvc();
 services.AddEndpointsApiExplorer();
 services.AddControllers();
 services.AddSwaggerConfiguration();
+services.AddExceptionHandlers();
 
 // Add API services
 services.AddInfrastructureServices(builder.Configuration);
@@ -29,7 +31,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseGlobalExceptionHandler();
 app.MapControllers();
 
 app.Run();

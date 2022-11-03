@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace UserGateway.Application.Features.Courses.Queries.GetCourses;
