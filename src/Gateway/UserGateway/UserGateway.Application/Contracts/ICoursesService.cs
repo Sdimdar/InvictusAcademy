@@ -1,10 +1,11 @@
 ﻿using DataTransferLib.Models;
-using ServicesContracts.Courses.Requests.Courses.Querries;
+using ExtendedHttpClient.Interfaces;
+using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace UserGateway.Application.Contracts;
 
-public interface ICoursesService
+public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
 {
     Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery querry, CancellationToken cancellationToken);
 }

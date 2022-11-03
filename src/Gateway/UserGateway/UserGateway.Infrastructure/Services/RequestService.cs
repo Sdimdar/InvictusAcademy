@@ -1,23 +1,25 @@
 ﻿using DataTransferLib.Models;
+using ExtendedHttpClient;
+using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Request.Requests.Commands;
-using System.Net.Http.Json;
 using UserGateway.Application.Contracts;
-using UserGateway.Infrastructure.Extensions;
 
 namespace UserGateway.Infrastructure.Services;
 
 public class RequestService : IRequestService
 {
-    private readonly HttpClient _httpClient;
-
-    public RequestService(HttpClient httpClient)
+    public ExtendedHttpClient<IRequestService> ExtendedHttpClient { get; set; }
+    public RequestService(ExtendedHttpClient<IRequestService> extendedHttpClient)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ExtendedHttpClient = extendedHttpClient;
     }
 
     public async Task<DefaultResponseObject<string>> CreateResponseAsync(CreateRequestCommand command, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync("/Request/Create", command, cancellationToken);
-        return await response.ReadContentAs<DefaultResponseObject<string>>();
+        return await ExtendedHttpClient
+            .PostAndReturnResponseAsync<CreateRequestCommand, DefaultResponseObject<string>>(command,
+                "/Request/Create", cancellationToken);
     }
+
+    
 }

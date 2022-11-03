@@ -33,5 +33,4 @@ public class Edit : EndpointBaseAsync
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<string>>(result));
     }
-
 }

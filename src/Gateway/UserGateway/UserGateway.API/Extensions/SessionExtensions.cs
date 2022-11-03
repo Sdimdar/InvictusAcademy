@@ -10,10 +10,11 @@ namespace UserGateway.API.Extensions
             session.SetString(key, JsonSerializer.Serialize(value));
         }
 
-        public static SessionData? GetData(this ISession session, string key)
+        public static SessionData GetData(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default : JsonSerializer.Deserialize<SessionData>(value);
+            if (value == null) throw new UnauthorizedAccessException("User is not Authorized");
+            return JsonSerializer.Deserialize<SessionData>(value)!;
         }
     }
 }

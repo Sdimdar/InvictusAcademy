@@ -20,7 +20,7 @@ public class GetUsersDataQuerryHandler : IRequestHandler<GetAllUsersCountQuery, 
 
     public async Task<Result<int>> Handle(GetAllUsersCountQuery request, CancellationToken cancellationToken)
     {
-        var result = await _userRepository.GetUsersCountAsync();
+        var result = await _userRepository.GetCountAsync();
         return Result.Success(result);
     }
 }

@@ -27,7 +27,7 @@ namespace UserGateway.API.Endpoints.Request
             Description = "Для оформления заявки необходимо ввести телефон и имя",
             Tags = new[] { "Request" })
         ]
-        public async override Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] CreateRequestCommand request,
+        public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] CreateRequestCommand request,
                                                                                       CancellationToken cancellationToken = default)
         {
             var response = await _mediator.Send(request, cancellationToken);

@@ -4,12 +4,11 @@ namespace Request.API.Tests;
 
 public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public AddCommentTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Fact]
@@ -23,7 +22,7 @@ public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -41,7 +40,7 @@ public class AddCommentTests : IClassFixture<CustomApplicationFactory<Program>>
         };
 
         // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment");
+        var data = await _httpClient.PostAndReturnResponseAsync<ManagerCommentCommand, string>(command, "/Request/AddComment", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
