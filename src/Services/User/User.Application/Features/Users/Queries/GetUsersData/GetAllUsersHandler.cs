@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 
@@ -16,7 +17,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Use
 
     public async Task<Result<UsersVm>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
     {
-        var result = await _userRepository.GetUsersByPage(request);
+        var result = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.PageNumber, request.FilterString);
         if (!result.Any())
         {
             return Result.Error("Request list is empty");

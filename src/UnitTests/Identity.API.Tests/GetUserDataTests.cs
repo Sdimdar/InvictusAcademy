@@ -1,16 +1,14 @@
 ﻿using ServicesContracts.Identity.Responses;
-using User.API.Tests.Fixture;
 
 namespace User.API.Tests;
 
 public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public GetUserDataTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Theory]
@@ -50,16 +48,16 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
         data.Errors.Should().NotBeNull();
     }
 
-    [Theory]
-    [InlineData("")]
-    public async Task GetUserData_SendRequestWithEmptyStringEmail(string invalidEmail)
+    [Fact]
+    public async Task GetUserData_SendRequestWithEmptyStringEmail()
     {
         // Arrange
+        const string invalidEmail = "";
 
         // Act
-        var response = await _httpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
+        var response = await _httpClient.HttpClient.GetAsync($"/User/GetUserData?email={invalidEmail}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.IsSuccessStatusCode.Should().BeFalse();
     }
 }

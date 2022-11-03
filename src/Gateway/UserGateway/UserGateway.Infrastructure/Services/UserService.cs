@@ -1,45 +1,45 @@
 ﻿using DataTransferLib.Models;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
-using System.Net.Http.Json;
+using ExtendedHttpClient;
+using ExtendedHttpClient.Interfaces;
 using UserGateway.Application.Contracts;
-using UserGateway.Infrastructure.Extensions;
 
 namespace UserGateway.Infrastructure.Services;
 
-public class UserService : IUserService
+public class UserService :IUserService
 {
-    private readonly HttpClient _httpClient;
-
-    public UserService(HttpClient httpClient)
+    public ExtendedHttpClient<IUserService> ExtendedHttpClient { get; set; }
+    public UserService(ExtendedHttpClient<IUserService> extendedHttpClient)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ExtendedHttpClient = extendedHttpClient;
     }
 
+    
     public async Task<DefaultResponseObject<string>> EditAsync(EditCommand command, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync("/User/Edit", command, cancellationToken);
-        return await response.ReadContentAs<DefaultResponseObject<string>>();
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<EditCommand, DefaultResponseObject<string>>(command,
+            "/User/Edit", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<string>> EditPasswordAsync(EditPasswordCommand command,
         CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync("/User/EditPassword",
-            command, cancellationToken);
-        return await response.ReadContentAs<DefaultResponseObject<string>>();
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<EditPasswordCommand, DefaultResponseObject<string>>(
+            command, "/User/EditPassword", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync($"/User/GetUserData?email={email}", cancellationToken);
-        return await response.ReadContentAs<DefaultResponseObject<UserVm>>();
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UserVm>>(
+            $"/User/GetUserData?email={email}", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken)
     {
-
-        var response = await _httpClient.PostAsJsonAsync("/User/Register", command, cancellationToken);
-        return await response.ReadContentAs<DefaultResponseObject<RegisterVm>>();
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<RegisterCommand, DefaultResponseObject<RegisterVm>>(
+            command, "/User/Register", cancellationToken);
     }
+
+    
 }

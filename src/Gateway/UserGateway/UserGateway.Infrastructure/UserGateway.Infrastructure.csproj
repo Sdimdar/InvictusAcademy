@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+    <ProjectReference Include="..\..\..\Common\ExtendedHttpClient\ExtendedHttpClient.csproj" />
     <ProjectReference Include="..\UserGateway.Application\UserGateway.Application.csproj" />
     <ProjectReference Include="..\UserGateway.Domain\UserGateway.Domain.csproj" />
   </ItemGroup>

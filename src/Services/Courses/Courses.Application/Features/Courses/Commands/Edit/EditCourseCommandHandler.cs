@@ -3,7 +3,7 @@ using Ardalis.Result.FluentValidation;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
-using ServicesContracts.Courses.Requests.Commands;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 
 namespace Courses.Application.Features.Courses.Commands.Edit;
 

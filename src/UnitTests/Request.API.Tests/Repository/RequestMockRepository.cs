@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Request.Application.Contracts;
+﻿using Request.Application.Contracts;
 using Request.Domain.Entities;
-using ServicesContracts.Request.Requests.Querries;
-using System.Linq.Expressions;
+using TestCommonRepository;
 
 namespace Request.API.Tests.Repository;
 
-public class RequestMockRepository : IRequestRepository
+public class RequestMockRepository : TestCommonRepository<RequestDbModel>, IRequestRepository
 {
-    private readonly List<RequestDbModel> _repositoryData;
-
     public RequestMockRepository()
     {
-        _repositoryData = new List<RequestDbModel>()
+        Context = new List<RequestDbModel>()
         {
             new RequestDbModel()
             {
@@ -56,81 +52,27 @@ public class RequestMockRepository : IRequestRepository
             }
         };
     }
-
-    public Task<RequestDbModel> AddAsync(RequestDbModel entity)
+    
+    public override Task DeleteAsync(RequestDbModel entity)
     {
-        return Task.FromResult(entity);
-    }
-
-    public Task DeleteAsync(RequestDbModel entity)
-    {
-        if (_repositoryData.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
+        if (Context.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-
-    public Task<IReadOnlyList<RequestDbModel>> GetAllAsync()
+    
+    public override Task UpdateAsync(RequestDbModel entity)
     {
-        return Task.FromResult((IReadOnlyList<RequestDbModel>)_repositoryData.ToList());
-    }
-
-    public async Task<IReadOnlyList<RequestDbModel>> GetAsync(Expression<Func<RequestDbModel, bool>> predicate)
-    {
-        return await _repositoryData.AsQueryable().Where(predicate).ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<RequestDbModel>> GetAsync(Expression<Func<RequestDbModel, bool>>? predicate = null,
-                                                           Func<IQueryable<RequestDbModel>, IOrderedQueryable<RequestDbModel>>? orderBy = null,
-                                                           string? includedString = null,
-                                                           bool disableTracking = true)
-    {
-        IQueryable<RequestDbModel> query = _repositoryData.AsQueryable();
-        if (disableTracking) query = query.AsNoTracking();
-        if (!string.IsNullOrWhiteSpace(includedString)) query = query.Include(includedString);
-        if (predicate != null) query = query.Where(predicate);
-        if (orderBy != null) return await orderBy(query).ToListAsync();
-        return await query.ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<RequestDbModel>> GetAsync(Expression<Func<RequestDbModel, bool>>? predicate = null,
-                                                           Func<IQueryable<RequestDbModel>, IOrderedQueryable<RequestDbModel>>? orderBy = null,
-                                                           List<Expression<Func<RequestDbModel, object>>>? includes = null,
-                                                           bool disableTracking = true)
-    {
-        IQueryable<RequestDbModel> query = _repositoryData.AsQueryable();
-        if (disableTracking) query = query.AsNoTracking();
-        if (includes != null) includes.Aggregate(query, (current, include) => current.Include(include));
-        if (predicate != null) query = query.Where(predicate);
-        if (orderBy != null) return await orderBy(query).ToListAsync();
-        return await query.ToListAsync();
-    }
-
-    public Task<RequestDbModel?> GetByIdAsync(int id)
-    {
-        return Task.FromResult(_repositoryData.FirstOrDefault(e => e.Id == id));
-    }
-
-    public Task<RequestDbModel?> GetFirstOrDefaultAsync(Expression<Func<RequestDbModel, bool>> predicate)
-    {
-        return Task.FromResult(_repositoryData.AsQueryable().FirstOrDefault(predicate));
-    }
-
-    public Task UpdateAsync(RequestDbModel entity)
-    {
-        if (_repositoryData.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
+        if (Context.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-
-    public Task<List<RequestDbModel>> GetRequestsByPage(GetAllRequestsQuery pageInfo)
+    
+    protected override IQueryable<RequestDbModel> FilterByString(IQueryable<RequestDbModel> query, string? filterString)
     {
-        if (pageInfo.PageNumber == 0)
-            return Task.FromResult(_repositoryData.ToList());
-        return Task.FromResult(_repositoryData.OrderByDescending(v => v.CreatedDate).Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageInfo.PageSize).ToList());
-    }
-
-    public Task<int> GetRequestsCount()
-    {
-        return Task.FromResult(_repositoryData.Count);
+        return string.IsNullOrEmpty(filterString)
+            ? query
+            : query.Where(v => v.UserName.ToLower().Contains(filterString.ToLower())
+                            || v.PhoneNumber.ToLower().Contains(filterString.ToLower())
+            );
     }
 }

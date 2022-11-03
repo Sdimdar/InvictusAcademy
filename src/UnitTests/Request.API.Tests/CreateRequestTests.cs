@@ -4,12 +4,11 @@ namespace Request.API.Tests;
 
 public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public CreateRequestTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     [Fact]
@@ -23,7 +22,7 @@ public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program
         };
 
         // Act
-        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -47,7 +46,7 @@ public class CreateRequestTests : IClassFixture<CustomApplicationFactory<Program
         };
 
         // Act
-        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create");
+        DefaultResponseObject<string>? data = await _httpClient.PostAndReturnResponseAsync<CreateRequestCommand, string>(command, "/Request/Create", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();

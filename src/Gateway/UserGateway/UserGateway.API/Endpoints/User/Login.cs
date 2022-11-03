@@ -31,15 +31,12 @@ public class Login : EndpointBaseAsync
         Description = "Для входа пользователя необходимо ввести логин и пароль",
         Tags = new[] { "User" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
+    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
                                                                                         CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);
-        if (response.IsSuccess)
-        {
-            HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
-            return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
-        }
-        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
+        if (!response.IsSuccess) return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
+        HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
+        return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

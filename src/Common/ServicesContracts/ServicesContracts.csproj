@@ -11,9 +11,11 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" Version="4.1.0" />
     <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\Courses\Courses.Domain\Courses.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />
     <ProjectReference Include="..\..\Services\User\User.Domain\User.Domain.csproj" />
   </ItemGroup>

@@ -1,11 +1,12 @@
-﻿namespace AdminGateway.MVC.ViewModels;
-
-public class ErrorVM
+﻿namespace AdminGateway.MVC.ViewModels
 {
-    public string ErrorMessage { get; set; }
-
-    public ErrorVM(string errorMessage)
+    public class ErrorVM
     {
-        ErrorMessage = errorMessage;
+        public string ErrorMessage { get; set; }
+
+        public ErrorVM(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
     }
 }

@@ -25,7 +25,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
 
-        var usersCount = _userRepository.GetUsersCountAsync();
+        var usersCount = _userRepository.GetCountAsync();
         if (request.PageSize == 0)
         {
             request.Page = 1;
@@ -41,7 +41,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
             FilterString = request.FilterString
         };
         
-        var data = await _userRepository.GetUsersByPage(command);
+        var data = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.Page, request.FilterString);
         UsersVm model = new()
         {
             Users = data,

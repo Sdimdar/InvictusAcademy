@@ -1,5 +1,5 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
+using Courses.API.Mappings;
 using Courses.Application.Mappings;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
@@ -13,6 +13,7 @@ public static class DependencyInjection
         {
             //cfg.AddCollectionMappers();
             cfg.AddProfile(new MappingProfile());
+            cfg.AddProfile(new ApiMappingProfile());
             cfg.AddProfile(new DefaultResponseObjectProfile());
         }).CreateMapper());
         return services;
