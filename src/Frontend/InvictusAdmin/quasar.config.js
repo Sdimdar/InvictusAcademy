@@ -79,7 +79,7 @@ module.exports = configure(function (ctx) {
       server: {
         type: 'http'
       },
-      port: 8080,
+      port: 8081,
       open: true // opens browser window automatically
     },
 
@@ -144,9 +144,9 @@ module.exports = configure(function (ctx) {
       
 
       manifest: {
-        name: `Quasar Test Front`,
-        short_name: `Quasar Test Front`,
-        description: `Test Front-end project on Vue Quasar`,
+        name: `InvictusAdmin`,
+        short_name: `InvictusAdmin`,
+        description: `InvictusAdmin`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -211,7 +211,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'package.json'
+        appId: 'invictusadmin'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

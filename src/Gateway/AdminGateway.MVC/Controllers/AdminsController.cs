@@ -2,44 +2,46 @@
 using AdminGateway.MVC.Models.DbModels;
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
+using AutoMapper;
+using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminGateway.MVC.Controllers;
-
-[Authorize(Roles = "admin")]
+[Route("AdminPanel/[controller]/[action]")]
 public class AdminsController : Controller
 {
     private readonly UserManager<AdminUser> _userManager;
     private readonly AdminDbContext _db;
-    private readonly IAdminCreate _adminCreate;
+    private readonly IAdminService _adminService;
+    private readonly IMapper _mapper;
 
 
-    public AdminsController(UserManager<AdminUser> userManager, AdminDbContext db, IAdminCreate adminCreate)
+    public AdminsController(UserManager<AdminUser> userManager, AdminDbContext db, 
+        IAdminService adminService, IMapper mapper)
     {
         _userManager = userManager;
         _db = db;
-        _adminCreate = adminCreate;
+        _adminService = adminService;
+        _mapper = mapper;
     }
-
-    [HttpGet]
-    public IActionResult CreateAdmin()
-    {
-        return View();
-    }
-
+    
     [HttpPost]
-    public async Task<IActionResult> CreateAdmin(CreateAdminVm model)
+    public async Task<IActionResult> CreateAdmin([FromBody] CreateAdminVm request, 
+        CancellationToken cancellationToken = default)
     {
-        if (ModelState.IsValid)
+        try
         {
-            if (await _adminCreate.CreateNewAdmin(model))
-                return RedirectToAction("EditProfile");
+            var response = await _adminService.CreateNewAdmin(request, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<bool>>(response));
         }
-
-        ViewData["Error"] = "Произошла ошибка создания админа.";
-        return RedirectToAction("CreateAdmin");
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return Ok(error);
+        }
+  
     }
 
     [HttpGet]
@@ -48,10 +50,7 @@ public class AdminsController : Controller
         var users = _userManager.Users.ToList();
 
         users.Remove(users[0]);
-        return View(new EditProfileVm
-        {
-            Users = users
-        });
+        return Ok();
     }
 
     [HttpPost]
@@ -67,7 +66,6 @@ public class AdminsController : Controller
             _db.SaveChanges();
             return Ok(user.Ban);
         }
-
         return BadRequest();
     }
 }

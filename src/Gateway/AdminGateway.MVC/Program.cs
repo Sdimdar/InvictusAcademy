@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-
-
 // Add services to the container.
 services.AddControllersWithViews();
 services.AddExceptionHandlers();
@@ -24,6 +22,9 @@ services.AddHttpClients(builder.Configuration);
 
 //mapper
 services.SetAutomapperProfiles();
+
+// Configure CORS Policy and Cookie
+services.SetCorsPolicy();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -51,16 +52,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 
 app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseCors("CorsPolicy");
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// app.MapControllers();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Accounts}/{action=Login}/{id?}");
+app.MapControllers();
 
 app.Run();
