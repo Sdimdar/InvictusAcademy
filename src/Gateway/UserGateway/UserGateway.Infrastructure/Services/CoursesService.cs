@@ -1,6 +1,6 @@
 ﻿using DataTransferLib.Models;
 using Newtonsoft.Json;
-using ServicesContracts.Courses.Requests.Querries;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 using System.Text;
 using UserGateway.Application.Contracts;

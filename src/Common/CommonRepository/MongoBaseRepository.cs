@@ -5,35 +5,40 @@ using MongoDB.Driver;
 
 namespace CommonRepository;
 
-public class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
+public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
 {
-    private readonly IMongoCollection<T> _booksCollection;
+    protected IMongoCollection<T> BaseCollection { get; init; }
+    protected IMongoDatabase MongoDb { get; init; }
 
-    public MongoBaseRepository(
-        IOptions<InvictusProjectDatabaseSettings> bookStoreDatabaseSettings)
+    public MongoBaseRepository(IOptions<InvictusProjectDatabaseSettings> databaseSettings)
     {
-        var mongoClient = new MongoClient(
-            bookStoreDatabaseSettings.Value.ConnectionString);
+        var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
 
-        var mongoDatabase = mongoClient.GetDatabase(
-            bookStoreDatabaseSettings.Value.DatabaseName);
+        MongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 
-        _booksCollection = mongoDatabase.GetCollection<T>(
-            bookStoreDatabaseSettings.Value.CollectionName);
+        BaseCollection = MongoDb.GetCollection<T>(databaseSettings.Value.CollectionNames.GetValueOrDefault(typeof(T)));
     }
 
-    public async Task<List<T>> GetAsync() =>
-        await _booksCollection.Find(_ => true).ToListAsync();
+    public virtual async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
+        await BaseCollection.Find(_ => true).ToListAsync(cancellationToken);
 
-    public async Task<T?> GetAsync(string id) =>
-        await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    public virtual async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
+        await BaseCollection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
-    public async Task CreateAsync(T newBook) =>
-        await _booksCollection.InsertOneAsync(newBook);
+    [Obsolete]
+    public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken)
+    {
+        if(entity.Id == 0) entity.Id = (await (await BaseCollection.FindAsync(_ => true, cancellationToken: cancellationToken)).ToListAsync(cancellationToken)).Last().Id + 1;
+        await BaseCollection.InsertOneAsync(entity, cancellationToken);
+        return entity;
+    }
 
-    public async Task UpdateAsync(string id, T updatedBook) =>
-        await _booksCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+    public virtual async Task<T> UpdateAsync(int id, T entity, CancellationToken cancellationToken)
+    {
+        await BaseCollection.ReplaceOneAsync(x => x.Id == id, entity, cancellationToken: cancellationToken);
+        return entity;
+    }
 
-    public async Task RemoveAsync(string id) =>
-        await _booksCollection.DeleteOneAsync(x => x.Id == id);
+    public virtual async Task RemoveAsync(int id, CancellationToken cancellationToken) =>
+        await BaseCollection.DeleteOneAsync(x => x.Id == id, cancellationToken);
 }

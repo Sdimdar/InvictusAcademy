@@ -4,13 +4,13 @@ namespace CommonRepository.Abstractions;
 
 public interface IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
 {
-    public Task<List<T>> GetAsync();
+    public Task<List<T>> GetAsync(CancellationToken cancellationToken);
 
-    public Task<T?> GetAsync(string id);
+    public Task<T?> GetAsync(int id, CancellationToken cancellationToken);
 
-    public Task CreateAsync(T newBook);
+    public Task<T> CreateAsync(T entity, CancellationToken cancellationToken);
 
-    public Task UpdateAsync(string id, T updatedBook);
+    public Task<T> UpdateAsync(int id, T entity, CancellationToken cancellationToken);
 
-    public Task RemoveAsync(string id);
+    public Task RemoveAsync(int id, CancellationToken cancellationToken);
 }
