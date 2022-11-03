@@ -1,40 +1,119 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-item to="/" >
+  <div class="q-pa-md">
+    <q-layout view="hHh Lpr lff">
+      <q-header elevated>
+        <q-toolbar>
+          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-item to="/admin-panel" >
           <img class="logo-img" src="img/invictus_academy_logo.png" />
         </q-item>
         <q-space />
         <template v-if="!logined" >
           <login-button class="nav-button" :logined="logined" @autorize="autorize"/>
         </template>
-        <template v-else>
-          <q-btn to="/admin-panel/showAllUser" class="nav-button" label="Список пользователей"/>
-          <q-btn to="/admin-panel/requests" class="nav-button" label="Список заявок"/>
-          <q-btn to="/admin-panel/createAdmin" class="nav-button" label="Создать админа"/>
+        <template v-else >
           <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
         </template>
-      </q-toolbar>
-    </q-header>
-    <q-page-container>
-        <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail"/>
-    </q-page-container>
-  </q-layout>
-  
-</template>
+        </q-toolbar>
+      </q-header>
+      <template v-if="logined" >
+        <q-drawer
+        v-model="drawer"
+        show-if-above
 
+        :mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        mini-to-overlay
+
+        :width="300"
+        :breakpoint="500"
+        bordered
+        class="bg-grey-3"
+      >
+        <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+          <q-list padding>
+            <q-item clickable v-ripple @click="">
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section >
+                <q-btn to="/admin-panel/showAllUser" class="nav-button" label="Список пользователей"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-btn to="/admin-panel/requests" class="nav-button" label="Список заявок"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-btn to="/admin-panel/createCourse" class="nav-button" label="Создать курс"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-btn to="/admin-panel/createAdmin" class="nav-button" label="Создать админа"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
+
+      <q-page-container>
+        <q-page padding>
+          <router-view />
+        </q-page>
+      </q-page-container>
+
+      </template>
+    </q-layout>
+  </div>
+
+</template>
 
 <script>
 import LogoutButton from 'components/LogoutButton.vue'
 import LoginButton from 'components/LoginButton.vue'
 import { fetchLoginedUserData } from 'boot/axios'
+import { ref } from 'vue'
 
 export default {
   name: 'AdminLayout',
   components:{
     LoginButton,
     LogoutButton
+  },
+  setup () {
+    return {
+      drawer: ref(false),
+      miniState: ref(true)
+    }
   },
   data(){
     return{
