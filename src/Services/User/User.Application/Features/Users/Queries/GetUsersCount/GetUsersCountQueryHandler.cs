@@ -16,6 +16,6 @@ public class GetUsersCountQueryHandler : IRequestHandler<GetUsersCountQuery, Res
 
     public async Task<Result<int>> Handle(GetUsersCountQuery request, CancellationToken cancellationToken)
     {
-        return await _userRepository.GetUsersCountAsync();
+        return await _userRepository.GetCountAsync();
     }
 }

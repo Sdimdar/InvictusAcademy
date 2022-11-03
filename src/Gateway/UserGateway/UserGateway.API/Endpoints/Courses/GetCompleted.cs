@@ -32,17 +32,10 @@ public class GetCompleted : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "Courses" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        try
-        {
-            string email = HttpContext.Session.GetData("user")!.Email;
-            var result = await _mediator.Send(new GetGatewayCoursesQuery() { Email = email, Type = CourseTypes.Completed }, cancellationToken);
-            return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
-        }
-        catch (Exception ex)
-        {
-            return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(Result.Error(ex.Message)));
-        }
+        string email = HttpContext.Session.GetData("user")!.Email;
+        var result = await _mediator.Send(new GetGatewayCoursesQuery() { Email = email, Type = CourseTypes.Completed }, cancellationToken);
+        return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
     }
 }

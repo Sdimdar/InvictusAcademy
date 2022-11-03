@@ -16,7 +16,7 @@ public class GetRequestsCountQuerryHandler : IRequestHandler<GetRequestsCountQue
 
     public async Task<Result<int>> Handle(GetRequestsCountQuerry request, CancellationToken cancellationToken)
     {
-        var result = await _requestRepository.GetRequestsCount();
+        var result = await _requestRepository.GetCountAsync();
         return Result.Success(result);
     }
 }

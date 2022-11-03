@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using DataTransferLib.Mappings;
+using ExtendedHttpClient;
+using ExtendedHttpClient.Extensions;
+using ExtendedHttpClient.Interfaces;
 using Microsoft.OpenApi.Models;
 using UserGateway.Application.Mappings;
 using UserGateway.Application.Contracts;
@@ -43,9 +46,12 @@ public static class DependencyInjection
 
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<IUserService, UserService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:IdentityUrl"]));
-        services.AddHttpClient<IRequestService, RequestService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:RequestUrl"]));
-        services.AddHttpClient<ICoursesService, CoursesService>(c => c.BaseAddress = new Uri(configuration["ApiSettings:CourseUrl"]));
+        services.AddExtendedHttpClient();
+        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
+            configuration["ApiSettings:RequestUrl"]);
+        services.AddServiceWithExtendedHttpClient<IUserService, UserService>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(
+            configuration["ApiSettings:CourseUrl"]);
         return services;
     }
 

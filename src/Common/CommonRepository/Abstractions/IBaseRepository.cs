@@ -3,23 +3,16 @@ using System.Linq.Expressions;
 
 namespace CommonRepository.Abstractions;
 
-public interface IBaseRepository<T> where T : BaseRepositoryEntity
+public interface IBaseRepository<TEntity> where TEntity : BaseRepositoryEntity
 {
-    Task<IReadOnlyList<T>> GetAllAsync();
-    Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
-
-    Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
-                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-                                    string? includedString = null,
-                                    bool disableTracking = true);
-
-    Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>>? predicate = null,
-                                    Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-                                    List<Expression<Func<T, object>>>? includes = null,
-                                    bool disableTracking = true);
-    Task<T?> GetByIdAsync(int id);
-    Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
-    Task<T> AddAsync(T entity);
-    Task UpdateAsync(T entity);
-    Task DeleteAsync(T entity);
+    Task<List<TEntity>> GetAllAsync();
+    Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate,
+                                          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy);
+    Task<TEntity?> GetByIdAsync(int id);
+    Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> AddAsync(TEntity entity);
+    Task UpdateAsync(TEntity entity);
+    Task DeleteAsync(TEntity entity);
+    Task<int> GetCountAsync();
+    Task<List<TEntity>> GetFilteredBatchOfData(int pageSize, int page, string? filterString = null);
 }

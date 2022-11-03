@@ -1,30 +1,30 @@
-using AdminGateway.MVC.DependencyInjection;
+using AdminGateway.MVC;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
 using Microsoft.AspNetCore.Identity;
+using GlobalExceptionHandler.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var configuration = builder.Configuration;
 
-
-string connection = builder.Configuration.GetConnectionString("AdminConnetion");
-services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(connection));
-services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
 // Add services to the container.
 services.AddControllersWithViews();
+services.AddExceptionHandlers();
+
 //swagger
 services.AddSwaggerConfiguration();
 
 //custom services
 services.AddCustomServices();
+services.AddDbServices(builder.Configuration);
+services.AddHttpClients(builder.Configuration);
 
 //mapper
 services.SetAutomapperProfiles();
 
-
-services.AddHttpClients(configuration);
+// Configure CORS Policy and Cookie
+services.SetCorsPolicy();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -43,9 +43,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
@@ -53,17 +50,15 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwaggerUI();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseCors("CorsPolicy");
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// app.MapControllers();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Accounts}/{action=Login}/{id?}");
+app.MapControllers();
 
 app.Run();

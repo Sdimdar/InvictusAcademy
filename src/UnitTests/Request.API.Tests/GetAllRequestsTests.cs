@@ -6,12 +6,11 @@ namespace Request.API.Tests;
 public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private const int USERS_COUNT = 4;
-    private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
+    private readonly ExtendedHttpClientForTests _httpClient;
+
     public GetAllRequestsTests(CustomApplicationFactory<Program> factory)
     {
-        _factory = factory;
-        _httpClient = _factory.CreateClient();
+        _httpClient = new ExtendedHttpClientForTests(factory.CreateClient());
     }
 
     public static IEnumerable<object[]> CorrectPagesData()
@@ -36,7 +35,7 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
         };
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
+        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();
@@ -58,7 +57,7 @@ public class GetAllRequestsTests : IClassFixture<CustomApplicationFactory<Progra
         };
 
         // Act
-        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}");
+        var data = await _httpClient.GetAndReturnResponseAsync<GetAllRequestVm>($"/Request/GetAll?pageNumber={command.PageNumber}&pageSize={command.PageSize}", new CancellationToken());
 
         // Assert
         data.Should().NotBeNull();

@@ -64,5 +64,5 @@ export const getWishedCourses = () => api.get('/Courses/GetWished');
 // на последующее удаление огрызки от админки
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
-export const fetchAllRequest = (pageNumber, pageSize) => api.get('/Request/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchRequestsCount = () => api.get('/Request/Count');
+export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
