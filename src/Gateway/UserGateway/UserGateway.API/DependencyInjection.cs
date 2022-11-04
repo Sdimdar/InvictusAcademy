@@ -40,6 +40,7 @@ public static class DependencyInjection
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         return services;
     }
