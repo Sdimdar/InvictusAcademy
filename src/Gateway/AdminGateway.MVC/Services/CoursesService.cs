@@ -47,7 +47,7 @@ public class CoursesService : ICoursesService
 
     public async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UnicueList<int>>>($"/Course/GetModules");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCourseModulesIdQuerry, DefaultResponseObject<UnicueList<int>>>(request, $"/Course/GetModules");
     }
 
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request)
