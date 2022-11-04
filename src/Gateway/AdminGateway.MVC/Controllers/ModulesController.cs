@@ -123,7 +123,7 @@ public class ModulesController: Controller
         Summary = "Изменение данных о модуле",
         Description = "В теле запроса передаются новые данные для модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody]UpdateModuleCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody]UpdateModuleCommand request)
     {
         try
         {
