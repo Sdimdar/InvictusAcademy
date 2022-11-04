@@ -86,7 +86,7 @@ services:
     image: ${DOCKER_REGISTRY-}userfrontend
     build:
       context: Frontend/InvuctusAcademy
-      dockerfile: /Dockerfile
+      dockerfile: Dockerfile
       args:
         - GATEWAY=http://localhost:8000
     container_name: user-frontend

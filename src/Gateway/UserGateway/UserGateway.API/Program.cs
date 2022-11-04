@@ -5,12 +5,13 @@ using UserGateway.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var environment = builder.Environment;
 
 // Add services to the container.
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerConfiguration();
-services.ConfigureSessionServices();
+services.ConfigureSessionServices(environment);
 services.SetAutomapperProfiles();
 services.AddExceptionHandlers();
 

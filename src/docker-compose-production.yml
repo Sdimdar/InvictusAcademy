@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+
+  user-frontend:
+    build:
+      args:
+        - GATEWAY=http://162.55.57.43:8000
+  
+  admin-frontend:
+    build:
+      args:
+        - GATEWAY=http://162.55.57.43:8001
+
+  gateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  admingateway.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+  
+  user.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  request.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  courses.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production

@@ -10,16 +10,30 @@ namespace UserGateway.API;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection ConfigureSessionServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureSessionServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        services.AddSession(options =>
+        if (environment.IsDevelopment())
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(20);
-            options.Cookie.Name = ".InvictusAcademy.Session";
-            options.Cookie.IsEssential = true;
-            options.Cookie.SameSite = SameSiteMode.None;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.Name = ".InvictusAcademy.Session";
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+        }
+        if (environment.IsProduction())
+        {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.Name = ".InvictusAcademy.Session";
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+        }
+        
         return services;
     }
 
