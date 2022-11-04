@@ -24,7 +24,7 @@ public class GetUsers : IGetUsers
     public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UsersVm>>(
-            $"/User/GetUsersCount?pageNumber={pageNumber}&pageSize={pageSize}");
+            $"/User/GetAllRegisteredUsersData?page={pageNumber}&pageSize={pageSize}&filterString={null}");
     }
 
     public async Task<DefaultResponseObject<string>> ChangeBanStatusAsync(ToBanCommand command)

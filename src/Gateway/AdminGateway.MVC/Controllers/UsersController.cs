@@ -4,6 +4,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Commands;
+using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -29,7 +30,14 @@ public class UsersController : Controller
     {
         var response = await _iGetUsers.GetUsersAsync(pageNumber, pageSize);
         var usersList = response.Value;
-        return Ok(usersList?.Users);
+        var responce = new DefaultResponseObject<UsersVm>()
+        {
+            Errors = null,
+            IsSuccess = true,
+            ValidationErrors = null,
+            Value = usersList
+        };
+        return Ok(responce);
     }
 
     [HttpPost]

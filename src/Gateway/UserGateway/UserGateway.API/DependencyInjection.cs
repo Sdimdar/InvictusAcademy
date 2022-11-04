@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using DataTransferLib.Mappings;
-using ExtendedHttpClient;
 using ExtendedHttpClient.Extensions;
-using ExtendedHttpClient.Interfaces;
 using Microsoft.OpenApi.Models;
-using UserGateway.Application.Mappings;
 using UserGateway.Application.Contracts;
+using UserGateway.Application.Mappings;
 using UserGateway.Infrastructure.Services;
 
 namespace UserGateway.API;
@@ -41,6 +39,7 @@ public static class DependencyInjection
         {
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             policy.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://162.55.57.43").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         return services;
     }

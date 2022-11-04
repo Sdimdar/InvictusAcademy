@@ -12,19 +12,57 @@ services:
       - "5430:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/sessionsData
-  
-  identitydb:
+
+  admindb:
     image: postgres
-    container_name: identitydb
+    container_name: admindb
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=IdentityDb
     restart: always
     ports:
       - "5431:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/identityData
+      - postgres_data:/var/lib/postgressql/adminData
+  
+  userdb:
+    image: postgres
+    container_name: userdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=UserDb
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgressql/userData
+
+  requestdb:
+    image: postgres
+    container_name: requestdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=RequestDb
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgressql/requestData
+
+  coursesdb:
+    image: postgres
+    container_name: coursesdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=CoursesDb
+    restart: always
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgressql/coursesData
 
   invictus.pgadmin:
     container_name: invictus.pgadmin
@@ -35,44 +73,125 @@ services:
     ports:
       - "5051:80"
 
+  courses-infodb:
+    image: mongo
+    container_name: courses-infodb
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/coursesInfoDb
+
   user-frontend:
     image: ${DOCKER_REGISTRY-}userfrontend
     build:
-      context: .
-      dockerfile: Frontend/InvuctusAcademy/Dockerfile
+      context: Frontend/InvuctusAcademy
+      dockerfile: /Dockerfile
+      args:
+        - GATEWAY=http://localhost:8000
     container_name: user-frontend
+    depends_on:
+      - gateway.api
     ports:
       - "80:80"
+  
+  admin-frontend:
+    image: ${DOCKER_REGISTRY-}adminfrontend
+    build:
+      context: Frontend\InvictusAdmin
+      dockerfile: Dockerfile
+      args:
+        - GATEWAY=http://localhost:8001
+    container_name: admin-frontend
+    depends_on:
+      - admingateway.api
+    ports:
+      - "8080:80"
 
   gateway.api:
     image: ${DOCKER_REGISTRY-}gatewayapi
     build:
       context: .
-      dockerfile: Gateway/SessionGatewayService/SessionGatewayService.API/Dockerfile
+      dockerfile: Gateway/UserGateway/UserGateway.API/Dockerfile
     container_name: gateway.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:SessionConnectionString=Server=sessionsdb;Port=5432;UserId=postgres;Password=admin;"
-      - "ApiSettings:IdentityUrl=http://identity.api"
+      - "ApiSettings:IdentityUrl=http://user.api"
+      - "ApiSettings:RequestUrl=http://request.api"
+      - "ApiSettings:CourseUrl=http://courses.api"
     depends_on:
       - sessionsdb
-      - identity.api
+      - user.api
+      - courses.api
+      - request.api
     ports: 
-      - "7000:80"
-  
-  identity.api:
-    image: ${DOCKER_REGISTRY-}identityapi
+      - "8000:80"
+
+  admingateway.api:
+    image: ${DOCKER_REGISTRY-}admingatewayapi
     build:
       context: .
-      dockerfile: Services/Identity/Identity.API/Dockerfile
-    container_name: identity.api
+      dockerfile: Gateway/AdminGateway.MVC/Dockerfile
+    container_name: admingateway.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:IdentityConnectionString=Server=sessionsdb;Port=5432;Database=IdentityDb;UserId=postgres;Password=admin;"
+      - "ConnectionStrings:AdminConnection=Server=admindb;Port=5432;Database=AdminDb;UserId=postgres;Password=admin;"
+      - "ApiSettings:IdentityUrl=http://user.api"
+      - "ApiSettings:RequestUrl=http://request.api"
+      - "ApiSettings:CourseUrl=http://courses.api"
     depends_on:
-      - identitydb
+      - admindb
+      - user.api
+      - courses.api
+      - request.api
+    ports: 
+      - "8001:80"
+  
+  user.api:
+    image: ${DOCKER_REGISTRY-}userapi
+    build:
+      context: .
+      dockerfile: Services/User/User.API/Dockerfile
+    container_name: user.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:UserConnectionString=Server=userdb;Port=5432;Database=UserDb;UserId=postgres;Password=admin;"
+    depends_on:
+      - userdb
     ports: 
       - "7001:80"
 
+  request.api:
+    image: ${DOCKER_REGISTRY-}requestapi
+    build:
+      context: .
+      dockerfile: Services/Request/Request.API/Dockerfile
+    container_name: request.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:RequestConnectionString=Server=requestdb;Port=5432;Database=RequestDb;UserId=postgres;Password=admin;"
+    depends_on:
+      - requestdb
+    ports: 
+      - "7002:80"
+
+  courses.api:
+    image: ${DOCKER_REGISTRY-}coursesapi
+    build:
+      context: .
+      dockerfile: Services/Courses/Courses.API/Dockerfile
+    container_name: courses.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:CoursesConnectionString=Server=coursesdb;Port=5432;Database=CoursesDb;UserId=postgres;Password=admin;"
+      - "InvictusAcademyDatabase:ConnectionString=mongodb://courses-infodb:27018"
+      - "DatabaseName=InvictusAcademy"
+    depends_on:
+      - coursesdb
+    ports: 
+      - "7003:80"
+
 volumes:
-  postgres_data:    
+  postgres_data:
+  mongo_data:    

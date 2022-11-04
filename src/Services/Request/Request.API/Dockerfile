@@ -5,11 +5,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Services/User/User.API/User.API.csproj", "Services/User/User.API/"]
+COPY ["Services/Request/Request.API/Request.API.csproj", "Services/Request/Request.API/"]
 COPY ["Common/DataTransferLib/DataTransferLib.csproj", "Common/DataTransferLib/"]
 COPY ["Common/GlobalExceptionHandler/GlobalExceptionHandler.csproj", "Common/GlobalExceptionHandler/"]
-COPY ["Services/User/User.Application/User.Application.csproj", "Services/User/User.Application/"]
+COPY ["Services/Request/Request.Infrastructure/Request.Infrastructure.csproj", "Services/Request/Request.Infrastructure/"]
+COPY ["Services/User/User.Infrastructure/User.Infrastructure.csproj", "Services/User/User.Infrastructure/"]
 COPY ["Common/CommonRepository/CommonRepository.csproj", "Common/CommonRepository/"]
+COPY ["Services/User/User.Application/User.Application.csproj", "Services/User/User.Application/"]
 COPY ["Common/PasswordsHash/StringHash.csproj", "Common/PasswordsHash/"]
 COPY ["Common/ServicesContracts/ServicesContracts.csproj", "Common/ServicesContracts/"]
 COPY ["Services/Courses/Courses.Domain/Courses.Domain.csproj", "Services/Courses/Courses.Domain/"]
@@ -20,16 +22,15 @@ COPY ["Gateway/UserGateway/UserGateway.Application/UserGateway.Application.cspro
 COPY ["Common/ExtendedHttpClient/ExtendedHttpClient.csproj", "Common/ExtendedHttpClient/"]
 COPY ["Gateway/UserGateway/UserGateway.Domain/UserGateway.Domain.csproj", "Gateway/UserGateway/UserGateway.Domain/"]
 COPY ["Services/Request/Request.Application/Request.Application.csproj", "Services/Request/Request.Application/"]
-COPY ["Services/User/User.Infrastructure/User.Infrastructure.csproj", "Services/User/User.Infrastructure/"]
-RUN dotnet restore "Services/User/User.API/User.API.csproj"
+RUN dotnet restore "Services/Request/Request.API/Request.API.csproj"
 COPY . .
-WORKDIR "/src/Services/User/User.API"
-RUN dotnet build "User.API.csproj" -c Release -o /app/build
+WORKDIR "/src/Services/Request/Request.API"
+RUN dotnet build "Request.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "User.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Request.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "User.API.dll"]
+ENTRYPOINT ["dotnet", "Request.API.dll"]

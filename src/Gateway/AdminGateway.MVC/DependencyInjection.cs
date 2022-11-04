@@ -38,10 +38,13 @@ public static class DependencyInjection
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://162.55.57.43:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
         return services;
     }

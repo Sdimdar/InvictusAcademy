@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<IdentityDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("IdentityConnectionString")));
+            options.UseNpgsql(configuration.GetConnectionString("UserConnectionString")));
 
         services.AddScoped<IUserRepository, UserRepository>();
         return services;
