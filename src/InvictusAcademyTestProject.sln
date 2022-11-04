@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtendedHttpClient", "Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalExceptionHandler", "Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj", "{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStructures", "Common\CommonStructures\CommonStructures.csproj", "{D59B6305-BE0D-41D1-A170-0D1D306006C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,10 @@ Global
 		{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D59B6305-BE0D-41D1-A170-0D1D306006C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59B6305-BE0D-41D1-A170-0D1D306006C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59B6305-BE0D-41D1-A170-0D1D306006C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59B6305-BE0D-41D1-A170-0D1D306006C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{9163ADE1-C042-4057-93AE-55F431480B78} = {C3684626-959D-4CE0-AB89-58C2F64B6395}
 		{3861C2CB-FD9A-4667-A736-5A5EE9B9DFA4} = {9253D74F-C62D-4337-AF39-3B5EFA175266}
 		{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5} = {9253D74F-C62D-4337-AF39-3B5EFA175266}
+		{D59B6305-BE0D-41D1-A170-0D1D306006C3} = {9253D74F-C62D-4337-AF39-3B5EFA175266}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DE1B9DB-6B40-4D8A-8E4F-42BB81F27D89}

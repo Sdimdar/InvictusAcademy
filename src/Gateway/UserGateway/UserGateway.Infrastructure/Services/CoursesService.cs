@@ -1,4 +1,5 @@
 ﻿using DataTransferLib.Models;
+using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 using ExtendedHttpClient;
 using ExtendedHttpClient.Interfaces;
@@ -14,7 +15,7 @@ public class CoursesService : ICoursesService
     {
         ExtendedHttpClient = extendedHttpClient;
     }
-
+    
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);

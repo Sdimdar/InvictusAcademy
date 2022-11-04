@@ -1,6 +1,7 @@
 ﻿using DataTransferLib.Models;
 using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Courses.Requests.Courses.Querries;
+using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace UserGateway.Application.Contracts;
