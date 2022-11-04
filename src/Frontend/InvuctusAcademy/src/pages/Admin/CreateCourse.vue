@@ -64,6 +64,7 @@
 import { ref } from 'vue'
 import notify from "boot/notifyes";
 import {VueDraggableNext} from "vue-draggable-next";
+import {getAllModules} from "boot/axios";
 
 export default{
   data(){
@@ -95,6 +96,11 @@ export default{
           title: 'Learning JS'
         },
       ],
+      responceDataCourse: {
+        id: 0,
+        name: "",
+        description: ""
+      },
       forCreateModules: [
         // {
         //   id: 1,
@@ -151,12 +157,23 @@ export default{
       }
     }
   },
+  mounted() {
+    return{
+
+    }
+  },
   methods:{
     async submitCourse() {
+
+      //ToDo
       // try {
       //   const response = await createCourse(this.courseData);
       //   if (response.data.isSuccess) {
-      //     notify.showSucsessNotify("Курс создан");
+      //     this.courseData = response.data.value;
+      //     if (courseData.id >= 0){
+      //       this.showModules = true
+      //       notify.showSucsessNotify("Курс создан");
+      //     }
       //   }
       //   else {
       //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -164,8 +181,41 @@ export default{
       // } catch (e) {
       //   notify.showErrorNotify(e.message);
       // }
-      this.showModules = true
+      this.showModules = true //DeleteAfter
     },
+    //ToDo
+    // async submitInsertModules() {
+    //   try {
+    //     const response = await createCourse(this.courseData);
+    //     if (response.data.isSuccess) {
+    //       this.courseData = response.data.value;
+    //       if (courseData.id >= 0){
+    //         this.showModules = true
+    //         notify.showSucsessNotify("Модули добавлены");
+    //       }
+    //     }
+    //     else {
+    //       response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+    //     }
+    //   } catch (e) {
+    //     notify.showErrorNotify(e.message);
+    //   }
+    // },
+    //ToDo
+    // async getAllModules(){
+    //   try {
+    //     const response = await getAllModules();
+    //     if (response.data.isSuccess) {
+    //       this.allModules = response.data.value;
+    //       notify.showSucsessNotify("Все модули получены");
+    //     }
+    //     else {
+    //       response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+    //     }
+    //   } catch (e) {
+    //     notify.showErrorNotify(e.message);
+    //   }
+    // },
     addModule(module){
       this.forCreateModules.push(module)
     },
