@@ -58,13 +58,15 @@
     </vue-draggable-group>
 
   </div>
+
+  <q-btn color="black" label="Добавить модули" @click="submitInsertModules" />
 </template>
 
 <script>
 import { ref } from 'vue'
 import notify from "boot/notifyes";
 import {VueDraggableNext} from "vue-draggable-next";
-import {getAllModules} from "boot/axios";
+import {getAllModules, insertModules} from "boot/axios";
 
 export default{
   data(){
@@ -73,27 +75,39 @@ export default{
       allModules: [
         {
           id: 1,
-          title: 'DO vue'
+          title: 'DO vue',
+          shortDescription: '',
+          articles: []
         },
         {
           id: 2,
-          title: 'DO React'
+          title: 'DO React',
+          shortDescription: '',
+          articles: []
         },
         {
           id: 3,
-          title: 'DO JS'
+          title: 'DO JS',
+          shortDescription: '',
+          articles: []
         },
         {
           id: 4,
-          title: 'Learning vue'
+          title: 'Learning vue',
+          shortDescription: '',
+          articles: []
         },
         {
           id: 5,
-          title: 'Learning React'
+          title: 'Learning React',
+          shortDescription: '',
+          articles: []
         },
         {
           id: 6,
-          title: 'Learning JS'
+          title: 'Learning JS',
+          shortDescription: '',
+          articles: []
         },
       ],
       responceDataCourse: {
@@ -157,11 +171,9 @@ export default{
       }
     }
   },
-  mounted() {
-    return{
-
-    }
-  },
+  // mounted() {
+  //   this.getAllModules();
+  // },
   methods:{
     async submitCourse() {
 
@@ -169,7 +181,7 @@ export default{
       // try {
       //   const response = await createCourse(this.courseData);
       //   if (response.data.isSuccess) {
-      //     this.courseData = response.data.value;
+      //     this.responceDataCourse = response.data.value;
       //     if (courseData.id >= 0){
       //       this.showModules = true
       //       notify.showSucsessNotify("Курс создан");
@@ -186,13 +198,15 @@ export default{
     //ToDo
     // async submitInsertModules() {
     //   try {
-    //     const response = await createCourse(this.courseData);
+    //     const dataForModulesInsert = {
+    //       id: this.responceDataCourse.id,
+    //       modulesId: [],
+    //       startIndex: 0 //Todo?
+    //     }
+    //     this.forCreateModules.forEach(el => dataForModulesInsert.modulesId.push(el.id))
+    //     const response = await insertModules(dataForModulesInsert);
     //     if (response.data.isSuccess) {
-    //       this.courseData = response.data.value;
-    //       if (courseData.id >= 0){
-    //         this.showModules = true
     //         notify.showSucsessNotify("Модули добавлены");
-    //       }
     //     }
     //     else {
     //       response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -216,18 +230,18 @@ export default{
     //     notify.showErrorNotify(e.message);
     //   }
     // },
-    addModule(module){
-      this.forCreateModules.push(module)
-    },
-    deleteModule(module){
-
-      for (let i = 0, len = this.forCreateModules.length; i < len; i++) {
-        if (this.forCreateModules[i] === module) {
-          this.forCreateModules.splice(i, 1);
-          break;
-        }
-      }
-    }
+    // addModule(module){
+    //   this.forCreateModules.push(module)
+    // },
+    // deleteModule(module){
+    //
+    //   for (let i = 0, len = this.forCreateModules.length; i < len; i++) {
+    //     if (this.forCreateModules[i] === module) {
+    //       this.forCreateModules.splice(i, 1);
+    //       break;
+    //     }
+    //   }
+    // }
   }
 }
 </script>
