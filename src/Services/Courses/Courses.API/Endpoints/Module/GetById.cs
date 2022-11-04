@@ -22,7 +22,7 @@ public class GetById : EndpointBaseAsync
         _mapper = mapper;
     }
 
-    [HttpPost("/Module/GetById")]
+    [HttpGet("/Module/GetById")]
     [SwaggerOperation(
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля",
