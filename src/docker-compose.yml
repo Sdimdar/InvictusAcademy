@@ -98,7 +98,7 @@ services:
   admin-frontend:
     image: ${DOCKER_REGISTRY-}adminfrontend
     build:
-      context: Frontend\InvictusAdmin
+      context: Frontend/InvictusAdmin
       dockerfile: Dockerfile
       args:
         - GATEWAY=http://localhost:8001
