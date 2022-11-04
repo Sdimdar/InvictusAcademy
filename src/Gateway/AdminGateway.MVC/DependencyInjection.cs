@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
             configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<IModuleService, ModuleService>(configuration["ApiSettings:CourseUrl"]);
         return services;
     }
 
@@ -37,7 +38,7 @@ public static class DependencyInjection
     {
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
-            policy.WithOrigins("http://localhost:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost:8082").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         services.ConfigureApplicationCookie(options =>
         {
@@ -61,6 +62,7 @@ public static class DependencyInjection
         services.AddTransient<IAdminService, AdminService>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
+        services.AddTransient<IModuleService, ModuleService>();
         return services;
     }
 

@@ -18,7 +18,7 @@ public class GetUsers : IGetUsers
     
     public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync()
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UsersVm>>("/User/GetUsersData");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UsersVm>>("/User/GetAllRegisteredUsersData");
     }
 
     public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize)

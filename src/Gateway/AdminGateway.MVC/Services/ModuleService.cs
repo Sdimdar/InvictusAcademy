@@ -3,21 +3,26 @@ using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using Ardalis.Result;
 using DataTransferLib.Models;
+using ExtendedHttpClient;
+using ServicesContracts.Courses.Responses;
 
 namespace AdminGateway.MVC.Services;
 
 public class ModuleService : IModuleService
 {
-    private readonly HttpClient _httpClient;
-
-    public ModuleService(HttpClient httpClient)
+    public ExtendedHttpClient<IModuleService> ExtendedHttpClient { get; set; }
+    public ModuleService(ExtendedHttpClient<IModuleService> extendedHttpClient)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        ExtendedHttpClient = extendedHttpClient;
     }
 
-    public async Task<DefaultResponseObject<bool>> CreateNewModule(CreateModuleVM request, CancellationToken cancellationToken)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> CreateNewModule(CreateModuleVM request,
+        CancellationToken cancellationToken)
     {
-        var response = await _httpClient.PostAsJsonAsync($"/Modules/Create", request);
-        return await response.ReadContentAs<DefaultResponseObject<bool>>();
+        return await ExtendedHttpClient
+            .PostAndReturnResponseAsync<CreateModuleVM, DefaultResponseObject<ModuleInfoVm>>(request,
+                "/Modules/Create");
     }
+
+   
 }

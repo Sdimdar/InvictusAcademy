@@ -35,7 +35,7 @@
           <q-list padding>
             <q-item clickable v-ripple @click="">
               <q-item-section avatar>
-                <q-icon name="star" />
+                <q-icon name="people" />
               </q-item-section>
 
               <q-item-section >
@@ -47,7 +47,7 @@
 
             <q-item clickable v-ripple>
               <q-item-section avatar>
-                <q-icon name="star" />
+                <q-icon name="phone" />
               </q-item-section>
 
               <q-item-section>
@@ -59,7 +59,7 @@
 
             <q-item clickable v-ripple>
               <q-item-section avatar>
-                <q-icon name="star" />
+                <q-icon name="slow_motion_video" />
               </q-item-section>
 
               <q-item-section>
