@@ -59,7 +59,7 @@
 
   </div>
 
-  <q-btn color="black" label="Добавить модули" @click="submitInsertModules" />
+  <q-btn class="submitModuleButton" color="black" label="Добавить модули" v-if="showModules" @click="submitInsertModules" />
 </template>
 
 <script>
@@ -230,18 +230,18 @@ export default{
     //     notify.showErrorNotify(e.message);
     //   }
     // },
-    // addModule(module){
-    //   this.forCreateModules.push(module)
-    // },
-    // deleteModule(module){
-    //
-    //   for (let i = 0, len = this.forCreateModules.length; i < len; i++) {
-    //     if (this.forCreateModules[i] === module) {
-    //       this.forCreateModules.splice(i, 1);
-    //       break;
-    //     }
-    //   }
-    // }
+    addModule(module){
+      this.forCreateModules.push(module)
+    },
+    deleteModule(module){
+
+      for (let i = 0, len = this.forCreateModules.length; i < len; i++) {
+        if (this.forCreateModules[i] === module) {
+          this.forCreateModules.splice(i, 1);
+          break;
+        }
+      }
+    }
   }
 }
 </script>
@@ -271,5 +271,10 @@ export default{
   border: 1px solid #DDD;
 }
 .module-item:hover{
+}
+
+.submitModuleButton{
+  margin: 0 auto;
+  display: block;;
 }
 </style>
