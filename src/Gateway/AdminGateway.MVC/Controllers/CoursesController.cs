@@ -1,7 +1,6 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using CommonStructures;
-using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;

@@ -1,9 +1,7 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
@@ -123,7 +121,7 @@ public class ModulesController: Controller
         Summary = "Изменение данных о модуле",
         Description = "В теле запроса передаются новые данные для модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody]UpdateModuleCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody]UpdateModuleCommand request)
     {
         try
         {
