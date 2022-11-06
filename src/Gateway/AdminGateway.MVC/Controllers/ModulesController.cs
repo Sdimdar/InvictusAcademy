@@ -1,4 +1,4 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using CommonStructures;
 using DataTransferLib.Models;
