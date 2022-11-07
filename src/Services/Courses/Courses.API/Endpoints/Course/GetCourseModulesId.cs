@@ -11,7 +11,7 @@ namespace Courses.API.Endpoints.Course;
 
 public class GetCourseModulesId : EndpointBaseAsync
     .WithRequest<GetCourseModulesIdQuerry>
-    .WithActionResult<DefaultResponseObject<UnicueList<int>>>
+    .WithActionResult<DefaultResponseObject<UniqueList<int>>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -28,10 +28,10 @@ public class GetCourseModulesId : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса ID курса",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> HandleAsync([FromQuery] GetCourseModulesIdQuerry request,
+    public override async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> HandleAsync([FromQuery] GetCourseModulesIdQuerry request,
                                                                                                  CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<UnicueList<int>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<UniqueList<int>>>(result));
     }
 }

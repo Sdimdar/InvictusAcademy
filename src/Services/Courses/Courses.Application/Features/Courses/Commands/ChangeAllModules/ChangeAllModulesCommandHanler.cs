@@ -43,7 +43,7 @@ public class ChangeAllModulesCommandHanler : IRequestHandler<ChangeAllModulesCom
         {
             var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
             if (courseData is null) return Result.Error($"Course with Id: {request.CourseId} not found");
-            UnicueList<int> moduleIds = await _moduleInfoRepository.CheckModulesOnExist(request.ModulesId, cancellationToken);
+            UniqueList<int> moduleIds = await _moduleInfoRepository.CheckModulesOnExist(request.ModulesId, cancellationToken);
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             courseInfo!.SetModules(moduleIds);
             courseInfo = await _courseInfoRepository.UpdateAsync(request.CourseId, courseInfo, cancellationToken);
