@@ -1,9 +1,8 @@
 ﻿using DataTransferLib.Models;
-using ServicesContracts.Courses.Requests.Querries;
 using ServicesContracts.Courses.Responses;
 using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Courses.Requests.Courses.Querries;
+using ServicesContracts.Courses.Requests.Modules.Queries;
 using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
@@ -19,5 +18,10 @@ public class CoursesService : ICoursesService
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<List<ShortModuleInfoVm>>> GetShortModulesInfoByCourseId(GetShortCourseInfoQuery query, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ShortModuleInfoVm>>>($"/Modules/GetShortInfoByCourseId?CourseId={query.CourseId}", cancellationToken);
     }
 } 
