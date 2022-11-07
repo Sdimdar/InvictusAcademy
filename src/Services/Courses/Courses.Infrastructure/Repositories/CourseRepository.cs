@@ -62,6 +62,12 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return await query.ToListAsync();
     }
 
+    public async Task<List<CourseDbModel>> GetAllCourses()
+    {
+        IQueryable<CourseDbModel> result = Context.Courses;
+        return await result.ToListAsync();
+    }
+
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
     {
         var query = from course in Context.Courses

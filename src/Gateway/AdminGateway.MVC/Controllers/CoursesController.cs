@@ -30,11 +30,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
             var response = await _coursesService.Create(request);
             return Ok(response);
         }
@@ -54,16 +49,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.EditCourse(request);
             return Ok(response);
         }
@@ -83,21 +68,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.UserId <= 0)
-            {
-                ErrorVM error = new ErrorVM("UserId was not assigned");
-                return Ok(error);
-            }
-            if (request.Type < 0)
-            {
-                ErrorVM error = new ErrorVM("Courses Type was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.GetCourses(request);
             return Ok(response);
         }
@@ -117,21 +87,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.CourseId <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
-            if (request.ModulesId is null)
-            {
-                ErrorVM error = new ErrorVM("Modules is not selected");
-                return Ok(error);
-            }
             var response = await _coursesService.ChangeAllModules(request);
             return Ok(response);
         }
@@ -151,16 +106,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.Delete(request);
             return Ok(response);
         }
@@ -180,16 +125,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.CourseId <= 0)
-            {
-                ErrorVM error = new ErrorVM("CourseId was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.GetCourseModulesId(request);
             return Ok(response);
         }
@@ -210,26 +145,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.CourseId <= 0)
-            {
-                ErrorVM error = new ErrorVM("CourseId was not assigned");
-                return Ok(error);
-            }
-            if (request.ModuleId <= 0)
-            {
-                ErrorVM error = new ErrorVM("ModuleId was not assigned");
-                return Ok(error);
-            }
-            if (request.Index <= 0)
-            {
-                ErrorVM error = new ErrorVM("Index was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.InsertModule(request);
             return Ok(response);
         }
@@ -246,30 +161,10 @@ public class CoursesController : Controller
         Description = "Необходимо передать в теле запроса Id курса, список Id добавляемых в модуль" +
                       " и Index начиная с которого вставятся модуля, Если index < 0, то список добавится в конец")
     ]
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModules([FromBody]InsertModulesCommand request)
+    public async Task<ActionResult<DefaultResponseObject<List<CourseInfoVm>>>> InsertModules([FromBody]InsertModulesCommand request)
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.CourseId <= 0)
-            {
-                ErrorVM error = new ErrorVM("CourseId was not assigned");
-                return Ok(error);
-            }
-            if (request.ModulesId is null)
-            {
-                ErrorVM error = new ErrorVM("ModulesId is null");
-                return Ok(error);
-            }
-            if (request.StartIndex <= 0)
-            {
-                ErrorVM error = new ErrorVM("StartIndex was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.InsertModules(request);
             return Ok(response);
         }
@@ -289,21 +184,6 @@ public class CoursesController : Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.CourseId <= 0)
-            {
-                ErrorVM error = new ErrorVM("CourseId was not assigned");
-                return Ok(error);
-            }
-            if (request.ModuleId <= 0)
-            {
-                ErrorVM error = new ErrorVM("ModuleID was not assigned");
-                return Ok(error);
-            }
             var response = await _coursesService.RemoveModule(request);
             return Ok(response);
         }
