@@ -5,7 +5,7 @@ using ServicesContracts.Courses.Responses;
 
 namespace ServicesContracts.Courses.Requests.Modules.Queries;
 
-public class GetModulesByCourseId :  IRequest<Result<List<ModuleInfoDbModel>>>
+public class GetModulesByCourseId : IRequest<Result<List<ModuleInfoDbModel>?>>
 {
     public int CourseId { get; set; }
 }

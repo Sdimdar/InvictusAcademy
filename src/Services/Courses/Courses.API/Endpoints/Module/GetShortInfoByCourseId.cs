@@ -9,30 +9,30 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Module;
 
-public class GetByCourseId : EndpointBaseAsync
+public class GetShortInfoByCourseId : EndpointBaseAsync
     .WithRequest<GetModulesByCourseId>
-    .WithActionResult<DefaultResponseObject<List<ModuleInfoVm>>>
+    .WithActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
 
-    public GetByCourseId(IMediator mediator, IMapper mapper)
+    public GetShortInfoByCourseId(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
     }
     
-    [HttpGet("/Modules/GetByCourseId")]
+    [HttpGet("/Modules/GetShortInfoByCourseId")]
     [SwaggerOperation(
-        Summary = "Получение данных о модулях по ID курса",
+        Summary = "Получение данных о модулях по ID курса, без связанный разделов",
         Description = "Необходимо передать в строке запроса  Id Курса",
         Tags = new[] { "Module" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery]GetModulesByCourseId request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery]GetModulesByCourseId request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<ModuleInfoVm>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<List<ShortModuleInfoVm>>>(result));
     }
 }

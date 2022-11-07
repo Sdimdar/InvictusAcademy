@@ -9,8 +9,7 @@ using ServicesContracts.Courses.Responses;
 namespace Courses.Application.Features.Modules.Queries.GetModulesByCourseId;
 
 public class GetModulesByCourseIdHandler:
-    IRequestHandler<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId,
-        Result<List<ModuleInfoDbModel>?>>
+    IRequestHandler<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId, Result<List<ModuleInfoDbModel>?>>
 {
     private readonly IModuleInfoRepository _repository;
     private readonly IValidator<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId> _validator;
