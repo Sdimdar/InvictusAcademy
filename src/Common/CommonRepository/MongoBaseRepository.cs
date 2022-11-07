@@ -21,7 +21,7 @@ public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T :
 
     public virtual async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
         await BaseCollection.Find(_ => true).ToListAsync(cancellationToken);
-
+    
     public virtual async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
         await BaseCollection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
