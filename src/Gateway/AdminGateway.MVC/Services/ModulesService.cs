@@ -35,26 +35,34 @@ public class ModulesService : IModulesService
 
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Module/GetAll");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Module/GetAll");
     }
 
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetFilterByString(GetModulesByFilterStringQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModulesByFilterStringQuery, DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Module/GetByFilterString");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<GetModulesByFilterStringQuery, 
+                DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Module/GetByFilterString");
     }
 
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(GetModuleByIdQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModuleByIdQuery, DefaultResponseObject<ModuleInfoVm>>(request,$"/Module/GetById");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModuleByIdQuery, 
+            DefaultResponseObject<ModuleInfoVm>>(request,$"/Module/GetById");
     }
 
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId(GetModulesByListOfIdQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModulesByListOfIdQuery, DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Modules/GetByListOfId");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<GetModulesByListOfIdQuery, 
+                DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Modules/GetByListOfId");
     }
 
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update(UpdateModuleCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<UpdateModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Update");
+        return await ExtendedHttpClient
+            .PostAndReturnResponseAsync<UpdateModuleCommand, 
+                DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Update");
     }
 }

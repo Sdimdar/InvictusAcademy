@@ -28,7 +28,7 @@ public class GetById : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса Id модуля",
         Tags = new[] { "Module" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync([FromQuery] GetModuleByIdQuery request,
+    public async override Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync(GetModuleByIdQuery request,
                                                                                               CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
