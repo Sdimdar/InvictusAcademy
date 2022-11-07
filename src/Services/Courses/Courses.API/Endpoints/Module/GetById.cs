@@ -22,13 +22,13 @@ public class GetById : EndpointBaseAsync
         _mapper = mapper;
     }
 
-    [HttpPost("/Module/GetById")]
+    [HttpGet("/Module/GetById")]
     [SwaggerOperation(
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля",
         Tags = new[] { "Module" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync([FromQuery] GetModuleByIdQuery request,
+    public async override Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync(GetModuleByIdQuery request,
                                                                                               CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);

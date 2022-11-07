@@ -28,7 +28,7 @@ public class GetByFilterString : EndpointBaseAsync
         Description = "Необходимо передать в строке строку фильтрации",
         Tags = new[] { "Module" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery] GetModulesByFilterStringQuery request,
+    public async override Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync(GetModulesByFilterStringQuery request,
                                                                                                     CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);

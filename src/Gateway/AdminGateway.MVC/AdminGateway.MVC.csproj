@@ -28,6 +28,7 @@
       <ProjectReference Include="..\..\Common\ExtendedHttpClient\ExtendedHttpClient.csproj" />
       <ProjectReference Include="..\..\Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj" />
       <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
+      <ProjectReference Include="..\..\Services\Courses\Courses.Domain\Courses.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
