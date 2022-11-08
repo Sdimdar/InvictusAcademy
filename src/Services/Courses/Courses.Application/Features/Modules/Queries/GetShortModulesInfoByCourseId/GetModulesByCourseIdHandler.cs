@@ -4,9 +4,8 @@ using Courses.Application.Contracts;
 using Courses.Domain.Entities.CourseInfo;
 using FluentValidation;
 using MediatR;
-using ServicesContracts.Courses.Responses;
 
-namespace Courses.Application.Features.Modules.Queries.GetModulesByCourseId;
+namespace Courses.Application.Features.Modules.Queries.GetShortModulesInfoByCourseId;
 
 public class GetModulesByCourseIdHandler:
     IRequestHandler<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId, Result<List<ModuleInfoDbModel>?>>

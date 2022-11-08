@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Courses.Application.Features.Modules.Queries.GetModulesByCourseId;
+namespace Courses.Application.Features.Modules.Queries.GetShortModulesInfoByCourseId;
 
 public class GetModulesByCourseIdValidator : AbstractValidator<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId>
 {
