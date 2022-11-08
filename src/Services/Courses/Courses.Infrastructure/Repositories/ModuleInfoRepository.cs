@@ -61,4 +61,9 @@ public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IMod
         }
         return result;
     }
+
+    public async Task<int> GetCountAsync()
+    {
+        return BaseCollection.AsQueryable().ToArray().Length;
+    }
 }

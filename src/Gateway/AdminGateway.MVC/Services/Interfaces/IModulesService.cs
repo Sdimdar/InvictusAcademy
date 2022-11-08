@@ -13,6 +13,7 @@ public interface IModulesService: IUseExtendedHttpClient<IModulesService>
     Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create(CreateModuleCommand request);
     Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete(DeleteModuleCommand request);
     Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll();
+    Task<DefaultResponseObject<int>> GetModulesCount();
     Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetFilterByString(GetModulesByFilterStringQuery request);
     Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(GetModuleByIdQuery request);
     Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId(GetModulesByListOfIdQuery request);

@@ -166,6 +166,16 @@ public class ModulesController: Controller
     
     [HttpGet]
     [SwaggerOperation(
+        Summary = "Возвращает количество модулей, для пагинации")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetModulesCount()
+    {
+        var response = await _modulesService.GetModulesCount();
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
         Summary = "Получение данных о модулях которые подходят под строку фильтрации",
         Description = "Необходимо передать в строке строку фильтрации"
     )]

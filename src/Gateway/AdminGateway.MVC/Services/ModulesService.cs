@@ -36,7 +36,14 @@ public class ModulesService : IModulesService
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
     {
         return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Module/GetAll");
+            .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>(
+                "/Module/GetAll");
+    }
+
+    public async Task<DefaultResponseObject<int>> GetModulesCount()
+    {
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<int>>("/Module/GetModulesCount");
     }
 
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetFilterByString(GetModulesByFilterStringQuery request)

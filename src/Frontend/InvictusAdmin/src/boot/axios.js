@@ -50,8 +50,8 @@ export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdmin
 export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
 
 // usersData
-export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchUserData = (email) => api.get('/AdminPanel/Users/GetUsersCount', { params: { email: email } });
+export const fetchUsersData = (pageNumber, pageSize) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchUsersCount = () => api.get('/AdminPanel/Users/GetUsersCount');
 
 // requestsData
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
@@ -64,3 +64,4 @@ export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin
 //modules
 export const createModule = (payload) => api.post('/AdminPanel/Modules/Create', payload);
 export const fetchAllModules = () => api.get('/AdminPanel/Modules/GetAll');
+export const fetchModulesCount = () => api.get('/AdminPanel/Modules/GetModulesCount');
