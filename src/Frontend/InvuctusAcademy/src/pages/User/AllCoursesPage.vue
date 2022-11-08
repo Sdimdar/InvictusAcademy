@@ -8,7 +8,7 @@ import { defineComponent } from "vue";
 import { fetchLoginedUserData } from "boot/axios";
 import LeftBar from "components/LeftBar.vue";
 export default {
-  name: "UserNotBuyedCoursePage",
+  name: "AllCoursesPage",
 
   components: {
     LeftBar,

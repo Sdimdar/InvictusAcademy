@@ -6,8 +6,10 @@ const routes = [
       { path: "/", name: 'homepage', component: () => import("pages/IndexPage.vue") },
       { path: "/user", component: () => import("pages/User/UserInfoPage.vue") },
       { path: "/user/courses", name: 'user-courses', component: () => import("pages/User/UserCoursesPage.vue") },
-      { path: "/user/notbuyedcourses", name: 'user-notbuyedcourses', component: () => import("pages/User/UserNotBuyedCoursePage.vue") }
-    ],
+      { path: "/user/AllCoursesPage", name: 'user-allcoursespage', component: () => import("pages/User/AllCoursesPage.vue") },
+      { path: "/user/ShowCourseModules", name: 'course-modules', component: () => import("pages/User/ShowCourseModules.vue") },
+      
+      ],
   },
   {
     path: "/admin-panel",

@@ -13,6 +13,7 @@
             <q-tab name="current" icon="mail" label="Текущие" />
             <q-tab name="completed" icon="alarm" label="Завершённые" />
             <q-tab name="wish" icon="movie" label="Желаемые" />
+            <q-tab name="new" icon="movie" label="Новые" />
           </q-tabs>
         </template>
 
@@ -51,6 +52,15 @@
                 :data="course"
               />
             </q-tab-panel>
+
+            <q-tab-panel name="new">
+              <div class="text-h4 q-mb-md">Новые</div>
+              <course-card
+                class="list-card"
+                v-for="course in newCourses"
+                :data="course"
+              />
+            </q-tab-panel>
           </q-tab-panels>
         </template>
       </q-splitter>
@@ -66,6 +76,7 @@ import {
   getCurrentCourses,
   getCompletedCourses,
   getWishedCourses,
+  getNewCourses,
 } from "boot/axios";
 
 export default {
@@ -88,41 +99,19 @@ export default {
   },
   data() {
     return {
-      currentCourses: [
-        {
-          title: "Course 1",
-          courseDescription: "Some Description about course",
-          purchased: true
-        },
-        {
-          title: "Course 2",
-          courseDescription: "Some Description about course",
-          purchased: true
-        }
-      ],
-      completedCourses: [
-        {
-          title: "Course 3",
-          courseDescription: "Some Description about course",
-          purchased: true,
-        },
-      ],
-      wishedCourses: [
-        {
-          title: "Course 4",
-          courseDescription: "Some Description about course",
-          purchased: false,
-        },
-      ],
+      currentCourses: [],
+      completedCourses: [],
+      wishedCourses: [],
+      newCourses: [],
     };
   },
   methods: {
     async getCoursesData() {
       try {
         const response = await getCurrentCourses();
-        console.log(response);
         if (response.data.isSuccess) {
           this.currentCourses = response.data.value.courses;
+          console.log(response.data.value.courses);
         }
       } catch (error) {
         console.log(error.message);
@@ -141,6 +130,15 @@ export default {
         const response = await getWishedCourses();
         if (response.data.isSuccess) {
           this.wishedCourses = response.data.value.courses;
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      try {
+        const response = await getNewCourses();
+        if (response.data.isSuccess) {
+          this.newCourses = response.data.value.courses;
         }
       } catch (error) {
         console.log(error.message);

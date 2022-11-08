@@ -30,7 +30,7 @@ public class GetCourses : EndpointBaseAsync
                       "Что бы получить все активные курсы для неавторизованных, UserId не указывать, CourseType = 0",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync([FromQuery] GetCoursesQuery request,
+    public override async Task<ActionResult<DefaultResponseObject<CoursesVm>>> HandleAsync(GetCoursesQuery request,
                                                                                            CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);

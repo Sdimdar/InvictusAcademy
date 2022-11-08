@@ -9,7 +9,7 @@ import axios from 'axios'
 // for each client)
 const api = axios.create({
   baseURL: "https://localhost:7000",
-  timeout: 30000,
+  timeout: 300000,
 });
 
 api.defaults.headers.common["Content-Type"] = "application/json";
@@ -60,6 +60,10 @@ export const createRequest = (payload) => api.post('/Request/Create', payload);
 export const getCurrentCourses = () => api.get('/Courses/GetCurrent');
 export const getCompletedCourses = () => api.get('/Courses/GetCompleted');
 export const getWishedCourses = () => api.get('/Courses/GetWished');
+export const getNewCourses = () => api.get('/Courses/GetNew');
+
+// modules
+export const getCourseModules = (payload) => api.get('/Course/GetModules', payload);
 
 // на последующее удаление огрызки от админки
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });

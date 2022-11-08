@@ -18,7 +18,7 @@
           <q-item-label>Мои курсы</q-item-label>
         </q-item-section>
       </q-item>
-      <q-item clickable rel="noopener" to="/user/notbuyedcourses">
+      <q-item clickable rel="noopener" to="/user/AllCoursesPage">
         <q-item-section avatar>
           <q-icon name="today" />
         </q-item-section>
