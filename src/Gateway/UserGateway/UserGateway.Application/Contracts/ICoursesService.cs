@@ -13,4 +13,7 @@ public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
 
     Task<DefaultResponseObject<List<ShortModuleInfoVm>>> GetShortModulesInfoByCourseId(GetShortCourseInfoQuery query,
         CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<List<ModuleInfoVm>>> GetModulesInfoByCourseId(GetFullByCourseIdQuery query,
+        CancellationToken cancellationToken);
 }
