@@ -6,7 +6,7 @@ namespace Courses.Application.Contracts;
 
 public interface IModuleInfoRepository : IMongoBaseRepository<ModuleInfoDbModel>
 {
-    Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(UnicueList<int> listOfId, CancellationToken cancellationToken);
+    Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(UniqueList<int> listOfId, CancellationToken cancellationToken);
     Task<List<ModuleInfoDbModel>?> GetModulesByFilterStringAsync(string filterString, CancellationToken cancellationToken);
-    Task<UnicueList<int>> CheckModulesOnExist(UnicueList<int> listOfId, CancellationToken cancellationToken); 
+    Task<UniqueList<int>> CheckModulesOnExist(UniqueList<int> listOfId, CancellationToken cancellationToken); 
 }

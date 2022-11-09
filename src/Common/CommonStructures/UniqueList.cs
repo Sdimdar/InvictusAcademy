@@ -2,16 +2,16 @@
 
 namespace CommonStructures;
 
-public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
+public class UniqueList<T> : ICollection<T>, IList<T>, ICloneable
 {
 	private readonly List<T> _data;
 
-	public UnicueList()
+	public UniqueList()
 	{
 		_data = new List<T>();
 	}
 
-	public UnicueList(IEnumerable<T> values) : this()
+	public UniqueList(IEnumerable<T> values) : this()
 	{
 		foreach (var item in values)
 		{
@@ -52,7 +52,7 @@ public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
 
 	public object Clone()
 	{
-		UnicueList<T> clone = new();
+		UniqueList<T> clone = new();
 		foreach (var item in _data)
 		{
 			clone.Add(item);
@@ -103,9 +103,9 @@ public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
         return _data.GetEnumerator();
     }
 
-    public static implicit operator UnicueList<T>(List<T> values)
+    public static implicit operator UniqueList<T>(List<T> values)
     {
-        UnicueList<T> result = new();
+        UniqueList<T> result = new();
 		foreach (var item in values)
 		{
 			result.Add(item);
@@ -113,7 +113,7 @@ public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
 		return result;
     }
 
-    public static implicit operator List<T>(UnicueList<T> values)
+    public static implicit operator List<T>(UniqueList<T> values)
     {
         List<T> result = new();
         foreach (var item in values)
@@ -123,9 +123,9 @@ public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
         return result;
     }
 
-    public static implicit operator UnicueList<T>(T[] values)
+    public static implicit operator UniqueList<T>(T[] values)
     {
-        UnicueList<T> result = new();
+        UniqueList<T> result = new();
         foreach (var item in values)
         {
             result.Add(item);
@@ -133,7 +133,7 @@ public class UnicueList<T> : ICollection<T>, IList<T>, ICloneable
         return result;
     }
 
-    public static implicit operator T[](UnicueList<T> values)
+    public static implicit operator T[](UniqueList<T> values)
     {
         T[] result = new T[values.Count];
 		for (int i = 0; i < result.Length; i++)

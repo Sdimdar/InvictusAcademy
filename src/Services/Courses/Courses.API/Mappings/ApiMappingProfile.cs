@@ -10,6 +10,7 @@ public class ApiMappingProfile : Profile
 	public ApiMappingProfile()
 	{
 		CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
+		CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
         CreateMap<CourseDbModel, CourseVm>();
         CreateMap<CourseInfoDbModel, CourseInfoVm>()
             .ForMember(p => p.ModulesId,
