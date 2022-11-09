@@ -66,5 +66,5 @@ export const createModule = (payload) => api.post('/AdminPanel/Modules/Create', 
 export const fetchAllModules = () => api.get('/AdminPanel/Modules/GetAll');
 export const fetchModulesCount = () => api.get('/AdminPanel/Modules/GetModulesCount');
 export const deleteModule = (payload) => api.post('/AdminPanel/Modules/Delete', payload);
-export const fetchModuleById = (payload) => api.get('/AdminPanel/Modules/GetById', payload);
-export const fetchModuleByFilterString = (payload) => api.get('/AdminPanel/Modules/GetByFilterString', payload);
+export const fetchModuleById = (id) => api.get(`/AdminPanel/Modules/GetById?id=${id}`);
+export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Modules/GetByFilterString?filteredString=${string}`);

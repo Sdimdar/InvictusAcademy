@@ -21,7 +21,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { deleteModule, fetchModuleById, fetchModuleByFilterString} from "boot/axios";
+import { deleteModule, fetchModuleById, fetchAllModules} from "boot/axios";
 import notify from "boot/notifyes";
 
 export default defineComponent({
@@ -38,30 +38,27 @@ export default defineComponent({
     },
   data() {
       return {
-        moduleData: {
-          id: this.id,
-          title: this.title
-
-        },
         deleteDialog: false
       };
     },
   methods: {
     async openDialog(){
       this.deleteDialog = true
-      console.log(this.title)
-      let payload = this.moduleData
-      console.log(payload)
-      const response = await fetchModuleById(payload);
+      const response = await fetchModuleById(this.id);
       console.log(response)
     },
     async onSubmit() {
       try {
+        let payload={
+          Id: this.id
+        }
+        const response = await deleteModule(payload);
+        console.log(response)
 
-        console.log(payload)
-
-        if(response.data.isSuccess){
-          this.moduleData.title = response.data.title;
+        if(response.data.value.isSuccess){
+          this.deleteDialog = false
+          this.$emit("allModules");
+          notify.showSucsessNotify("Модуль удален");
         }
         else{
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -71,7 +68,7 @@ export default defineComponent({
       }
     },
     onReset() {
-      this.moduleData.title = "";
+      this.title = "";
       this.deleteDialog = false;
       this.errorMessage = "";
     }

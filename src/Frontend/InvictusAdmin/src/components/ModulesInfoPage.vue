@@ -22,7 +22,10 @@
 
           </q-td>
 
-          <deleteModule :title="props.row.title" :id="props.row.id"/>
+          <deleteModule
+          :title="props.row.title"
+          :id="props.row.id"
+          @allModules="setup"/>
 
                   <q-btn-dropdown color="primary" >
                     <q-list>
@@ -162,10 +165,13 @@ export default {
   methods:{
     async getModuleDetails(rowId){
       console.log(rowId)
-      },
-      async updateModule(rowId){
-      console.log(rowId)
-      }
+    },
+    async updateModule(rowId){
+    console.log(rowId)
+    },
+    UpdateModulesList(){
+      this.onRequest
+    }
   }
 }
 </script>
