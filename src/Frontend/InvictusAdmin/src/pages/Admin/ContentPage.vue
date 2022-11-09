@@ -21,7 +21,7 @@
           inline-label
           class="bg-primary text-white shadow-2"
         >
-          <q-route-tab icon="star" label="Все модули" />
+          <q-route-tab icon="book" label="Все модули" />
         </q-tabs>
     </div>
 

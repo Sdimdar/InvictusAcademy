@@ -1,5 +1,6 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
+using Ardalis.Result;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
@@ -179,23 +180,10 @@ public class ModulesController: Controller
         Summary = "Получение данных о модулях которые подходят под строку фильтрации",
         Description = "Необходимо передать в строке строку фильтрации"
     )]
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByFilterString([FromQuery]GetModulesByFilterStringQuery request)
+    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByFilterString(GetModulesByFilterStringQuery request)
     {
-        try
-        {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            var response = await _modulesService.GetFilterByString(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetFilterByString(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -203,23 +191,10 @@ public class ModulesController: Controller
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery]GetModuleByIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery]ModuleByIdVm request)
     {
-        try
-        {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            var response = await _modulesService.GetById(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetById(request);
+        return Ok(response);
     }
     
     [HttpGet]

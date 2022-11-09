@@ -19,10 +19,32 @@
           </q-td>
           <q-td key="shortDescription" :props="props">
             {{ props.row.shortDescription }}
+
           </q-td>
-          <q-td>
-            <q-btn @click="getModuleDetails(props.row.id)" label="Подробнее"></q-btn>
-          </q-td>
+
+          <deleteModule :title="props.row.title" :id="props.row.id"/>
+
+                  <q-btn-dropdown color="primary" >
+                    <q-list>
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label  @click="getModuleDetails(props.row.id)">Детали</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label  @click="updateModule(props.row.id)">Редактировать</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-btn-dropdown>
         </q-tr>
       </template>
 
@@ -35,6 +57,7 @@
 import { fetchAllModules, fetchModulesCount } from "boot/axios";
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
+import DeleteModule from 'components/DeleteModuleButton.vue'
 
 const columns = [
   { name: 'title', align: 'center', label: 'Название', field: 'title', sortable: false },
@@ -42,7 +65,16 @@ const columns = [
 ]
 
 export default {
-  name: "UsersInfoPage",
+  name: "ModulesInfoPage",
+  components:{
+    DeleteModule
+  },
+  data(){
+    return{
+      title: "",
+      id: ""
+    }
+  },
   setup() {
     const tableRef = ref()
     const rows = ref([])
@@ -131,6 +163,9 @@ export default {
     async getModuleDetails(rowId){
       console.log(rowId)
       },
+      async updateModule(rowId){
+      console.log(rowId)
+      }
   }
 }
 </script>

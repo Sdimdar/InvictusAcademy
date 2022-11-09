@@ -1,4 +1,6 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
+using Ardalis.Result;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
 using Microsoft.AspNetCore.Mvc;
@@ -53,9 +55,9 @@ public class ModulesService : IModulesService
                 DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Module/GetByFilterString");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(GetModuleByIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(ModuleByIdVm request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModuleByIdQuery, 
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<ModuleByIdVm, 
             DefaultResponseObject<ModuleInfoVm>>(request,$"/Module/GetById");
     }
 

@@ -65,3 +65,6 @@ export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin
 export const createModule = (payload) => api.post('/AdminPanel/Modules/Create', payload);
 export const fetchAllModules = () => api.get('/AdminPanel/Modules/GetAll');
 export const fetchModulesCount = () => api.get('/AdminPanel/Modules/GetModulesCount');
+export const deleteModule = (payload) => api.post('/AdminPanel/Modules/Delete', payload);
+export const fetchModuleById = (payload) => api.get('/AdminPanel/Modules/GetById', payload);
+export const fetchModuleByFilterString = (payload) => api.get('/AdminPanel/Modules/GetByFilterString', payload);
