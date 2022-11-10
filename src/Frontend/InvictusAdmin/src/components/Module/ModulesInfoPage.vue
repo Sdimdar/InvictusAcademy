@@ -21,33 +21,21 @@
             {{ props.row.shortDescription }}
 
           </q-td>
+          <q-btn-dropdown color="primary" >
+            <q-list>
 
-          <deleteModule
-          :title="props.row.title"
-          :id="props.row.id"
-          @allModules="setup"/>
+              <q-btn :class="$attrs.class" label="Детали" @click="openPage(props.row.id)" />
 
-                  <q-btn-dropdown color="primary" >
-                    <q-list>
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label  @click="getModuleDetails(props.row.id)">Детали</q-item-label>
-                        </q-item-section>
-                      </q-item>
+              <updateModule
+                      :title="props.row.title"
+                      :id="props.row.id" />
 
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label  @click="updateModule(props.row.id)">Редактировать</q-item-label>
-                        </q-item-section>
-                      </q-item>
-
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-btn-dropdown>
+               <deleteModule
+                      :title="props.row.title"
+                      :id="props.row.id"
+                      @allModules="setup"/>
+            </q-list>
+            </q-btn-dropdown>
         </q-tr>
       </template>
 
@@ -60,7 +48,9 @@
 import { fetchAllModules, fetchModulesCount } from "boot/axios";
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
-import DeleteModule from 'components/DeleteModuleButton.vue'
+import DeleteModule from 'src/components/Module/DeleteModuleButton.vue'
+import UpdateModule from 'src/components/Module/UpdateModuleButton.vue'
+import DetailsPage from 'src/components/Module/ModuleDetailsPage.vue'
 
 const columns = [
   { name: 'title', align: 'center', label: 'Название', field: 'title', sortable: false },
@@ -70,7 +60,9 @@ const columns = [
 export default {
   name: "ModulesInfoPage",
   components:{
-    DeleteModule
+    DeleteModule,
+    UpdateModule,
+    DetailsPage
   },
   data(){
     return{
@@ -163,15 +155,10 @@ export default {
   }
   },
   methods:{
-    async getModuleDetails(rowId){
-      console.log(rowId)
+    async openPage(rowId){
+      let route = this.$router.resolve({ path: `/admin-panel/moduleDetails/${rowId}` });
+      window.open(route.href);
     },
-    async updateModule(rowId){
-    console.log(rowId)
-    },
-    UpdateModulesList(){
-      this.onRequest
-    }
   }
 }
 </script>

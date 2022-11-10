@@ -41,8 +41,8 @@
 <script>
 import {  } from "boot/axios";
 import { ref } from 'vue';
-import CreateModuleButton from 'components/CreateModuleButton.vue'
-import ModulesInfoPage from 'components/ModulesInfoPage.vue'
+import CreateModuleButton from 'src/components/Module/CreateModuleButton.vue'
+import ModulesInfoPage from 'src/components/Module/ModulesInfoPage.vue'
 
 export default {
   name: 'Content',
