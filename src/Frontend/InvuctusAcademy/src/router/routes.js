@@ -7,8 +7,7 @@ const routes = [
       { path: "/user", component: () => import("pages/User/UserInfoPage.vue") },
       { path: "/user/courses", name: 'user-courses', component: () => import("pages/User/UserCoursesPage.vue") },
       { path: "/user/AllCoursesPage", name: 'user-allcoursespage', component: () => import("pages/User/AllCoursesPage.vue") },
-      { path: "/user/ShowCourseModules", name: 'course-modules', component: () => import("pages/User/ShowCourseModules.vue") },
-      
+      { path: "/user/ShowCourseModules/:id", name: 'course-modules', component: () => import("pages/User/ShowCourseModules.vue") }
       ],
   },
   {

@@ -63,7 +63,8 @@ export const getWishedCourses = () => api.get('/Courses/GetWished');
 export const getNewCourses = () => api.get('/Courses/GetNew');
 
 // modules
-export const getCourseModules = (payload) => api.get('/Course/GetModules', payload);
+export const getShortModulesInfo = (id) => api.get(`/Modules/GetShortModulesInfoByCourseId?id=${id}`);
+
 
 // на последующее удаление огрызки от админки
 export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
