@@ -69,3 +69,6 @@ export const deleteModule = (payload) => api.post('/AdminPanel/Modules/Delete', 
 export const updateModule = (payload) => api.post('/AdminPanel/Modules/Update', payload);
 export const fetchModuleById = (id) => api.get(`/AdminPanel/Modules/GetById?id=${id}`);
 export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Modules/GetByFilterString?filteredString=${string}`);
+
+//articles
+export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);

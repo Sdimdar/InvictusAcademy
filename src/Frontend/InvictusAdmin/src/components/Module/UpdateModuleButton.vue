@@ -65,6 +65,7 @@ export default defineComponent({
 
         if(response.data.value.isSuccess){
           this.updateDialog = false
+          this.$emit("updateModule");
           notify.showSucsessNotify("Изменения сохранены");
         }
         else{

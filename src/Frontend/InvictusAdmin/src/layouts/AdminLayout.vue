@@ -12,6 +12,8 @@
           <login-button class="nav-button" :logined="logined" @autorize="autorize"/>
         </template>
         <template v-else >
+          <h8>Здравствуйте, {{ loginedUserEmail }}! </h8>
+          <q-space />
           <logout-button class="nav-button" :logined="logined" @unautorize="unautorize" />
         </template>
         </q-toolbar>
@@ -137,6 +139,7 @@ export default {
         console.log(response)
         if (response.data.isSuccess) {
           this.autorize(response.data.value.email);
+          this.loginedUserEmail = email;
         }
         else{
           response.data.errors.forEach(error => {

@@ -28,12 +28,13 @@
 
               <updateModule
                       :title="props.row.title"
-                      :id="props.row.id" />
+                      :id="props.row.id"
+                      @updateModule="update"/>
 
                <deleteModule
                       :title="props.row.title"
                       :id="props.row.id"
-                      @allModules="setup"/>
+                      @allModules="update"/>
             </q-list>
             </q-btn-dropdown>
         </q-tr>
@@ -159,6 +160,9 @@ export default {
       let route = this.$router.resolve({ path: `/admin-panel/moduleDetails/${rowId}` });
       window.open(route.href);
     },
+    update(){
+      window. location. reload()
+    }
   }
 }
 </script>

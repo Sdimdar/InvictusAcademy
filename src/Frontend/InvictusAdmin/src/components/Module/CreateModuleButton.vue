@@ -1,6 +1,6 @@
 <template>
     <q-btn color="primary" label="Создать модуль" @click="createModuleDialog = true" />
-  
+
     <q-dialog v-model="createModuleDialog">
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -8,27 +8,27 @@
         </q-card-section>
         <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
           <q-card-section class="q-pt-none">
-  
-            <q-input 
-            dense 
-            v-model="newModuleData.title" 
-            label="Название" 
+
+            <q-input
+            dense
+            v-model="newModuleData.title"
+            label="Название"
             lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
               ]"/>
-  
-            <q-input 
-            dense 
-            v-model="newModuleData.shortDescription" 
-            label="Краткое описание" 
+
+            <q-input
+            dense
+            v-model="newModuleData.shortDescription"
+            label="Краткое описание"
             lazy-rules
               :rules="[
                 (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
               ]"/>
-  
+
           </q-card-section>
-  
+
           <q-card-actions class="text-primary">
             <q-btn flat type="reset" label="Отмена" />
             <q-btn flat type="submit" label="Сохранить" />
@@ -37,12 +37,12 @@
       </q-card>
     </q-dialog>
   </template>
-    
+
   <script>
   import { defineComponent, ref } from "vue";
   import { fetchLoginedUserData, createModule } from "boot/axios";
   import notify from "boot/notifyes";
-  
+
   export default defineComponent({
     name: "createModule-button",
     data() {
@@ -61,8 +61,9 @@
           const autorize = await fetchLoginedUserData();
           if (autorize.data.isSuccess) {
             const response = await createModule(this.newModuleData);
-            if (response.data.isSuccess) {
+            if (response.data.value.isSuccess) {
             this.createModuleDialog = false;
+            this.$emit("createModule");
             notify.showSucsessNotify("Модуль добавлен");
           }
           else {
@@ -89,4 +90,3 @@
     },
   });
   </script>
-    

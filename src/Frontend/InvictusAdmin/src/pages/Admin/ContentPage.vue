@@ -8,7 +8,10 @@
       <template v-slot:before>
         <div class="q-pa-md">
           <div class="text-h6 q-mb-md">Учебные материалы</div>
-          <createModule-button  class="nav-button" />
+          <createModule-button
+          class="nav-button"
+          @createModule="update"/>
+
         </div>
       </template>
 
@@ -62,6 +65,9 @@ export default {
     }
   },
   methods:{
+    update(){
+      window. location. reload()
+    }
 }
 }
 </script>
