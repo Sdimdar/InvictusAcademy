@@ -64,4 +64,9 @@ public class CoursesService : ICoursesService
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
     }
+    
+    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> GetCourse(GetCoursByIdQuery request)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseVm>>( $"/Course/GetCourse?id={request.Id}");
+    }
 }

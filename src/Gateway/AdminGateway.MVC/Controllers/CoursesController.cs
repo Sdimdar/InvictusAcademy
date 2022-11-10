@@ -61,14 +61,35 @@ public class CoursesController : Controller
     
     [HttpGet]
     [SwaggerOperation(
-        Summary = "Редактирует модель курс",
-        Description = "Необходимо передать Id и заполнить EditCourseCommand")
-    ]
+        Summary = "Получение курсов по типу",
+        Description = "Необходимо передать в теле запроса данные об Id пользователя, а также тип запрашиваемых курсов. " +
+                      "Что бы получить все активные курсы для неавторизованных, UserId не указывать, CourseType = 0"+
+                      "Что бы получить все курсы для неавторизованных, UserId не указывать, CourseType = 4"
+    )]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourses([FromQuery]GetCoursesQuery request)
     {
         try
         {
             var response = await _coursesService.GetCourses(request);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return Ok(error);
+        }
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Получение курса",
+        Description = "Необходимо передать в теле запроса Id курса"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourse([FromQuery]GetCoursByIdQuery request)
+    {
+        try
+        {
+            var response = await _coursesService.GetCourse(request);
             return Ok(response);
         }
         catch (Exception e)

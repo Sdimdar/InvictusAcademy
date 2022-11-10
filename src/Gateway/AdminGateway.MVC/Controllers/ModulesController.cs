@@ -29,21 +29,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.ModuleId <= 0)
-            {
-                ErrorVM error = new ErrorVM("ModuleId was not assigned");
-                return Ok(error);
-            }
-            if (request.Articles is null)
-            {
-                ErrorVM error = new ErrorVM("Articles is null");
-                return Ok(error);
-            }
             var response = await _modulesService.AddArticle(request);
             return Ok(response);
         }
@@ -63,21 +48,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (string.IsNullOrEmpty(request.Title))
-            {
-                ErrorVM error = new ErrorVM("Title is null or empty");
-                return Ok(error);
-            }
-            if (string.IsNullOrEmpty(request.ShortDescription))
-            {
-                ErrorVM error = new ErrorVM("ShortDescription is null or empty");
-                return Ok(error);
-            }
             var response = await _modulesService.Create(request);
             return Ok(response);
         }
@@ -98,16 +68,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
             var response = await _modulesService.Delete(request);
             return Ok(response);
         }
@@ -127,16 +87,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
-            if (request.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
             var response = await _modulesService.Update(request);
             return Ok(response);
         }
@@ -175,11 +125,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
             var response = await _modulesService.GetFilterByString(request);
             return Ok(response);
         }
@@ -199,11 +144,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
             var response = await _modulesService.GetById(request);
             return Ok(response);
         }
@@ -223,11 +163,6 @@ public class ModulesController: Controller
     {
         try
         {
-            if (request is null)
-            {
-                ErrorVM error = new ErrorVM("Request is null");
-                return Ok(error);
-            }
             var response = await _modulesService.GetByListOfId(request);
             return Ok(response);
         }
