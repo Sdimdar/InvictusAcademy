@@ -175,7 +175,7 @@ public class CoursesController : Controller
         Summary = "Получение списка из ID модулей в курсе",
         Description = "Необходимо передать в строке запроса ID курса")
     ]
-    public async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> GetCourseModulesId([FromQuery]GetCourseModulesIdQuerry request)
+    public async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> GetCourseModulesId([FromQuery]GetCourseModulesIdQuerry request)
     {
         try
         {

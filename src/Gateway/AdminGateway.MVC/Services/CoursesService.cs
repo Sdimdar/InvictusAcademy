@@ -50,10 +50,10 @@ public class CoursesService : ICoursesService
             DefaultResponseObject<bool>>(request, $"/Course/Delete");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<UnicueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
+    public async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
         return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<DefaultResponseObject<UnicueList<int>>>($"/Course/GetModules");
+            .GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules");
     }
 
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request)

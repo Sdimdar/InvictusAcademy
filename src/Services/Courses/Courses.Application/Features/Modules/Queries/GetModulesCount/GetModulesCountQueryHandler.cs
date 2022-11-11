@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using CommonStructures;
 using Courses.Application.Contracts;
 using MediatR;
 using ServicesContracts.Courses.Requests.Modules.Queries;
