@@ -139,7 +139,6 @@ export default {
         console.log(response)
         if (response.data.isSuccess) {
           this.autorize(response.data.value.email);
-          this.loginedUserEmail = email;
         }
         else{
           response.data.errors.forEach(error => {

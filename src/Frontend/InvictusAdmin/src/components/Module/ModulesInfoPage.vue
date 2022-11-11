@@ -1,5 +1,10 @@
 <template>
   <q-page style="padding: 20px;">
+    <q-input style="max-width: 200px" dense debounce="300" v-model="filter" placeholder="Поиск">
+      <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+    </q-input>
     <div class="q-pa-md">
       <q-table
         ref="tableRef"
@@ -161,7 +166,7 @@ export default {
       window.open(route.href);
     },
     update(){
-      window. location. reload()
+      window.location.reload()
     }
   }
 }
