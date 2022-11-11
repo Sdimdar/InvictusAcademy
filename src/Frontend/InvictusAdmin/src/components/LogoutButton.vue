@@ -1,5 +1,5 @@
 <template>
-    <q-btn :class="$attrs.class" label="Выйти" @click="logout" />
+    <q-btn unelevated :class="$attrs.class" label="Выйти" @click="logout" />
 </template>
 
 <script>

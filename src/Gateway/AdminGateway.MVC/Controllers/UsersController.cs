@@ -31,6 +31,16 @@ public class UsersController : Controller
         var usersList = response.Value;
         return Ok(usersList?.Users);
     }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Возвращает количество пользователей, для пагинации")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetUsersCount()
+    {
+        var response = await _iGetUsers.GetUsersCount();
+        return Ok(response);
+    }
 
     [HttpPost]
     [SwaggerOperation(

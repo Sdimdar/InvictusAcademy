@@ -45,14 +45,16 @@ export default boot(({ app }) => {
 })
 
 export { api }
-//
+//admin
 export const login = (payload) => api.post('/AdminPanel/Accounts/Login', payload);
 export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdminData");
-export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
+export const fetchlogout = () => api.post("/AdminPanel/Accounts/LogOff");
 
-// admin
-export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchUserData = (email) => api.get('/AdminPanel/Users/GetUsersCount', { params: { email: email } });
+// usersData
+export const fetchUsersData = (pageNumber, pageSize) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchUsersCount = () => api.get('/AdminPanel/Users/GetUsersCount');
+
+// requestsData
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
 
@@ -60,19 +62,30 @@ export const managerComment = (payload) => api.post('/AdminPanel/Requests/Manage
 export const changeCalled = (payload) => api.post('/AdminPanel/Requests/ChangeCalled', payload);
 export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin', payload);
 
+//modules
+export const createModule = (payload) => api.post('/AdminPanel/Modules/Create', payload);
+export const fetchAllModules = () => api.get('/AdminPanel/Modules/GetAll');
+export const fetchModulesCount = () => api.get('/AdminPanel/Modules/GetModulesCount');
+export const deleteModule = (payload) => api.post('/AdminPanel/Modules/Delete', payload);
+export const updateModule = (payload) => api.post('/AdminPanel/Modules/Update', payload);
+export const fetchModuleById = (id) => api.get(`/AdminPanel/Modules/GetById?id=${id}`);
+export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Modules/GetByFilterString?filteredString=${string}`);
+
+//articles
+export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);
+
 //courses
-export const createModule = (payload) => api.post('/AdminPanel/Modules/CreateModule', payload);
 export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
 export const editCourse = (courseData) => api.post('/AdminPanel/Courses/EditCourse', courseData);
 export const changeCourseModules = (courseModulesData) => api.post('/AdminPanel/Courses/ChangeAllModules', courseModulesData);
 export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
 export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll')
-export const getAllCourses = () => api.get('/AdminPanel/Courses/GetCourses', {params:{type: 4}})
-export const getCourse = (courseId) => api.get('/AdminPanel/Courses/GetCourse', {params:{id: courseId}})
-export const getCourseModulesId = (courseId) => api.get('/AdminPanel/Courses/GetCourseModulesId', {params:{CourseId: courseId}})
-export const getModulesByListId = (modulesId) => api.get('/AdminPanel/Modules/GetByListOfId', {params:{ModulesId: modulesId},
-  paramsSerializer: params => {
-    return qs.stringify(params, {arrayFormat: "repeat"})
-  }});
-
-
+export const getAllCourses = () => api.get('/AdminPanel/Courses/GetCourses', { params: { type: 4 } })
+export const getCourse = (courseId) => api.get('/AdminPanel/Courses/GetCourse', { params: { id: courseId } })
+export const getCourseModulesId = (courseId) => api.get('/AdminPanel/Courses/GetCourseModulesId', { params: { CourseId: courseId } })
+export const getModulesByListId = (modulesId) => api.get('/AdminPanel/Modules/GetByListOfId', {
+    params: { ModulesId: modulesId },
+    paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: "repeat" })
+    }
+});

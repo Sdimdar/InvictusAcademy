@@ -1,9 +1,8 @@
-using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using CommonStructures;
+using Ardalis.Result;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
@@ -46,16 +45,8 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create([FromBody]CreateModuleCommand request)
     {
-        try
-        {
-            var response = await _modulesService.Create(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.Create(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -66,16 +57,8 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody]DeleteModuleCommand request)
     {
-        try
-        {
-            var response = await _modulesService.Delete(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.Delete(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -118,21 +101,23 @@ public class ModulesController: Controller
     
     [HttpGet]
     [SwaggerOperation(
+        Summary = "Возвращает количество модулей, для пагинации")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetModulesCount()
+    {
+        var response = await _modulesService.GetModulesCount();
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
         Summary = "Получение данных о модулях которые подходят под строку фильтрации",
         Description = "Необходимо передать в строке строку фильтрации"
     )]
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByFilterString([FromQuery]GetModulesByFilterStringQuery request)
+    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByFilterString(GetModulesByFilterStringQuery request)
     {
-        try
-        {
-            var response = await _modulesService.GetFilterByString(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetFilterByString(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -140,18 +125,10 @@ public class ModulesController: Controller
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery]GetModuleByIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery]ModuleByIdVm request)
     {
-        try
-        {
-            var response = await _modulesService.GetById(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetById(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -161,15 +138,7 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId([FromQuery]GetModulesByListOfIdQuery request)
     {
-        try
-        {
-            var response = await _modulesService.GetByListOfId(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetByListOfId(request);
+        return Ok(response);
     }
 }

@@ -16,15 +16,16 @@ public class GetUsers : IGetUsers
         ExtendedHttpClient = extendedHttpClient;
     }
     
-    public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync()
+    public async Task<DefaultResponseObject<int>> GetUsersCount()
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UsersVm>>("/User/GetAllRegisteredUsersData");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<int>>("/User/GetUsersCount");
     }
 
     public async Task<DefaultResponseObject<UsersVm>> GetUsersAsync(int pageNumber, int pageSize)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UsersVm>>(
-            $"/User/GetUsersCount?pageNumber={pageNumber}&pageSize={pageSize}");
+            $"/User/GetAllRegisteredUsersData?pageNumber={pageNumber}&pageSize={pageSize}");
     }
 
     public async Task<DefaultResponseObject<string>> ChangeBanStatusAsync(ToBanCommand command)
