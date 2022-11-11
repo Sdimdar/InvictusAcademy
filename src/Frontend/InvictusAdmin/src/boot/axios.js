@@ -44,17 +44,31 @@ export default boot(({ app }) => {
 })
 
 export { api }
-//
+//admin
 export const login = (payload) => api.post('/AdminPanel/Accounts/Login', payload);
 export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdminData");
-export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
+export const fetchlogout = () => api.post("/AdminPanel/Accounts/LogOff");
 
-// admin
-export const fetchUsersData = (filterString, pageSize, pageNumber) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ filterString: filterString, pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchUserData = (email) => api.get('/AdminPanel/Users/GetUsersCount', { params: { email: email } });
+// usersData
+export const fetchUsersData = (pageNumber, pageSize) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchUsersCount = () => api.get('/AdminPanel/Users/GetUsersCount');
+
+// requestsData
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
 
 export const managerComment = (payload) => api.post('/AdminPanel/Requests/ManagerComment', payload);
 export const changeCalled = (payload) => api.post('/AdminPanel/Requests/ChangeCalled', payload);
 export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin', payload);
+
+//modules
+export const createModule = (payload) => api.post('/AdminPanel/Modules/Create', payload);
+export const fetchAllModules = () => api.get('/AdminPanel/Modules/GetAll');
+export const fetchModulesCount = () => api.get('/AdminPanel/Modules/GetModulesCount');
+export const deleteModule = (payload) => api.post('/AdminPanel/Modules/Delete', payload);
+export const updateModule = (payload) => api.post('/AdminPanel/Modules/Update', payload);
+export const fetchModuleById = (id) => api.get(`/AdminPanel/Modules/GetById?id=${id}`);
+export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Modules/GetByFilterString?filteredString=${string}`);
+
+//articles
+export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);

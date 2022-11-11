@@ -1,5 +1,5 @@
 <template>
-    <q-btn :class="$attrs.class" label="Войти" @click="loginDialog = true" />
+    <q-btn unelevated :class="$attrs.class" label="Войти" @click="loginDialog = true" />
   
     <q-dialog v-model="loginDialog">
       <q-card style="min-width: 350px">
@@ -85,7 +85,7 @@
           const response = await login(this.loginData);
           if(response.data.isSuccess){
             this.loginDialog = false;
-            this.$emit("autorize", response.data.email);
+            this.$emit("autorize", response.data.value.email);
             notify.showSucsessNotify("Добро пожаловать");
           }
           else{

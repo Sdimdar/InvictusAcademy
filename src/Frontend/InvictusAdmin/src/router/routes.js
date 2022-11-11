@@ -5,7 +5,9 @@ const routes = [
     children: [
       { path: "showAllUser", component: () => import("pages/Admin/UsersInfoPage.vue") },
       { path: "requests", component: () => import("pages/Admin/RequestsInfoPage.vue") },
-      { path: "createAdmin", component: () => import("pages/Admin/CreateAdminPage.vue") }
+      { path: "createAdmin", component: () => import("pages/Admin/CreateAdminPage.vue") },
+      { path: "content", component: () => import("src/pages/Courses/ContentPage.vue") },
+      { path: "moduleDetails/:id", component: () => import("src/pages/Courses/ModuleDetailsPage.vue") },
     ],
   },
   // Always leave this as last one,
