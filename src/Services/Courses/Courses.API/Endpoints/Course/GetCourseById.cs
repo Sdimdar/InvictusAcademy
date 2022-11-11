@@ -1,5 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using Courses.Domain.Entities;
+using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +13,7 @@ namespace Courses.API.Endpoints.Course;
 
 public class GetCourseById: EndpointBaseAsync
     .WithRequest<GetCoursByIdQuery>
-    .WithActionResult<DefaultResponseObject<CourseVm>>
+    .WithActionResult<DefaultResponseObject<CourseForAdminVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,9 +31,9 @@ public class GetCourseById: EndpointBaseAsync
         Tags = new[] { "Course" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseVm>>> HandleAsync([FromQuery]GetCoursByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<CourseForAdminVm>>> HandleAsync([FromQuery]GetCoursByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CourseVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<CourseForAdminVm>>(result));
     }
 }

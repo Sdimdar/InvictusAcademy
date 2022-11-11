@@ -11,6 +11,7 @@ public class ApiMappingProfile : Profile
 	{
 		CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
         CreateMap<CourseDbModel, CourseVm>();
+        CreateMap<CourseDbModel, CourseForAdminVm>();
         CreateMap<CourseInfoDbModel, CourseInfoVm>()
             .ForMember(p => p.ModulesId,
                        opt => opt.MapFrom(src => src.ModulesString == "" ? new List<int>()

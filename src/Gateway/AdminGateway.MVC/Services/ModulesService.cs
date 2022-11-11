@@ -1,4 +1,5 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using System.Text;
+using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,24 @@ public class ModulesService : IModulesService
 
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId(GetModulesByListOfIdQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetModulesByListOfIdQuery, DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Modules/GetByListOfId");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < request.ModulesId.Count; i++)
+        {
+            if (i==request.ModulesId.Count-1)
+            {
+                stringBuilder.Append("ModulesId=");
+                stringBuilder.Append(request.ModulesId[i]);
+            }
+            else
+            {
+                stringBuilder.Append("ModulesId=");
+                stringBuilder.Append(request.ModulesId[i]);
+                stringBuilder.Append("&");
+            }
+        }
+
+        string requestString = stringBuilder.ToString();
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetByListOfId?{requestString}");
     }
 
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update(UpdateModuleCommand request)
