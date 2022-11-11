@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
+import qs from 'qs'
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -61,3 +62,17 @@ export const createAdmin = (payload) => api.post('/AdminPanel/Admins/CreateAdmin
 
 //courses
 export const createModule = (payload) => api.post('/AdminPanel/Modules/CreateModule', payload);
+export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
+export const editCourse = (courseData) => api.post('/AdminPanel/Courses/EditCourse', courseData);
+export const changeCourseModules = (courseModulesData) => api.post('/AdminPanel/Courses/ChangeAllModules', courseModulesData);
+export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
+export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll')
+export const getAllCourses = () => api.get('/AdminPanel/Courses/GetCourses', {params:{type: 4}})
+export const getCourse = (courseId) => api.get('/AdminPanel/Courses/GetCourse', {params:{id: courseId}})
+export const getCourseModulesId = (courseId) => api.get('/AdminPanel/Courses/GetCourseModulesId', {params:{CourseId: courseId}})
+export const getModulesByListId = (modulesId) => api.get('/AdminPanel/Modules/GetByListOfId', {params:{ModulesId: modulesId},
+  paramsSerializer: params => {
+    return qs.stringify(params, {arrayFormat: "repeat"})
+  }});
+
+

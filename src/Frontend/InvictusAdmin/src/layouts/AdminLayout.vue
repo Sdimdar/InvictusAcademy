@@ -81,6 +81,42 @@
 
             <q-separator />
 
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-btn to="/admin-panel/createCourse" class="nav-button" label="Создать курс"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-btn to="/admin-panel/editCourse" class="nav-button" label="Редактировать курс"/>
+              </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
+
+            <q-item-section>
+              <q-btn to="/admin-panel/allCourses" class="nav-button" label="Все курсы"/>
+            </q-item-section>
+            </q-item>
+
+            <q-separator />
+
           </q-list>
         </q-scroll-area>
       </q-drawer>
