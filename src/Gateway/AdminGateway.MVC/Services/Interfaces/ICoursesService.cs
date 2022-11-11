@@ -1,4 +1,5 @@
 ﻿using CommonStructures;
+using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using ExtendedHttpClient.Interfaces;
@@ -20,4 +21,5 @@ public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
     Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request);
     Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModules(InsertModulesCommand request);
     Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> RemoveModule(RemoveModuleCommand request);
+    Task<ActionResult<DefaultResponseObject<CourseForAdminVm>>> GetCourse(GetCoursByIdQuery request);
 }

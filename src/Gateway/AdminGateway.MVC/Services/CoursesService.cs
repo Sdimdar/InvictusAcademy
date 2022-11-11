@@ -1,6 +1,7 @@
 ﻿using AdminGateway.MVC.HttpClientExtensions;
 using AdminGateway.MVC.Services.Interfaces;
 using CommonStructures;
+using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
@@ -52,8 +53,7 @@ public class CoursesService : ICoursesService
 
     public async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
-        return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
     }
 
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request)
@@ -72,5 +72,10 @@ public class CoursesService : ICoursesService
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, 
             DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
+    }
+    
+    public async Task<ActionResult<DefaultResponseObject<CourseForAdminVm>>> GetCourse(GetCoursByIdQuery request)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseForAdminVm>>( $"/Course/GetCourse?id={request.Id}");
     }
 }

@@ -66,3 +66,6 @@ export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/G
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
+export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
+export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
+export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll');
