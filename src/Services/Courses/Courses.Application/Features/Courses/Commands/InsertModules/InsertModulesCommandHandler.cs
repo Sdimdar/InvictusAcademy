@@ -44,7 +44,7 @@ public class InsertModulesCommandHandler : IRequestHandler<InsertModulesCommand,
         {
             var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
             if (courseData is null) return Result.Error($"Course with Id: {request.CourseId} not found");
-            UnicueList<int> modulesId = await _moduleInfoRepository.CheckModulesOnExist(request.ModulesId, cancellationToken);
+            UniqueList<int> modulesId = await _moduleInfoRepository.CheckModulesOnExist(request.ModulesId, cancellationToken);
             if (modulesId is null) return Result.Error($"All modules is not exist");
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             courseInfo!.TryInsertModules(modulesId, request.StartIndex);

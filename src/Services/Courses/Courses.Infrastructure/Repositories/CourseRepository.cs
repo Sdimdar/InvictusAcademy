@@ -74,6 +74,14 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return result;
     }
 
+    public async Task<bool> CourseIsPaid(int userId, int courseId)
+    {
+        var query = await Context.CoursePurchaseds
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.CourseId == courseId);
+        if (query is null) return false;
+        return true;
+    }
+
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
     {
         var query = from course in Context.Courses

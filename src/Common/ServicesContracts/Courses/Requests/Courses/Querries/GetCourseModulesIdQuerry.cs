@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ServicesContracts.Courses.Requests.Courses.Querries;
 
-public class GetCourseModulesIdQuerry : IRequest<Result<UnicueList<int>>>
+public class GetCourseModulesIdQuerry : IRequest<Result<UniqueList<int>>>
 {
     public int CourseId { get; set; }
 }
