@@ -28,7 +28,7 @@ public class GetByListOfId : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса список Id модулей",
         Tags = new[] { "Module" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery] GetModulesByListOfIdQuery request,
+    public async override Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync(GetModulesByListOfIdQuery request,
                                                                                                     CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);

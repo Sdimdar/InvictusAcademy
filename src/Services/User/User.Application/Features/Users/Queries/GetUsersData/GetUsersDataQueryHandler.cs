@@ -28,7 +28,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
         var usersCount = _userRepository.GetCountAsync();
         if (request.PageSize == 0)
         {
-            request.Page = 1;
+            request.PageNumber = 1;
             request.PageSize = await usersCount;
         }
 
@@ -37,16 +37,16 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
         var command = new GetAllUsersCommand()
         {
             PageSize = request.PageSize,
-            PageNumber = request.Page,
+            PageNumber = request.PageNumber,
             FilterString = request.FilterString
         };
         
-        var data = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.Page, request.FilterString);
+        var data = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.PageNumber, request.FilterString);
         UsersVm model = new()
         {
             Users = data,
             Filter = request.FilterString,
-            PageVm = new PageVm(await usersCount, request.Page, request.PageSize)
+            PageVm = new PageVm(await usersCount, request.PageNumber, request.PageSize)
         };
         return Result.Success(model);
     }

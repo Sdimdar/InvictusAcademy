@@ -14,7 +14,8 @@ public class ExtendedHttpClient<T>
         options.Configure(HttpClient);
     }
 
-    public virtual async Task<TResponse> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new())
+    public virtual async Task<TResponse> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri,
+        CancellationToken cancellationToken = new())
     {
         var message = CreateHttpRequestMessage(HttpMethod.Get, uri, request);
         return await ExchangeAsync<TResponse>(message, cancellationToken);

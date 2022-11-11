@@ -36,6 +36,9 @@ public class GetCoursesByTypeHandler : IRequestHandler<GetCoursesQuery, Result<C
             case CourseTypes.Completed:
                 list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetCompletedCourses(request.UserId));
                 break;
+            case CourseTypes.All:
+                list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetAllCourses());
+                break;
         }
 
 

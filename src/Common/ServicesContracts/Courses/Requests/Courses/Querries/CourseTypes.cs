@@ -5,5 +5,6 @@ public enum CourseTypes
     New,
     Wished,
     Current,
-    Completed
+    Completed,
+    All
 }

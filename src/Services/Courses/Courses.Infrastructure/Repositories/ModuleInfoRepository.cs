@@ -6,6 +6,7 @@ using Courses.Domain.Entities.CourseInfo;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Text.Json;
+using Ardalis.Result;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -45,14 +46,14 @@ public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IMod
                                                        || e.ShortDescription.Contains(filterString), cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
     }
 
-    public async Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(UnicueList<int> listOfId, CancellationToken cancellationToken)
+    public async Task<List<ModuleInfoDbModel>?> GetModulesByListOfIdAsync(UniqueList<int> listOfId, CancellationToken cancellationToken)
     {
         return await (await BaseCollection.FindAsync(e => listOfId.Contains(e.Id), cancellationToken: cancellationToken)).ToListAsync(cancellationToken);
     }
 
-    public async Task<UnicueList<int>> CheckModulesOnExist(UnicueList<int> listOfId, CancellationToken cancellationToken)
+    public async Task<UniqueList<int>> CheckModulesOnExist(UniqueList<int> listOfId, CancellationToken cancellationToken)
     {
-        UnicueList<int> result = (UnicueList<int>)listOfId.Clone();
+        UniqueList<int> result = (UniqueList<int>)listOfId.Clone();
         foreach (var moduleId in listOfId)
         {
             var module = await (await BaseCollection.FindAsync(e => e.Id == moduleId, cancellationToken: cancellationToken)).FirstOrDefaultAsync(cancellationToken);
@@ -60,5 +61,10 @@ public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IMod
                 result.Remove(moduleId);
         }
         return result;
+    }
+
+    public async Task<Result<int>> GetCountAsync()
+    {
+        return BaseCollection.AsQueryable().ToArray().Length;
     }
 }

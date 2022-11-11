@@ -8,7 +8,7 @@ using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseModulesId;
 
-public class GetCourseModulesIdQuerryHandler : IRequestHandler<GetCourseModulesIdQuerry, Result<UnicueList<int>>>
+public class GetCourseModulesIdQuerryHandler : IRequestHandler<GetCourseModulesIdQuerry, Result<UniqueList<int>>>
 {
     private readonly ICourseInfoRepository _courseInfoRepository;
     private readonly IValidator<GetCourseModulesIdQuerry> _validator;
@@ -20,7 +20,7 @@ public class GetCourseModulesIdQuerryHandler : IRequestHandler<GetCourseModulesI
         _validator = validator;
     }
 
-    public async Task<Result<UnicueList<int>>> Handle(GetCourseModulesIdQuerry request, CancellationToken cancellationToken)
+    public async Task<Result<UniqueList<int>>> Handle(GetCourseModulesIdQuerry request, CancellationToken cancellationToken)
     {
         var validatorResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validatorResult.IsValid)
