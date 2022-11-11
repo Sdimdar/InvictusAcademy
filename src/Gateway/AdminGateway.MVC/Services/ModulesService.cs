@@ -35,7 +35,7 @@ public class ModulesService : IModulesService
         return await ExtendedHttpClient.PostAndReturnResponseAsync<DeleteModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Delete");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
+    public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetAll()
     {
         return await ExtendedHttpClient
             .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>(

@@ -1,9 +1,8 @@
 <template>
-  <q-page style="padding: 20px;">
     <q-input style="max-width: 200px" dense debounce="300" v-model="filter" placeholder="Поиск">
       <template v-slot:append>
-                <q-icon name="search" />
-              </template>
+        <q-icon name="search" />
+      </template>
     </q-input>
     <div class="q-pa-md">
       <q-table
@@ -47,7 +46,6 @@
 
       </q-table>
     </div>
-  </q-page>
 </template>
 
 <script>
@@ -56,7 +54,6 @@ import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 import DeleteModule from 'src/components/Module/DeleteModuleButton.vue'
 import UpdateModule from 'src/components/Module/UpdateModuleButton.vue'
-import DetailsPage from 'src/components/Module/ModuleDetailsPage.vue'
 
 const columns = [
   { name: 'title', align: 'center', label: 'Название', field: 'title', sortable: false },
@@ -67,8 +64,7 @@ export default {
   name: "ModulesInfoPage",
   components:{
     DeleteModule,
-    UpdateModule,
-    DetailsPage
+    UpdateModule
   },
   data(){
     return{
@@ -90,82 +86,83 @@ export default {
     })
 
     async function onRequest (props) {
-    console.log(props)
-    let { pageNumber, rowsPerPage, sortBy, descending } = props.pagination
-    let response;
+      let { pageNumber, rowsPerPage, sortBy, descending } = props.pagination
+      let response;
 
-    // пока что запретил показывать All
-    //if(rowsPerPage === 0) rowsPerPage = 3
+      // пока что запретил показывать All
+      //if(rowsPerPage === 0) rowsPerPage = 3
 
-    loading.value = true
+      loading.value = true
 
-    // update rowsCount with appropriate value
-    try {
-      response = await fetchModulesCount();
-      console.log("Response on count:")
-      console.log(response)
-      if (response.data.isSuccess) {
-        pagination.value.rowsNumber = response.data.value.value;
+      // update rowsCount with appropriate value
+      try {
+        response = await fetchModulesCount();
+        console.log("Response on count:")
+        console.log(response)
+        if (response.data.isSuccess) {
+          pagination.value.rowsNumber = response.data.value.value;
+        }
+        else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+      } catch (error) {
+        console.log(error.message);
       }
-      else {
-        response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        return;
+
+      // fetch data from "server"
+      try {
+        console.log(pageNumber + " " + rowsPerPage)
+        response = await fetchAllModules(pageNumber, rowsPerPage)
+
+        console.log("Response on data:")
+        console.log(response)
+        if (response.status === 200) {
+          console.log("rows")
+          console.log(response.data)
+          rows.value.splice(0, rows.value.length, ...response.data.value);
+        }
+        else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+      } catch (error) {
+        console.log(error.message);
       }
-    } catch (error) {
-      console.log(error.message);
+
+      // don't forget to update local pagination object
+      pagination.value.pageNumber = pageNumber
+      pagination.value.rowsPerPage = rowsPerPage
+      pagination.value.sortBy = sortBy
+      pagination.value.descending = descending
+
+      // ...and turn of loading indicator
+      loading.value = false
     }
 
-    // fetch data from "server"
-    try {
-      console.log(pageNumber + " " + rowsPerPage)
-      response = await fetchAllModules(pageNumber, rowsPerPage)
+    onMounted(() => {
+      // get initial data from server (1st page)
+      tableRef.value.requestServerInteraction()
+      console.log(rows.value)
+    })
 
-      console.log("Response on data:")
-      console.log(response)
-      if (response.status === 200) {
-        console.log("rows")
-        console.log(response.data)
-        rows.value.splice(0, rows.value.length, ...response.data.value.value);
-      }
-      else {
-        response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        return;
-      }
-    } catch (error) {
-      console.log(error.message);
+    return {
+      tableRef,
+      filter,
+      loading,
+      pagination,
+      columns,
+      rows,
+      onRequest
     }
-
-    // don't forget to update local pagination object
-    pagination.value.pageNumber = pageNumber
-    pagination.value.rowsPerPage = rowsPerPage
-    pagination.value.sortBy = sortBy
-    pagination.value.descending = descending
-
-    // ...and turn of loading indicator
-    loading.value = false
-  }
-
-  onMounted(() => {
-    // get initial data from server (1st page)
-    tableRef.value.requestServerInteraction()
-  })
-
-  return {
-    tableRef,
-    filter,
-    loading,
-    pagination,
-    columns,
-    rows,
-    onRequest
-  }
   },
   methods:{
-    async openPage(rowId){
+    openPage(rowId){
       let route = this.$router.resolve({ path: `/admin-panel/moduleDetails/${rowId}` });
-      window.open(route.href);
+      this.$router.push(route);
     },
-    update(){
+    async update(){
+      //await onRequest({pagination:this.pagination})
       window.location.reload()
     }
   }

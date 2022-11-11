@@ -47,7 +47,7 @@ export { api }
 //admin
 export const login = (payload) => api.post('/AdminPanel/Accounts/Login', payload);
 export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdminData");
-export const fetchlogout = () => api.post("/AdminPanel/Accounts/Logout");
+export const fetchlogout = () => api.post("/AdminPanel/Accounts/LogOff");
 
 // usersData
 export const fetchUsersData = (pageNumber, pageSize) => api.get('/AdminPanel/Users/GetAllRegisteredUsers', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
