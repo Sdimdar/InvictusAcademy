@@ -9,11 +9,11 @@ public class CourseInfoDbModel : MongoBaseRepositoryEntity
     public string ModulesString { get; private set; } = "";
 
     [BsonIgnore]
-    public UnicueList<int> ModulesId
+    public UniqueList<int> ModulesId
     {
         get
         {
-            UnicueList<int> result = new();
+            UniqueList<int> result = new();
             if (!string.IsNullOrEmpty(ModulesString))
             {
                 result = ModulesString.Split(',').AsParallel().Select(e => int.Parse(e)).ToList();
@@ -24,7 +24,7 @@ public class CourseInfoDbModel : MongoBaseRepositoryEntity
 
     public bool TryInsertModule(int moduleId, int index)
     {
-        UnicueList<int> result = ModulesId;
+        UniqueList<int> result = ModulesId;
         if (result.Contains(moduleId)) return false;
         if (index < 0)
         {
@@ -40,9 +40,9 @@ public class CourseInfoDbModel : MongoBaseRepositoryEntity
         }
     }
 
-    public List<int> TryInsertModules(UnicueList<int> modulesId, int index)
+    public List<int> TryInsertModules(UniqueList<int> modulesId, int index)
     {
-        UnicueList<int> result = ModulesId;
+        UniqueList<int> result = ModulesId;
         List<int> modulesCopies = new();
         foreach (int moduleId in modulesId)
         {
@@ -73,14 +73,14 @@ public class CourseInfoDbModel : MongoBaseRepositoryEntity
         }
     }
 
-    public void SetModules(UnicueList<int> modulesId)
+    public void SetModules(UniqueList<int> modulesId)
     {
         ModulesString = string.Join(',', modulesId);
     }
 
     public void DeleteModule(int moduleId)
     {
-        UnicueList<int> modulesId = ModulesId;
+        UniqueList<int> modulesId = ModulesId;
         modulesId.Remove(moduleId);
         ModulesString = string.Join(',', modulesId);
     }
