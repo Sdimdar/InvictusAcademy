@@ -6,7 +6,9 @@
   "author": "miha <miha890r@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",

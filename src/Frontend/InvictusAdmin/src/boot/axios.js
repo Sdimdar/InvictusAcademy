@@ -9,7 +9,7 @@ import qs from 'qs'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: "https://localhost:7153",
+  baseURL: process.env.GATEWAY,
   timeout: 30000,
 });
 

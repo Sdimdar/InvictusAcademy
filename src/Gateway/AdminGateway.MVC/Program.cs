@@ -24,7 +24,7 @@ services.AddHttpClients(builder.Configuration);
 services.SetAutomapperProfiles();
 
 // Configure CORS Policy and Cookie
-services.SetCorsPolicy();
+services.SetCorsPolicy(builder.Environment);
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

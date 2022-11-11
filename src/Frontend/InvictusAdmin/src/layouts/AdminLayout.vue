@@ -178,6 +178,7 @@ export default {
   async created() {
     await this.checkLogin()
     this.initialized = true
+    console.log(process.env.GATEWAY);
   }
 }
 </script>
