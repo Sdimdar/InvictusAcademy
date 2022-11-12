@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
@@ -12,7 +13,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection ConfigureSessionServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        if (environment.IsDevelopment())
+        if (environment.IsDevelopment() || environment.EnvironmentName == "Local")
         {
             services.AddSession(options =>
             {
