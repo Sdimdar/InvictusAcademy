@@ -71,17 +71,12 @@ export default {
   methods: {
     async getAllCoursesMounted() {
       try {
-        // axios.get("https://localhost:7153//AdminPanel/Modules/GetAll")
-        //   .then(response => {
-        //     this.courses = response.data.value;
-        //     console.log(response.data);
-        //   })
         const response = await getAllCourses();
         this.courses = response.data.value.courses;
         console.log("Responce:")
         console.log(response)
         if (response.data.isSuccess) {
-          console.log(response.data.value)
+          console.log(response)
           this.courses = response.data.value.courses;
           console.log(this.courses)
           notify.showSucsessNotify("Все курсы получены");
