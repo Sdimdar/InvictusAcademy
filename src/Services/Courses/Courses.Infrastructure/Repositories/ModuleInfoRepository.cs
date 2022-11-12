@@ -6,6 +6,7 @@ using Courses.Domain.Entities.CourseInfo;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Text.Json;
+using Ardalis.Result;
 
 namespace Courses.Infrastructure.Repositories;
 
@@ -60,5 +61,10 @@ public class ModuleInfoRepository : MongoBaseRepository<ModuleInfoDbModel>, IMod
                 result.Remove(moduleId);
         }
         return result;
+    }
+
+    public async Task<Result<int>> GetCountAsync()
+    {
+        return BaseCollection.AsQueryable().ToArray().Length;
     }
 }
