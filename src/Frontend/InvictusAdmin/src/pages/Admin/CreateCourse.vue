@@ -271,11 +271,11 @@ export default{
         console.log(this.responceDataCourse)
         console.log("modules")
         console.log(response)
-        if (response.data.isSuccess) {
+        if (response.data.value.isSuccess) {
             notify.showSucsessNotify("Модули добавлены");
         }
         else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       } catch (e) {
         notify.showErrorNotify(e.message);
