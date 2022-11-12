@@ -33,7 +33,15 @@ public class CoursesService : ICoursesService
 
     public async Task<DefaultResponseObject<CoursesVm>> GetCourses(GetCoursesQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(request,$"/Courses/GetCourses");
+        if (request.Type == CourseTypes.New || request.Type == CourseTypes.All)
+        {
+            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?Type={request.Type}");
+        }
+        else
+        {
+            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?UserId={request.UserId}&Type={request.Type}");
+        }
+        
     }
 
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> ChangeAllModules(ChangeAllModulesCommand request)
