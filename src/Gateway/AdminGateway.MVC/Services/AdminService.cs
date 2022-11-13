@@ -24,31 +24,19 @@ public class AdminService : IAdminService
     public async Task<Result<AdminUser>> LoginAdminAsync(LoginViewModel request, CancellationToken cancellationToken)
     {
         var admin = await _adminManager.FindByEmailAsync(request.Login);
+        if (admin is null) return Result.Error($"Admin with login: {request.Login} - not found");
+        
+        var loginResult = await _signInManager.PasswordSignInAsync( admin, request.Password, false, false);
 
-        var result = await _signInManager.PasswordSignInAsync(
-            admin,
-            request.Password,
-            false,
-            false);
-
-        if (result.Succeeded)
-        {
-            return Result.Success(admin);
-        }
-
+        if (loginResult.Succeeded) return Result.Success(admin);
         return Result.Error("Invalid password, login pair match");
     }
     
     public async Task<Result<AdminUser>> GetAdminDataAsync(ClaimsPrincipal user, CancellationToken cancellationToken)
     {
         var admin = await _adminManager.GetUserAsync(user);
-        if (admin is not null)
-        {
-            return Result.Success(admin);
-        }
-        
+        if (admin is not null) return Result.Success(admin);
         return Result.Error("User is not Authorized");
-        
     }
 
     public async Task<Result> LogoutAdminAsync()
