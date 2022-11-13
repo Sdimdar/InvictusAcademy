@@ -21,17 +21,17 @@ public class ModulesService : IModulesService
     }
 
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticle(AddArticlesCommand request)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> AddArticle(AddArticlesCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<AddArticlesCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddArticles");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create(CreateModuleCommand request)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> Create(CreateModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Create");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete(DeleteModuleCommand request)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> Delete(DeleteModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<DeleteModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Delete");
     }
@@ -49,20 +49,20 @@ public class ModulesService : IModulesService
             .GetAndReturnResponseAsync<DefaultResponseObject<int>>("/Module/GetModulesCount");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetFilterByString(GetModulesByFilterStringQuery request)
+    public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetFilterByString(GetModulesByFilterStringQuery request)
     {
         return await ExtendedHttpClient
             .GetAndReturnResponseAsync<GetModulesByFilterStringQuery, 
                 DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Module/GetByFilterString");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(ModuleByIdVm request)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> GetById(ModuleByIdVm request)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<ModuleByIdVm, 
             DefaultResponseObject<ModuleInfoVm>>(request,$"/Module/GetById");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId(GetModulesByListOfIdQuery request)
+    public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetByListOfId(GetModulesByListOfIdQuery request)
     {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < request.ModulesId.Count; i++)
@@ -84,7 +84,7 @@ public class ModulesService : IModulesService
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetByListOfId?{requestString}");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update(UpdateModuleCommand request)
+    public async Task<DefaultResponseObject<ModuleInfoVm>> Update(UpdateModuleCommand request)
     {
         return await ExtendedHttpClient
             .PostAndReturnResponseAsync<UpdateModuleCommand, 

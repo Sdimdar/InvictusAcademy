@@ -104,51 +104,9 @@ export default{
       courseId: this.$route.params.id,
       showModules: false,
       showCourse: false,
-      allModules: [
-        {
-          id: 1,
-          title: 'DO vue',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 2,
-          title: 'DO React',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 3,
-          title: 'DO JS',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 4,
-          title: 'Learning vue',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 5,
-          title: 'Learning React',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 6,
-          title: 'Learning JS',
-          shortDescription: '',
-          articles: []
-        },
-      ],
-      responceDataCourse: {
-        id: 0,
-        name: "",
-        description: ""
-      },
-      forCreateModules: [
-      ]
+      allModules: [],
+      responceDataCourse: {},
+      forCreateModules: []
     }
   },
   components: {
@@ -205,16 +163,17 @@ export default{
     async getCourse(){
         try {
           const response = await getCourse(this.courseId);
-          if (response.data.value.isSuccess) {
-            this.courseData.name = response.data.value.value.name
-            this.courseData.cost = response.data.value.value.cost
-            this.courseData.description = response.data.value.value.description
-            this.courseData.isActive = response.data.value.value.isActive
-            this.courseData.videoLink = response.data.value.value.videoLink
+          
+          if (response.data.isSuccess) {
+            this.courseData.name = response.data.value.name
+            this.courseData.cost = response.data.value.cost
+            this.courseData.description = response.data.value.description
+            this.courseData.isActive = response.data.value.isActive
+            this.courseData.videoLink = response.data.value.videoLink
             notify.showSucsessNotify("Курс получен");
           }
           else {
-            response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
+            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
           }
         } catch (e) {
           notify.showErrorNotify(e.message);
@@ -226,6 +185,7 @@ export default{
       try {
         this.courseData.id = this.courseId;
         const response = await editCourse(this.courseData);
+        
         if (response.data.isSuccess) {
             this.showModules = true
             notify.showSucsessNotify("Курс отредактирован");
@@ -247,12 +207,13 @@ export default{
         this.forCreateModules.forEach(el => dataForModulesChange.modulesId.push(el.id))
         console.log(dataForModulesChange)
         const response = await changeCourseModules(dataForModulesChange);
-        if (response.data.value.isSuccess) {
+        
+        if (response.data.isSuccess) {
             notify.showSucsessNotify("Модули добавлены");
             this.showModules = false
         }
         else {
-          response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       } catch (e) {
         notify.showErrorNotify(e.message);
@@ -262,6 +223,7 @@ export default{
     async getAllModules(){
       try {
         const response = await getAllModules();
+        
         if (response.data.isSuccess) {
           this.allModules = response.data.value;
           notify.showSucsessNotify("Все модули получены");
@@ -276,18 +238,20 @@ export default{
     async getCourseModules(){
       try {
         const response = await getCourseModulesId(this.courseId);
-        if (response.data.value.isSuccess) {
-          const modulesId = response.data.value.value;
+            
+        if (response.data.isSuccess) {
+          const modulesId = response.data.value;
           notify.showSucsessNotify("Все id модулей курса получены");
           try {
             const response = await getModulesByListId(modulesId);
+            
             if (modulesId.length > 0){
-              if (response.data.value.isSuccess) {
-                this.forCreateModules = response.data.value.value;
+              if (response.data.isSuccess) {
+                this.forCreateModules = response.data.value;
                 notify.showSucsessNotify("Все модули курса получены");
               }
               else {
-                response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
+                response.data.errors.forEach(element => { notify.showErrorNotify(element); });
               }
             }
           } catch (e) {
@@ -295,7 +259,7 @@ export default{
           }
         }
         else {
-          response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       } catch (e) {
         notify.showErrorNotify(e.message);

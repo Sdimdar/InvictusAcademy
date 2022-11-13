@@ -1,11 +1,8 @@
-﻿using AdminGateway.MVC.HttpClientExtensions;
-using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Services.Interfaces;
 using CommonStructures;
-using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
-using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
@@ -37,44 +34,40 @@ public class CoursesService : ICoursesService
         {
             return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?Type={request.Type}");
         }
-        else
-        {
-            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?UserId={request.UserId}&Type={request.Type}");
-        }
-        
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?UserId={request.UserId}&Type={request.Type}");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> ChangeAllModules(ChangeAllModulesCommand request)
+    public async Task<DefaultResponseObject<CourseInfoVm>> ChangeAllModules(ChangeAllModulesCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<ChangeAllModulesCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/ChangeAllModules");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Delete(DeleteCourseCommand request)
+    public async Task<DefaultResponseObject<bool>> Delete(DeleteCourseCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<DeleteCourseCommand, DefaultResponseObject<bool>>(request, $"/Course/Delete");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
+    public async Task<DefaultResponseObject<UniqueList<int>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule(InsertModuleCommand request)
+    public async Task<DefaultResponseObject<CourseInfoVm>> InsertModule(InsertModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<InsertModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/InsertModule");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModules(InsertModulesCommand request)
+    public async Task<DefaultResponseObject<CourseInfoVm>> InsertModules(InsertModulesCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<InsertModulesCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/InsertModules");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> RemoveModule(RemoveModuleCommand request)
+    public async Task<DefaultResponseObject<CourseInfoVm>> RemoveModule(RemoveModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
     }
     
-    public async Task<ActionResult<DefaultResponseObject<CourseForAdminVm>>> GetCourse(GetCoursByIdQuery request)
+    public async Task<DefaultResponseObject<CourseForAdminVm>> GetCourse(GetCoursByIdQuery request)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseForAdminVm>>( $"/Course/GetCourse?id={request.Id}");
     }
