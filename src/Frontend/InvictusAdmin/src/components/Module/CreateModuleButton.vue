@@ -61,7 +61,7 @@
           const autorize = await fetchLoginedUserData();
           if (autorize.data.isSuccess) {
             const response = await createModule(this.newModuleData);
-            if (response.data.value.isSuccess) {
+            if (response.data.isSuccess) {
             this.createModuleDialog = false;
             this.$emit("createModule");
             notify.showSucsessNotify("Модуль добавлен");

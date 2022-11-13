@@ -50,8 +50,8 @@ export default defineComponent({
       this.updateDialog = true
       const response = await fetchModuleById(this.id);
       console.log(response)
-      this.shortDescription = response.data.value.value.shortDescription
-      this.title = response.data.value.value.title
+      this.shortDescription = response.data.value.shortDescription
+      this.title = response.data.value.title
     },
     async onSubmit() {
       try {
@@ -63,7 +63,7 @@ export default defineComponent({
         const response = await updateModule(payload);
         console.log(response)
 
-        if(response.data.value.isSuccess){
+        if(response.data.isSuccess){
           this.updateDialog = false
           this.$emit("updateModule");
           notify.showSucsessNotify("Изменения сохранены");
