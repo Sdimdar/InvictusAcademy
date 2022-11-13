@@ -37,8 +37,8 @@
 import { defineComponent } from "vue";
 import { fetchUserData } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
-import EditProfileButton from 'components/EditProfileButton.vue'
-import EditPasswordButton from 'components/EditPasswordButton.vue'
+import EditProfileButton from 'components/User/EditProfileButton.vue'
+import EditPasswordButton from 'components/User/EditPasswordButton.vue'
 import LeftBar from "components/LeftBar.vue";
 
 export default defineComponent({

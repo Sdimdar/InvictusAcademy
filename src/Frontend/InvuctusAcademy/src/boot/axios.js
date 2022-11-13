@@ -63,11 +63,8 @@ export const getWishedCourses = () => api.get('/Courses/GetWished');
 export const getNewCourses = () => api.get('/Courses/GetNew');
 
 // modules
-export const getShortModulesInfo = (id) => api.get(`/Modules/GetShortModulesInfoByCourseId?id=${id}`);
+export const getShortModulesInfo = (courseId) => api.get(`/Modules/GetShortModulesInfoByCourseId`, {params:{courseId: courseId}});
+export const getFullModulesInfo = (courseId) => api.get(`/Courses/GetFullModulesInfoByCourseId`, {params:{courseId: courseId}});
 
-
-// на последующее удаление огрызки от админки
-export const fetchUsersData = (filterString, pageSize, page) => api.get('/User/GetUsersData', { params:{ filterString: filterString, pageSize: pageSize, page: page } });
+// UserData
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
-export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
