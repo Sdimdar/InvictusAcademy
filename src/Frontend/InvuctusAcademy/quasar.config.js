@@ -53,7 +53,7 @@ module.exports = configure(function (ctx) {
 
       env: {
         GATEWAY: ctx.dev
-                 ? "http://localhost:7000"
+                 ? "https://localhost:7000"
                  : process.env.GATEWAY
       },
       // transpile: false,

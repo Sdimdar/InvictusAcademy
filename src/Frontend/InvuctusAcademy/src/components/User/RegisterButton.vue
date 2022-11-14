@@ -110,7 +110,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import notify from "boot/notifyes";
-import constants from "../static/constants";
+import constants from "../../static/constants";
 import { register } from "boot/axios";
 
 export default defineComponent({

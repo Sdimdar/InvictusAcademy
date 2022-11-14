@@ -26,9 +26,9 @@
 
 
 <script>
-import LogoutButton from 'components/LogoutButton.vue'
-import LoginButton from 'components/LoginButton.vue'
-import RegisterButton from 'components/RegisterButton.vue'
+import LogoutButton from 'components/User/LogoutButton.vue'
+import LoginButton from 'components/User/LoginButton.vue'
+import RegisterButton from 'components/User/RegisterButton.vue'
 import RequestButton from 'components/RequestButton.vue'
 import { fetchLoginedUserData } from 'boot/axios'
 
