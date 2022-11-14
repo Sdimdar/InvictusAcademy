@@ -14,7 +14,7 @@
         <div class="q-pa-md">
           <div class="q-gutter-y-md">
             <q-tabs align="left" inline-label class="bg-primary text-white shadow-2">
-              <q-route-tab icon="book" label="Разделы модуля" />
+              <q-route-tab icon="book" label="Статьи/Уроки модуля" />
 
             </q-tabs>
           </div>
@@ -22,10 +22,22 @@
           <q-page-container>
 
             <createArticle :title="title" :id="id" :articles="articles" @addArticle="getModuleData" />
-
-            <div class="q-pa-md">
-              <q-table style="max-width: 800px" title="Разделы модуля" :rows="articles" row-key="title" />
-            </div>
+            <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Ссылка на видео</th>
+                    <th>Детали</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="article in articles" :key="article.order">
+                    <td>{{article.title}} </td>
+                    <td>{{article.videoLink}}</td>
+                    <articleText :id="id"  :order="article.order"/>
+                </tr>
+            </tbody>
+        </table>
 
           </q-page-container>
 
@@ -41,11 +53,18 @@ import { defineComponent, ref } from "vue";
 import { updateModule, fetchModuleById } from "boot/axios";
 import notify from "boot/notifyes";
 import CreateArticle from 'src/components/Module/CreateArticleButton.vue'
+import ArticleText from 'src/components/Module/ArticleText.vue'
+
+const columns = [
+  { name: 'title', align: 'center', label: 'Название', field: 'title', sortable: true },
+  { name: 'shortDescription', align: 'center', label: 'Описание', field: 'shortDescription', sortable: true },
+]
 
 export default defineComponent({
   name: "detailsPage",
   components: {
-    CreateArticle
+    CreateArticle,
+    ArticleText
   },
   setup() {
     return {
@@ -101,5 +120,21 @@ export default defineComponent({
   beforeMount() {
     this.getModuleData()
   },
+  openPage(rowId){
+      let route = this.$router.resolve({ path: `/admin-panel/articleDetails/${rowId}` });
+      this.$router.push(route);
+    },
 });
 </script>
+
+<style>
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    min-width: 800px;
+    text-align: center;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+</style>
