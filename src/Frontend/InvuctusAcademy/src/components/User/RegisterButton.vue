@@ -1,0 +1,175 @@
+<template>
+  <q-btn
+    :class="$attrs.class"
+    label="Зарегистрироваться"
+    @click="registerDialog = true"
+  />
+
+  <q-dialog v-model="registerDialog">
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6 text-center">Регистрация</div>
+      </q-card-section>
+      <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
+        <q-card-section class="q-pt-none">
+          <q-input
+            dense
+            v-model="registerData.email"
+            autofocus
+            label="E-mail"
+            lazy-rules
+            :rules="[
+              (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+              (val) => validateEmail(val) || 'Это не E-mail',
+            ]"
+          />
+          <q-input
+            :type="isPwd ? 'password' : 'text'"
+            dense
+            v-model="registerData.password"
+            label="Пароль"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length > 6 && val.length < 21) ||
+                'Пароль должен быть от 6 до 20 символов',
+              (val) =>
+                validatePassword(val) ||
+                'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
+            ]"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <q-input
+            :type="isPwdConfirm ? 'password' : 'text'"
+            dense
+            v-model="registerData.passwordConfirm"
+            label="Повтор пароля"
+            lazy-rules
+            :rules="[
+              (val) =>
+                val === registerData.password || 'Пароли должны совпадать',
+              (val) =>
+                (val && val.length > 6 && val.length < 21) ||
+                'Пароль должен быть от 6 до 20 символов',
+              (val) =>
+                validatePassword(val) ||
+                'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
+            ]"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwdConfirm ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwdConfirm = !isPwdConfirm"
+              />
+            </template>
+          </q-input>
+          <q-input
+            dense
+            mask="#(###) ### - ####"
+            v-model="registerData.phoneNumber"
+            label="Телефонный номер"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length === 17) || 'Номер должен содержать 11 цифр',
+            ]"
+          />
+          <q-input
+            dense
+            v-model="registerData.firstName"
+            label="Имя"
+            lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
+          />
+          <q-input
+            dense
+            v-model="registerData.lastName"
+            label="Фамилия"
+            lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
+          />
+        </q-card-section>
+        <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
+        <q-card-actions class="text-primary">
+          <q-btn flat label="Отмена" v-close-popup type="reset" />
+          <q-btn flat label="Зарегистрироваться" type="submit" />
+        </q-card-actions>
+      </q-form>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script>
+import { defineComponent, ref } from "vue";
+import notify from "boot/notifyes";
+import constants from "../../static/constants";
+import { register } from "boot/axios";
+
+export default defineComponent({
+  name: "register-button",
+  data() {
+    return {
+      registerData: {
+        email: "",
+        password: "",
+        passwordConfirm: "",
+        phoneNumber: "",
+        firstName: "",
+        lastName: "",
+      },
+      registerDialog: ref(false),
+      isPwd: ref(true),
+      isPwdConfirm: ref(true),
+      errorMessages:"",
+    };
+  },
+  props: {
+    logined: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        const response = await register(this.registerData);
+        if(response.data.isSuccess){
+          this.registerDialog = false;
+          this.$emit("autorize", response.data.email);
+          notify.showSucsessNotify("Добро пожаловать");
+        }
+        else{
+          this.errorMessages = response.data.validationErrors
+        }
+        
+      } catch (e) {
+        notify.showErrorNotify(e.message);
+        console.log(e);
+      }
+    },
+    onReset() {
+      this.registerData.email = "";
+      this.registerData.password = "";
+      this.registerData.phoneNumber = "";
+      this.registerData.firstName = "";
+      this.registerData.lastName = "";
+      this.registerDialog = false;
+      errorMessages = "";
+    },
+    validateEmail(value) {
+      return constants.EMAIL_REGEXP.test(value);
+    },
+    validatePassword(value) {
+      return constants.PWD_REGEXP.test(value);
+    },
+  },
+});
+</script>

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Configurations>Debug;Release</Configurations>
+		<Platforms>AnyCPU</Platforms>
+		<UserSecretsId>c3ffd9e1-20d1-4330-80d0-6161c48a74ec</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+		<PackageReference Include="Ardalis.ApiEndpoints.Swashbuckle" Version="4.0.1" />
+		<PackageReference Include="AutoMapper" Version="12.0.0" />
+		<PackageReference Include="MediatR" Version="11.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Common\DataTransferLib\DataTransferLib.csproj" />
+		<ProjectReference Include="..\..\..\Common\ExtendedHttpClient\ExtendedHttpClient.csproj" />
+		<ProjectReference Include="..\..\..\Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj" />
+		<ProjectReference Include="..\UserGateway.Application\UserGateway.Application.csproj" />
+		<ProjectReference Include="..\UserGateway.Domain\UserGateway.Domain.csproj" />
+		<ProjectReference Include="..\UserGateway.Infrastructure\UserGateway.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

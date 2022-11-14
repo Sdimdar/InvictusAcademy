@@ -1,0 +1,16 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+appSettings.Local.json
+
+# Editor directories and files
+.idea
+.vscode
+.vs
+
+# Vue-Quasar work folders
+.quasar
+node_modules
+/src/InvictusAcademyTestProject.sln.DotSettings.user
