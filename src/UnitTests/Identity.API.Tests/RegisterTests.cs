@@ -271,37 +271,37 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
         data.ValidationErrors.Should().Contain(e => e.Identifier == "InstagramLink");
     }
 
-    public static IEnumerable<object[]> InvalidCitizenships()
-    {
-        yield return new object[] { "" };
-        yield return new object[] { new string('s', 300) };
-    }
+    //public static IEnumerable<object[]> InvalidCitizenships()
+    //{
+    //    yield return new object[] { "" };
+    //    yield return new object[] { new string('s', 300) };
+    //}
 
-    [Theory]
-    [MemberData(nameof(InvalidCitizenships))]
-    public async Task Register_SendRequestWithInvalidCitizenship(string invalidCitizenship)
-    {
-        // Arrange
-        RegisterCommand command = new()
-        {
-            Email = "new_test1@mail.ru",
-            Password = "123_QWEasd",
-            PasswordConfirm = "123_QWEasd",
-            FirstName = "Famine",
-            MiddleName = "Famine",
-            LastName = "Famine",
-            InstagramLink = null,
-            Citizenship = invalidCitizenship,
-            PhoneNumber = "89233047662"
-        };
+    //[Theory]
+    //[MemberData(nameof(InvalidCitizenships))]
+    //public async Task Register_SendRequestWithInvalidCitizenship(string invalidCitizenship)
+    //{
+    //    // Arrange
+    //    RegisterCommand command = new()
+    //    {
+    //        Email = "new_test1@mail.ru",
+    //        Password = "123_QWEasd",
+    //        PasswordConfirm = "123_QWEasd",
+    //        FirstName = "Famine",
+    //        MiddleName = "Famine",
+    //        LastName = "Famine",
+    //        InstagramLink = null,
+    //        Citizenship = invalidCitizenship,
+    //        PhoneNumber = "89233047662"
+    //    };
 
-        // Act
-        var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
+    //    // Act
+    //    var data = await _httpClient.PostAndReturnResponseAsync<RegisterCommand, RegisterVm>(command, "/User/Register");
 
-        // Assert
-        data.Should().NotBeNull();
-        data.IsSuccess.Should().BeFalse();
-        data.ValidationErrors.Should().NotBeNull();
-        data.ValidationErrors.Should().Contain(e => e.Identifier == "Citizenship");
-    }
+    //    // Assert
+    //    data.Should().NotBeNull();
+    //    data.IsSuccess.Should().BeFalse();
+    //    data.ValidationErrors.Should().NotBeNull();
+    //    data.ValidationErrors.Should().Contain(e => e.Identifier == "Citizenship");
+    //}
 }

@@ -14,7 +14,7 @@
         <div class="q-pa-md">
           <div class="q-gutter-y-md">
             <q-tabs align="left" inline-label class="bg-primary text-white shadow-2">
-              <q-route-tab icon="book" label="Разделы модуля" />
+              <q-route-tab icon="book" label="Статьи модуля" />
 
             </q-tabs>
           </div>
@@ -24,7 +24,7 @@
             <createArticle :title="title" :id="id" :articles="articles" @addArticle="getModuleData" />
 
             <div class="q-pa-md">
-              <q-table style="max-width: 800px" title="Разделы модуля" :rows="articles" row-key="title" />
+              <q-table style="max-width: 800px" title="Статьи модуля" :rows="articles" row-key="title" />
             </div>
 
           </q-page-container>

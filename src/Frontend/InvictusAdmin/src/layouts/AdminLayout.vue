@@ -71,25 +71,13 @@
 
               <q-separator />
 
-            <q-item clickable v-ripple>
+            <q-item clickable v-ripple to="/admin-panel/createCourse">
               <q-item-section avatar>
                 <q-icon name="star" />
               </q-item-section>
 
               <q-item-section>
-                <q-btn to="/admin-panel/createCourse" class="nav-button" label="Создать курс"/>
-              </q-item-section>
-            </q-item>
-
-            <q-separator />
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                <q-btn to="/admin-panel/editCourse" class="nav-button" label="Редактировать курс"/>
+                Создать курс
               </q-item-section>
             </q-item>
 

@@ -4,12 +4,12 @@
   <q-dialog v-model="newArticleDialog">
     <q-card style="min-width: 850px">
       <q-card-section>
-        <div class="text-h6 text-center">Добавить новый раздел в "{{ title }}"</div>
+        <div class="text-h6 text-center">Добавить новую статью в "{{ title }}"</div>
       </q-card-section>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
 
-          <q-input dense v-model="newArticle.title" label="Название раздела" />
+          <q-input dense v-model="newArticle.title" label="Название статьи" />
           <q-input dense v-model="newArticle.order"  type="number" label="Порядковый номер в модуле" />
           <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео" />
           <q-input dense v-model="newArticle.text" type="textarea" label="Нужный текст" />
@@ -63,8 +63,8 @@ export default defineComponent({
       this.newArticleDialog = true
       const response = await fetchModuleById(this.id);
       console.log(response)
-      this.shortDescription = response.data.value.value.shortDescription
-      this.title = response.data.value.value.title
+      this.shortDescription = response.data.value.shortDescription
+      this.title = response.data.value.title
     },
     async onSubmit() {
       this.articles.push(this.newArticle)
@@ -76,7 +76,7 @@ export default defineComponent({
         const response = await addNewArticle(payload);
         console.log(response)
 
-        if(response.data.value.isSuccess){
+        if(response.data.isSuccess){
           this.newArticleDialog = false
           this.$emit("addArticle");
           notify.showSucsessNotify("Раздел успешно добавлен");
