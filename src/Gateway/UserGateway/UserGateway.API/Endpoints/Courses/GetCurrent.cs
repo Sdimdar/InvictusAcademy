@@ -1,5 +1,4 @@
 ﻿using Ardalis.ApiEndpoints;
-using Ardalis.Result;
 using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
@@ -9,7 +8,6 @@ using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;
 using UserGateway.Application.Features.Courses.Queries.GetCourses;
-using UserGateway.Application.Features.User.Querries.GetUserData;
 
 namespace UserGateway.API.Endpoints.Courses;
 
