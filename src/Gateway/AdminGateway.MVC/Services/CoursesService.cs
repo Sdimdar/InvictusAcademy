@@ -32,9 +32,9 @@ public class CoursesService : ICoursesService
     {
         if (request.Type == CourseTypes.New || request.Type == CourseTypes.All)
         {
-            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?Type={request.Type}");
+            return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?Type={(int)request.Type}");
         }
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?UserId={request.UserId}&Type={request.Type}");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CoursesVm>>($"/Courses/GetCourses?UserId={request.UserId}&Type={(int)request.Type}");
     }
 
     public async Task<DefaultResponseObject<CourseInfoVm>> ChangeAllModules(ChangeAllModulesCommand request)

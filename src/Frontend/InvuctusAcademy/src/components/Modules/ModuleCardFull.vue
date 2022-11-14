@@ -1,6 +1,5 @@
 <template>
     <div>
-        <articles v-for="article in data.articles" :data="article"/>
         <q-card :class="$attrs.class" class="my-card" flat bordered>
             <q-card-section horizontal class="flex justify-between">
                 <q-card-section class="q-pt-xs">
