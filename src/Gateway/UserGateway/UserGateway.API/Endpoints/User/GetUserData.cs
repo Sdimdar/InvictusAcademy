@@ -32,7 +32,7 @@ public class GetUserData : EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        string email = HttpContext.Session.GetData("user").Email;
+        string? email = HttpContext.Session.GetData("user")?.Email;
         GetUserDataQuerry query = new() { Email = email };
         var response = await _mediator.Send(query, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(response));

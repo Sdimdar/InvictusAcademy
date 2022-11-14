@@ -20,6 +20,8 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
             configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
+        services.AddServiceWithExtendedHttpClient<IModulesService, ModulesService>(configuration["ApiSettings:CourseUrl"]);
         return services;
     }
 
@@ -33,16 +35,30 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection SetCorsPolicy(this IServiceCollection services)
+    public static IServiceCollection SetCorsPolicy(this IServiceCollection services, IWebHostEnvironment environment)
     {
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
-            policy.WithOrigins("http://localhost:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost:8082").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://162.55.57.43:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
-        services.ConfigureApplicationCookie(options =>
+        if (environment.IsDevelopment())
         {
-            options.Cookie.SameSite = SameSiteMode.None;
-        });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+        }
+        if (environment.IsProduction())
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+        }
+
         return services;
     }
 
@@ -61,6 +77,8 @@ public static class DependencyInjection
         services.AddTransient<IAdminService, AdminService>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
+        services.AddTransient<ICoursesService, CoursesService>();
+        services.AddTransient<IModulesService, ModulesService>();
         return services;
     }
 

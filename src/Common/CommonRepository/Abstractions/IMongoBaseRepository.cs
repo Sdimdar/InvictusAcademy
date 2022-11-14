@@ -13,4 +13,5 @@ public interface IMongoBaseRepository<T> where T : MongoBaseRepositoryEntity
     public Task<T> UpdateAsync(int id, T entity, CancellationToken cancellationToken);
 
     public Task RemoveAsync(int id, CancellationToken cancellationToken);
+    
 }

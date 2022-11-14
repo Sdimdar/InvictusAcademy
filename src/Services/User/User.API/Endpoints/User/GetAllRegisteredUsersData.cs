@@ -16,11 +16,13 @@ public class GetAllRegisteredUsersData : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetAllRegisteredUsersData> _logger;
 
-    public GetAllRegisteredUsersData(IMediator mediator, IMapper mapper)
+    public GetAllRegisteredUsersData(IMediator mediator, IMapper mapper, ILogger<GetAllRegisteredUsersData> logger)
     {
         _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
         _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
+        _logger = logger;
     }
 
     [HttpGet("/User/GetAllRegisteredUsersData")]
@@ -32,7 +34,15 @@ public class GetAllRegisteredUsersData : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<UsersVm>>> HandleAsync([FromQuery] GetUsersDataQuery query,
                                                                                              CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(query, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
+        try
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(_mapper.Map<DefaultResponseObject<UsersVm>>(result));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.InnerException?.Message);
+            throw;
+        }
     }
 }
