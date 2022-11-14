@@ -43,7 +43,7 @@ public static class DependencyInjection
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             policy.WithOrigins("http://162.55.57.43:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
-        if (environment.IsDevelopment())
+        if (environment.IsDevelopment() || environment.EnvironmentName == "Local")
         {
             services.ConfigureApplicationCookie(options =>
             {

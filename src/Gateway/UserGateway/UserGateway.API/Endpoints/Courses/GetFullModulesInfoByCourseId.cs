@@ -3,12 +3,9 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServicesContracts.Courses.Requests.Courses.Querries;
-using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;
-using UserGateway.Application.Features.Courses.Queries.GetCourses;
 using UserGateway.Application.Features.Courses.Queries.GetFullModulesInfoByCourseId;
 
 namespace UserGateway.API.Endpoints.Courses;

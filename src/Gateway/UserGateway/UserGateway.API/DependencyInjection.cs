@@ -12,7 +12,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection ConfigureSessionServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        if (environment.IsDevelopment())
+        if (environment.IsDevelopment() || environment.EnvironmentName == "Local")
         {
             services.AddSession(options =>
             {

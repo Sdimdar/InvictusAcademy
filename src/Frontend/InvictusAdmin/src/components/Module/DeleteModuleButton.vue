@@ -55,7 +55,7 @@ export default defineComponent({
         const response = await deleteModule(payload);
         console.log(response)
 
-        if(response.data.value.isSuccess){
+        if(response.data.isSuccess){
           this.deleteDialog = false
           this.$emit("allModules");
           notify.showSucsessNotify("Модуль удален");

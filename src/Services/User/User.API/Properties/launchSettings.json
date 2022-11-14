@@ -9,6 +9,13 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7210;http://localhost:6210"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",

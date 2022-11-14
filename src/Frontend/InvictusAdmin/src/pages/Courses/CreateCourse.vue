@@ -86,25 +86,23 @@
       <div>Все модули</div>
       <div class="module-item" v-for="module in searchedModules" :key="module.id">
         <div class="module-title">
-          {{ module.title }} <q-icon name="style" size="25px" @click="addModule(module)"/>
+          {{ module.title }}
+          <svg @click="addModule(module)" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
         </div>
       </div>
     </div>
 
-<!--    <vue-draggable-next :list="forCreateModules" @change="log">-->
-<!--    <vue-draggable-group>-->
       <div class="module-list">
         <div>Модули для курса</div>
         <vue-draggable-next :list="forCreateModules" @change="log">
           <div class="module-item" v-for="module in forCreateModules" :key="module.id">
             <div class="module-title">
-              {{ module.title }} <q-icon name="warning" color="warning" size="25px" @click="deleteModule(module)"/>
+              {{ module.title }}
+              <svg @click="deleteModule(module)" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
             </div>
           </div>
         </vue-draggable-next>
       </div>
-<!--    </vue-draggable-group>-->
-<!--    </vue-draggable-next>-->
 
   </div>
 
@@ -130,41 +128,11 @@ export default{
       showModules: false,
       allModules: [
         {
-          id: 1,
-          title: 'DO vue',
+          id: 0,
+          title: '',
           shortDescription: '',
           articles: []
-        },
-        {
-          id: 2,
-          title: 'DO React',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 3,
-          title: 'DO JS',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 4,
-          title: 'Learning vue',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 5,
-          title: 'Learning React',
-          shortDescription: '',
-          articles: []
-        },
-        {
-          id: 6,
-          title: 'Learning JS',
-          shortDescription: '',
-          articles: []
-        },
+        }
       ],
       responceDataCourse: {
         id: 0,
@@ -172,18 +140,6 @@ export default{
         description: ""
       },
       forCreateModules: [
-        // {
-        //   id: 1,
-        //   title: 'Learning vue'
-        // },
-        // {
-        //   id: 2,
-        //   title: 'Learning React'
-        // },
-        // {
-        //   id: 3,
-        //   title: 'Learning JS'
-        // },
       ]
     }
   },
@@ -241,8 +197,6 @@ export default{
         const response = await createCourse(this.courseData);
         console.log(response)
         if (response.data.isSuccess) {
-          console.log("Succes")
-          console.log(response)
           this.responceDataCourse = response.data.value;
           console.log(response.data.value)
           notify.showSucsessNotify("Курс создан");
@@ -254,7 +208,6 @@ export default{
       } catch (e) {
         notify.showErrorNotify(e.message);
       }
-      // this.showModules = true //DeleteAfter
     },
     //ToDo
     async submitInsertModules() {
@@ -263,19 +216,16 @@ export default{
         const dataForModulesInsert = {
           courseId: this.responceDataCourse.id,
           modulesId: [],
-          startIndex: -1 //Todo?
+          startIndex: -1
         }
         this.forCreateModules.forEach(el => dataForModulesInsert.modulesId.push(el.id))
         const response = await insertModules(dataForModulesInsert);
-        console.log("responce data")
-        console.log(this.responceDataCourse)
-        console.log("modules")
-        console.log(response)
-        if (response.data.isSuccess) {
+        if (response.data.value.isSuccess) {
             notify.showSucsessNotify("Модули добавлены");
+          this.showModules = false
         }
         else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          response.data.value.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       } catch (e) {
         notify.showErrorNotify(e.message);
@@ -285,9 +235,8 @@ export default{
     async getAllModules(){
       try {
         const response = await getAllModules();
-        console.log(response.data)
-        if (response.data.value.isSuccess) {
-          this.allModules = response.data.value.value;
+        if (response.data.isSuccess) {
+          this.allModules = response.data.value;
           notify.showSucsessNotify("Все модули получены");
         }
         else {
