@@ -46,7 +46,7 @@ export default defineComponent({
       this.viewArticleText = true;
       const response = await fetchModuleById(this.id);
       console.log(response)
-      this.articles = response.data.value.value.articles
+      this.articles = response.data.value.articles
       console.log(this.articles)
       console.log(this.order)
       this.findArticle(this.order)
