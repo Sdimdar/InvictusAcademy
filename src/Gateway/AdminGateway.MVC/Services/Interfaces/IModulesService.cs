@@ -11,14 +11,14 @@ namespace AdminGateway.MVC.Services.Interfaces;
 
 public interface IModulesService: IUseExtendedHttpClient<IModulesService>
 {
-    Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticle(AddArticlesCommand request);
-    Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create(CreateModuleCommand request);
-    Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete(DeleteModuleCommand request);
+    Task<DefaultResponseObject<ModuleInfoVm>> AddArticle(AddArticlesCommand request);
+    Task<DefaultResponseObject<ModuleInfoVm>> Create(CreateModuleCommand request);
+    Task<DefaultResponseObject<ModuleInfoVm>> Delete(DeleteModuleCommand request);
     Task<DefaultResponseObject<List<ModuleInfoVm>>> GetAll();
     Task<DefaultResponseObject<int>> GetModulesCount();
-    Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetFilterByString(GetModulesByFilterStringQuery request);
-    Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById(ModuleByIdVm request);
-    Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId(GetModulesByListOfIdQuery request);
-    Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update(UpdateModuleCommand request);
+    Task<DefaultResponseObject<List<ModuleInfoVm>>> GetFilterByString(GetModulesByFilterStringQuery request);
+    Task<DefaultResponseObject<ModuleInfoVm>> GetById(ModuleByIdVm request);
+    Task<DefaultResponseObject<List<ModuleInfoVm>>> GetByListOfId(GetModulesByListOfIdQuery request);
+    Task<DefaultResponseObject<ModuleInfoVm>> Update(UpdateModuleCommand request);
 
 }

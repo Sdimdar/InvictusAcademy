@@ -1,5 +1,4 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
-using AdminGateway.MVC.ViewModels;
 using CommonStructures;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
@@ -27,16 +26,8 @@ public class CoursesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody]CreateCourseCommand request)
     {
-        try
-        {
-            var response = await _coursesService.Create(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.Create(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -46,16 +37,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> EditCourse([FromBody]EditCourseCommand request)
     {
-        try
-        {
-            var response = await _coursesService.EditCourse(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.EditCourse(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -67,16 +50,8 @@ public class CoursesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourses([FromQuery]GetCoursesQuery request)
     {
-        try
-        {
-            var response = await _coursesService.GetCourses(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.GetCourses(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -86,16 +61,8 @@ public class CoursesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourse([FromQuery]GetCoursByIdQuery request)
     {
-        try
-        {
-            var response = await _coursesService.GetCourse(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.GetCourse(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -105,16 +72,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> ChangeAllModules([FromBody]ChangeAllModulesCommand request)
     {
-        try
-        {
-            var response = await _coursesService.ChangeAllModules(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.ChangeAllModules(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -124,16 +83,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<bool>>> DeleteCourse([FromBody]DeleteCourseCommand request)
     {
-        try
-        {
-            var response = await _coursesService.Delete(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.Delete(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -143,16 +94,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> GetCourseModulesId([FromQuery]GetCourseModulesIdQuerry request)
     {
-        try
-        {
-            var response = await _coursesService.GetCourseModulesId(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.GetCourseModulesId(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -163,16 +106,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> InsertModule([FromBody]InsertModuleCommand request)
     {
-        try
-        {
-            var response = await _coursesService.InsertModule(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.InsertModule(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -183,16 +118,8 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<List<CourseInfoVm>>>> InsertModules([FromBody]InsertModulesCommand request)
     {
-        try
-        {
-            var response = await _coursesService.InsertModules(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.InsertModules(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -202,15 +129,7 @@ public class CoursesController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<CourseInfoVm>>> RemoveModule([FromBody]RemoveModuleCommand request)
     {
-        try
-        {
-            var response = await _coursesService.RemoveModule(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _coursesService.RemoveModule(request);
+        return Ok(response);
     }
 }

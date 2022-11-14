@@ -5,33 +5,30 @@
                 <q-card-section class="q-pt-xs">
                     <div class="text-h5 q-mt-sm q-mb-xs">{{ data.title }}</div>
                     <div class="text-caption text-grey">
-                        {{ data.courseDescription }}
+                        {{ data.shortDescription }}
+                    </div>
+                    <div>
+                        
                     </div>
                 </q-card-section>
-
+                
                 <q-card-section class="col-5 flex flex-center">
                     <q-img class="rounded-borders course-img" src="https://cdn.quasar.dev/img/parallax2.jpg" />
                 </q-card-section>
             </q-card-section>
-
-            <q-separator />
-
-            <q-card-actions class="flex justify-end">
-                <q-btn v-if="data.purchased" flat color="primary">
-                    Перейти к курсу
-                </q-btn>
-                <q-btn v-if="!data.purchased" flat color="primary">
-                    Купить
-                </q-btn>
-            </q-card-actions>
         </q-card>
     </div>
 </template>
 
 <script>
+import Articles from "components/Modules/Articles.vue";
+import LeftBar from "components/LeftBar.vue";
+
 export default {
+    
+    components: { Articles, LeftBar },
     props: {
-        data: Object
+        data: []
     }
 }
 </script>

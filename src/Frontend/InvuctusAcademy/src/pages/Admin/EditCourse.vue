@@ -167,98 +167,21 @@ export default{
         price: ref(null),
         text: ref('')
       }),
-      // model: ref(''),
       inputRef,
-      // price: ref(null),
-      // text: ref(''),
-
-      myRule (val) {
-        // simulating a delay
-
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // call
-            //  resolve(true)
-            //     --> content is valid
-            //  resolve(false)
-            //     --> content is NOT valid, no error message
-            //  resolve(error_message)
-            //     --> content is NOT valid, we have error message
-            resolve(!!val || '* Required')
-
-            // calling reject(...) will also mark the input
-            // as having an error, but there will not be any
-            // error message displayed below the input
-            // (only in browser console)
-          }, 1000)
-        })
-      }
     }
   },
-  // mounted() {
-  //   this.getAllModules();
-  // },
   methods:{
     async getCourse(){
       this.showCourse = true
     },
     async submitCourse() {
-
-      //ToDo
-      // try {
-      //   const response = await createCourse(this.courseData);
-      //   if (response.data.isSuccess) {
-      //     this.responceDataCourse = response.data.value;
-      //     if (courseData.id >= 0){
-      //       this.showModules = true
-      //       notify.showSucsessNotify("Курс создан");
-      //     }
-      //   }
-      //   else {
-      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-      //   }
-      // } catch (e) {
-      //   notify.showErrorNotify(e.message);
-      // }
       this.showModules = true //DeleteAfter
       this.showCourse = false
     },
     //ToDo
     async submitInsertModules() {
-      // try {
-      //   const dataForModulesInsert = {
-      //     id: this.responceDataCourse.id,
-      //     modulesId: [],
-      //     startIndex: 0 //Todo?
-      //   }
-      //   this.forCreateModules.forEach(el => dataForModulesInsert.modulesId.push(el.id))
-      //   const response = await insertModules(dataForModulesInsert);
-      //   if (response.data.isSuccess) {
-      //       notify.showSucsessNotify("Модули добавлены");
-      //   }
-      //   else {
-      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-      //   }
-      // } catch (e) {
-      //   notify.showErrorNotify(e.message);
-      // }
       this.showModules = false
     },
-    //ToDo
-    // async getAllModules(){
-    //   try {
-    //     const response = await getAllModules();
-    //     if (response.data.isSuccess) {
-    //       this.allModules = response.data.value;
-    //       notify.showSucsessNotify("Все модули получены");
-    //     }
-    //     else {
-    //       response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-    //     }
-    //   } catch (e) {
-    //     notify.showErrorNotify(e.message);
-    //   }
-    // },
     addModule(module){
       this.forCreateModules.push(module)
     },

@@ -87,7 +87,7 @@
   import { defineComponent, ref } from "vue";
   import { editPassword } from "boot/axios";
   import { fetchLoginedUserData } from 'boot/axios'
-  import constants from "../static/constants";
+  import constants from "../../static/constants";
   import notify from "boot/notifyes";
   
   export default defineComponent({

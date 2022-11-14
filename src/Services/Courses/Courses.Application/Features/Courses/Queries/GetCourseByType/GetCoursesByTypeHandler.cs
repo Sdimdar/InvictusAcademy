@@ -32,6 +32,10 @@ public class GetCoursesByTypeHandler : IRequestHandler<GetCoursesQuery, Result<C
                 break;
             case CourseTypes.Current:
                 list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetStartedCourses(request.UserId));
+                foreach (var course in list)
+                {
+                    course.Purchased = true;
+                }
                 break;
             case CourseTypes.Completed:
                 list = _mapper.Map<List<CourseVm>>(await _courseRepository.GetCompletedCourses(request.UserId));

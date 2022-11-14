@@ -63,7 +63,7 @@
 import { defineComponent } from "vue";
 import { login } from "boot/axios";
 import notify from "boot/notifyes";
-import constants from "../static/constants";
+import constants from "../../static/constants";
 
 export default defineComponent({
   name: "login-button",

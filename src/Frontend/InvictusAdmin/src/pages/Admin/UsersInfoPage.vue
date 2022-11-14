@@ -86,13 +86,10 @@
       try {
         console.log(pageNumber + " " + rowsPerPage)
         response = await fetchUsersData(pageNumber, rowsPerPage)
-
         console.log("Response on data:")
         console.log(response)
         if (response.status === 200) {
-          console.log("rows")
-          console.log(response.data)
-          rows.value.splice(0, rows.value.length, ...response.data);
+          rows.value.splice(0, rows.value.length, ...response.data.value.users);
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
