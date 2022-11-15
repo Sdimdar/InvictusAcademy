@@ -77,6 +77,9 @@ services:
     image: mongo
     container_name: courses-infodb
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
       - "27018:27017"
     volumes:
