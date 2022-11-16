@@ -1,0 +1,13 @@
+﻿using CommonRepository.Models;
+using Payment.Domain.Enums;
+
+namespace Payment.Infrastructure.Persistence.Models;
+
+public class PaymentRequestDbModel : BaseRepositoryEntity
+{
+    public int UserId { get; set; }
+    public int CourseId { get; set; }
+    public PaymentState PaymentState { get; set; }
+    public string? RejectReason { get; set; }
+    public string? ModifyAdminEmail { get; set; }
+}

@@ -7,7 +7,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
-        services.AddSingleton<PaymentService>();
+        services.AddScoped<PaymentService>();
         return services;
     }
 }
