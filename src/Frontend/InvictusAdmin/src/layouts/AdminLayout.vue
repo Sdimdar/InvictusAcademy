@@ -106,6 +106,18 @@
             </q-item>
 
             <q-separator />
+            
+            <q-item clickable v-ripple to="/admin-panel/paymentRequests">
+                <q-item-section avatar>
+                  <q-icon name="money" />
+                </q-item-section>
+
+                <q-item-section>
+                  Заявки на оплату
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
 
           </q-list>
         </q-scroll-area>
