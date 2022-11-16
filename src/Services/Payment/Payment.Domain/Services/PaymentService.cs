@@ -4,40 +4,41 @@ using Payment.Domain.Models;
 
 namespace Payment.Domain.Services;
 
-public class CurrentPaymentsList : IDisposable
+public class PaymentService : IDisposable
 {
     private readonly List<PaymentRequest> _currentPaymentRequests;
     private int _lastIndex;
     private readonly IPaymentRepository _paymentRepository;
 
-    public CurrentPaymentsList(IPaymentRepository paymentRepository)
+    public PaymentService(IPaymentRepository paymentRepository)
     {
         _paymentRepository = paymentRepository;
         _currentPaymentRequests = _paymentRepository.GetCurrentRequests();
         _lastIndex = _paymentRepository.GetLastIndex();
     }
 
-    public void AddPaymentRequest(int userId, int courseId)
+    public async Task AddPaymentRequestAsync(int userId, int courseId)
     {
         if (GetCurrentPaymentRequests(userId, courseId).Count != 0) 
             throw new InvalidOperationException("This payment is already exists");
-        ++_lastIndex;
-        _currentPaymentRequests.Add(new PaymentRequest(_lastIndex, userId, courseId));
+        var paymentRequest = new PaymentRequest(++_lastIndex, userId, courseId);
+        await _paymentRepository.SavePaymentAsync(paymentRequest);
+        _currentPaymentRequests.Add(paymentRequest);
     }
 
-    public void AcceptPayment(int paymentId, string adminEmail)
+    public async Task AcceptPaymentAsync(int paymentId, string adminEmail)
     {
         var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.AcceptPayment(adminEmail);
-        _paymentRepository.SavePayment(paymentRequest);
+        await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Remove(paymentRequest);
     }
 
-    public void RejectPayment(int paymentId, string rejectReason, string adminEmail)
+    public async Task RejectPaymentAsync(int paymentId, string rejectReason, string adminEmail)
     {
         var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.RejectPayment(rejectReason, adminEmail);
-        _paymentRepository.SavePayment(paymentRequest);
+        await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Remove(paymentRequest);
     }
 
@@ -52,22 +53,21 @@ public class CurrentPaymentsList : IDisposable
 
     public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId = null, 
                                                                     int? courseId = null, 
-                                                                    PaymentState paymentState = PaymentState.Opened)
+                                                                    PaymentState? paymentState = null)
     {
-        if (paymentState == PaymentState.Opened) return GetCurrentPaymentRequests(userId, courseId);
+        var currentPaymentRequests = GetCurrentPaymentRequests(userId, courseId);
+        if (paymentState == PaymentState.Opened) return currentPaymentRequests;
         
-        var closedPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId);
-        var query = _currentPaymentRequests.AsQueryable().Where(e => e.PaymentState == paymentState);
-        if (userId is not null) query = query.Where(e => e.UserId == userId);
-        if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
-        var result = query.ToList();
-        result.AddRange(await closedPaymentRequests);
-        return result;
+        var closedPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId, paymentState);
+        if (paymentState is not null) return await closedPaymentRequests;
+        
+        currentPaymentRequests.AddRange(await closedPaymentRequests);
+        return currentPaymentRequests;
     }
-
+    
     public void Dispose()
     {
-        _paymentRepository.SaveAllPayments(_currentPaymentRequests);
+        _paymentRepository.SaveAllPaymentsAsync(_currentPaymentRequests).Wait();
     }
 
     private PaymentRequest? GetCurrentPaymentRequestById(int id)

@@ -5,14 +5,14 @@ namespace Payment.Domain.Models;
 
 public class PaymentRequest
 {
-    public int Id { get; }
-    public int UserId { get; }
-    public int CourseId { get; }
+    public int Id { get; protected set; }
+    public int UserId { get; protected set; }
+    public int CourseId { get; protected set; }
 
-    public PaymentState PaymentState { get; private set; }
+    public PaymentState PaymentState { get; protected set; }
 
-    public string? RejectReason { get; private set; }
-    public string? ModifyAdminEmail { get; private set; }
+    public string? RejectReason { get; protected set; }
+    public string? ModifyAdminEmail { get; protected set; }
 
     protected PaymentRequest() {}
     
