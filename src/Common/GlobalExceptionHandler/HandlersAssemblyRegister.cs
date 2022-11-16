@@ -17,7 +17,7 @@ internal static class HandlersAssemblyRegister
             if (handler is not IExceptionHandler exceptionHandler) continue;
             if (exceptionHandler.ExceptionType.IsSubclassOf(typeof(Exception)))
             {
-                options.Add(exceptionHandler.ExceptionType, exceptionHandler);
+                options.Add(exceptionHandler.ExceptionType, exceptionHandler.GetType());
             }
             else
             {

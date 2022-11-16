@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace GlobalExceptionHandler;
@@ -16,16 +17,17 @@ internal class ExceptionHandlerMiddleware
         _options = options;
     }    
     
-    public async Task Invoke(HttpContext context)    
+    public async Task Invoke(HttpContext context, IServiceProvider provider)    
     {    
         try    
         {    
             await _next.Invoke(context);    
         }    
         catch (Exception exception)    
-        {    
-            if (_options.Handlers.TryGetValue(exception.GetType(), out IExceptionHandler? handler))
+        {
+            if (_options.Handlers.TryGetValue(exception.GetType(), out Type? handlerType))
             {
+                var handler = (IExceptionHandler)provider.GetRequiredService(handlerType);
                 await handler.HandleAsync(exception, context);
             }
             else

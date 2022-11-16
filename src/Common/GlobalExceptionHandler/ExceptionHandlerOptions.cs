@@ -4,17 +4,26 @@ namespace GlobalExceptionHandler;
 
 public sealed class ExceptionHandlerOptions
 {
-    internal Dictionary<Type, IExceptionHandler> Handlers { get; }
+    internal Dictionary<Type, Type> Handlers { get; }
 
     public ExceptionHandlerOptions()
     {
-        Handlers = new Dictionary<Type, IExceptionHandler>();
+        Handlers = new Dictionary<Type, Type>();
     }
     
-    public void Add(Type exceptionType, IExceptionHandler handler)
+    internal void Add(Type exceptionType, Type handlerType)
     {
-        if (Handlers.TryAdd(exceptionType, handler)) return;
+        if (Handlers.TryAdd(exceptionType, handlerType)) return;
         Handlers.Remove(exceptionType);
-        Handlers.Add(exceptionType, handler);
+        Handlers.Add(exceptionType, handlerType);
+    }
+
+    public void Add<TException, THandler>() where TException : Exception where THandler : IExceptionHandler
+    {
+        var exceptionType = typeof(TException);
+        var handlerType = typeof(THandler);
+        if (Handlers.TryAdd(exceptionType, handlerType)) return;
+        Handlers.Remove(exceptionType);
+        Handlers.Add(exceptionType, handlerType);
     }
 }
