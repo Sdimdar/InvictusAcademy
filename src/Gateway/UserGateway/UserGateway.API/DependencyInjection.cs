@@ -2,6 +2,7 @@
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
 using UserGateway.Application.Contracts;
 using UserGateway.Application.Mappings;
 using UserGateway.Infrastructure.Services;
@@ -77,5 +78,13 @@ public static class DependencyInjection
             cfg.AddProfile(new UserProfile());
         }).CreateMapper());
         return services;
+    }
+    
+    public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
+
+        return builder;
     }
 }

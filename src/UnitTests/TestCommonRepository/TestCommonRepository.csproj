@@ -11,4 +11,9 @@
       <ProjectReference Include="..\..\Common\DataTransferLib\DataTransferLib.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NLog" Version="5.0.5" />
+      <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.5" />
+    </ItemGroup>
+
 </Project>
