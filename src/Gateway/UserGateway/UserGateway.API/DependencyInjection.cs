@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
