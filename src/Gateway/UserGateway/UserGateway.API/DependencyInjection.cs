@@ -61,11 +61,10 @@ public static class DependencyInjection
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddExtendedHttpClient();
-        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
-            configuration["ApiSettings:RequestUrl"]);
+        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IUserService, UserService>(configuration["ApiSettings:IdentityUrl"]);
-        services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(
-            configuration["ApiSettings:CourseUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
+        services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
         return services;
     }
 
