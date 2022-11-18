@@ -4,7 +4,7 @@ using Payment.Domain.Models;
 
 namespace Payment.Domain.Services;
 
-public class PaymentService : IDisposable
+public class PaymentService
 {
     private readonly List<PaymentRequest> _currentPaymentRequests;
     private int _lastIndex;
@@ -58,16 +58,8 @@ public class PaymentService : IDisposable
         var currentPaymentRequests = GetCurrentPaymentRequests(userId, courseId);
         if (paymentState == PaymentState.Opened) return currentPaymentRequests;
         
-        var closedPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId, paymentState);
-        if (paymentState is not null) return await closedPaymentRequests;
-        
-        currentPaymentRequests.AddRange(await closedPaymentRequests);
-        return currentPaymentRequests;
-    }
-    
-    public void Dispose()
-    {
-        _paymentRepository.SaveAllPaymentsAsync(_currentPaymentRequests).Wait();
+        var dbPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId, paymentState);
+        return await dbPaymentRequests;
     }
 
     private PaymentRequest? GetCurrentPaymentRequestById(int id)

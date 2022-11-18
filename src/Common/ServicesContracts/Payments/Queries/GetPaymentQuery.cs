@@ -1,9 +1,10 @@
-﻿using MediatR;
-using ServicesContracts.Payments.Models;
+﻿using Ardalis.Result;
+using MediatR;
+using Payment.Domain.Models;
 
 namespace ServicesContracts.Payments.Queries;
 
-public class GetPaymentQuery : IRequest<PaymentVm>
+public class GetPaymentQuery : IRequest<Result<PaymentRequest?>>
 {
     public int PaymentId { get; set; }
 }

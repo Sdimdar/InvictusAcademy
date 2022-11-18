@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using MediatR;
 using Payment.Domain.Enums;
-using ServicesContracts.Payments.Models;
+using Payment.Domain.Models;
 
 namespace ServicesContracts.Payments.Queries;
 
-public class GetPaymentsWithParametersQuery : IRequest<List<PaymentVm>>
+public class GetPaymentsWithParametersQuery : IRequest<Result<List<PaymentRequest>>>
 {
     public int? UserId { get; set; }
     public int? CourseId { get; set; }

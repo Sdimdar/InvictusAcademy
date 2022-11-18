@@ -33,23 +33,23 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
 
     public int GetLastIndex()
     {
-        return Context.PaymentRequests.Max(e => e.Id);
+        return !Context.PaymentRequests.Any() ? 0 : Context.PaymentRequests.Max(e => e.Id);
     }
 
     public async Task SavePaymentAsync(PaymentRequest paymentRequest)
     {
-        var data = _mapper.Map<PaymentRequestDbModel>(paymentRequest);
-        await UpdateAsync(data);
-        await Context.SaveChangesAsync();
-    }
-
-    public async Task SaveAllPaymentsAsync(List<PaymentRequest> currentPaymentRequests)
-    {
-        var data = _mapper.Map<List<PaymentRequestDbModel>>(currentPaymentRequests);
-        foreach (var item in data)
+        var payment = await GetByIdAsync(paymentRequest.Id);
+        if (payment is null)
         {
-            await UpdateAsync(item);
+            payment = _mapper.Map<PaymentRequestDbModel>(paymentRequest);
         }
+        else
+        {
+            payment.PaymentState = paymentRequest.PaymentState;
+            payment.RejectReason = paymentRequest.RejectReason;
+            payment.ModifyAdminEmail = paymentRequest.ModifyAdminEmail;
+        }
+        await UpdateAsync(payment);
         await Context.SaveChangesAsync();
     }
 

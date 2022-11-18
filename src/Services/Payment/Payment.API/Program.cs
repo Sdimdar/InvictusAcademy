@@ -1,33 +1,37 @@
+using GlobalExceptionHandler.Extensions;
 using Payment.API;
+using Payment.Application;
 using Payment.Domain;
 using Payment.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 // Add services to the container.
+services.AddMvc();
+services.AddEndpointsApiExplorer();
+services.AddControllers();
+services.AddSwaggerConfiguration();
+services.AddExceptionHandlers();
 
-builder.Services.AddControllers();
+// Add API services
+services.AddInfrastructureServices(builder.Configuration);
+services.AddApplicationServices();
+services.AddDomainServices();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddDomainServices();
-builder.Services.SetAutomapperProfiles();
-builder.Services.AddSwaggerConfiguration();
+// Add Automapper maps
+services.SetAutomapperProfiles();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseGlobalExceptionHandler();
 app.MapControllers();
 
 app.Run();

@@ -32,6 +32,6 @@ public class GetById : EndpointBaseAsync
                                                                                            CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<PaymentVm>>(result));
     }
 }
