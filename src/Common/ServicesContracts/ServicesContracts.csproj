@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Courses\Courses.Domain\Courses.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Payment\Payment.Domain\Payment.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />
     <ProjectReference Include="..\..\Services\User\User.Domain\User.Domain.csproj" />
   </ItemGroup>
