@@ -45,23 +45,6 @@
                   'size-6',
                   'size-7'
                 ]
-              },
-              {
-                label: $q.lang.editor.defaultFont,
-                icon: $q.iconSet.editor.font,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'default_font',
-                  'arial',
-                  'arial_black',
-                  'comic_sans',
-                  'courier_new',
-                  'impact',
-                  'lucida_grande',
-                  'times_new_roman',
-                  'verdana'
-                ]
               }
             ],
             ['unordered', 'ordered'],
@@ -69,16 +52,6 @@
             ['undo', 'redo'],
             ['viewsource']
           ]"
-          :fonts="{
-            arial: 'Arial',
-            arial_black: 'Arial Black',
-            comic_sans: 'Comic Sans MS',
-            courier_new: 'Courier New',
-            impact: 'Impact',
-            lucida_grande: 'Lucida Grande',
-            times_new_roman: 'Times New Roman',
-            verdana: 'Verdana'
-          }"
         />
         </div>
 
@@ -106,7 +79,6 @@ export default defineComponent({
         required: true,
       },
       id: {
-        type: Number,
         required: true,
       },
       articles: {
