@@ -1,8 +1,6 @@
 ﻿using AdminGateway.MVC.ViewModels;
-using Ardalis.Result;
 using DataTransferLib.Models;
 using ExtendedHttpClient.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
