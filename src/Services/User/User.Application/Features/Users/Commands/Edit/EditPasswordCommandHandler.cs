@@ -1,7 +1,9 @@
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Identity.Requests.Commands;
 using StringHash;
 using User.Application.Contracts;
@@ -12,11 +14,13 @@ public class EditPasswordCommandHandler : IRequestHandler<EditPasswordCommand, R
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<EditPasswordCommand> _validator;
+    private readonly ILogger<EditPasswordCommandHandler> _logger;
 
-    public EditPasswordCommandHandler(IUserRepository userRepository, IValidator<EditPasswordCommand> validator)
+    public EditPasswordCommandHandler(IUserRepository userRepository, IValidator<EditPasswordCommand> validator, ILogger<EditPasswordCommandHandler> logger)
     {
         _userRepository = userRepository;
         _validator = validator;
+        _logger = logger;
     }
 
 
@@ -29,7 +33,10 @@ public class EditPasswordCommandHandler : IRequestHandler<EditPasswordCommand, R
             return Result.Invalid(validationResult.AsErrors());
 
         if (result is null)
-            return Result.Error("An error occurred while creating the request");
+        {
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found with {request.Email} email");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Not found with {request.Email} email");
+        }
 
         if (!result.Password.VerifyHashedString(request.OldPassword))
             return Result.Error("Неверно введен старый пароль. Повторите попытку");

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using CommonStructures;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ public class InvalidCastExceptionHandler : IExceptionHandler
     {
         if (exception is InvalidCastException invalidCastException)
         {
-            _logger.LogWarning(exception.Message);
+            _logger.LogWarning($"{BussinesErrors.InvalidCastException.ToString()}: {exception.Message}");
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var data= "Invalid type cast exception: " + invalidCastException.Message;
             context.Response.ContentType = "application/json";

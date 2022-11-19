@@ -1,10 +1,12 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities.CourseInfo;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 
 namespace Courses.Application.Features.Modules.Commands.UpdateModule;
@@ -14,14 +16,17 @@ public class UpdateModuleCommandHanler : IRequestHandler<UpdateModuleCommand, Re
     private readonly IModuleInfoRepository _repository;
     private readonly IValidator<UpdateModuleCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<UpdateModuleCommandHanler> _logger;
 
     public UpdateModuleCommandHanler(IModuleInfoRepository repository,
                                       IValidator<UpdateModuleCommand> validator,
-                                      IMapper mapper)
+                                      IMapper mapper, 
+                                      ILogger<UpdateModuleCommandHanler> logger)
     {
         _repository = repository;
         _validator = validator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Result<ModuleInfoDbModel>> Handle(UpdateModuleCommand request,
@@ -38,7 +43,8 @@ public class UpdateModuleCommandHanler : IRequestHandler<UpdateModuleCommand, Re
         }
         catch (InvalidOperationException ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogError($"{BussinesErrors.InvalidOperationException.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.InvalidOperationException.ToString()}: {ex.Message}");
         }
     }
 }

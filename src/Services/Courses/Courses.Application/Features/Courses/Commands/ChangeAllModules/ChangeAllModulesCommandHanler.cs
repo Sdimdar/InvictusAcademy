@@ -5,6 +5,7 @@ using CommonStructures;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 
@@ -17,18 +18,21 @@ public class ChangeAllModulesCommandHanler : IRequestHandler<ChangeAllModulesCom
     private readonly ICourseRepository _courseRepository;
     private readonly IValidator<ChangeAllModulesCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<ChangeAllModulesCommandHanler> _logger;
+
 
     public ChangeAllModulesCommandHanler(ICourseInfoRepository courseInfoRepository,
                                          IValidator<ChangeAllModulesCommand> validator,
                                          ICourseRepository courseRepository,
                                          IMapper mapper,
-                                         IModuleInfoRepository moduleInfoRepository)
+                                         IModuleInfoRepository moduleInfoRepository, ILogger<ChangeAllModulesCommandHanler> logger)
     {
         _courseInfoRepository = courseInfoRepository;
         _validator = validator;
         _courseRepository = courseRepository;
         _mapper = mapper;
         _moduleInfoRepository = moduleInfoRepository;
+        _logger = logger;
     }
 
     public async Task<Result<CourseInfoVm>> Handle(ChangeAllModulesCommand request,
@@ -42,7 +46,11 @@ public class ChangeAllModulesCommandHanler : IRequestHandler<ChangeAllModulesCom
         try
         {
             var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
-            if (courseData is null) return Result.Error($"Course with Id: {request.CourseId} not found");
+            if (courseData is null)
+            {
+                _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Course with Id: {request.CourseId} not found");
+                return Result.Error($"{BussinesErrors.NotFound.ToString()}: Course with Id: {request.CourseId} not found");
+            }
             UniqueList<int> moduleIds = await _moduleInfoRepository.CheckModulesOnExist(request.ModulesId, cancellationToken);
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             courseInfo!.SetModules(moduleIds);
@@ -56,6 +64,7 @@ public class ChangeAllModulesCommandHanler : IRequestHandler<ChangeAllModulesCom
         }
         catch (InvalidOperationException ex)
         {
+            _logger.LogError($"{BussinesErrors.InvalidOperationException.ToString()}: {ex.Message}");
             return Result.Error(ex.Message);
         }
     }
