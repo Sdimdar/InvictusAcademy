@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
 using UserGateway.Application.Contracts;
@@ -15,7 +16,7 @@ public class GetShortModulesInfoByCourseIdHandler : IRequestHandler<GetShortCour
         _coursesService = coursesService;
     }
 
-    public async Task<Result<List<ShortModuleInfoVm>>> Handle(GetShortCourseInfoQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<ShortModuleInfoVm>>> Handle([FromQuery]GetShortCourseInfoQuery request, CancellationToken cancellationToken)
     {
         var response = await _coursesService.GetShortModulesInfoByCourseId(request, cancellationToken);
         if (response.IsSuccess) return Result.Success(response.Value);

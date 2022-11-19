@@ -35,16 +35,30 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection SetCorsPolicy(this IServiceCollection services)
+    public static IServiceCollection SetCorsPolicy(this IServiceCollection services, IWebHostEnvironment environment)
     {
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:8082").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://162.55.57.43:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
-        services.ConfigureApplicationCookie(options =>
+        if (environment.IsDevelopment() || environment.EnvironmentName == "Local")
         {
-            options.Cookie.SameSite = SameSiteMode.None;
-        });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+        }
+        if (environment.IsProduction())
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+        }
+
         return services;
     }
 

@@ -31,10 +31,22 @@ internal class ExceptionHandlerMiddleware
             else
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                object? data = exception.Message;
+                string? data = exception.Message;
+                data = GetStackTrace(data, exception.InnerException);
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(data));
             }
         }    
+    }
+
+    private string GetStackTrace(string @string, Exception? innerException)
+    {
+        if (innerException is null)
+        {
+            return @string;
+        }
+        @string += innerException.Message;
+        GetStackTrace(@string, innerException.InnerException);
+        return @string;
     }
 }

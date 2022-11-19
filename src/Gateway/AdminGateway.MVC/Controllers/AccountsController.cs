@@ -14,11 +14,9 @@ public class AccountsController : Controller
 {
     private readonly IAdminService _adminService;
     private readonly IMapper _mapper;
-    private readonly SignInManager<AdminUser> _signInManager;
 
-    public AccountsController(SignInManager<AdminUser> signInManager, IAdminService adminService, IMapper mapper)
+    public AccountsController(IAdminService adminService, IMapper mapper)
     {
-        _signInManager = signInManager;
         _adminService = adminService;
         _mapper = mapper;
     }
@@ -26,11 +24,10 @@ public class AccountsController : Controller
     [HttpPost]
     [SwaggerOperation(
         Summary = "Вход админа в систему",
-        Description = "Для входа админа необходимо ввести логин и пароль",
-        Tags = new[] { "Admin" })
+        Description = "Для входа админа необходимо ввести логин и пароль")
     ]
-    public async Task<IActionResult> Login([FromBody]LoginViewModel request, 
-        CancellationToken cancellationToken = default)
+    public async Task<ActionResult<DefaultResponseObject<AdminUser>>> Login([FromBody]LoginViewModel request, 
+                                                                            CancellationToken cancellationToken)
     { 
         var response = await _adminService.LoginAdminAsync(request, cancellationToken); 
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
@@ -39,19 +36,22 @@ public class AccountsController : Controller
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о пользователе",
-        Description = "Для получения данных пользователь должен быть залогинен",
-        Tags = new[] { "Admin" })
+        Description = "Для получения данных пользователь должен быть залогинен")
     ]
-    public async Task<IActionResult> GetAdminData(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<DefaultResponseObject<AdminUser>>> GetAdminData(CancellationToken cancellationToken)
     {
         var admin = await _adminService.GetAdminDataAsync(User, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(admin));
     }
 
     [HttpPost]
-    public async Task<IActionResult> LogOff()
+    [SwaggerOperation(
+        Summary = "Логаут текущего залогиненного админа",
+        Description = "Администратор должен быть уже залогинен")
+    ]
+    public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
-        await _signInManager.SignOutAsync();
-        return RedirectToAction("Login", "Accounts");
+        await _adminService.LogoutAdminAsync(cancellationToken);
+        return Ok();
     }
 }

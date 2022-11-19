@@ -18,6 +18,7 @@ public class GetUserDataQuerryHandler : IRequestHandler<GetUserDataQuerry, Resul
 
     public async Task<Result<GetUserDataVm>> Handle(GetUserDataQuerry request, CancellationToken cancellationToken)
     {
+        if (request.Email is null) return Result.Error("User not autorized");
         var response = await _userService.GetUserAsync(request.Email, cancellationToken);
         var data = _mapper.Map<GetUserDataVm>(response.Value);
         if (response.IsSuccess) return Result.Success(data);

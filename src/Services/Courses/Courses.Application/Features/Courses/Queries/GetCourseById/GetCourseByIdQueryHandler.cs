@@ -14,13 +14,13 @@ using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseById;
-public class GetCoursByIdQueryHandler: IRequestHandler<GetCoursByIdQuery, Result<CourseForAdminVm>>
+public class GetCourseByIdQueryHandler: IRequestHandler<GetCoursByIdQuery, Result<CourseForAdminVm>>
 {
     
     private readonly IMapper _mapper;
     private readonly ICourseRepository _courseRepository;
 
-    public GetCoursByIdQueryHandler(IMapper mapper, ICourseRepository courseRepository)
+    public GetCourseByIdQueryHandler(IMapper mapper, ICourseRepository courseRepository)
     {
         _mapper = mapper;
         _courseRepository = courseRepository;
@@ -36,7 +36,7 @@ public class GetCoursByIdQueryHandler: IRequestHandler<GetCoursByIdQuery, Result
         // var result = await _courseRepository.GetCourseById(request.Id);
         if (result is null)
         {
-            return Result.NotFound();
+            return Result.Error($"Course with ID: {request.Id} not found");
         }
         return Result.Success(result);
     }

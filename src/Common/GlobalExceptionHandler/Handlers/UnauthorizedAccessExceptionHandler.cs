@@ -18,7 +18,7 @@ public class UnauthorizedAccessExceptionHandler : IExceptionHandler
     {
         if (exception is UnauthorizedAccessException unauthorizedAccessException)
         {
-            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             var data= "Authorize exception: " + unauthorizedAccessException.Message;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(data));

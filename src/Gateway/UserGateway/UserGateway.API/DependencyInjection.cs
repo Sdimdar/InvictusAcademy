@@ -1,27 +1,39 @@
 ﻿using AutoMapper;
 using DataTransferLib.Mappings;
-using ExtendedHttpClient;
 using ExtendedHttpClient.Extensions;
-using ExtendedHttpClient.Interfaces;
 using Microsoft.OpenApi.Models;
-using UserGateway.Application.Mappings;
 using UserGateway.Application.Contracts;
+using UserGateway.Application.Mappings;
 using UserGateway.Infrastructure.Services;
 
 namespace UserGateway.API;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection ConfigureSessionServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureSessionServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        services.AddSession(options =>
+        if (environment.IsDevelopment() || environment.EnvironmentName == "Local")
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(20);
-            options.Cookie.Name = ".InvictusAcademy.Session";
-            options.Cookie.IsEssential = true;
-            options.Cookie.SameSite = SameSiteMode.None;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.Name = ".InvictusAcademy.Session";
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+        }
+        if (environment.IsProduction())
+        {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.Name = ".InvictusAcademy.Session";
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+        }
+        
         return services;
     }
 
@@ -40,6 +52,8 @@ public static class DependencyInjection
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            policy.WithOrigins("http://162.55.57.43").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         return services;
     }

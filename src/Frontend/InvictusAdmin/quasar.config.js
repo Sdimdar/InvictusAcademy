@@ -51,6 +51,11 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
+      env: {
+        GATEWAY: ctx.dev
+                 ? "https://localhost:7153"
+                 : process.env.GATEWAY
+      },
       // transpile: false,
       // publicPath: '/',
 
