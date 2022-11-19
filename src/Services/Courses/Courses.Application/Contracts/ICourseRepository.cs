@@ -12,5 +12,6 @@ public interface ICourseRepository : IBaseRepository<CourseDbModel>
     Task<List<CourseDbModel>> GetAllCourses();
     Task<CourseDbModel> GetCourseById(int id);
     Task<bool> CourseIsPaid(int userId, int courseId);
+    Task<List<CourseDbModel>> GetCoursesByIdList(List<int> coursesId);
 
 }

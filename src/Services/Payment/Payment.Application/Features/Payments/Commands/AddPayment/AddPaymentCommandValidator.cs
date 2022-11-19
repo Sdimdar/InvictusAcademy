@@ -9,7 +9,7 @@ public class AddPaymentCommandValidator : AbstractValidator<AddPaymentCommand>
     {
         RuleFor(p => p.CourseId)
             .GreaterThan(-1).WithMessage("Course Id can't be less then 0");
-        RuleFor(p => p.UserId)
-            .GreaterThan(-1).WithMessage("User Id can't be less then 0");
+        RuleFor(p => p.UserEmail).NotNull().WithMessage("User email can not be null");
+        ;
     }
 }

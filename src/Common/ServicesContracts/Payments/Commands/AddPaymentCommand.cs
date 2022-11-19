@@ -5,6 +5,6 @@ namespace ServicesContracts.Payments.Commands;
 
 public class AddPaymentCommand : IRequest<Result<bool>>
 {
-    public int UserId { get; set; }
+    public string UserEmail { get; set; }
     public int CourseId { get; set; }
 }

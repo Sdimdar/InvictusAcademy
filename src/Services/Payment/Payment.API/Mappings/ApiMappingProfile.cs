@@ -9,5 +9,6 @@ public class ApiMappingProfile : Profile
 	public ApiMappingProfile()
 	{
 		CreateMap<PaymentRequest, PaymentVm>();
+		CreateMap<PaymentRequest, PaymentsVm>();
     }
 }
