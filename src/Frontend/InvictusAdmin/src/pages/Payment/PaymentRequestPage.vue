@@ -1,9 +1,16 @@
 <template>
-    <q-btn @click="getData" >Обновить</q-btn>
+  
+  <!-- <select class="my-select" v-model="payload.status">
+    <label>Выберите статус оплаты</label>
+    <option value="0">Открытые заявки</option>
+    <option value="1">Оплачено</option>
+    <option value="2">Отмененные</option>
+</select>
+<q-btn @click="getPayments" >Обновить</q-btn> -->
 <div class="q-pa-md" style="max-width: 100%; margin: 0 auto;">
     <q-table
       ref="tableRef"
-      title="Активные заявки на оплату"
+      title="Заявки на оплату"
       :rows="rows"
       :columns="columns"
       row-key="id"
@@ -12,7 +19,8 @@
       binary-state-sort
       @request="onRequest"
     >
-    <template v-slot:body="props">
+    
+    <template v-slot:body="props" >
         <q-tr :props="props">
           <q-td key="id" :props="props">
             {{ props.row.id }}
@@ -26,23 +34,11 @@
           <q-td key="courseName" :props="props">
             {{ props.row.courseName }}
           </q-td>
-          <q-td key="managerComment" :props="props" v-if="props.row.purchase">
-            <q-input v-model="props.row.managerComment" type="text" 
-            @keyup.enter='managerCommentHadler(props.row.id, props.row.managerComment, $event)'/>
-          </q-td>
-          <q-td key="purchase" :props="props" v-if="!props.row.purchase">
+          <q-td key="accept" :props="props" >
             <q-btn
-            v-model="props.row.purchase"
-            @click="changeCalledHadler(props.row.id)"
+            @click="confirmPayment(props.row.id, rows.indexOf(props.row))"
             color="secondary"
             >Подтвердить оплату</q-btn>
-          </q-td>
-          <q-td key="purchase" :props="props" v-if="props.row.purchase">
-            <q-btn
-            v-model="props.row.purchase"
-            @click="changeCalledHadler(props.row.id)"
-            color="deep-orange"
-            >Отменить оплату</q-btn>
           </q-td>
         </q-tr>
       </template>
@@ -51,22 +47,25 @@
 </template>
 
 <script>
+import {getPaymentsByParams,confirmPaymentById,rejectPayment} from 'boot/axios';
+import { ref, onMounted } from 'vue';
+import notify from "boot/notifyes";
 
 const columns = [
     {name:"id", align:'center', label:"Номер запроса", field:"id", sortable:true, field: row=> row.id, format:val=>`${val}`, requires:true},
     {name:"userEmail", align:'center', label:"Email пользователя", field:'userEmail', sortable:false},
     {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
     {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
-    {name: 'managerComment', align: 'center', label: 'Комментарий', field: 'managerComment', sortable: false},
-    {name:'purchase', align: 'center', label: 'Подтверждение оплаты', field: 'purshase', sortable: false},
+    {name:'accept', align: 'center', label: 'Подтверждение оплаты', field: 'accept', sortable: false},
     ]
 
 
 export default{
     name: 'PaymentPage',
     setup(){
+    let payload = {status:0}
     const tableRef = ref()
-    const rows = ref([])
+    let rows = ref([])
     const filter = ref('')
     const loading = ref(false)
     const pagination = ref({
@@ -74,7 +73,7 @@ export default{
       descending: false,
       page: 1,
       rowsPerPage: 10,
-      rowsNumber: 10
+      rowsNumber: rows.length
     })
 
 async function onRequest (props) {
@@ -83,36 +82,36 @@ async function onRequest (props) {
       let response;
       loading.value = true
       // update rowsCount with appropriate value
-      try {
-        response = await fetchRequestsCount();
-        console.log("Response:")
-        console.log(response)
-        if (response.data.isSuccess) {
-          pagination.value.rowsNumber = response.data.value;
-        }
-        else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-          return;
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
+      // try {
+      //   response = await fetchRequestsCount();
+      //   console.log("Response:")
+      //   console.log(response)
+      //   if (response.data.isSuccess) {
+      //     pagination.value.rowsNumber = response.data.value;
+      //   }
+      //   else {
+      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+      //     return;
+      //   }
+      // } catch (error) {
+      //   console.log(error.message);
+      // }
 
       // fetch data from "server"
       try {
         
-          response = await fetchAllRequest(page, rowsPerPage)
+        response = await getPaymentsByParams(payload);
         if (response.data.isSuccess) {
-          rows.value.splice(0, rows.value.length, ...response.data.value.requests);
-        }
-        else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-          return;
-        }
-      } catch (error) {
-        console.log(error.message);
+        rows.value.splice(0, rows.value.length, ...response.data.value);
       }
-      
+      else {
+        response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+        return;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
       // don't forget to update local pagination object
       pagination.value.page = page
       pagination.value.rowsPerPage = rowsPerPage
@@ -136,8 +135,35 @@ async function onRequest (props) {
       onRequest      
     }
 },methods: {
-        
+        async confirmPayment(id,index){
+          try{
+            let payload = {paymentId:id}
+            let response = await confirmPaymentById(payload);
+          if(response.data.isSuccess){
+            notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
+            delete this.rows[index]
+          
+          }
+          else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+          }
+          catch(error){
+            console.log(error.message);
+          }
+          
+        }
     },
     
 }
 </script>
+<style>
+.my-select{
+  padding: 16 px;
+  margin-right: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid lightblue;
+}
+</style>

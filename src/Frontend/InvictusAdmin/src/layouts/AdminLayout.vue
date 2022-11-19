@@ -107,6 +107,17 @@
 
               <q-separator />
 
+              <q-item clickable v-ripple to="/admin-panel/confirmPayments">
+                <q-item-section avatar>
+                  <q-icon name="account_balance" />
+                </q-item-section>
+                <q-item-section>
+                  Оплаченные заявки
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
           </q-list>
         </q-scroll-area>
       </q-drawer>

@@ -28,7 +28,7 @@ public class RejectPaymentCommandHandler : IRequestHandler<RejectPaymentCommand,
 
         try
         {
-            await _paymentService.RejectPaymentAsync(request.PaymentId, request.AdminEmail, request.RejectReason);
+            await _paymentService.RejectPaymentAsync(request.PaymentId, request.RejectReason, request.AdminEmail);
             return Result.Success(true);
         }
         catch (InvalidOperationException ex)

@@ -1,4 +1,5 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ public class PaymentController : Controller
         Description = "Необходимо передать в сроке запроса при необходимости Id пользователя или Id курса," +
                       "а также можно передать тип запроса на оплату"
     )]
-    public async Task<ActionResult<DefaultResponseObject<List<PaymentVm>>>> GetWithParametersPayment
+    public async Task<ActionResult<DefaultResponseObject<List<PaymentsVm>>>> GetWithParametersPayment
                             ([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken)
     {
         var response = await _paymentService.GetWithParametersPaymentRequestAsync(request, cancellationToken);
@@ -66,12 +67,12 @@ public class PaymentController : Controller
         Description = "Необходимо передать в теле запроса Id платежа"
     )]
     [Authorize]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Confirm([FromBody]int paymentId, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Confirm([FromBody]PaymentCommon request, 
                                                                          CancellationToken cancellationToken)
     {
         ConfirmPaymentCommand query = new()
         {
-            PaymentId = paymentId,
+            PaymentId = request.PaymentId,
             AdminEmail = User.Identity.Name
         };
         var response = await _paymentService.ConfirmPaymentRequestAsync(query, cancellationToken);
@@ -85,15 +86,14 @@ public class PaymentController : Controller
                       "А также строку с объяснением почему платёж был отклонён."
     )]
     [Authorize]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Reject([FromBody]int paymentId,
-                                                                        [FromBody]string rejectReason,
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Reject([FromBody]PaymentCommon request,
                                                                         CancellationToken cancellationToken)
     {
         RejectPaymentCommand query = new()
         {
-            PaymentId = paymentId,
+            PaymentId = request.PaymentId,
             AdminEmail = User.Identity.Name,
-            RejectReason = rejectReason
+            RejectReason = request.RejectReason
         };
         var response = await _paymentService.RejectPaymentRequestAsync(query, cancellationToken);
         return Ok(response);
