@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UserGateway.Application.Contracts;
+using UserGateway.Infrastructure.Services;
 
 namespace UserGateway.Infrastructure;
 
@@ -16,6 +18,7 @@ public static class DependencyInjection
             options.TableName = configuration["TableName"];
             options.CreateInfrastructure = true;
         });
+        services.AddTransient<IPaymentService, PaymentService>();
 
         return services;
     }

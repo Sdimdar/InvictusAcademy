@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
 using Request.Application.Mappings;
 
 namespace Request.API;
@@ -34,5 +35,13 @@ public static class DependencyInjection
             c.EnableAnnotations();
         });
         return services;
+    }
+    
+    public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
+
+        return builder;
     }
 }

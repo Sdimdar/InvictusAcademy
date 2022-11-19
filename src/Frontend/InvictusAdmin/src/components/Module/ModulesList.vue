@@ -163,7 +163,7 @@ export default {
     },
     async update(){
       //await onRequest({pagination:this.pagination})
-      window.location.reload()
+      //window.location.reload()
     }
   }
 }

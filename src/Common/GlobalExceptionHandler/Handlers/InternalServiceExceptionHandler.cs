@@ -1,6 +1,7 @@
 ﻿using GlobalExceptionHandler.Exceptions;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace GlobalExceptionHandler.Handlers;
@@ -8,9 +9,11 @@ namespace GlobalExceptionHandler.Handlers;
 public class InternalServiceExceptionHandler : IExceptionHandler
 {
     public Type ExceptionType { get; }
+    private readonly ILogger<InternalServiceExceptionHandler> _logger;
 
-    public InternalServiceExceptionHandler()
+    public InternalServiceExceptionHandler(ILogger<InternalServiceExceptionHandler> logger)
     {
+        _logger = logger;
         ExceptionType = typeof(InvalidCastException);
     }
 
@@ -18,6 +21,7 @@ public class InternalServiceExceptionHandler : IExceptionHandler
     {
         if (exception is InternalServiceException internalServiceException)
         {
+            _logger.LogWarning(exception.Message);
             context.Response.StatusCode = internalServiceException.StatusCode;
             var data = "Internal service exception: " + internalServiceException.Message;
             context.Response.ContentType = "application/json";

@@ -22,10 +22,24 @@
           <q-page-container>
 
             <createArticle :title="title" :id="id" :articles="articles" @addArticle="getModuleData" />
-
-            <div class="q-pa-md">
-              <q-table style="max-width: 800px" title="Статьи модуля" :rows="articles" row-key="title" />
-            </div>
+            <div>
+              <table class="styled-table">
+                  <thead>
+                      <tr>
+                          <th>Название</th>
+                          <th>Ссылка на видел</th>
+                          <th>Детали</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr v-for="article in articles" :key="article.order">
+                          <td>{{article.title}}</td>
+                          <td>{{article.videoLink}}</td>
+                          <articleText :id="id" :order="article.order" />
+                      </tr>
+                  </tbody>
+              </table>
+    </div>
 
           </q-page-container>
 
@@ -41,11 +55,13 @@ import { defineComponent, ref } from "vue";
 import { updateModule, fetchModuleById } from "boot/axios";
 import notify from "boot/notifyes";
 import CreateArticle from 'src/components/Module/CreateArticleButton.vue'
+import ArticleText from 'src/components/Module/ArticleText.vue'
 
 export default defineComponent({
   name: "detailsPage",
   components: {
-    CreateArticle
+    CreateArticle,
+    ArticleText
   },
   setup() {
     return {
@@ -65,9 +81,9 @@ export default defineComponent({
     async getModuleData() {
       const response = await fetchModuleById(this.id);
       console.log(response)
-      this.shortDescription = response.data.value.value.shortDescription
-      this.title = response.data.value.value.title
-      this.articles = response.data.value.value.articles
+      this.shortDescription = response.data.value.shortDescription
+      this.title = response.data.value.title
+      this.articles = response.data.value.articles
       console.log(this.articles)
     },
     async onSubmit() {
@@ -103,3 +119,16 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.styled-table{
+    border-collapse: collapse;
+    margin: 50px 0;
+    min-width: 800px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px;
+}
+
+</style>
