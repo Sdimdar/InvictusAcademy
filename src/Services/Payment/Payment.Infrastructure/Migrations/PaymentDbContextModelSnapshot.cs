@@ -52,14 +52,15 @@ namespace Payment.Infrastructure.Migrations
                     b.Property<string>("RejectReason")
                         .HasColumnType("VARCHAR(150)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEmail");
 
                     b.ToTable("PaymentRequests");
                 });

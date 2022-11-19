@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Payment.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace Payment.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserEmail = table.Column<string>(type: "text", nullable: false),
                     CourseId = table.Column<int>(type: "integer", nullable: false),
                     PaymentState = table.Column<int>(type: "integer", nullable: false),
                     RejectReason = table.Column<string>(type: "VARCHAR(150)", nullable: true),
@@ -35,9 +35,9 @@ namespace Payment.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentRequests_UserId",
+                name: "IX_PaymentRequests_UserEmail",
                 table: "PaymentRequests",
-                column: "UserId");
+                column: "UserEmail");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
