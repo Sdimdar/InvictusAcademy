@@ -1,16 +1,9 @@
 <template>
-  
-  <!-- <select class="my-select" v-model="payload.status">
-    <label>Выберите статус оплаты</label>
-    <option value="0">Открытые заявки</option>
-    <option value="1">Оплачено</option>
-    <option value="2">Отмененные</option>
-</select>
-<q-btn @click="getPayments" >Обновить</q-btn> -->
+
 <div class="q-pa-md" style="max-width: 100%; margin: 0 auto;">
     <q-table
       ref="tableRef"
-      title="Заявки на оплату"
+      :title=myTitle
       :rows="rows"
       :columns="columns"
       row-key="id"
@@ -40,6 +33,15 @@
             color="secondary"
             >Подтвердить оплату</q-btn>
           </q-td>
+          <q-td key="rejectReason" :props="props">
+              <q-input v-model="props.row.rejectReason" type="text" />
+            </q-td>
+            <q-td key="reject" :props="props" >
+              <q-btn
+              @click="reject(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
+              color="deep-orange"
+              >Отменить заявку</q-btn>
+            </q-td>
         </q-tr>
       </template>
     </q-table>
@@ -57,11 +59,21 @@ const columns = [
     {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
     {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
     {name:'accept', align: 'center', label: 'Подтверждение оплаты', field: 'accept', sortable: false},
+    {name: 'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
+    {name:'reject', align: 'center', label: 'Отмена заявки', field: 'reject', sortable: false},
     ]
 
 
 export default{
     name: 'PaymentPage',
+    data(){
+      return{
+        query:{
+          status:0
+        },
+        myTitle : "Открытые заявки",
+      }
+    },
     setup(){
     let payload = {status:0}
     const tableRef = ref()
@@ -152,8 +164,46 @@ async function onRequest (props) {
           catch(error){
             console.log(error.message);
           }
-          
+        },
+        async refreshTable(){
+          try {
+        let response = await getPaymentsByParams(this.query);
+        console.log(response)
+        console.log(this.rows.length)
+        if (response.data.isSuccess) {
+
+        this.rows.splice(0, this.rows.length, ...response.data.value);
+      }
+      else {
+        response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+        return;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+        },
+        async reject(id,rejectMessage,index){
+            if(rejectMessage === null || rejectMessage.length < 5){
+                return notify.showWarningNotify("Заполните причину возврата, не менее 5 символов")
+            }
+            let payload ={
+              paymentId : id,
+              rejectReason:rejectMessage
+            }
+            try{
+              let response = await rejectPayment(payload);
+              if(response.data.isSuccess){
+              notify.showWarningNotify(`Заявка № ${id} отменена`)
+              delete this.rows[index]
+            }else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
         }
+            }
+            catch(error){
+              console.log(error.message);
+            }
+          }
     },
     
 }

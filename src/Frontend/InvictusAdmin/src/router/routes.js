@@ -12,7 +12,8 @@ const routes = [
       { path: "createCourse", component: () => import("pages/Courses/CreateCourse.vue") },
       { path: "allCourses", component: () => import("pages/Courses/AllCourses.vue") },
       { path: "paymentRequests", component: () => import("src/pages/Payment/PaymentRequestPage.vue")},
-      { path: "confirmPayments", component: () => import("src/pages/Payment/ConfirmPaymentPage.vue")}
+      { path: "confirmPayments", component: () => import("src/pages/Payment/ConfirmPaymentPage.vue")},
+      { path: "rejectRequests", component: () => import("src/pages/Payment/RejectRequests.vue")}
     ],
   },
   // Always leave this as last one,

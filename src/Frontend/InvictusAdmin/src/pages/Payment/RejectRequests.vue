@@ -31,13 +31,7 @@
               {{ props.row.modifyAdminEmail }}
             </q-td>
             <q-td key="rejectReason" :props="props">
-                <q-input v-model="props.row.rejectReason" type="text" />
-              </q-td>
-              <q-td key="reject" :props="props" >
-                <q-btn
-                @click="reject(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
-                color="red"
-                >Отменить оплату</q-btn>
+                {{props.row.rejectReason}}
               </q-td>
           </q-tr>
         </template>
@@ -55,9 +49,8 @@
       {name:"userEmail", align:'center', label:"Email пользователя", field:'userEmail', sortable:false},
       {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
       {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
-      {name:'modifyAdminEmail', align: 'center', label: 'Кто подтвердил', field: 'modifyAdminEmail', sortable: false},
+      {name:'modifyAdminEmail', align: 'center', label: 'Кто отменил', field: 'modifyAdminEmail', sortable: false},
       {name: 'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
-      {name:'reject', align: 'center', label: 'Отмена оплаты', field: 'reject', sortable: false},
       ]
   
   
@@ -65,11 +58,11 @@
       name: 'PaymentPage',
       data(){
         return{
-          myTitle : "Оплаченные заявки",
+          myTitle : "Отмененные заявки",
         }
       },
       setup(){
-      let payload = {status:1}
+      let payload = {status:2}
       const tableRef = ref()
       let rows = ref([])
       const filter = ref('')

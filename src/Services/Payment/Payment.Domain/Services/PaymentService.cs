@@ -36,7 +36,8 @@ public class PaymentService
 
     public async Task RejectPaymentAsync(int paymentId, string rejectReason, string adminEmail)
     {
-        var paymentRequest = await _paymentRepository.GetPaymentRequestByIdAsync(paymentId);
+        
+        var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.RejectPayment(rejectReason, adminEmail);
         await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Remove(paymentRequest);
