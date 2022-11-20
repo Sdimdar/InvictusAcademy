@@ -22,7 +22,7 @@ public class AddPaymentCommandHandler : IRequestHandler<AddPaymentCommand, Resul
         {
             ServicesContracts.Payments.Commands.AddPaymentCommand command = new()
             {
-                UserId = userResponse.Value.Id,
+                UserEmail = request.UserEmal,
                 CourseId = request.CourseId
             };
             var paymentResponse = await _paymentService.AddPaymentRequestAsync(command, cancellationToken);
