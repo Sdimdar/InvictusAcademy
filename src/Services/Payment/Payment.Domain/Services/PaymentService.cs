@@ -1,4 +1,5 @@
-﻿using Payment.Domain.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using Payment.Domain.Contracts;
 using Payment.Domain.Enums;
 using Payment.Domain.Models;
 
@@ -7,22 +8,22 @@ namespace Payment.Domain.Services;
 public class PaymentService
 {
     private readonly List<PaymentRequest> _currentPaymentRequests;
-    private int _lastIndex;
     private readonly IPaymentRepository _paymentRepository;
+    private readonly ILogger<PaymentService> _logger;
 
-    public PaymentService(IPaymentRepository paymentRepository)
+    public PaymentService(IPaymentRepository paymentRepository, ILogger<PaymentService> logger)
     {
         _paymentRepository = paymentRepository;
-        _currentPaymentRequests = _paymentRepository.GetCurrentRequests();
-        _lastIndex = _paymentRepository.GetLastIndex();
+        _logger = logger;
+        _currentPaymentRequests = _paymentRepository.GetCurrentRequestsAsync();
     }
 
     public async Task AddPaymentRequestAsync(int userId, int courseId)
     {
         if (GetCurrentPaymentRequests(userId, courseId).Count != 0) 
             throw new InvalidOperationException("This payment is already exists");
-        var paymentRequest = new PaymentRequest(++_lastIndex, userId, courseId);
-        await _paymentRepository.SavePaymentAsync(paymentRequest);
+        var paymentRequest = new PaymentRequest((await _paymentRepository.GetLastIndexAsync()) + 1, userId, courseId);
+        paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);
     }
 

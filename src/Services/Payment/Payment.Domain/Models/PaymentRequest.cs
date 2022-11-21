@@ -18,10 +18,9 @@ public class PaymentRequest
     
     public PaymentRequest(int id, int userId, int courseId)
     {
-        if (id < 0) throw new ValidationDataException($"Invalid: \"{nameof(id)}\", can't be less then 0.");
+        Id = id;
         if (userId < 0) throw new ValidationDataException($"Invalid: \"{nameof(userId)}\", can't be less then 0.");
         if (courseId < 0) throw new ValidationDataException($"Invalid: \"{nameof(courseId)}\", can't be less then 0.");
-        Id = id;
         UserId = userId;
         CourseId = courseId;
         PaymentState = PaymentState.Opened;
