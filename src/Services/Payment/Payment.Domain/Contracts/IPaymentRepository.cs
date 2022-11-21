@@ -5,9 +5,9 @@ namespace Payment.Domain.Contracts;
 
 public interface IPaymentRepository
 {
-    List<PaymentRequest> GetCurrentRequests();
-    int GetLastIndex();
-    Task SavePaymentAsync(PaymentRequest paymentRequest);
-    Task<List<PaymentRequest>> GetPaymentRequestsAsync(string? userEmail, int? courseId, PaymentState? paymentState);
+    Task<int> GetLastIndexAsync();
+    List<PaymentRequest> GetCurrentRequestsAsync();
+    Task<PaymentRequest> SavePaymentAsync(PaymentRequest paymentRequest);
+    Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, int? courseId, PaymentState? paymentState);
     Task<PaymentRequest?> GetPaymentRequestByIdAsync(int id);
 }
