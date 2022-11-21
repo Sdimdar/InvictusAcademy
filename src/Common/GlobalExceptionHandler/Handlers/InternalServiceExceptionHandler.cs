@@ -1,4 +1,6 @@
-﻿using GlobalExceptionHandler.Exceptions;
+﻿using System.Runtime.InteropServices.ComTypes;
+using CommonStructures;
+using GlobalExceptionHandler.Exceptions;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -21,7 +23,7 @@ public class InternalServiceExceptionHandler : IExceptionHandler
     {
         if (exception is InternalServiceException internalServiceException)
         {
-            _logger.LogWarning(exception.Message);
+            _logger.LogWarning($"{BussinesErrors.InternalServiceException.ToString()}: {exception.Message}");
             context.Response.StatusCode = internalServiceException.StatusCode;
             var data = "Internal service exception: " + internalServiceException.Message;
             context.Response.ContentType = "application/json";

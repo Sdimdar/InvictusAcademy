@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
@@ -13,11 +15,13 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<GetUsersDataQuery> _validator;
+    private readonly ILogger<GetUsersDataQueryHandler> _logger;
 
-    public GetUsersDataQueryHandler(IUserRepository userRepository, IValidator<GetUsersDataQuery> validator)
+    public GetUsersDataQueryHandler(IUserRepository userRepository, IValidator<GetUsersDataQuery> validator, ILogger<GetUsersDataQueryHandler> logger)
     {
         _userRepository = userRepository;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<UsersVm>> Handle(GetUsersDataQuery request, CancellationToken cancellationToken)
@@ -32,7 +36,11 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
             request.PageSize = await usersCount;
         }
 
-        if (await usersCount == 0) return Result.Error("Users list is empty");
+        if (await usersCount == 0)
+        {
+            _logger.LogWarning($"{BussinesErrors.ListIsEmpty.ToString()}: Users list is empty");
+            return Result.Error($"{BussinesErrors.ListIsEmpty.ToString()}: Users list is empty");
+        }
 
         var command = new GetAllUsersCommand()
         {

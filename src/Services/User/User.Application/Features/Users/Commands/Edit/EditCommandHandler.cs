@@ -1,8 +1,10 @@
 using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Identity.Requests.Commands;
 using User.Application.Contracts;
 
@@ -13,12 +15,14 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
     private readonly IUserRepository _userRepository;
     private readonly IValidator<EditCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<EditCommandHandler> _logger;
 
-    public EditCommandHandler(IValidator<EditCommand> validator, IUserRepository userRepository, IMapper mapper)
+    public EditCommandHandler(IValidator<EditCommand> validator, IUserRepository userRepository, IMapper mapper, ILogger<EditCommandHandler> logger)
     {
         _validator = validator;
         _userRepository = userRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Result> Handle(EditCommand request, CancellationToken cancellationToken)
@@ -32,7 +36,10 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
             return Result.Invalid(validationResult.AsErrors());
 
         if (result is null)
-            return Result.Error("An error occurred while creating the request");
+        {
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found with {request.Email} email");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Not found with {request.Email} email");
+        }
 
         result.FirstName = request.FirstName;
         result.LastName = request.LastName;

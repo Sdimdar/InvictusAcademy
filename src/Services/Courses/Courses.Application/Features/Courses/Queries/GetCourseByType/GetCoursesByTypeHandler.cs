@@ -1,7 +1,9 @@
 ﻿using Ardalis.Result;
 using AutoMapper;
+using CommonStructures;
 using Courses.Application.Contracts;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
@@ -12,11 +14,13 @@ public class GetCoursesByTypeHandler : IRequestHandler<GetCoursesQuery, Result<C
 
     private readonly IMapper _mapper;
     private readonly ICourseRepository _courseRepository;
+    private readonly ILogger<GetCoursesByTypeHandler> _logger;
 
-    public GetCoursesByTypeHandler(IMapper mapper, ICourseRepository courseRepository)
+    public GetCoursesByTypeHandler(IMapper mapper, ICourseRepository courseRepository, ILogger<GetCoursesByTypeHandler> logger)
     {
         _mapper = mapper;
         _courseRepository = courseRepository;
+        _logger = logger;
     }
 
     public async Task<Result<CoursesVm>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
@@ -47,9 +51,16 @@ public class GetCoursesByTypeHandler : IRequestHandler<GetCoursesQuery, Result<C
 
 
         if (!list.Any())
-            return Result.Error("Request list is empty");
+        {
+            _logger.LogWarning($"{BussinesErrors.ListIsEmpty.ToString()}: Request list is empty");
+            return Result.Error($"{BussinesErrors.ListIsEmpty.ToString()}: Request list is empty");
+        }
+
         if (list == null)
-            return Result.NotFound();
+        {
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Courses not found");
+            return Result.NotFound($"{BussinesErrors.NotFound.ToString()}: Courses not found");
+        }
 
         var result = new CoursesVm
         {

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using CommonStructures;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ public class UnauthorizedAccessExceptionHandler : IExceptionHandler
     {
         if (exception is UnauthorizedAccessException unauthorizedAccessException)
         {
-            _logger.LogWarning(exception.Message);
+            _logger.LogWarning($"{BussinesErrors.UnauthorizedAccessException.ToString()}: {exception.Message}");
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             var data= "Authorize exception: " + unauthorizedAccessException.Message;
             context.Response.ContentType = "application/json";

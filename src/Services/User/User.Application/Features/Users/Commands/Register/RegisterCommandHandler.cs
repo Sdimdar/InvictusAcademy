@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 using StringHash;
@@ -16,14 +18,16 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Re
     private readonly IUserRepository _userRepository;
     private readonly IValidator<RegisterCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<RegisterCommandHandler> _logger;
 
     public RegisterCommandHandler(IUserRepository userRepository,
                                  IValidator<RegisterCommand> validator,
-                                 IMapper mapper)
+                                 IMapper mapper, ILogger<RegisterCommandHandler> logger)
     {
         _userRepository = userRepository;
         _validator = validator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Result<RegisterVm>> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -44,7 +48,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Re
         }
         catch (Exception ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogWarning($"{BussinesErrors.UnknownError.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.UnknownError.ToString()}: {ex.Message}");
         }
     }
 }

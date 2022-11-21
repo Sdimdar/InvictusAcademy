@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Npgsql;
 using System.Net;
+using CommonStructures;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalExceptionHandler.Handlers;
@@ -22,7 +23,7 @@ public class PostgresExceptionHandler : IExceptionHandler
     {
         if (exception is PostgresException postgresException)
         {
-            _logger.LogWarning(exception.Message);
+            _logger.LogWarning($"{BussinesErrors.PostgresException.ToString()}: {exception.Message}");
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var data = "Database exception: " + postgresException.Message;
             context.Response.ContentType = "application/json";
