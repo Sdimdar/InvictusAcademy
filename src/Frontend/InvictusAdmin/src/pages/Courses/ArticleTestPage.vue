@@ -4,11 +4,25 @@
        <q-card-section>
          <div class="text-h6"> Тестовые вопросы к уроку "{{ article.title }}"" </div>
          <div class="text-subtitle2"> {{ title }} </div>
-
        </q-card-section>
 
-      <q-card>
+       <q-card v-if="article.test != null">
+        <div class="text-h8 text-left">Количество вопросов для пользователя "{{ article.test.testShowCount }}" </div>
+        <div class="text-h8 text-left">Количество вопросов для успешного прохождения "{{ article.test.testCompleteCount }}" </div>
 
+        <div>
+              <table class="styled-table">
+                  <tbody>
+                      <tr v-for="question in article.test.testQuestions" :key="article.test.testQuestions.question">
+                          <td>{{question.question}}</td>
+                          <td>{{question.questionType}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+    </div>
+       </q-card>
+
+      <q-card v-else>
       <q-card-section class="q-pt-none">
         <q-card style="min-width: 1050px">
       <q-card-section>
@@ -62,6 +76,7 @@
  import { fetchModuleById, addTest } from "boot/axios";
  import CreateTest from 'src/components/Module/CreateTestButton.vue';
  import notify from "boot/notifyes";
+ import { isProxy, toRaw } from 'vue';
 
  export default{
    components: {
@@ -76,7 +91,7 @@
           testCompleteCount:"",
           testQuestions: [{question: "", questionType: "",  answers:[{text: "", isCorrect: false}]}]
         },
-        types: ["Single", "Multiple"],
+        types: [0,1],
        article: "",
        articles: []
      };
@@ -101,11 +116,13 @@
     async onSubmit() {
       console.log(this.test)
       this.article.test = this.test
+      const object = toRaw(this.test)
+
       try {
         let payload = {
         moduleId: this.id,
         order: this.order,
-        test: this.test
+        test: object
       }
         console.log(payload)
         const response = await addTest(payload);

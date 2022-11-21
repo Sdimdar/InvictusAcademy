@@ -1,15 +1,17 @@
 <template>
- <div class="q-pa-md">
+  <div class="q-pa-md">
     <q-card class="my-card">
       <q-card-section>
         <div class="text-h6"> {{ article.title }} </div>
         <div class="text-subtitle2"> {{ title }} </div>
 
-      <editArticle :id="id" :order="order" />
+        <editArticle :id="id" :order="order" />
 
       </q-card-section>
 
-      <q-video src=""/>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/_Kqtj14rxes" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
 
       <q-card-section class="bg-grey-3">
         <div v-html="article.text"></div>
@@ -28,7 +30,7 @@
 import { fetchModuleById } from "boot/axios";
 import EditArticle from 'src/components/Module/EditArticleButton.vue'
 
-export default{
+export default {
   components: {
     EditArticle,
   },
@@ -36,7 +38,7 @@ export default{
     return {
       id: this.$route.query.id,
       order: Number(this.$route.query.order),
-      title:"",
+      title: "",
       article: "",
       articles: []
     };
@@ -50,11 +52,11 @@ export default{
       this.article = this.articles.find(a => a.order === this.order)
       console.log(this.article)
     },
-    openDetails(id, order){
-    this.$router.push({path:'/admin-panel/test', query:{id: id, order: order }})
+    openDetails(id, order) {
+      this.$router.push({ path: '/admin-panel/test', query: { id: id, order: order } })
     }
   },
-  mounted(){
+  mounted() {
     this.getModuleData()
   }
 }
