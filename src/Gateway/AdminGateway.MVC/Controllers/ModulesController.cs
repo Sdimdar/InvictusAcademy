@@ -40,6 +40,25 @@ public class ModulesController: Controller
     
     [HttpPost]
     [SwaggerOperation(
+        Summary = "Добавление теста в статью",
+        Description = "Необходимо передать в теле запроса объект с ID модуля, порядковый номер статьи и тест"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody]AddTestCommand request)
+    {
+        try
+        {
+            var response = await _modulesService.AddTest(request);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            ErrorVM error = new ErrorVM(e.Message);
+            return Ok(error);
+        }
+    }
+    
+    [HttpPost]
+    [SwaggerOperation(
         Summary = "Создание модуля",
         Description = "Для создания модуля нужно передать его название и описание, также можно сразу передать вместе с статьями"
     )]

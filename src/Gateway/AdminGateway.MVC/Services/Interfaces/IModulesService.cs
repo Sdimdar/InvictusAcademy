@@ -12,6 +12,7 @@ namespace AdminGateway.MVC.Services.Interfaces;
 public interface IModulesService: IUseExtendedHttpClient<IModulesService>
 {
     Task<DefaultResponseObject<ModuleInfoVm>> AddArticle(AddArticlesCommand request);
+    Task<DefaultResponseObject<ModuleInfoVm>> AddTest(AddTestCommand request);
     Task<DefaultResponseObject<ModuleInfoVm>> Create(CreateModuleCommand request);
     Task<DefaultResponseObject<ModuleInfoVm>> Delete(DeleteModuleCommand request);
     Task<DefaultResponseObject<List<ModuleInfoVm>>> GetAll();

@@ -73,6 +73,7 @@ export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Module
 
 //articles
 export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);
+export const addTest = (payload) => api.post('/AdminPanel/Modules/AddTest', payload);
 
 //courses
 export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);

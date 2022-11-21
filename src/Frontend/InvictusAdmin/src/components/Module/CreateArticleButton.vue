@@ -115,7 +115,7 @@ export default defineComponent({
           articles: this.articles
         }
         const response = await addNewArticle(payload);
-        console.log(response)
+        console.log(payload)
 
         if(response.data.isSuccess){
           this.newArticleDialog = false
