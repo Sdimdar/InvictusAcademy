@@ -44,10 +44,10 @@ public class PaymentService : IPaymentService
             ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
     }
 
-    public async Task<DefaultResponseObject<List<PaymentVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
+    public async Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
                                                                                               CancellationToken cancellationToken)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<List<PaymentVm>>>
-            ($"/Payments/GetWithParameters?UserId={request.UserId}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>
+            ($"/Payments/GetWithParameters?UserEmail={request.UserEmail}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
     }
 }

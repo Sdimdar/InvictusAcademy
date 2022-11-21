@@ -12,5 +12,5 @@ public interface IPaymentService : IUseExtendedHttpClient<IPaymentService>
     Task<DefaultResponseObject<bool>> ConfirmPaymentRequestAsync(ConfirmPaymentCommand request, CancellationToken cancellationToken);
     Task<DefaultResponseObject<bool>> RejectPaymentRequestAsync(RejectPaymentCommand request, CancellationToken cancellationToken);
     Task<DefaultResponseObject<PaymentVm>> GetByIdPaymentRequestAsync(GetPaymentQuery request, CancellationToken cancellationToken);
-    Task<DefaultResponseObject<List<PaymentVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, CancellationToken cancellationToken);
+    Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, CancellationToken cancellationToken);
 }

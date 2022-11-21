@@ -11,7 +11,7 @@ namespace Payment.API.Endpoints.Payments;
 
 public class GetWithParameters : EndpointBaseAsync
     .WithRequest<GetPaymentsWithParametersQuery>
-    .WithActionResult<DefaultResponseObject<PaymentVm>>
+    .WithActionResult<DefaultResponseObject<PaymentsVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,10 +29,10 @@ public class GetWithParameters : EndpointBaseAsync
                       "а также можно передать тип запроса на оплату",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<PaymentVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, 
+    public override async Task<ActionResult<DefaultResponseObject<PaymentsVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, 
                                                                                            CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<PaymentVm>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<List<PaymentsVm>>>(result));
     }
 }

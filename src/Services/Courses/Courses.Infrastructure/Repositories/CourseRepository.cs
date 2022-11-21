@@ -82,6 +82,19 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return true;
     }
 
+    public async Task<List<CourseDbModel>> GetCoursesByIdList(List<int> coursesId)
+    {
+        List<CourseDbModel> list = new();
+        foreach (var item in coursesId)
+        {
+            var query = await Context.Courses.FirstOrDefaultAsync(c => c.Id == item);
+            if(query is not null)
+                list.Add(query);
+        }
+
+        return list;
+    }
+
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
     {
         var query = from course in Context.Courses

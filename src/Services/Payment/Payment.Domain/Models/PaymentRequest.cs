@@ -6,7 +6,7 @@ namespace Payment.Domain.Models;
 public class PaymentRequest
 {
     public int Id { get; protected set; }
-    public int UserId { get; protected set; }
+    public string UserEmail { get; protected set; }
     public int CourseId { get; protected set; }
 
     public PaymentState PaymentState { get; protected set; }
@@ -16,13 +16,13 @@ public class PaymentRequest
 
     protected PaymentRequest() {}
     
-    public PaymentRequest(int id, int userId, int courseId)
+    public PaymentRequest(int id, string userEmail, int courseId)
     {
         if (id < 0) throw new ValidationDataException($"Invalid: \"{nameof(id)}\", can't be less then 0.");
-        if (userId < 0) throw new ValidationDataException($"Invalid: \"{nameof(userId)}\", can't be less then 0.");
+        if (userEmail is null) throw new ValidationDataException($"Invalid: \"{nameof(userEmail)}\", can't be null");
         if (courseId < 0) throw new ValidationDataException($"Invalid: \"{nameof(courseId)}\", can't be less then 0.");
         Id = id;
-        UserId = userId;
+        UserEmail = userEmail;
         CourseId = courseId;
         PaymentState = PaymentState.Opened;
         RejectReason = null;

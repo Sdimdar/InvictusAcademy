@@ -94,6 +94,40 @@
             </q-item>
 
             <q-separator />
+            
+            <q-item clickable v-ripple to="/admin-panel/paymentRequests">
+                <q-item-section avatar>
+                  <q-icon name="money" />
+                </q-item-section>
+
+                <q-item-section>
+                  Заявки на оплату
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              <q-item clickable v-ripple to="/admin-panel/confirmPayments">
+                <q-item-section avatar>
+                  <q-icon name="account_balance" />
+                </q-item-section>
+                <q-item-section>
+                  Оплаченные заявки
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              <q-item clickable v-ripple to="/admin-panel/rejectRequests">
+                <q-item-section avatar>
+                  <q-icon name="cancel" />
+                </q-item-section>
+                <q-item-section>
+                  Отмененные заявки
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
 
           </q-list>
         </q-scroll-area>

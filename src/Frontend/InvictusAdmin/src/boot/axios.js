@@ -74,6 +74,11 @@ export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Module
 //articles
 export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);
 
+//payments
+export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{UserId:paymentData.userId, CourseId:paymentData.courseId, Status:paymentData.status}})
+export const confirmPaymentById = (payload)=> api.post(`/AdminPanel/Payment/Confirm`, payload);
+export const rejectPayment = (payload) => api.post(`/AdminPanel/Payment/Reject`, payload)
+
 //courses
 export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
 export const editCourse = (courseData) => api.post('/AdminPanel/Courses/EditCourse', courseData);
@@ -88,4 +93,5 @@ export const getModulesByListId = (modulesId) => api.get('/AdminPanel/Modules/Ge
     paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: "repeat" })
     }
+
 });

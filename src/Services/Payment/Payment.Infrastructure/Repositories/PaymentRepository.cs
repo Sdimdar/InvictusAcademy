@@ -50,15 +50,15 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
             payment.ModifyAdminEmail = paymentRequest.ModifyAdminEmail;
         }
         await UpdateAsync(payment);
-        await Context.SaveChangesAsync();
+        
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, 
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(string? userEmail, 
                                                                     int? courseId, 
                                                                     PaymentState? paymentState)
     {
         var query = Context.PaymentRequests.AsQueryable();
-        if (userId is not null) query = query.Where(e => e.UserId == userId);
+        if (userEmail is not null) query = query.Where(e => e.UserEmail == userEmail);
         if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
         if (paymentState is not null) query = query.Where(e => e.PaymentState == paymentState);
         var data = await query.ToListAsync();
