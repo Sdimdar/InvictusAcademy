@@ -40,7 +40,6 @@
   </div>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-<!--      <q-select v-model="courseData.isActive" :options="options" label="isActive" />-->
       <q-select
         label="isActive"
         transition-show="scale"
@@ -152,7 +151,7 @@ export default{
     return {
       searchModels: ref(''),
       options: [
-        true, false
+        'true', 'false'
       ],
       // model: ref(''),
       inputRef,
@@ -220,7 +219,7 @@ export default{
         }
         this.forCreateModules.forEach(el => dataForModulesInsert.modulesId.push(el.id))
         const response = await insertModules(dataForModulesInsert);
-        if (response.data.value.isSuccess) {
+        if (response.data.isSuccess) {
             notify.showSucsessNotify("Модули добавлены");
           this.showModules = false
         }

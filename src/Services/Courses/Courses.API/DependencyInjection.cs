@@ -3,6 +3,7 @@ using Courses.API.Mappings;
 using Courses.Application.Mappings;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
 
 namespace Courses.API;
 public static class DependencyInjection
@@ -27,5 +28,13 @@ public static class DependencyInjection
             c.EnableAnnotations();
         });
         return services;
+    }
+    
+    public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
+
+        return builder;
     }
 }

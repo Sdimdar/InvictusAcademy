@@ -9,6 +9,7 @@ using ExtendedHttpClient.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
 
 namespace AdminGateway.MVC;
 
@@ -17,11 +18,11 @@ public static class DependencyInjection
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddExtendedHttpClient();
-        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(
-            configuration["ApiSettings:RequestUrl"]);
+        services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IModulesService, ModulesService>(configuration["ApiSettings:CourseUrl"]);
+        services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
         return services;
     }
 
@@ -79,6 +80,7 @@ public static class DependencyInjection
         services.AddTransient<IGetUsers, GetUsers>();
         services.AddTransient<ICoursesService, CoursesService>();
         services.AddTransient<IModulesService, ModulesService>();
+        services.AddTransient<IPaymentService, PaymentService>();
         return services;
     }
 
@@ -87,5 +89,13 @@ public static class DependencyInjection
         services.AddDbContext<AdminDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("AdminConnection")));
         services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
         return services;
+    }
+    
+    public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
+
+        return builder;
     }
 }

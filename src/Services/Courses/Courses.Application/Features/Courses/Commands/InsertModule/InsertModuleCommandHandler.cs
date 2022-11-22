@@ -1,9 +1,11 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 
@@ -16,18 +18,20 @@ public class InsertModuleCommandHandler : IRequestHandler<InsertModuleCommand, R
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<InsertModuleCommand> _validator;
+    private readonly ILogger<InsertModuleCommandHandler> _logger;
 
     public InsertModuleCommandHandler(ICourseInfoRepository courseInfoRepository,
                                       IValidator<InsertModuleCommand> validator,
                                       IModuleInfoRepository moduleInfoRepository,
                                       IMapper mapper,
-                                      ICourseRepository courseRepository)
+                                      ICourseRepository courseRepository, ILogger<InsertModuleCommandHandler> logger)
     {
         _courseInfoRepository = courseInfoRepository;
         _validator = validator;
         _moduleInfoRepository = moduleInfoRepository;
         _mapper = mapper;
         _courseRepository = courseRepository;
+        _logger = logger;
     }
 
     public async Task<Result<CourseInfoVm>> Handle(InsertModuleCommand request, CancellationToken cancellationToken)
@@ -41,8 +45,17 @@ public class InsertModuleCommandHandler : IRequestHandler<InsertModuleCommand, R
         try
         {
             var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
-            if (courseData is null) return Result.Error($"Course with Id: {request.CourseId} not found");
-            if (await _moduleInfoRepository.GetAsync(request.ModuleId, cancellationToken) is null) return Result.Error($"Module with id {request.ModuleId} not found");
+            if (courseData is null)
+            {
+                _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Course with Id: {request.CourseId} not found");
+                return Result.Error($"{BussinesErrors.NotFound.ToString()}: Course with Id: {request.CourseId} not found");
+            }
+
+            if (await _moduleInfoRepository.GetAsync(request.ModuleId, cancellationToken) is null)
+            {
+                _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Module with id {request.ModuleId} not found");
+                return Result.Error($"{BussinesErrors.NotFound.ToString()}: Module with id {request.ModuleId} not found");
+            }
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             courseInfo!.TryInsertModule(request.ModuleId, request.Index);
             await _courseInfoRepository.UpdateAsync(request.CourseId, courseInfo, cancellationToken);
@@ -55,11 +68,13 @@ public class InsertModuleCommandHandler : IRequestHandler<InsertModuleCommand, R
         }
         catch (InvalidOperationException ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogError($"{BussinesErrors.InvalidOperationException.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.InvalidOperationException.ToString()}: {ex.Message}");
         }
         catch (ArgumentOutOfRangeException ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogError($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}");;
+            return Result.Error($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}");;
         }
     }
 }

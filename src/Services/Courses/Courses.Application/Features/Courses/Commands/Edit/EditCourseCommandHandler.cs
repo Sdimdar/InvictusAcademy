@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 
 namespace Courses.Application.Features.Courses.Commands.Edit;
@@ -11,12 +13,14 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
 {
     private readonly ICourseRepository _courseRepository;
     private readonly IValidator<EditCourseCommand> _validator;
+    private readonly ILogger<EditCourseCommandHandler> _logger;
 
 
-    public EditCourseCommandHandler(ICourseRepository courseRepository, IValidator<EditCourseCommand> validator)
+    public EditCourseCommandHandler(ICourseRepository courseRepository, IValidator<EditCourseCommand> validator, ILogger<EditCourseCommandHandler> logger)
     {
         _courseRepository = courseRepository;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<string>> Handle(EditCourseCommand request, CancellationToken cancellationToken)
@@ -24,8 +28,11 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
         try
         {
             var course = await _courseRepository.GetByIdAsync(request.Id);
-            if(course is null)
-                return Result.Error("Course not found in database");
+            if (course is null)
+            {
+                _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Course not found in database");
+                return Result.Error($"{BussinesErrors.NotFound.ToString()}: Course not found in database");
+            }
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if(!validationResult.IsValid)
                 return Result.Invalid(validationResult.AsErrors());
@@ -40,7 +47,8 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
         }
         catch (Exception ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogWarning($"{BussinesErrors.UnknownError.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.UnknownError.ToString()}: {ex.Message}");
         }
     }
 }

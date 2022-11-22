@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using AutoMapper;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Request.Application.Contracts;
 using Request.Domain.Entities;
 using ServicesContracts.Request.Requests.Commands;
@@ -14,12 +16,14 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
     private readonly IMapper _mapper;
     private readonly IRequestRepository _requestRepository;
     private readonly IValidator<CreateRequestCommand> _validator;
+    private readonly ILogger<CreateRequestHandler> _logger;
 
-    public CreateRequestHandler(IMapper mapper, IRequestRepository requestRepository, IValidator<CreateRequestCommand> validator)
+    public CreateRequestHandler(IMapper mapper, IRequestRepository requestRepository, IValidator<CreateRequestCommand> validator, ILogger<CreateRequestHandler> logger)
     {
         _mapper = mapper;
         _requestRepository = requestRepository;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<string>> Handle(CreateRequestCommand request, CancellationToken cancellationToken)
@@ -34,11 +38,11 @@ public class CreateRequestHandler : IRequestHandler<CreateRequestCommand, Result
 
         RequestDbModel newRequest = _mapper.Map<RequestDbModel>(request);
         var result = await _requestRepository.AddAsync(newRequest);
-        if (result is not null)
+        if (result is null)
         {
-            return Result.Success();
+            _logger.LogWarning($"{BussinesErrors.RequestIsNull.ToString()}: Request is Null");
+            return Result.Error($"{BussinesErrors.RequestIsNull.ToString()}: Request is Null");
         }
-
-        return Result.Error("An error occurred while creating the request");
+        return Result.Success();
     }
 }
