@@ -7,19 +7,32 @@
        </q-card-section>
 
        <q-card v-if="article.test != null">
+
+        <q-card-section>
         <div class="text-h8 text-left">Количество вопросов для пользователя "{{ article.test.testShowCount }}" </div>
         <div class="text-h8 text-left">Количество вопросов для успешного прохождения "{{ article.test.testCompleteCount }}" </div>
 
         <div>
               <table class="styled-table">
+                 <thead class="text-subtitle2">
+                  <td> Вопрос </td>
+                  <td> Тип вопроса </td>
+                  <td> Ответы </td>
+                 </thead>
                   <tbody>
                       <tr v-for="question in article.test.testQuestions" :key="article.test.testQuestions.question">
                           <td>{{question.question}}</td>
                           <td>{{question.questionType}}</td>
+                          <tr v-for="answer in question.answers">
+                            {{ answer.text }}
+                            <td v-show="answer.isCorrect" class="text-subtitle2"> - правильный ответ </td>
+                          </tr>
                       </tr>
                   </tbody>
               </table>
     </div>
+    <editTest :id="id" :order="order" @updateTest="getModuleData"/>
+  </q-card-section>
        </q-card>
 
       <q-card v-else>
@@ -74,13 +87,13 @@
 
  <script>
  import { fetchModuleById, addTest } from "boot/axios";
- import CreateTest from 'src/components/Module/CreateTestButton.vue';
+ import EditTest from 'src/components/Module/EditTestButton.vue';
  import notify from "boot/notifyes";
- import { isProxy, toRaw } from 'vue';
+ import { toRaw } from 'vue';
 
  export default{
    components: {
-    CreateTest
+    EditTest
    },
    data() {
      return {
@@ -91,7 +104,7 @@
           testCompleteCount:"",
           testQuestions: [{question: "", questionType: "",  answers:[{text: "", isCorrect: false}]}]
         },
-        types: [0,1],
+        types: [0, 1],
        article: "",
        articles: []
      };
@@ -146,3 +159,16 @@
    }
  }
  </script>
+
+<style>
+.styled-table{
+    border-collapse: collapse;
+    margin: 50px 0;
+    min-width: 800px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px;
+}
+
+</style>
