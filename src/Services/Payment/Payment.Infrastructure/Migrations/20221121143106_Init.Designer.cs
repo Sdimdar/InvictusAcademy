@@ -12,7 +12,7 @@ using Payment.Infrastructure.Persistence;
 namespace Payment.Infrastructure.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20221119070514_Init")]
+    [Migration("20221121143106_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,14 @@ namespace Payment.Infrastructure.Migrations
                     b.Property<string>("RejectReason")
                         .HasColumnType("VARCHAR(150)");
 
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserEmail");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PaymentRequests");
                 });

@@ -52,7 +52,7 @@ public class PaymentService : IPaymentService
                                                                                               CancellationToken cancellationToken)
     {
         var payments = await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>(
-            $"/Payments/GetWithParameters?UserEmail={request.UserEmail}&CourseId={request.CourseId}&Status={request.Status}",
+            $"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}",
             cancellationToken);
         if (!payments.IsSuccess) return payments;
         List<int> list = new();
@@ -67,8 +67,20 @@ public class PaymentService : IPaymentService
         {
             if (coursesNames.Errors.Any()) payments.Errors = coursesNames.Errors;
             if (coursesNames.ValidationErrors.Any()) payments.ValidationErrors = coursesNames.ValidationErrors;
-            return payments;
+            //return payments;
         }
+
+        var result = payments.Value.Join(coursesNames.Value, 
+                                                             payment => payment.CourseId, 
+                                                             courses => courses.Id, 
+                                                             (payment, course) =>
+                                                                {
+                                                                    var paymentResult = payment;
+                                                                    paymentResult.CourseName = course.Name;
+                                                                    return paymentResult;
+                                                                });
+        
+        
         foreach (var item in payments.Value)
         {
             foreach (var course in coursesNames.Value)

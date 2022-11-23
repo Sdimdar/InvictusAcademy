@@ -16,7 +16,7 @@ namespace Payment.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserEmail = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     CourseId = table.Column<int>(type: "integer", nullable: false),
                     PaymentState = table.Column<int>(type: "integer", nullable: false),
                     RejectReason = table.Column<string>(type: "VARCHAR(150)", nullable: true),
@@ -35,9 +35,9 @@ namespace Payment.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentRequests_UserEmail",
+                name: "IX_PaymentRequests_UserId",
                 table: "PaymentRequests",
-                column: "UserEmail");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

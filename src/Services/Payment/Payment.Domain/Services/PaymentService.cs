@@ -1,4 +1,5 @@
-﻿using Payment.Domain.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using Payment.Domain.Contracts;
 using Payment.Domain.Enums;
 using Payment.Domain.Models;
 
@@ -21,7 +22,13 @@ public class PaymentService
     {
         if (GetCurrentPaymentRequests(userId, courseId).Count != 0) 
             throw new InvalidOperationException("This payment is already exists");
-        var paymentRequest = new PaymentRequest((await _paymentRepository.GetLastIndexAsync()) + 1, userId, courseId);
+        int nextId = 0;
+        try
+        {
+            nextId = (await _paymentRepository.GetLastIndexAsync()) +1;
+        }
+        catch (Exception ex) {}
+        var paymentRequest = new PaymentRequest(nextId, userId, courseId);
         paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);
     }
