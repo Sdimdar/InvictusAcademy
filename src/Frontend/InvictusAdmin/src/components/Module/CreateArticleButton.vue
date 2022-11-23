@@ -9,9 +9,26 @@
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
 
-          <q-input dense v-model="newArticle.title" label="Название статьи" />
-          <q-input dense v-model="newArticle.order"  type="number" label="Порядковый номер в модуле" />
-          <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео" />
+          <q-input dense v-model="newArticle.title" label="Название статьи"
+          lazy-rules
+          :rules="[
+            (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+          ]" />
+
+          <q-input dense v-model="newArticle.order"
+          type="number"
+          label="Порядковый номер в модуле"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+                (val) => validateOrder(val)|| 'Урок с таким номер уже существует'
+              ]"/>
+
+          <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]"/>
 
       <div class="q-pa-md q-gutter-sm">
         <q-editor
@@ -52,6 +69,10 @@
             ['undo', 'redo'],
             ['viewsource']
           ]"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]"
         />
         </div>
 
@@ -137,7 +158,13 @@ export default defineComponent({
       this.articles.videoLink = "";
       this.articles.text = "";
       this.errorMessage = "";
-    }
+    },
+    validateOrder(value) {
+      if(this.articles.find(a => a.order === Number(value))){
+        return false
+      }
+      return true
+      },
   },
 });
 </script>

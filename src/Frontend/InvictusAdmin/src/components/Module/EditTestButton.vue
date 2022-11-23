@@ -14,11 +14,26 @@
           <q-input dense v-model="test.testCompleteCount"  type="number" label="Количество вопросов для успешного прохождения" />
 
           <div  v-for="(input, index) in test.testQuestions" :key="`questionInput-${index}`">
-            <q-select  v-model="input.questionType" :options="types" label="Выберите тип вопроса" />
-            <q-input dense v-model="input.question" label="Введите вопрос" />
+
+            <div class="text-h8 text-left"> Выберите тип вопроса </div>
+            <select v-model="input.questionType">
+                <option v-for="t in types" v-bind:value="{ num: t.num, text: t.name }">
+                  {{ t.name }}
+                </option>
+            </select>
+
+            <q-input dense v-model="input.question" label="Введите вопрос"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]" />
 
             <div  v-for="(answerInput, index) in input.answers" :key="`answerInput-${index}`">
-            <q-input dense v-model="answerInput.text" label="Вариант ответа" />
+            <q-input dense v-model="answerInput.text" label="Вариант ответа"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]"/>
             <q-checkbox  v-model="answerInput.isCorrect" size="xs" label="Отметить как правильный" />
           </div>
 
@@ -72,7 +87,7 @@ export default defineComponent({
           testCompleteCount:"",
           testQuestions: [{question: "", questionType: "",  answers:[{text: "", isCorrect: false}]}]
         },
-        types: [0, 1],
+        types: [{num: 0, name: 'Один вариант ответа'}, {num: 1, name: 'Несколько вариaнтов ответа'}],
       };
     },
   methods: {
@@ -84,6 +99,9 @@ export default defineComponent({
       this.test = this.article.test
     },
     async onSubmit() {
+      this.test.testQuestions.forEach(element => {
+        element.questionType = element.questionType.num
+      })
       console.log(this.test)
       try {
         let payload = {

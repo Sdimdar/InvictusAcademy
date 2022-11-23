@@ -26,6 +26,7 @@
               <table class="styled-table">
                   <tbody>
                       <tr v-for="article in articles" :key="article.order">
+                          <td>{{article.order}}</td>
                           <td>{{article.title}}</td>
                           <q-btn label="Детали" @click="openDetails(id, article.order)" />
                       </tr>
