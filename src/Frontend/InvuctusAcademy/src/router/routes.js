@@ -10,6 +10,10 @@ const routes = [
       { path: "/user/ShowCourseModules/:id", name: 'course-modules', component: () => import("pages/Courses/ShowCourseModules.vue") },
       { path: "/user/ShowFullCourseModules/:id", name: 'course-fullModules', component: () => import("pages/Courses/ShowFullCourseModules.vue") }
       ],
+      path: "/academy",
+      component: () => import("layouts/newLayout.vue"),
+      children: [
+        ],
   },
   // Always leave this as last one,
   // but you can also remove it
