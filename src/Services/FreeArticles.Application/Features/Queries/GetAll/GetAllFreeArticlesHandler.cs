@@ -50,7 +50,6 @@ public class GetAllFreeArticlesHandler : IRequestHandler<GetAllFreeArticlesQuery
             {
                 PageNumber = request.PageNumber,
                 PageSize = request.PageSize,
-                TotalPages = (int)Math.Ceiling(allFreeArticles.Count / (double)request.PageSize),
                 FreeArticles = allFreeArticles
             };
             return Result.Success(response);

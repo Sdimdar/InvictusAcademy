@@ -10,4 +10,5 @@ public interface IFreeArticlesService : IUseExtendedHttpClient<IFreeArticlesServ
     Task<DefaultResponseObject<AllFreeArticlesVm>> GetAll(GetAllFreeArticlesQuery request,
         CancellationToken cancellationToken);
     Task<DefaultResponseObject<FreeArticleVm>> GetFreeArticleData(GetFreeArticleDataQuery request, CancellationToken cancellationToken);
+    Task<DefaultResponseObject<int>> GetCount(CancellationToken cancellationToken);
 }

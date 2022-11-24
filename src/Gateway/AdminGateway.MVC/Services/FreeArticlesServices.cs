@@ -36,4 +36,9 @@ public class FreeArticlesServices : IFreeArticlesService
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<FreeArticleVm>>($"/FreeArticle/GetFreeArticleData?Id={request.Id}");
     }
+
+    public async Task<DefaultResponseObject<int>> GetCount()
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<int>>($"/FreeArticle/GetCount");
+    }
 }

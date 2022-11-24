@@ -12,4 +12,5 @@ public interface IFreeArticlesService : IUseExtendedHttpClient<IFreeArticlesServ
     Task<DefaultResponseObject<string>> Edit(EditFreeArticleCommand request);
     Task<DefaultResponseObject<AllFreeArticlesVm>> GetAll(GetAllFreeArticlesQuery request);
     Task<DefaultResponseObject<FreeArticleVm>> GetFreeArticleData(GetFreeArticleDataQuery request);
+    Task<DefaultResponseObject<int>> GetCount();
 }

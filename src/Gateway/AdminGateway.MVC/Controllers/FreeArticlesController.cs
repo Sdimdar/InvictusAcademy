@@ -63,4 +63,15 @@ public class FreeArticlesController : Controller
         var response = await _freeArticlesService.GetFreeArticleData(request);
         return Ok(response);
     }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Запрос на выгрузку количества бесплатных статей",
+        Description = "Не требуется ничего вводить"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> GetCount()
+    {
+        var response = await _freeArticlesService.GetCount();
+        return Ok(response);
+    }
 }
