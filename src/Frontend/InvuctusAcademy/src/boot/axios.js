@@ -74,3 +74,8 @@ export const createCourse = (courseData) => api.post('/AdminPanel/Courses/Create
 export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
 export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll');
 
+// FreeArticles
+export const fetchAllFreeArticles = (pageNumber, pageSize, filterString) => api.get('/FreeArticle/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filterString} });
+export const getFreeArticlesCount = () => api.get('/FreeArticle/GetCount');
+export const fetchFreeArticle = (id) => api.get('/FreeArticle/GetFreeArticleData', {params:{id: id}});
+
