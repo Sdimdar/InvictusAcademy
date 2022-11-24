@@ -13,26 +13,45 @@
 
         <q-space />
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="logined" >
           <q-btn-dropdown dense rounded icon="account_circle" color="accent">
             <q-list>
-              <q-item clickable v-close-popup @click="onItemClick">
+              <q-item clickable v-ripple to="/user">
                 <q-item-section>
                   <q-item-label>Личный кабинет</q-item-label>
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onItemClick">
+              <q-item clickable v-ripple to="">
                 <q-item-section>
-                  <q-item-label>Настройки</q-item-label>
+                  <q-item-label> Настройки</q-item-label>
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onItemClick">
+              <q-item style="padding: 0px;">
                 <q-item-section>
-                  <q-item-label>Выйти</q-item-label>
+                  <logout-button :logined="logined" @unautorize="unautorize" />
                 </q-item-section>
               </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </div>
+
+        <div class="q-pa-md" v-else >
+          <q-btn-dropdown dense rounded icon="account_circle" color="accent">
+            <q-list>
+              <q-item>
+                <q-item-section>
+                  <login-button :logined="logined" @autorize="autorize"/>
+                </q-item-section>
+              </q-item>
+
+              <q-item>
+                <q-item-section>
+                  <register-button :logined="logined" @autorize="autorize"/>
+                </q-item-section>
+              </q-item>
+
             </q-list>
           </q-btn-dropdown>
         </div>
@@ -50,6 +69,7 @@
 
         :width="250"
         :breakpoint="500"
+        v-if="logined"
       >
       <div class="logo">
         <img src="img/logo.svg">
@@ -57,7 +77,7 @@
 
         <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
           <q-list padding>
-            <q-item clickable v-ripple>
+            <q-item clickable v-ripple to="/">
               <q-item-section avatar>
                 <img src="img/icons/home.svg" />
               </q-item-section>
@@ -67,7 +87,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item active clickable v-ripple>
+            <q-item active clickable  v-ripple to="/user/AllCoursesPage">
               <q-item-section avatar>
                 <img src="img/icons/shopping.svg" />
               </q-item-section>
@@ -132,8 +152,8 @@
         </div>
       </q-drawer>
 
-    <q-page-container>
-      <router-view />
+    <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
+      <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
     </q-page-container>
 
     <q-footer class="footer">
@@ -210,6 +230,10 @@
 
 <script>
 import { ref } from 'vue'
+import { fetchLoginedUserData } from 'boot/axios'
+import LogoutButton from 'components/User/LogoutButton.vue'
+import LoginButton from 'components/User/LoginButton.vue'
+import RegisterButton from 'components/User/RegisterButton.vue'
 
 export default {
   setup () {
@@ -231,6 +255,49 @@ export default {
       }
 
     }
+  },
+  components:{
+    LoginButton,
+    LogoutButton,
+    RegisterButton
+  },
+  data(){
+    return{
+      logined: false,
+      loginedUserEmail: "",
+      initialized: false
+    }
+  },
+  methods:{
+    autorize: function(email){
+      this.logined = true;
+      this.loginedUserEmail = email;
+    },
+    unautorize: function(){
+      this.logined = false;
+      this.loginedUserEmail = ""
+    },
+    async checkLogin(){
+      try {
+        const response = await fetchLoginedUserData();
+        console.log(response)
+        if (response.data.isSuccess) {
+          this.autorize(response.data.value.email);
+        }
+        else{
+          response.data.errors.forEach(error => {
+            console.log(error)
+          });
+        }
+      } catch (e) {
+        console.log(e.message);
+        this.unautorize()
+      }
+    }
+  },
+  async created() {
+    await this.checkLogin()
+    this.initialized = true
   }
 }
 </script>

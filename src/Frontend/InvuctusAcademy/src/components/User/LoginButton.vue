@@ -1,6 +1,9 @@
 <template>
-  <q-btn :class="$attrs.class" label="Войти" @click="loginDialog = true" />
-
+   <q-item clickable v-ripple @click="loginDialog = true">
+    <q-item-section> Войти
+    </q-item-section>
+  </q-item>
+  
   <q-dialog v-model="loginDialog">
     <q-card style="min-width: 350px">
       <q-card-section>
@@ -95,7 +98,7 @@ export default defineComponent({
         }
         else{
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        } 
+        }
       } catch (e) {
         notify.showErrorNotify(e.message);
       }
