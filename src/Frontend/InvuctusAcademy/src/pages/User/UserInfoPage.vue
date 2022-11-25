@@ -1,8 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-grey-10 text-white">
-    <left-bar/>
     <q-page-container>
-      <div class="q-pa-md items-start q-gutter-md">
         <q-card class="my-card" flat bordered>
           <q-card-section class="text-center">
             <q-avatar size="100px">
@@ -27,10 +24,7 @@
             <editPassword-button />
           </q-card-actions>
         </q-card>
-      </div>
-      <router-view />
     </q-page-container>
-  </q-layout>
 </template>
 
 <script>
