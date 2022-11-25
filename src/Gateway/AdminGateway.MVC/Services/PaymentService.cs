@@ -4,6 +4,7 @@ using DataTransferLib.Models;
 using ExtendedHttpClient;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
+using ServicesContracts.Identity.Responses;
 using ServicesContracts.Payments.Commands;
 using ServicesContracts.Payments.Models;
 using ServicesContracts.Payments.Queries;
@@ -14,10 +15,12 @@ public class PaymentService : IPaymentService
 {
     public ExtendedHttpClient<IPaymentService> ExtendedHttpClient { get; set; }
     public ExtendedHttpClient<ICoursesService> CourseHttpClient { get; set; }
-    public PaymentService(ExtendedHttpClient<IPaymentService> httpClient, ExtendedHttpClient<ICoursesService> courseHttpClient)
+    public ExtendedHttpClient<IGetUsers> UsersHttpClient { get; set; }
+    public PaymentService(ExtendedHttpClient<IPaymentService> httpClient, ExtendedHttpClient<ICoursesService> courseHttpClient, ExtendedHttpClient<IGetUsers> usersHttpClient)
     {
         ExtendedHttpClient = httpClient;
         CourseHttpClient = courseHttpClient;
+        UsersHttpClient = usersHttpClient;
     }
     
     public async Task<DefaultResponseObject<bool>> AddPaymentRequestAsync(AddPaymentCommand request, 
@@ -60,27 +63,51 @@ public class PaymentService : IPaymentService
         {
             list.Add(item.CourseId);
         }
-        GetCoursesByIdListQuery internalRequest = new GetCoursesByIdListQuery { CoursesId = list };
-        var coursesNames = await CourseHttpClient.PostAndReturnResponseAsync<GetCoursesByIdListQuery, DefaultResponseObject<List<CoursesByIdVm>>>(internalRequest,
+        GetCoursesNamesByListIdQuery internalRequest = new GetCoursesNamesByListIdQuery { ListId = list };
+        var coursesNames = await CourseHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery, DefaultResponseObject<List<CoursesByIdVm>>>(internalRequest,
             "/Course/GetCoursesById");
         if (!coursesNames.IsSuccess)
         {
             if (coursesNames.Errors.Any()) payments.Errors = coursesNames.Errors;
             if (coursesNames.ValidationErrors.Any()) payments.ValidationErrors = coursesNames.ValidationErrors;
-            //return payments;
+            return payments;
+        }
+        list = new List<int>();
+        foreach (var item in payments.Value)
+        {
+            list.Add(item.UserId);
         }
 
-        var result = payments.Value.Join(coursesNames.Value, 
-                                                             payment => payment.CourseId, 
-                                                             courses => courses.Id, 
-                                                             (payment, course) =>
-                                                                {
-                                                                    var paymentResult = payment;
-                                                                    paymentResult.CourseName = course.Name;
-                                                                    return paymentResult;
-                                                                });
-        
-        
+        var test = internalRequest;
+        internalRequest.ListId = list;
+        var usersEmails =
+            await UsersHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery,DefaultResponseObject<List<UsersEmailsByListIdVm>>>(internalRequest,
+                "/User/GetUsersById");
+        if (!usersEmails.IsSuccess)
+        {
+            if (usersEmails.Errors.Any()) payments.Errors = usersEmails.Errors;
+            if (usersEmails.ValidationErrors.Any()) payments.ValidationErrors = usersEmails.ValidationErrors;
+            return payments;
+        }
+        //
+        // var result = payments.Value.Join(coursesNames.Value, 
+        //                                                      payment => payment.CourseId, 
+        //                                                      courses => courses.Id, 
+        //                                                      (payment, course) =>
+        //                                                         {
+        //                                                             var paymentResult = payment;
+        //                                                             paymentResult.CourseName = course.Name;
+        //                                                             return paymentResult;
+        //                                                         });
+        //
+        //
+        foreach (var item in payments.Value)
+        {
+            foreach (var user in usersEmails.Value)
+            {
+                if (item.UserId == user.Id) item.UserEmail = user.Email;
+            }
+        }
         foreach (var item in payments.Value)
         {
             foreach (var course in coursesNames.Value)
