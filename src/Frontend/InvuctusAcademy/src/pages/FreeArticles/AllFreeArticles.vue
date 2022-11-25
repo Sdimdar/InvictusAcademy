@@ -50,7 +50,7 @@ export default {
       id: ""
     }
   },
-  setup() {
+  setup(){
     const tableRef = ref()
     const rows = ref([])
     const filter = ref('')
@@ -58,13 +58,14 @@ export default {
     const pagination = ref({
       sortBy: 'desc',
       descending: false,
-      pageNumber: 1,
+      page: 1,
       rowsPerPage: 3,
       rowsNumber: 10
     })
 
     async function onRequest (props) {
-      let { pageNumber, rowsPerPage, sortBy, descending } = props.pagination
+      console.log(props)
+      let { page, rowsPerPage, sortBy, descending } = props.pagination
       let response;
 
       // пока что запретил показывать All
@@ -75,7 +76,7 @@ export default {
       // update rowsCount with appropriate value
       try {
         response = await getFreeArticlesCount();
-        console.log("Response on count:")
+        console.log("Response:")
         console.log(response)
         if (response.data.isSuccess) {
           pagination.value.rowsNumber = response.data.value;
@@ -90,14 +91,16 @@ export default {
 
       // fetch data from "server"
       try {
-        console.log(pageNumber + " " + rowsPerPage)
-        response = await fetchAllFreeArticles(pageNumber, rowsPerPage)
-
-        console.log("Response on data:")
+        console.log(page + " " + rowsPerPage)
+        if(rowsPerPage === 0){
+          response = await fetchAllFreeArticles(0, rowsPerPage)
+        }
+        else{
+          response = await fetchAllFreeArticles(page, rowsPerPage, props.filter)
+        }
+        console.log("Response:")
         console.log(response)
-        if (response.status === 200) {
-          console.log("rows")
-          console.log(response.data)
+        if (response.data.isSuccess) {
           rows.value.splice(0, rows.value.length, ...response.data.value.freeArticles);
         }
         else {
@@ -109,7 +112,7 @@ export default {
       }
 
       // don't forget to update local pagination object
-      pagination.value.pageNumber = pageNumber
+      pagination.value.page = page
       pagination.value.rowsPerPage = rowsPerPage
       pagination.value.sortBy = sortBy
       pagination.value.descending = descending
@@ -121,7 +124,6 @@ export default {
     onMounted(() => {
       // get initial data from server (1st page)
       tableRef.value.requestServerInteraction()
-      console.log(rows.value)
     })
 
     return {
@@ -133,16 +135,6 @@ export default {
       rows,
       onRequest
     }
-  },
-  methods:{
-    // openPage(rowId){
-    //   let route = this.$router.resolve({ path: `/admin-panel/moduleDetails/${rowId}` });
-    //   this.$router.push(route);
-    // },
-    // async update(){
-    //   //await onRequest({pagination:this.pagination})
-    //   //window.location.reload()
-    // }
   }
 }
 </script>
