@@ -1,6 +1,6 @@
 ﻿namespace Courses.Domain.Entities.CourseResults;
 
-public class ArticlesProgress : ProgressResult
+public class ArticleProgress : ProgressResult
 {
     public bool IsOpened { get; set; }
     public List<TestAttempt> TestAttempts { get; set; }
