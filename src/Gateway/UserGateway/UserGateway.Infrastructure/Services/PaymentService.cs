@@ -48,6 +48,6 @@ public class PaymentService : IPaymentService
                                                                                               CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>
-            ($"/Payments/GetWithParameters?UserEmail={request.UserEmail}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
+            ($"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
     }
 }

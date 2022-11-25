@@ -29,7 +29,7 @@ public class GetPaymentsWithParametersHandler : IRequestHandler<GetPaymentsWithP
 
         try
         {
-            var result = await _paymentService.GetPaymentRequestsAsync(request.UserEmail, request.CourseId, request.Status);
+            var result = await _paymentService.GetPaymentRequestsAsync(request.UserId, request.CourseId, request.Status);
             return Result.Success(result);
         }
         catch (InvalidOperationException ex)

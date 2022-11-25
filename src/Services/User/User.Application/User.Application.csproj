@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
     <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\..\..\Gateway\UserGateway\UserGateway.Application\UserGateway.Application.csproj" />
+    <ProjectReference Include="..\..\Courses\Courses.Application\Courses.Application.csproj" />
     <ProjectReference Include="..\..\Request\Request.Application\Request.Application.csproj" />
     <ProjectReference Include="..\User.Domain\User.Domain.csproj" />
   </ItemGroup>

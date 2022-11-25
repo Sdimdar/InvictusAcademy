@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Courses.API.Endpoints.Course;
 
 public class GetCoursesById:EndpointBaseAsync
-    .WithRequest<GetCoursesByIdListQuery>
+    .WithRequest<GetCoursesNamesByListIdQuery>
     .WithActionResult<DefaultResponseObject<List<CoursesByIdVm>>>
 
 {
@@ -29,7 +29,7 @@ public class GetCoursesById:EndpointBaseAsync
         Description = "Необходимо передать в теле запроса list id курсов",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<List<CoursesByIdVm>>>> HandleAsync([FromBody]GetCoursesByIdListQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<List<CoursesByIdVm>>>> HandleAsync([FromBody]GetCoursesNamesByListIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<List<CoursesByIdVm>>>(result));
