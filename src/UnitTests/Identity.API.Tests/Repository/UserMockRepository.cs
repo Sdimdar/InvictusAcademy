@@ -84,7 +84,13 @@ public class UserMockRepository : TestCommonRepository<UserDbModel>, IUserReposi
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-    
+
+    public Task<List<UserDbModel>> GetUsersByIdList(List<int> usersId)
+    {
+        throw new NotImplementedException();
+    }
+
+
     public override Task UpdateAsync(UserDbModel entity)
     {
         if (Context.FirstOrDefault(e => e.Email == entity.Email
