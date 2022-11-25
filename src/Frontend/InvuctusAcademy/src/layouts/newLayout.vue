@@ -97,7 +97,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item clickable v-ripple to="/user/courses">
               <q-item-section avatar>
                 <img src="img/icons/courses.svg" />
               </q-item-section>
