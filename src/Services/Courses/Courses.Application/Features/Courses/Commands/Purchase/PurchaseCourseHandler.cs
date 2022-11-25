@@ -6,6 +6,7 @@ using Courses.Domain.Entities.CourseResults;
 using Courses.Domain.Options;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 
@@ -19,13 +20,15 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly ICourseResultsInfoRepository _courseResultsInfoRepository;
     private readonly IOptions<CourseResultOptions> _courseOptions;
+    private readonly ILogger<PurchaseCourseCommand> _logger;
     
     public PurchaseCourseHandler(IValidator<PurchaseCourseCommand> validator, 
                                  ICourseRepository courseRepository, 
                                  ICourseResultsInfoRepository courseResultsInfoRepository, 
                                  ICourseInfoRepository courseInfoRepository, 
                                  IModuleInfoRepository moduleInfoRepository, 
-                                 IOptions<CourseResultOptions> courseOptions)
+                                 IOptions<CourseResultOptions> courseOptions, 
+                                 ILogger<PurchaseCourseCommand> logger)
     {
         _validator = validator;
         _courseRepository = courseRepository;
@@ -33,34 +36,42 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
         _courseInfoRepository = courseInfoRepository;
         _moduleInfoRepository = moduleInfoRepository;
         _courseOptions = courseOptions;
+        _logger = logger;
     }
     
     public async Task<Result<bool>> Handle(PurchaseCourseCommand request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"A request to create a paid table came in: " +
+                               $"UserId - {request.UserId}, CourseId - {request.CourseId} ");
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
         {
+            _logger.LogInformation($"UserId - {request.UserId}, CourseId - {request.CourseId}. Is invalid");
             return Result.Invalid(validationResult.AsErrors());
         }
 
         var course = await _courseRepository.GetCourseById(request.CourseId);
         if (course is null)
         {
+            _logger.LogInformation($"Course with Id: \'{request.CourseId}\' not founded");
             return Result.Error("Course is not found by ID");
         }
 
         if (await _courseRepository.CourseIsPaid(request.UserId, request.CourseId))
         {
+            _logger.LogInformation($"Course with Id: \'{request.CourseId}\' is already paid by" +
+                                   $"User with Id: \'{request.UserId}\'");
             return Result.Error("Course is already paid");
         }
 
         try
         {
-            Console.WriteLine("Here add a Postgres db table");
+            //TODO: Добавить добавление таблицы в Postgres
 
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             if (courseInfo is null)
             {
+                _logger.LogInformation($"Course with Id: \'{request.CourseId}\' is broken don't have info");
                 return Result.Error("Course is broken don't have info");
             }
             
@@ -74,6 +85,8 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
             };
         
             await _courseResultsInfoRepository.CreateAsync(entity, cancellationToken);
+            _logger.LogInformation($"Course with Id: \'{request.CourseId}\' is successful paid for" +
+                                   $"User with Id: \'{request.UserId}\'");
             return Result.Success(true);
         }
         catch (Exception ex)
