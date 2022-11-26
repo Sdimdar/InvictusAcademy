@@ -10,6 +10,16 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7211;http://localhost:6211"
     },
+    "Request.API.NoSwagger": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7211;http://localhost:6211"
+    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,

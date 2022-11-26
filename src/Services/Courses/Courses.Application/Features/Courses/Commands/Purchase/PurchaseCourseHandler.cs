@@ -106,6 +106,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
         {
             moduleProgresses.Add(new ModuleProgress()
             {
+                Id = moduleInfo.Id,
                 IsOpened = true,
                 IsSuccess = false,
                 Score = 0.0f,
@@ -127,6 +128,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
         {
             articlesProgresses.Add(new ArticleProgress()
             {
+                Order = moduleInfo.Articles[i].Order,
                 IsOpened = i == 0,
                 IsSuccess = false,
                 Score = 0.0f,

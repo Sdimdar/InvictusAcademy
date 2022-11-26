@@ -78,7 +78,7 @@ public class PaymentService : IPaymentService
     public async Task<DefaultResponseObject<PaymentVm>> GetByIdPaymentRequestAsync(GetPaymentQuery request, 
                                                                                    CancellationToken cancellationToken)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<PaymentVm>>
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<PaymentVm>>
             ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
     }
 
