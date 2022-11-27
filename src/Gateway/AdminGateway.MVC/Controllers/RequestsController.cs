@@ -46,11 +46,6 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled([FromBody] ChangeCalledStatusCommand command)
     {
-        if (command.Id <= 0)
-        {
-            ErrorVM error = new ErrorVM("Id was not assigned");
-            return Ok(error);
-        }
         var response = await _requestService.ChangeCalledStatusAsync(command);
         return Ok(response);
 
@@ -63,11 +58,6 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment([FromBody] ManagerCommentCommand command)
     {
-        if (command.Id <= 0)
-        {
-            ErrorVM error = new ErrorVM("Id was not assigned");
-            return Ok(error);
-        }
         var response = await _requestService.ManagerCommentAsync(command);
         return Ok(response);
     }

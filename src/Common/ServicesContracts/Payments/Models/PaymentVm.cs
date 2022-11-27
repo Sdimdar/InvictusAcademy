@@ -5,7 +5,7 @@ namespace ServicesContracts.Payments.Models;
 public class PaymentVm
 {
     public int Id { get; set; }
-    public string UserEmail { get; set; }
+    public int UserId { get; set; }
     public int CourseId { get; set; }
 
     public PaymentState PaymentState { get; set; }

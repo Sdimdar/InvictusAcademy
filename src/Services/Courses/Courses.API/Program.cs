@@ -19,6 +19,7 @@ try
     services.AddControllers();
     services.AddSwaggerConfiguration();
     services.AddExceptionHandlers();
+    services.AddCourseOptions(builder.Configuration);
 
 // Add API services
     services.AddInfrastructureServices(builder.Configuration);

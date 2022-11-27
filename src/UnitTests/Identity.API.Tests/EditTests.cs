@@ -57,7 +57,7 @@ public class EditTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeFalse();
-        data.Errors.Should().BeEquivalentTo(new string[] { "An error occurred while creating the request" });
+        data.Errors.Should().NotBeEmpty();
     }
 
     public static IEnumerable<object[]> InvalidPhoneNumbers()

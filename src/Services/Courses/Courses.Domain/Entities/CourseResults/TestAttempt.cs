@@ -2,8 +2,7 @@
 
 public class TestAttempt
 {
-    public DateTime StartDate { get; set; }
+    public DateTime AttemptDate { get; set; }
     public float Score { get; set; }
     public bool IsSuccess { get; set; }
-
 }

@@ -68,9 +68,9 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return await result.ToListAsync();
     }
     
-    public async Task<CourseDbModel> GetCourseById(int id)
+    public async Task<CourseDbModel?> GetCourseById(int id)
     {
-        CourseDbModel? result = await Context.Courses.FirstOrDefaultAsync(c=>c.Id==id);
+        var result = await Context.Courses.FirstOrDefaultAsync(c=>c.Id==id);
         return result;
     }
 

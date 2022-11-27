@@ -8,5 +8,5 @@ namespace ServicesContracts.Courses.Requests.Modules.Commands;
 public class AddArticlesCommand : IRequest<Result<ModuleInfoVm>>
 {
     public int ModuleId { get; set; }
-    public List<Articles> Articles { get; set; }
+    public List<Article> Articles { get; set; }
 }
