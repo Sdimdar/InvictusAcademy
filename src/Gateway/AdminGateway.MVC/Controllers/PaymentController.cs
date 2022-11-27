@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Payments.Commands;
 using ServicesContracts.Payments.Models;
 using ServicesContracts.Payments.Queries;
+using ServicesContracts.Payments.Response;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -42,9 +43,8 @@ public class PaymentController : Controller
         Description = "Необходимо передать в сроке запроса при необходимости Id пользователя или Id курса," +
                       "а также можно передать тип запроса на оплату"
     )]
-    public async Task<ActionResult<DefaultResponseObject<List<PaymentsVm>>>> GetWithParametersPayment
-                            ([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken)
-    {
+    public async Task<ActionResult<DefaultResponseObject<PaymentsPaginationVm>>> GetWithParametersPayment
+                            ([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken) {
         var response = await _paymentService.GetWithParametersPaymentRequestAsync(request, cancellationToken);
         return Ok(response);
     }
@@ -96,6 +96,19 @@ public class PaymentController : Controller
             RejectReason = request.RejectReason
         };
         var response = await _paymentService.RejectPaymentRequestAsync(query, cancellationToken);
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Получение списка запросов по параметрам",
+        Description = "Необходимо передать в сроке запроса при необходимости Id пользователя или Id курса," +
+                      "а также можно передать тип запроса на оплату"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetPaymentCount
+        ([FromQuery] GetPaymentsCountQuery request, CancellationToken cancellationToken)
+        {
+        var response = await _paymentService.GetPaymentsCount(request, cancellationToken);
         return Ok(response);
     }
 }

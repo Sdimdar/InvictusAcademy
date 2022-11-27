@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {getPaymentsByParams,confirmPaymentById,rejectPayment} from 'boot/axios';
+import {getPaymentsByParams,confirmPaymentById,rejectPayment, getPaymentsCount} from 'boot/axios';
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 
@@ -85,7 +85,7 @@ export default{
       descending: false,
       page: 1,
       rowsPerPage: 10,
-      rowsNumber: rows.length
+      rowsNumber: 10
     })
 
 async function onRequest (props) {
@@ -94,35 +94,38 @@ async function onRequest (props) {
       let response;
       loading.value = true
       // update rowsCount with appropriate value
-      // try {
-      //   response = await fetchRequestsCount();
-      //   console.log("Response:")
-      //   console.log(response)
-      //   if (response.data.isSuccess) {
-      //     pagination.value.rowsNumber = response.data.value;
-      //   }
-      //   else {
-      //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-      //     return;
-      //   }
-      // } catch (error) {
-      //   console.log(error.message);
-      // }
+      try {
+          response = await getPaymentsCount(payload);
+          if (response.data.isSuccess) {
+            if(response.data.value===0){
+              loading.value = false,
+              notify.showWarningNotify("Список заявок на оплату пуст")
+            }
+            pagination.value.rowsNumber = response.data.value;
+          }
+          else {
+            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+            return;
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
 
       // fetch data from "server"
       try {
-        
-        response = await getPaymentsByParams(payload);
-        if (response.data.isSuccess) {
-        rows.value.splice(0, rows.value.length, ...response.data.value);
+          payload.pageNumber = page,
+          payload.pageSize = rowsPerPage
+          response = await getPaymentsByParams(payload);
+          if (response.data.isSuccess) {
+          rows.value.splice(0, rows.value.length, ...response.data.value.payments);
+        }
+        else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+      } catch (error) {
+        console.log(error.message);
       }
-      else {
-        response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        return;
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
 
       // don't forget to update local pagination object
       pagination.value.page = page
@@ -150,11 +153,14 @@ async function onRequest (props) {
         async confirmPayment(id,index){
           try{
             let payload = {paymentId:id}
+            console.log(this.rows)
             let response = await confirmPaymentById(payload);
+            console.log(response)
           if(response.data.isSuccess){
             notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
             delete this.rows[index]
-          
+            console.log("AAAAAAAAAAAAA")
+            console.log(this.rows)
           }
           else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });

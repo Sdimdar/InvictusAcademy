@@ -8,6 +8,7 @@ public interface IPaymentRepository
     Task<int> GetLastIndexAsync();
     List<PaymentRequest> GetCurrentRequestsAsync();
     Task<PaymentRequest> SavePaymentAsync(PaymentRequest paymentRequest);
-    Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, int? courseId, PaymentState? paymentState);
+    Task<List<PaymentRequest>> GetPaymentRequestsAsync(int pageSize, int page, PaymentState paymentState);
     Task<PaymentRequest?> GetPaymentRequestByIdAsync(int id);
+    Task<int> GetPaymentsCount(PaymentState paymentState);
 }

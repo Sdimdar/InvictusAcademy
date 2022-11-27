@@ -10,6 +10,7 @@ using ServicesContracts.Identity.Responses;
 using ServicesContracts.Payments.Commands;
 using ServicesContracts.Payments.Models;
 using ServicesContracts.Payments.Queries;
+using ServicesContracts.Payments.Response;
 
 namespace AdminGateway.MVC.Services;
 
@@ -44,7 +45,6 @@ public class PaymentService : IPaymentService
         var paymentConfirmResult = await ExtendedHttpClient.PostAndReturnResponseAsync
             <ConfirmPaymentCommand, DefaultResponseObject<bool>>(request, "/Payments/Confirm", cancellationToken);
         if (!paymentConfirmResult.IsSuccess) return paymentConfirmResult;
-        
         GetPaymentQuery query = new()
         {
             PaymentId = request.PaymentId
@@ -82,15 +82,22 @@ public class PaymentService : IPaymentService
             ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
     }
 
-    public async Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
+    public async Task<DefaultResponseObject<int>> GetPaymentsCount(GetPaymentsCountQuery request,
+        CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<int>>
+            ($"/Payments/Count?PaymentState={request.PaymentState}");
+    }
+
+    public async Task<DefaultResponseObject<PaymentsPaginationVm>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
                                                                                                     CancellationToken cancellationToken)
     {
-        var payments = await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>(
-            $"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}",
+        var payments = await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<PaymentsPaginationVm>>(
+            $"/Payments/GetWithParameters?PageNumber={request.PageNumber}&PageSize={request.PageSize}&Status={request.Status}",
             cancellationToken);
         if (!payments.IsSuccess) return payments;
         List<int> list = new();
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             list.Add(item.CourseId);
         }
@@ -104,7 +111,7 @@ public class PaymentService : IPaymentService
             return payments;
         }
         list = new List<int>();
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             list.Add(item.UserId);
         }
@@ -121,14 +128,14 @@ public class PaymentService : IPaymentService
             return payments;
         }
         
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             foreach (var user in usersEmails.Value)
             {
                 if (item.UserId == user.Id) item.UserEmail = user.Email;
             }
         }
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             foreach (var course in coursesNames.Value)
             {

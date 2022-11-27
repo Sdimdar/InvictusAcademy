@@ -79,7 +79,7 @@
         descending: false,
         page: 1,
         rowsPerPage: 10,
-        rowsNumber: rows.length
+        rowsNumber: 10
       })
   
   async function onRequest (props) {
@@ -88,27 +88,26 @@
         let response;
         loading.value = true
         // update rowsCount with appropriate value
-        // try {
-        //   response = await fetchRequestsCount();
-        //   console.log("Response:")
-        //   console.log(response)
-        //   if (response.data.isSuccess) {
-        //     pagination.value.rowsNumber = response.data.value;
-        //   }
-        //   else {
-        //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        //     return;
-        //   }
-        // } catch (error) {
-        //   console.log(error.message);
-        // }
-  
-        // fetch data from "server"
         try {
-          
+          response = await getPaymentsCount(payload);
+          if (response.data.isSuccess) {
+            pagination.value.rowsNumber = response.data.value;
+          }
+          else {
+            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+            return;
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+
+      // fetch data from "server"
+      try {
+          payload.pageNumber = page,
+          payload.pageSize = rowsPerPage
           response = await getPaymentsByParams(payload);
           if (response.data.isSuccess) {
-          rows.value.splice(0, rows.value.length, ...response.data.value);
+          rows.value.splice(0, rows.value.length, ...response.data.value.payments);
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });

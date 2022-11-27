@@ -2,6 +2,7 @@
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 using Payment.API.Mappings;
+using Payment.Application.Mappings;
 using Payment.Infrastructure.Mappings;
 
 namespace Payment.API;
@@ -15,6 +16,7 @@ public static class DependencyInjection
             cfg.AddProfile(new DbMappingProfile());
             cfg.AddProfile(new DefaultResponseObjectProfile());
             cfg.AddProfile(new ApiMappingProfile());
+            cfg.AddProfile(new ApplicationMappingProfile());
         }).CreateMapper());
         return services;
     }

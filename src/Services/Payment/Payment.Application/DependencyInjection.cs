@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Payment.Application.Mappings;
 
 namespace Payment.Application;
 
@@ -15,4 +17,5 @@ public static class DependencyInjection
 
         return services;
     }
+    
 }
