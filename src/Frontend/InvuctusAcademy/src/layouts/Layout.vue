@@ -12,9 +12,11 @@
         </div>
 
         <q-space />
+        <TestComponent :label="loginedUserEmail" />
+        <q-space />
 
         <div class="q-pa-md" v-if="logined" >
-          <q-btn-dropdown dense rounded icon="account_circle" color="accent">
+          <q-btn-dropdown dense rounded :label="userName" icon="account_circle" color="accent">
             <q-list>
               <q-item clickable v-ripple to="/user">
                 <q-item-section>
@@ -229,7 +231,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { fetchLoginedUserData } from 'boot/axios'
 import LogoutButton from 'components/User/LogoutButton.vue'
 import LoginButton from 'components/User/LoginButton.vue'
@@ -265,38 +267,41 @@ export default {
     return{
       logined: false,
       loginedUserEmail: "",
+      userName: "",
       initialized: false
     }
   },
   methods:{
-    autorize: function(email){
-      this.logined = true;
-      this.loginedUserEmail = email;
+    autorize: async function(){
+      await this.getUserData();
     },
     unautorize: function(){
       this.logined = false;
       this.loginedUserEmail = ""
     },
-    async checkLogin(){
+    async getUserData(){
       try {
-        const response = await fetchLoginedUserData();
-        console.log(response)
-        if (response.data.isSuccess) {
-          this.autorize(response.data.value.email);
-        }
-        else{
+        fetchLoginedUserData().then(response => {
+          console.log(response)
+          if(response.data.isSuccess){
+            this.logined = true;
+            this.loginedUserEmail = response.data.value.email;
+            this.userName = response.data.value.firstName + " " + response.data.value.lastName[0]
+          }
+          else{
           response.data.errors.forEach(error => {
             console.log(error)
           });
         }
+        });
       } catch (e) {
         console.log(e.message);
         this.unautorize()
       }
     }
   },
-  async created() {
-    await this.checkLogin()
+  async created(){
+    await this.getUserData()
     this.initialized = true
   }
 }
