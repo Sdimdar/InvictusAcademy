@@ -14,3 +14,4 @@ appSettings.Local.json
 .quasar
 node_modules
 /src/InvictusAcademyTestProject.sln.DotSettings.user
+.env
