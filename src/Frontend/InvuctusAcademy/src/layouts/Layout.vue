@@ -6,17 +6,17 @@
         <div class="search">
           <q-input dense rounded outlined label="Ищете что-то конкретное?">
             <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </div>
 
         <q-space />
         <TestComponent :label="loginedUserEmail" />
         <q-space />
 
-        <div class="q-pa-md" v-if="logined" >
-          <q-btn-dropdown dense rounded :label="userName" icon="account_circle" color="accent">
+        <div class="q-pa-md" v-if="logined">
+          <q-btn-dropdown rounded color="accent" dense :label="userName" icon="account_circle">
             <q-list>
               <q-item clickable v-ripple to="/user">
                 <q-item-section>
@@ -39,18 +39,18 @@
           </q-btn-dropdown>
         </div>
 
-        <div class="q-pa-md" v-else >
+        <div class="q-pa-md" v-else>
           <q-btn-dropdown dense rounded icon="account_circle" color="accent">
             <q-list>
               <q-item>
                 <q-item-section>
-                  <login-button :logined="logined" @autorize="autorize"/>
+                  <login-button :logined="logined" @autorize="autorize" />
                 </q-item-section>
               </q-item>
 
               <q-item>
                 <q-item-section>
-                  <register-button :logined="logined" @autorize="autorize"/>
+                  <register-button :logined="logined" @autorize="autorize" />
                 </q-item-section>
               </q-item>
 
@@ -61,98 +61,90 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-        class="auto-layout"
-        v-model="drawer"
-        show-if-above
-
-        :mini="!drawer || miniState"
-        @click.capture="drawerClick"
-
-        :width="250"
-        :breakpoint="500"
-        v-if="logined"
-      >
+    <q-drawer class="auto-layout" v-model="drawer" show-if-above :mini="!drawer || miniState"
+      @click.capture="drawerClick" :width="250" :breakpoint="500" v-if="logined">
       <div class="logo">
         <img src="img/logo.svg">
       </div>
 
-        <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
-          <q-list padding>
-            <q-item clickable v-ripple to="/">
-              <q-item-section avatar>
-                <img src="img/icons/home.svg" />
-              </q-item-section>
+      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+        <q-list padding>
+          <q-item clickable v-ripple to="/">
+            <q-item-section avatar>
+              <img src="img/icons/home.svg" />
+            </q-item-section>
 
-              <q-item-section>
-                Главная
-              </q-item-section>
-            </q-item>
+            <q-item-section>
+              Главная
+            </q-item-section>
+          </q-item>
 
-            <q-item active clickable  v-ripple to="/user/AllCoursesPage">
-              <q-item-section avatar>
-                <img src="img/icons/shopping.svg" />
-              </q-item-section>
+          <q-item active clickable v-ripple to="/user/AllCoursesPage">
+            <q-item-section avatar>
+              <img src="img/icons/shopping.svg" />
+            </q-item-section>
 
-              <q-item-section>
-                Каталог курсов
-              </q-item-section>
-            </q-item>
+            <q-item-section>
+              Каталог курсов
+            </q-item-section>
+          </q-item>
 
-            <q-item clickable v-ripple to="/user/courses">
-              <q-item-section avatar>
-                <img src="img/icons/courses.svg" />
-              </q-item-section>
+          <q-item clickable v-ripple to="/user/courses">
+            <q-item-section avatar>
+              <img src="img/icons/courses.svg" />
+            </q-item-section>
 
-              <q-item-section>
-                Мои курсы
-              </q-item-section>
-            </q-item>
+            <q-item-section>
+              Мои курсы
+            </q-item-section>
+          </q-item>
 
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <img src="img/icons/message.svg" />
-              </q-item-section>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <img src="img/icons/message.svg" />
+            </q-item-section>
 
-              <q-item-section>
-                Чат
-              </q-item-section>
-            </q-item>
+            <q-item-section>
+              Чат
+            </q-item-section>
+          </q-item>
 
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <img src="img/icons/book.svg" />
-              </q-item-section>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <img src="img/icons/book.svg" />
+            </q-item-section>
 
-              <q-item-section>
-                Статьи/новости
-              </q-item-section>
-            </q-item>
+            <q-item-section>
+              Статьи/новости
+            </q-item-section>
+          </q-item>
 
-             <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <img src="img/icons/support.svg" />
-              </q-item-section>
+          <div class="spacer"></div>
 
-              <q-item-section>
-                Тех.поддержка
-              </q-item-section>
-            </q-item>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <img src="img/icons/support.svg" />
+            </q-item-section>
 
-          </q-list>
-        </q-scroll-area>
+            <q-item-section>
+              Тех.поддержка
+            </q-item-section>
+          </q-item>
 
-        <div class="q-mini-drawer-hide absolute" style="top: 100px; right: 0px">
-          <q-btn
-            dense
-            round
-            unelevated
-            color="accent"
-            icon="chevron_left"
-            @click="miniState = true"
-          />
-        </div>
-      </q-drawer>
+        </q-list>
+      </q-scroll-area>
+
+      <div class="absolute"  style="top: 110px; right: -15px;">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="accent"
+          :icon="miniState?'chevron_right':'chevron_left'"
+          @click="switchDrawerState"
+        />
+      </div>
+    </q-drawer>
 
     <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
       <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
@@ -161,69 +153,70 @@
     <q-footer class="footer">
       <q-toolbar class="row">
 
-          <div class="col-3">
-            <div class="column" style="height: 250px">
-                <div class="col">
-                  <img src="img/logo_white.svg" />
-                </div>
-                <div class="col">
-                  <p style="font-size: 12px;">Мы в соц сетях</p>
-                  <div class="row">
-                    <div class="icon-space"> <img src="img/icons/telegram.svg" /></div>
-                    <div class="icon-space"> <img src="img/icons/whatsapp.svg" /></div>
-                    <div class="icon-space"> <img src="img/icons/instagram.svg" /> </div>
-                    <div class="icon-space"> <img src="img/icons/youtube.svg" /></div>
-                  </div>
-                </div>
-                <div class="col" style="font-size: 14px; font-weight: 400; color: #B3B3B3;">
-                  © 2022 Invictus Academy
-                </div>
+        <div class="col-3">
+          <div class="column" style="height: 250px">
+            <div class="col">
+              <img src="img/logo_white.svg" />
+            </div>
+            <div class="col">
+              <p style="font-size: 12px;">Мы в соц сетях</p>
+              <div class="row">
+                <div class="icon-space"> <img src="img/icons/telegram.svg" /></div>
+                <div class="icon-space"> <img src="img/icons/whatsapp.svg" /></div>
+                <div class="icon-space"> <img src="img/icons/instagram.svg" /> </div>
+                <div class="icon-space"> <img src="img/icons/youtube.svg" /></div>
               </div>
+            </div>
+            <div class="col" style="font-size: 14px; font-weight: 400; color: #B3B3B3;">
+              © 2022 Invictus Academy
+            </div>
           </div>
+        </div>
 
-          <div class="col-3">
-            <div class="column" style="height: 220px">
-              <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
-                 Контактная информация:
+        <div class="col-3">
+          <div class="column" style="height: 220px">
+            <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
+              Контактная информация:
             </div>
             <div class="col" style="font-size: 16px; font-weight: 300;">
-                <p> +7 (775) 887 18 76</p>
-                <p> +7 (775) 887 18 76</p>
-                <p>arystan-bakhtiyarov@mail.ru</p>
-                <p>www.invictus.kz</p>
+              <p> +7 (775) 887 18 76</p>
+              <p> +7 (775) 887 18 76</p>
+              <p>arystan-bakhtiyarov@mail.ru</p>
+              <p>www.invictus.kz</p>
             </div>
           </div>
-          </div>
+        </div>
 
-          <div class="col-2">
-            <div class="column" style="height: 220px">
-              <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
-                 Навигация:
+        <div class="col-2">
+          <div class="column" style="height: 220px">
+            <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
+              Навигация:
             </div>
             <div class="col" style="font-size: 18px; font-weight: 400;">
-                <p>Главная</p>
-                <p>Курсы</p>
-                <p>Чат</p>
-                <p>Статьи</p>
+              <p>Главная</p>
+              <p>Курсы</p>
+              <p>Чат</p>
+              <p>Статьи</p>
             </div>
           </div>
-          </div>
+        </div>
 
-          <div class="col-4">
-            <div class="column" style="height: 220px">
-              <div class="col" style="font-size: 20px; font-weight: 500;">
-                 Подпишитесь на нашу рассылку, чтобы первым быть в курсе акций и скидок!
-                 <p style="font-size: 14px; font-weight: 300; color: #B3B3B3;">
-                  Никакого спама. Только самые ценные советы</p>
+        <div class="col-4">
+          <div class="column" style="height: 220px">
+            <div class="col" style="font-size: 20px; font-weight: 500;">
+              Подпишитесь на нашу рассылку, чтобы первым быть в курсе акций и скидок!
+              <p style="font-size: 14px; font-weight: 300; color: #B3B3B3;">
+                Никакого спама. Только самые ценные советы</p>
             </div>
             <div class="col">
               <div class="row">
-                <q-input style="background-color: white; width: 250px; margin-right: 5px;" filled outlined label="example@mail.com" />
-                 <q-btn  color="accent" label="Подписаться" />
+                <q-input style="background-color: white; width: 250px; margin-right: 5px;" filled outlined
+                  label="example@mail.com" />
+                <q-btn color="accent" label="Подписаться" />
               </div>
             </div>
           </div>
-          </div>
+        </div>
       </q-toolbar>
     </q-footer>
 
@@ -238,7 +231,7 @@ import LoginButton from 'components/User/LoginButton.vue'
 import RegisterButton from 'components/User/RegisterButton.vue'
 
 export default {
-  setup () {
+  setup() {
     const leftDrawerOpen = ref(false)
     const miniState = ref(false)
 
@@ -246,10 +239,10 @@ export default {
       drawer: ref(false),
       miniState,
       leftDrawerOpen,
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      drawerClick (e) {
+      drawerClick(e) {
         if (miniState.value) {
           miniState.value = false
           e.stopPropagation()
@@ -258,41 +251,44 @@ export default {
 
     }
   },
-  components:{
+  components: {
     LoginButton,
     LogoutButton,
     RegisterButton
   },
-  data(){
-    return{
+  data() {
+    return {
       logined: false,
       loginedUserEmail: "",
       userName: "",
       initialized: false
     }
   },
-  methods:{
-    autorize: async function(){
+  methods: {
+    switchDrawerState: function() {
+      this.miniState = !this.miniState;
+    },
+    autorize: async function () {
       await this.getUserData();
     },
-    unautorize: function(){
+    unautorize: function () {
       this.logined = false;
       this.loginedUserEmail = ""
     },
-    async getUserData(){
+    async getUserData() {
       try {
         fetchLoginedUserData().then(response => {
           console.log(response)
-          if(response.data.isSuccess){
+          if (response.data.isSuccess) {
             this.logined = true;
             this.loginedUserEmail = response.data.value.email;
             this.userName = response.data.value.firstName + " " + response.data.value.lastName[0]
           }
-          else{
-          response.data.errors.forEach(error => {
-            console.log(error)
-          });
-        }
+          else {
+            response.data.errors.forEach(error => {
+              console.log(error)
+            });
+          }
         });
       } catch (e) {
         console.log(e.message);
@@ -300,7 +296,7 @@ export default {
       }
     }
   },
-  async created(){
+  async created() {
     await this.getUserData()
     this.initialized = true
   }
@@ -308,7 +304,7 @@ export default {
 </script>
 
 <style>
-.auto-layout{
+.auto-layout {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -317,7 +313,7 @@ export default {
   gap: 40px;
   isolation: isolate;
 
-  position: absolute;
+  /* position: absolute; */
   width: 257px;
   height: 920px;
   left: 20px;
@@ -330,25 +326,25 @@ export default {
   border-radius: 0px 20px 20px 0px;
 }
 
-.logo{
+.logo {
   margin-left: 12px;
   margin-right: 15px;
   margin-top: 7px;
 }
 
-.header{
+.header {
   margin-left: 20px;
   background-color: #F9F9F9;
 }
 
-.search{
+.search {
   margin-left: 30px;
   width: 300px;
   border: 10px;
   border-radius: 20%;
 }
 
-.footer{
+.footer {
   margin-left: 20px;
   display: flex;
   flex-direction: row;
@@ -360,12 +356,16 @@ export default {
   position: relative;
   height: 271px;
   top: 100px;
+  width: auto;
 
   background: #242424;
 }
 
-.icon-space{
+.icon-space {
   padding: 0px 25px 25px 0px;
 }
 
+.spacer{
+  height: 250px;
+}
 </style>
