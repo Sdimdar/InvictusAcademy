@@ -20,7 +20,7 @@ internal class LoginCommandHandler : IRequestHandler<LoginCommand, Result<UserVm
         var response = await _userService.GetUserAsync(request.Email, cancellationToken);
         if (response.IsSuccess)
         {
-            if (response.Value.Password.VerifyHashedString(request.Password)) return Result.Success();
+            if (response.Value.Password.VerifyHashedString(request.Password)) return Result.Success(response.Value);
             return Result.Error("Password and Email is not match");
         }
         if (response.Errors.Count() != 0) return Result.Error(response.Errors);
