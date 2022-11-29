@@ -148,9 +148,13 @@
 
     <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
       <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
+
     </q-page-container>
 
-    <q-footer class="footer">
+
+
+  </q-layout>
+  <footer class="footer">
       <q-toolbar class="row">
 
         <div class="col-3">
@@ -159,7 +163,7 @@
               <img src="img/logo_white.svg" />
             </div>
             <div class="col">
-              <p style="font-size: 12px;">Мы в соц сетях</p>
+              <p style="font-size: 12px; color: #F9F9F9;">Мы в соц сетях</p>
               <div class="row">
                 <div class="icon-space"> <img src="img/icons/telegram.svg" /></div>
                 <div class="icon-space"> <img src="img/icons/whatsapp.svg" /></div>
@@ -178,7 +182,7 @@
             <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
               Контактная информация:
             </div>
-            <div class="col" style="font-size: 16px; font-weight: 300;">
+            <div class="col" style="font-size: 16px; font-weight: 300; color: #F9F9F9">
               <p> +7 (775) 887 18 76</p>
               <p> +7 (775) 887 18 76</p>
               <p>arystan-bakhtiyarov@mail.ru</p>
@@ -192,7 +196,7 @@
             <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
               Навигация:
             </div>
-            <div class="col" style="font-size: 18px; font-weight: 400;">
+            <div class="col" style="font-size: 18px; font-weight: 400; color: #F9F9F9">
               <p>Главная</p>
               <p>Курсы</p>
               <p>Чат</p>
@@ -203,7 +207,7 @@
 
         <div class="col-4">
           <div class="column" style="height: 220px">
-            <div class="col" style="font-size: 20px; font-weight: 500;">
+            <div class="col" style="font-size: 20px; font-weight: 500; color: #F9F9F9">
               Подпишитесь на нашу рассылку, чтобы первым быть в курсе акций и скидок!
               <p style="font-size: 14px; font-weight: 300; color: #B3B3B3;">
                 Никакого спама. Только самые ценные советы</p>
@@ -218,9 +222,7 @@
           </div>
         </div>
       </q-toolbar>
-    </q-footer>
-
-  </q-layout>
+    </footer>
 </template>
 
 <script>
@@ -345,18 +347,17 @@ export default {
 }
 
 .footer {
-  margin-left: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   padding: 48px 58px 60px;
-  gap: 60px;
+  margin-left: 0px;
 
   position: relative;
   height: 271px;
-  top: 100px;
-  width: auto;
+
+  width: 100%;
 
   background: #242424;
 }

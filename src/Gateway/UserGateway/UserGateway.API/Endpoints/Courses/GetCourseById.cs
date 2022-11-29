@@ -1,7 +1,5 @@
-﻿using Ardalis.ApiEndpoints;
+using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Courses.Domain.Entities;
-using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +7,9 @@ using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Courses.API.Endpoints.Course;
+namespace UserGateway.API.Endpoints.Courses;
 
-public class GetCourseById: EndpointBaseAsync
+public class GetCourseById:EndpointBaseAsync
     .WithRequest<GetCourseByIdQuery>
     .WithActionResult<DefaultResponseObject<CourseByIdVm>>
 {
@@ -24,14 +22,15 @@ public class GetCourseById: EndpointBaseAsync
         _mapper = mapper;
     }
     
-    [HttpGet("/Course/GetCourse")]
+    [HttpGet("/Courses/GetById")]
     [SwaggerOperation(
-        Summary = "Получение курса",
-        Description = "Необходимо передать в теле запроса Id курса",
-        Tags = new[] { "Course" })
+        Summary = "Получение данных о курсе по его Id",
+        Description = "Для получения данных пользователь должен быть залогинен",
+        Tags = new[] { "Courses" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync(GetCourseByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery]GetCourseByIdQuery request, 
+        CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<CourseByIdVm>>(result));

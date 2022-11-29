@@ -8,7 +8,7 @@ const routes = [
       { path: "/user/courses", name: 'user-courses', component: () => import("pages/Courses/UserCoursesPage.vue") },
       { path: "/user/AllCoursesPage", name: 'user-allcoursespage', component: () => import("pages/Courses/AllCoursesPage.vue") },
       { path: "/user/ShowCourseModules/:id", name: 'course-modules', component: () => import("pages/Courses/ShowCourseModules.vue") },
-      { path: "/user/ShowFullCourseModules/:id", name: 'course-fullModules', component: () => import("pages/Courses/ShowFullCourseModules.vue") }
+      { path: "/user/courseDetails", component: () => import("src/pages/Courses/CourseDetailsPage.vue") },
       ],
   },
   // Always leave this as last one,

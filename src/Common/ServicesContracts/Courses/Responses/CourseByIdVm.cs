@@ -1,6 +1,6 @@
 ﻿namespace ServicesContracts.Courses.Responses;
 
-public class CourseForAdminVm
+public class CourseByIdVm
 {
     public string Id { get; set; }
     public string Name { get; set; }
