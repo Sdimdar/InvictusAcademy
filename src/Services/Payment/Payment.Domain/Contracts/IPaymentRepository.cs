@@ -1,4 +1,5 @@
-﻿using Payment.Domain.Enums;
+﻿using CommonRepository.Abstractions;
+using Payment.Domain.Enums;
 using Payment.Domain.Models;
 
 namespace Payment.Domain.Contracts;

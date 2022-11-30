@@ -3,6 +3,7 @@ using Ardalis.Result.FluentValidation;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Payment.Domain.Contracts;
 using Payment.Domain.Models;
 using Payment.Domain.Services;
 using Payment.Infrastructure.Repositories;
@@ -14,10 +15,10 @@ public class AddPaymentCommandHandler : IRequestHandler<AddPaymentCommand, Resul
 {
     private readonly PaymentService _paymentService;
     private readonly IValidator<AddPaymentCommand> _validator;
-    private readonly PaymentHistoryRepository _paymentHistory;
+    private readonly IPaymentHistoryRepository _paymentHistory;
     private readonly IMapper _mapper;
 
-    public AddPaymentCommandHandler(PaymentService paymentService, IValidator<AddPaymentCommand> validator, PaymentHistoryRepository paymentHistory, IMapper mapper)
+    public AddPaymentCommandHandler(PaymentService paymentService, IValidator<AddPaymentCommand> validator, IPaymentHistoryRepository paymentHistory, IMapper mapper)
     {
         _paymentService = paymentService;
         _validator = validator;

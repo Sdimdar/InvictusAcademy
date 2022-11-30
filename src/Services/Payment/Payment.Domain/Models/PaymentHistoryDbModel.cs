@@ -3,7 +3,7 @@ using Payment.Domain.Enums;
 
 namespace Payment.Domain.Models;
 
-public class PaymentHistoryDbModel:BaseRepositoryEntity
+public class PaymentHistoryDbModel : BaseRepositoryEntity
 {
     public int PaymentId { get; set; }
     public int UserId { get; set; }
