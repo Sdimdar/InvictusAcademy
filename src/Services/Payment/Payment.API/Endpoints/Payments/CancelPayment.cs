@@ -8,28 +8,27 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Payment.API.Endpoints.Payments;
 
-public class Reject : EndpointBaseAsync
-    .WithRequest<RejectPaymentCommand>
+public class CancelPayment:EndpointBaseAsync
+    .WithRequest<CancelPaymentCommand>
     .WithActionResult<DefaultResponseObject<bool>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public Reject(IMediator mediator, IMapper mapper)
+    public CancelPayment(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
     }
-
-    [HttpPost("/Payments/Reject")]
+    [HttpPost("/Payments/Cancel")]
     [SwaggerOperation(
-        Summary = "Отклонение заявки на платеж",
-        Description = "Необходимо передать в теле запроса Id платежа и Email админа отклонившего заявку на платёж." +
+        Summary = "Отклонение одобренного платежа",
+        Description = "Необходимо передать в теле запроса Id платежа и Email админа отклонившего платёж." +
                       "А также строку с объяснением почему платёж был отклонён.",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] RejectPaymentCommand request, 
-                                                                                      CancellationToken cancellationToken)
+
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody]CancelPaymentCommand request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));

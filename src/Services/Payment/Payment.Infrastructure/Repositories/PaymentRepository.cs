@@ -75,4 +75,12 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
         var query = await Context.PaymentRequests.Where(e => e.PaymentState == paymentState).ToListAsync();
         return query.Count();
     }
+
+    public async Task<bool> CheckPaymentConfirm(int paymentId)
+    {
+        var query =  Context.PaymentRequests.FirstOrDefaultAsync(p =>
+            p.Id == paymentId && p.PaymentState == PaymentState.Confirmed);
+        if (await query is null) return false;
+        return true;
+    }
 }

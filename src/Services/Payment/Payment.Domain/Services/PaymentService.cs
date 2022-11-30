@@ -88,5 +88,15 @@ public class PaymentService
         if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
         return query.ToList();
     }
+    public async Task<PaymentRequest> CancelPaymentAsync(int paymentId, string rejectReason, string adminEmail)
+    {
+        var checkPayment = await _paymentRepository.CheckPaymentConfirm(paymentId);
+        if (!checkPayment) throw new InvalidOperationException($"Application No. {paymentId} is not paid");
+        var paymentRequest = await _paymentRepository.GetPaymentRequestByIdAsync(paymentId);
+        paymentRequest!.CancelPayment(rejectReason, adminEmail);
+        await _paymentRepository.SavePaymentAsync(paymentRequest);
+        return paymentRequest;
+    }
+    
     
 }

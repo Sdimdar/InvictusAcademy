@@ -12,4 +12,5 @@ public interface IPaymentRepository
     Task<List<PaymentRequest>> GetPaymentRequestsAsync(int pageSize, int page, PaymentState paymentState);
     Task<PaymentRequest?> GetPaymentRequestByIdAsync(int id);
     Task<int> GetPaymentsCount(PaymentState paymentState);
+    Task<bool> CheckPaymentConfirm(int paymentId);
 }
