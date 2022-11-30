@@ -95,6 +95,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Domain", "Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Infrastructure", "Services\FreeArticles.Infrastructure\FreeArticles.Infrastructure.csproj", "{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CloudStorage", "CloudStorage", "{3A738B65-535B-407D-9AA9-810F7568AC48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage.API", "Services\CloudStorage\CloudStorage.API\CloudStorage.API.csproj", "{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage.Application", "Services\CloudStorage\CloudStorage.Application\CloudStorage.Application.csproj", "{161569C0-DB57-4F88-9264-90CFC30C4E48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage.Domain", "Services\CloudStorage\CloudStorage.Domain\CloudStorage.Domain.csproj", "{C0827E38-C3FB-4AA0-840C-9186BB079686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage.Infrastructure", "Services\CloudStorage\CloudStorage.Infrastructure\CloudStorage.Infrastructure.csproj", "{62993E90-CA5B-4B92-8732-DA73161CEEE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +251,22 @@ Global
 		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161569C0-DB57-4F88-9264-90CFC30C4E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161569C0-DB57-4F88-9264-90CFC30C4E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161569C0-DB57-4F88-9264-90CFC30C4E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161569C0-DB57-4F88-9264-90CFC30C4E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0827E38-C3FB-4AA0-840C-9186BB079686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0827E38-C3FB-4AA0-840C-9186BB079686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0827E38-C3FB-4AA0-840C-9186BB079686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0827E38-C3FB-4AA0-840C-9186BB079686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62993E90-CA5B-4B92-8732-DA73161CEEE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62993E90-CA5B-4B92-8732-DA73161CEEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62993E90-CA5B-4B92-8732-DA73161CEEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62993E90-CA5B-4B92-8732-DA73161CEEE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -288,6 +314,11 @@ Global
 		{8DB430A1-FA27-4613-8115-9C968DA6D982} = {32183324-7C31-461B-A5AE-B155F1B629F7}
 		{E695083C-4C6B-4D05-94A4-782AE9753701} = {32183324-7C31-461B-A5AE-B155F1B629F7}
 		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA} = {32183324-7C31-461B-A5AE-B155F1B629F7}
+		{3A738B65-535B-407D-9AA9-810F7568AC48} = {99B0D8FD-A360-4717-B637-D8AA37CD6105}
+		{CA4934BF-E4CA-4ABA-A390-4413FEDCE8C4} = {3A738B65-535B-407D-9AA9-810F7568AC48}
+		{161569C0-DB57-4F88-9264-90CFC30C4E48} = {3A738B65-535B-407D-9AA9-810F7568AC48}
+		{C0827E38-C3FB-4AA0-840C-9186BB079686} = {3A738B65-535B-407D-9AA9-810F7568AC48}
+		{62993E90-CA5B-4B92-8732-DA73161CEEE4} = {3A738B65-535B-407D-9AA9-810F7568AC48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DE1B9DB-6B40-4D8A-8E4F-42BB81F27D89}

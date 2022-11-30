@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+        <PackageReference Include="NLog" Version="5.0.5" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\User\User.Infrastructure\User.Infrastructure.csproj" />
+        <ProjectReference Include="..\CloudStorage.Application\CloudStorage.Application.csproj" />
+        <ProjectReference Include="..\CloudStorage.Domain\CloudStorage.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
