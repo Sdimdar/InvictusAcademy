@@ -1,7 +1,7 @@
 <template>
-  <q-page-container class="column" style="height: 1800px; padding-bottom: 0px;">
+  <q-page-container class="column" style="height: 2000px; padding-bottom: 0px;">
 
-      <div class="col">
+      <div class="col-3">
         <div class="row" style="margin-left: 20px;">
           <div class="column" style="width: 65%;">
             <div style="font-size: 48px; font-weight: 700; color: #000000;">
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="col" style="margin-left: 20px;">
+      <div class="col-1" style="margin-left: 20px;">
         <div class="row">
               <div class="col-3">
                 <div class="column">
@@ -71,7 +71,7 @@
               <div class="col-3">
                 <div class="column">
                   <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Гарантия трудоустройства
+                    Гарантия <br /> трудоустройства
                   </div>
                   <div class="col" style="font-size: 16px; font-weight: 300;">
                     <p> И персональный ментор, <br />  который всегда на связи </p>
@@ -101,15 +101,134 @@
             </div>
         </div>
 
-      <div class="col-2">
-        Идеально подойдут вам
+      <div class="col-3">
           <div class="row">
-
+            <div class="column" style="width: 50%;">
+              <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
+                Станьте квалифицированным специалистом за 2 месяца
+            </div>
+            <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 10px;" >
+              Курс про то, что надо учиться быть тренером. Тут можно смотреть видеоуроки, сдавать тесты, получать баллы, а самое главное - получить сертификат!
+              Онлайн курс, позволяющий научиться специальности “Фитнес Тренер” с нуля до про, после которого вы сможете работать в крупнейших фитнес центрах Казахстана и не только!
+            </div>
+            <div >
+              <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение"
+              style="margin: 20px 10px 10px 10px;" />
+            </div>
+            </div>
+            <div class="column" style="width: 50%;">
+              <div style="padding: 20px;">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/GNgEW-Qh4XU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
           </div>
       </div>
-      <div class="col-2"> Недавно просмотренные </div>
-      <div class="col-2"> Читайте также </div>
-  </q-page-container>
+
+      <div class="col-3">
+        <div class="row">
+          <div class="column">
+              <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
+                Кому этот курс подойдёт?
+            </div>
+            <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 10px;" >
+              Всем! Курс предназначен как для новичков, так и для профессионалов!<br />
+              Вам подойдёт этот курс, если вы:
+            </div>
+            <div class="row" style="margin: 20px 10px 10px 10px;" >
+              <div class="col-3">
+                <div class="column">
+                  <div class="col" style="font-size: 22px; font-weight: 600;">
+                    Самая актуальная информация
+                  </div>
+                  <div class="col" style="font-size: 16px; font-weight: 300;">
+                    <p> С учётом всех изменений <br /> на рынке </p>
+                </div>
+              </div>
+              </div>
+              <div class="col-3">
+                <div class="column">
+                  <div class="col" style="font-size: 22px; font-weight: 600;">
+                    Гарантия <br /> трудоустройства
+                  </div>
+                  <div class="col" style="font-size: 16px; font-weight: 300;">
+                    <p> И персональный ментор, <br />  который всегда на связи </p>
+                </div>
+              </div>
+              </div>
+              <div class="col-3">
+                <div class="column">
+                  <div class="col" style="font-size: 22px; font-weight: 600;">
+                    Возможность <br />  учиться удалённо
+                  </div>
+                  <div class="col" style="font-size: 16px; font-weight: 300;">
+                    <p>Из любой точки мира, <br />  нужен всего-лишь вай-фай</p>
+                </div>
+              </div>
+              </div>
+              <div class="col-3">
+                <div class="column">
+                  <div class="col" style="font-size: 22px; font-weight: 600;">
+                    Востребованный сертификат
+                  </div>
+                  <div class="col" style="font-size: 16px; font-weight: 300;">
+                    <p > По окончанию курса <br /> вы получите сертификат </p>
+                </div>
+              </div>
+              </div>
+              <div class="btn-center">
+              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение"  />
+            </div>
+            </div>
+            </div>
+          </div>
+      </div>
+      <div class="col-2">
+        <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
+            А что внутри курса?
+        </div>
+        <div class="q-pa-md">
+    <q-table
+      :title="title"
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+    >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th auto-width />
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+          >
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+          </q-td>
+          <q-td
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+          >
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
+  </div>
+</q-page-container>
 
 </template>
 
@@ -162,8 +281,14 @@ export default {
 }
 .start-btn{
   padding: 15px;
-  box-shadow: 0px 4px 22px rgba(177, 20, 20, 0.12);
   border-radius: 10px;
+}
+
+.btn-center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
 }
 
 </style>
