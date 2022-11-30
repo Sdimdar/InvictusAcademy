@@ -28,7 +28,7 @@ public class GetCourseModulesId : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса ID курса",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> HandleAsync([FromQuery] GetCourseModulesIdQuerry request,
+    public override async Task<ActionResult<DefaultResponseObject<UniqueList<int>>>> HandleAsync(GetCourseModulesIdQuerry request,
                                                                                                  CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(request, cancellationToken);
