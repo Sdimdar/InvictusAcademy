@@ -7,6 +7,7 @@ public class PurchasedArticleInfoVm
     public string VideoLink { get; set; }
     public string Text { get; set; }
     public bool IsCompleted { get; set; }
+    public bool IsLastArticleInModule { get; set; }
     public ShortModuleInfoVm ModuleInfo { get; set; }
     public List<ShortArticleInfoVm> Articles { get; set; }
 }

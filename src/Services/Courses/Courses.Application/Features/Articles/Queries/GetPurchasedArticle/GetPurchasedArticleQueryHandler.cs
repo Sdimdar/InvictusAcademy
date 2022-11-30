@@ -81,6 +81,7 @@ public class GetPurchasedArticleQueryHandler : IRequestHandler<GetPurchasedArtic
             Title = article.Title,
             VideoLink = article.VideoLink,
             IsCompleted = articleProgress.IsSuccess,
+            IsLastArticleInModule = article.Order == module.Articles.Count,
             ModuleInfo = new ShortModuleInfoVm()
             {
                 Id = request.ModuleId,
