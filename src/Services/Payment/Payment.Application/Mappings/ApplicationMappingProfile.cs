@@ -10,5 +10,7 @@ public class ApplicationMappingProfile : Profile
 	{
 		CreateMap<PaymentRequest, PaymentVm>();
 		CreateMap<PaymentRequest, PaymentsVm>();
-    }
+		CreateMap<PaymentRequest, PaymentHistoryDbModel>()
+			.ForMember(x => x.PaymentId, r => r.MapFrom(p => p.Id));
+	}
 }

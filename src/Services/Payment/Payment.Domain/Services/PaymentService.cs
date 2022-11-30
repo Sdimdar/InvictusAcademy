@@ -18,7 +18,7 @@ public class PaymentService
         _currentPaymentRequests = _paymentRepository.GetCurrentRequestsAsync();
     }
 
-    public async Task AddPaymentRequestAsync(int userId, int courseId)
+    public async Task<PaymentRequest> AddPaymentRequestAsync(int userId, int courseId)
     {
         if (GetCurrentPaymentRequests(userId, courseId).Count != 0)
             throw new InvalidOperationException("This payment is already exists");
@@ -34,22 +34,25 @@ public class PaymentService
         var paymentRequest = new PaymentRequest(nextId, userId, courseId);
         paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);
+        return paymentRequest;
     }
 
-    public async Task AcceptPaymentAsync(int paymentId, string adminEmail)
+    public async Task<PaymentRequest> AcceptPaymentAsync(int paymentId, string adminEmail)
     {
         var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.AcceptPayment(adminEmail);
         await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Remove(paymentRequest);
+        return paymentRequest;
     }
 
-    public async Task RejectPaymentAsync(int paymentId, string rejectReason, string adminEmail)
+    public async Task<PaymentRequest> RejectPaymentAsync(int paymentId, string rejectReason, string adminEmail)
     {
         var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.RejectPayment(rejectReason, adminEmail);
         await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Remove(paymentRequest);
+        return paymentRequest;
     }
 
     public async Task<PaymentRequest?> GetPaymentRequestByIdAsync(int id)

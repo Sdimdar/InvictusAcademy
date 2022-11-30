@@ -15,6 +15,7 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("PaymentConnectionString")));
 
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IPaymentHistoryRepository, PaymentHistoryRepository>();
         return services;
     }
 }

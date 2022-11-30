@@ -1,8 +1,11 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Payment.Domain.Models;
 using Payment.Domain.Services;
+using Payment.Infrastructure.Repositories;
 using ServicesContracts.Payments.Commands;
 
 namespace Payment.Application.Features.Payments.Commands.ConfirmPayment;
@@ -11,11 +14,15 @@ public class ConfirmPaymentCommandHandler : IRequestHandler<ConfirmPaymentComman
 {
     private readonly PaymentService _paymentService;
     private readonly IValidator<ConfirmPaymentCommand> _validator;
+    private readonly PaymentHistoryRepository _paymentHistory;
+    private readonly IMapper _mapper;
 
-    public ConfirmPaymentCommandHandler(PaymentService paymentService, IValidator<ConfirmPaymentCommand> validator)
+    public ConfirmPaymentCommandHandler(PaymentService paymentService, IValidator<ConfirmPaymentCommand> validator, PaymentHistoryRepository paymentHistory, IMapper mapper)
     {
         _paymentService = paymentService;
         _validator = validator;
+        _paymentHistory = paymentHistory;
+        _mapper = mapper;
     }
 
     public async Task<Result<bool>> Handle(ConfirmPaymentCommand request, CancellationToken cancellationToken)
@@ -28,7 +35,9 @@ public class ConfirmPaymentCommandHandler : IRequestHandler<ConfirmPaymentComman
 
         try
         {
-            await _paymentService.AcceptPaymentAsync(request.PaymentId, request.AdminEmail);
+            var paymentRequest = await _paymentService.AcceptPaymentAsync(request.PaymentId, request.AdminEmail);
+            var paymentHistory = _mapper.Map<PaymentHistoryDbModel>(paymentRequest);
+            await _paymentHistory.AddAsync(paymentHistory);
             return Result.Success(true);
         }
         catch (InvalidOperationException ex)
