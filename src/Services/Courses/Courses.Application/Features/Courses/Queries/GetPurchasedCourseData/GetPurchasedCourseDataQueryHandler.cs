@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
 using Courses.Application.Contracts;
+using Courses.Domain.Entities.CourseInfo;
 using FluentValidation;
 using MediatR;
 using ServicesContracts.Courses.Requests.Courses.Querries;
@@ -58,15 +59,54 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
 
         var modulesData = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfoData.ModulesId, cancellationToken);
 
-        List<ShortModuleInfoVm> shortModules = new();
+        List<PurchasedModuleInfoVm> shortModules = new();
         foreach (var item in modulesData!)
         {
-            shortModules.Add(new ShortModuleInfoVm()
+            shortModules.Add(new PurchasedModuleInfoVm()
             {
                 Id = item.Id,
                 ShortDescription = item.ShortDescription,
                 Title = item.Title,
+                IsCompleted = coursePurchaseResultData.ModuleProgresses.First(o => o.Id == item.Id).IsSuccess
             });
+        }
+
+        int completedModulesCount = 0;
+        ShortModuleInfoVm? nextLearningModule = null;
+        ShortArticleInfoVm? nextLearningArticle = null;
+        foreach (var module in coursePurchaseResultData.ModuleProgresses)
+        {
+            if (module.EndDate is not null)
+            {
+                completedModulesCount++;
+            }
+            else
+            {
+                ModuleInfoDbModel moduleInfo = modulesData.First(m => m.Id == module.Id);
+                nextLearningModule ??= new ShortModuleInfoVm()
+                {
+                    Id = moduleInfo.Id,
+                    Title = moduleInfo.Title,
+                    ShortDescription = moduleInfo.ShortDescription
+                };
+                foreach (var article in module.ArticlesProgresses)
+                {
+                    if (article.IsOpened)
+                    {
+                        Article? articleInfo = moduleInfo.Articles?.First(a => a.Order == article.Order);
+                        if (articleInfo is null) break;
+
+                        nextLearningArticle ??= new ShortArticleInfoVm()
+                        {
+                            Order = article.Order,
+                            Title = articleInfo.Title,
+                            IsCompleted = article.IsSuccess,
+                            IsOpened = article.IsOpened,
+                        };
+                        break;
+                    }
+                }
+            }
         }
 
         PurchasedCourseInfoVm result = new()
@@ -74,7 +114,10 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
             Id = request.CourseId,
             Description = courseData.Description,
             Name = courseData.Name,
-            Modules = shortModules
+            Modules = shortModules,
+            CompletedModulesCount = completedModulesCount,
+            NextLearingModule = nextLearningModule,
+            NextLearningArticle = nextLearningArticle
         };
 
         return Result.Success(result);

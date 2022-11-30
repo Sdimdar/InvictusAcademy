@@ -18,4 +18,7 @@ public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
 
     Task<DefaultResponseObject<PurchasedCourseInfoVm>> GetPurchasedCourseInfo(GetPurchasedCourseDataQuery query,
                                                                               CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<PurchasedArticleInfoVm>> GetPurchasedArticleInfo(GetPurchasedArticleQuery query,
+                                                                                CancellationToken cancellationToken);
 }
