@@ -80,8 +80,12 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
     
     public async Task<CourseDbModel> GetCourseById(int id)
     {
-        CourseDbModel? result = await Context.Courses.FirstOrDefaultAsync(c=>c.Id==id);
-        return result;
+        var course = Context.Courses.FirstOrDefault(c => c.Id == id);
+        var points = Context.CoursePoints.Where(p => p.CourseId == id).ToList();
+        if (course != null) 
+            course.CoursePoints = points;
+        
+        return course ?? throw new InvalidOperationException();
     }
 
     public async Task<bool> CourseIsPaid(int userId, int courseId)

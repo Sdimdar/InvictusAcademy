@@ -60,6 +60,18 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValue("");
 
+                    b.Property<string>("SecondDescription")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(500)")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("SecondName")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasDefaultValue("");
+
                     b.Property<string>("VideoLink")
                         .HasColumnType("VARCHAR(100)");
 
@@ -80,24 +92,28 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Point")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("VARCHAR(500)");
 
                     b.Property<string>("PointImageLink")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("VARCHAR(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("CoursePointsDbModel");
+                    b.ToTable("CoursePoints");
                 });
 
             modelBuilder.Entity("Courses.Domain.Entities.CoursePurchasedDbModel", b =>

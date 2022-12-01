@@ -30,6 +30,44 @@
     />
   </div>
 
+  <div class="q-pa-md" style="max-width: 300px">
+    <q-input
+      v-model="courseData.secondName"
+      filled
+      type="textarea"
+      label="Введите мотивирующее обращение"
+      :rules="[ myRule ]"
+    />
+  </div>
+
+  <div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.secondDescription"
+      filled
+      type="textarea"
+      label="Введите подробное второе описание"
+      :rules="[ myRule ]"
+    />
+  </div>
+
+  <div  v-for="(input, index) in courseData.coursePoints" :key="`pointsInput-${index}`">
+    <q-input dense v-model="input.point" label="Введите пункт кому курс подойдет"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]" />
+    <q-input dense v-model="input.pointImageLink" label="Введите ссылку на изображение для пункта"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]" />
+  </div>
+
+  <q-card-actions align="right" class="text-primary">
+            <q-btn @click="addField(courseData.coursePoints)"  label="Добавить пункт" />
+            <q-btn @click="removeField(courseData.coursePoints)" label="Удалить пункт" />
+    </q-card-actions>
+
   <div class="q-pa-md" style="max-width: 700px">
     <q-input
       v-model="courseData.videoLink"
@@ -52,8 +90,6 @@
     </div>
   </div>
   <q-btn color="black" label="Создать курс" @click="submitCourse" />
-
-
 
 
   <div class="search-modules-box" v-if="showModules">
@@ -121,6 +157,9 @@ export default{
         name: '',
         cost: 1,
         description: '',
+        secondName: '',
+        secondDescription: '',
+        coursePoints: [{point: "", pointImageLink: ""}],
         isActive: true,
         videoLink: ""
       },
@@ -133,11 +172,6 @@ export default{
           articles: []
         }
       ],
-      responceDataCourse: {
-        id: 0,
-        name: "",
-        description: ""
-      },
       forCreateModules: [
       ]
     }
@@ -194,12 +228,11 @@ export default{
       try {
         console.log(this.courseData)
         const response = await createCourse(this.courseData);
+        this.showModules = true
         console.log(response)
-        if (response.data.isSuccess) {
-          this.responceDataCourse = response.data.value;
+        if (response.status === 200) {
           console.log(response.data.value)
           notify.showSucsessNotify("Курс создан");
-          this.showModules = true
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -266,7 +299,13 @@ export default{
     },
     log(){
       console.log(this.forCreateModules)
-    }
+    },
+    addField(fieldType) {
+      fieldType.push({point: "", pointImageLink: ""});
+    },
+    removeField(index, fieldType) {
+      fieldType.splice(index, 1);
+    },
   }
 }
 </script>
@@ -295,9 +334,6 @@ export default{
   padding: 5px 20px;
   border: 1px solid #DDD;
 }
-.module-item:hover{
-}
-
 .submitModuleButton{
   margin: 0 auto;
   display: block;;

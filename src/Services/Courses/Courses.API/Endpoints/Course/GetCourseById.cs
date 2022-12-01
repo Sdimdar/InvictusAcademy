@@ -31,7 +31,7 @@ public class GetCourseById: EndpointBaseAsync
         Tags = new[] { "Course" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync(GetCourseByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery]GetCourseByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<CourseByIdVm>>(result));

@@ -29,4 +29,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Courses\Responses\CourseForAdminVm 2.cs" />
+  </ItemGroup>
+
 </Project>
