@@ -8,9 +8,9 @@ public class CloudStorageMapping : Profile
 {
     public CloudStorageMapping()
     {
-        CreateMap<CloudStorageDbModel,UploadFileCommand>()
-            .ForMember(m => m.File.FileName, 
-                o => 
-                    o.MapFrom(f => f.FileName));
+        // CreateMap<CloudStorageDbModel,UploadFileCommand>()
+        //     .ForMember(m => m.File.FileName, 
+        //         o => 
+        //             o.MapFrom(f => f.FileName));
     }
 }

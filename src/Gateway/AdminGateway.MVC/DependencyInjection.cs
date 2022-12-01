@@ -20,6 +20,8 @@ public static class DependencyInjection
         services.AddExtendedHttpClient();
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICloudStorages, CloudStorage>(
+            configuration["ApiSettings:CloudStorageUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IModulesService, ModulesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);

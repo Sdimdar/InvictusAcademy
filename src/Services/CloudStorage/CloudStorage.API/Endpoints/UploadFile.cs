@@ -20,7 +20,8 @@ public class UploadFile: EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-
+    [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)] 
+    [DisableRequestSizeLimit]
     [HttpPost("/CloudService/UploadFile")]
     [SwaggerOperation(
         Summary = "Загрузка файла",

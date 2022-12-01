@@ -48,7 +48,10 @@ public class UploadFileHandler : IRequestHandler<UploadFileCommand, Result<strin
             var fileTransferUtility = new TransferUtility(client);
             await fileTransferUtility.UploadAsync(uploadRequest);
         }
-        CloudStorageDbModel newFile = _mapper.Map<CloudStorageDbModel>(request);
+
+        CloudStorageDbModel newFile = new CloudStorageDbModel();
+        newFile.FileName = request.File.FileName;
+        newFile.LastModifiedDate = DateTime.Now;
         var result = await _repository.AddAsync(newFile);
         if (result is null)
         {
