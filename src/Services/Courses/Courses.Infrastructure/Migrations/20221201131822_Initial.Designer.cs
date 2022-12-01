@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Courses.Infrastructure.Migrations
 {
     [DbContext(typeof(CoursesDbContext))]
-    [Migration("20221023090425_IncreaseCost")]
-    partial class IncreaseCost
+    [Migration("20221201131822_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,38 @@ namespace Courses.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Courses.Domain.Entities.CoursePointsDbModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Point")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PointImageLink")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CoursePointsDbModel");
                 });
 
             modelBuilder.Entity("Courses.Domain.Entities.CoursePurchasedDbModel", b =>
@@ -140,6 +172,17 @@ namespace Courses.Infrastructure.Migrations
                     b.ToTable("CourseWisheds");
                 });
 
+            modelBuilder.Entity("Courses.Domain.Entities.CoursePointsDbModel", b =>
+                {
+                    b.HasOne("Courses.Domain.Entities.CourseDbModel", "Course")
+                        .WithMany("CoursePoints")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Courses.Domain.Entities.CoursePurchasedDbModel", b =>
                 {
                     b.HasOne("Courses.Domain.Entities.CourseDbModel", "Course")
@@ -164,6 +207,8 @@ namespace Courses.Infrastructure.Migrations
 
             modelBuilder.Entity("Courses.Domain.Entities.CourseDbModel", b =>
                 {
+                    b.Navigation("CoursePoints");
+
                     b.Navigation("CoursePurchased");
 
                     b.Navigation("CourseWished");
