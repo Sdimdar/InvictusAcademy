@@ -29,7 +29,7 @@ public class GetPurchasedArticleInfo : EndpointBaseAsync
         Description = "Необходимо передать в строке запроса Order статьи, Id курса и Id модуля",
         Tags = new[] { "Articles" })
     ]
-    public async override Task<ActionResult<DefaultResponseObject<PurchasedArticleInfoVm>>> HandleAsync(GetPurchasedArticleQuery request,
+    public async override Task<ActionResult<DefaultResponseObject<PurchasedArticleInfoVm>>> HandleAsync([FromQuery] GetPurchasedArticleQuery request,
                                                                                                         CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

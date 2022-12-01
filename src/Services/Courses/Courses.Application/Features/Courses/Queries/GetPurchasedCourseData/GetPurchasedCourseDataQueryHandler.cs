@@ -67,7 +67,7 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
                 Id = item.Id,
                 ShortDescription = item.ShortDescription,
                 Title = item.Title,
-                IsCompleted = coursePurchaseResultData.ModuleProgresses.First(o => o.Id == item.Id).IsSuccess
+                IsCompleted = coursePurchaseResultData.ModuleProgresses.First(o => o.ModuleId == item.Id).IsSuccess
             });
         }
 
@@ -82,7 +82,7 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
             }
             else
             {
-                ModuleInfoDbModel moduleInfo = modulesData.First(m => m.Id == module.Id);
+                ModuleInfoDbModel moduleInfo = modulesData.First(m => m.Id == module.ModuleId);
                 nextLearningModule ??= new ShortModuleInfoVm()
                 {
                     Id = moduleInfo.Id,

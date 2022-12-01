@@ -48,22 +48,36 @@ public class GetPurchasedArticleQueryHandler : IRequestHandler<GetPurchasedArtic
 
         var modulesData = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfoData.ModulesId, cancellationToken);
 
-        ArticleProgress articleProgress = coursePurchaseResultData.ModuleProgresses.First(o => o.Id == request.ModuleId)
-                                                                  .ArticlesProgresses.First(o => o.Order == request.ArticleOrder);
+        ModuleProgress moduleProgress;
+        ArticleProgress articleProgress;
+        try
+        {
+            moduleProgress = coursePurchaseResultData.ModuleProgresses.First(o => o.ModuleId == request.ModuleId);
+            articleProgress = moduleProgress.ArticlesProgresses.First(o => o.Order == request.ArticleOrder);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Result.Error("Not found module or article");
+        }
+
 
         if (!articleProgress.IsOpened)
         {
             return Result.Error("Article is not aviliable now, pass the previous tests");
         }
 
+        articleProgress.StartDate ??= DateTime.Now;
+        moduleProgress.StartDate ??= DateTime.Now;
+
+        var task = _courseResultsInfoRepository.UpdateAsync(coursePurchaseResultData.Id, coursePurchaseResultData, cancellationToken);
+
         ModuleInfoDbModel module = modulesData!.First(m => m.Id == request.ModuleId);
         Article article = module.Articles!.First(a => a.Order == request.ArticleOrder);
-
 
         List<ShortArticleInfoVm> shortArticleInfoVms = new();
         foreach (var item in module.Articles)
         {
-            ArticleProgress progress = coursePurchaseResultData.ModuleProgresses.First(o => o.Id == request.ModuleId)
+            ArticleProgress progress = coursePurchaseResultData.ModuleProgresses.First(o => o.ModuleId == request.ModuleId)
                                                                .ArticlesProgresses.First(o => o.Order == item.Order);
             shortArticleInfoVms.Add(new ShortArticleInfoVm()
             {
