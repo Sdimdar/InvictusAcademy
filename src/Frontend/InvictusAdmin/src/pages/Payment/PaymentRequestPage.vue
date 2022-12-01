@@ -214,12 +214,3 @@ async function onRequest (props) {
     
 }
 </script>
-<style>
-.my-select{
-  padding: 16 px;
-  margin-right: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 2px solid lightblue;
-}
-</style>

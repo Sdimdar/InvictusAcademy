@@ -35,7 +35,7 @@
               </q-td>
               <q-td key="reject" :props="props" >
                 <q-btn
-                @click="reject(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
+                @click="cancel(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
                 color="red"
                 >Отменить оплату</q-btn>
               </q-td>
@@ -46,7 +46,7 @@
   </template>
   
   <script>
-  import {getPaymentsByParams,confirmPaymentById,rejectPayment} from 'boot/axios';
+  import {getPaymentsByParams,confirmPaymentById,cancelPayment} from 'boot/axios';
   import { ref, onMounted } from 'vue';
   import notify from "boot/notifyes";
   
@@ -140,24 +140,6 @@
         onRequest      
       }
   },methods: {
-          async confirmPayment(id,index){
-            try{
-              let payload = {paymentId:id}
-              let response = await confirmPaymentById(payload);
-            if(response.data.isSuccess){
-              notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
-              delete this.rows[index]
-            
-            }
-            else {
-            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-            return;
-          }
-            }
-            catch(error){
-              console.log(error.message);
-            }
-          },
           async refreshTable(){
             try {
           let response = await getPaymentsByParams(this.query);
@@ -175,7 +157,7 @@
         console.log(error.message);
       }
           },
-          async reject(id,rejectMessage,index){
+          async cancel(id,rejectMessage,index){
               if(rejectMessage === null || rejectMessage.length < 5){
                   return notify.showWarningNotify("Заполните причину возврата, не менее 5 символов")
               }
@@ -184,9 +166,9 @@
                 rejectReason:rejectMessage
               }
               try{
-                let response = await rejectPayment(payload);
+                let response = await cancelPayment(payload);
                 if(response.data.isSuccess){
-                notify.showWarningNotify(`Заявка № ${id} отменена`)
+                notify.showWarningNotify(`Оплата по заявке № ${id} отменена`)
                 delete this.rows[index]
               }else {
             response.data.errors.forEach(element => { notify.showErrorNotify(element); });

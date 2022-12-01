@@ -166,7 +166,15 @@ public class PaymentService : IPaymentService
         paymentsHistory = await GetEmailsAndCourseNames(paymentsHistory);
         return paymentsHistory;
     }
-    
+
+    public async Task<DefaultResponseObject<bool>> CancelPaymentAsync(CancelPaymentCommand request,
+        CancellationToken cancellationToken)
+    {
+        var response = await ExtendedHttpClient.PostAndReturnResponseAsync<CancelPaymentCommand, DefaultResponseObject<bool>>(
+            request, "/Payments/Cancel", cancellationToken);
+        return response;
+    }
+
     //Используется только для типа PaymentHistoryVm
     private async Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetEmailsAndCourseNames(
         DefaultResponseObject<List<PaymentHistoryVm>> paymentsHistory)

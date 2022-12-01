@@ -23,4 +23,7 @@ public interface IPaymentService : IUseExtendedHttpClient<IPaymentService>
 
     Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetHistoryByPaymentId(
         GetHistoryByPaymentIdQuery request, CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<bool>> CancelPaymentAsync(CancelPaymentCommand request,
+        CancellationToken cancellationToken);
 }

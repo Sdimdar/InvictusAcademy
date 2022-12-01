@@ -13,7 +13,8 @@ const routes = [
       { path: "allCourses", component: () => import("pages/Courses/AllCourses.vue") },
       { path: "paymentRequests", component: () => import("src/pages/Payment/PaymentRequestPage.vue")},
       { path: "confirmPayments", component: () => import("src/pages/Payment/ConfirmPaymentPage.vue")},
-      { path: "rejectRequests", component: () => import("src/pages/Payment/RejectRequests.vue")}
+      { path: "rejectRequests", component: () => import("src/pages/Payment/RejectRequests.vue")},
+      {path: "historyPage", component:() => import("src/pages/Payment/HistoryPage.vue")}
     ],
   },
   // Always leave this as last one,

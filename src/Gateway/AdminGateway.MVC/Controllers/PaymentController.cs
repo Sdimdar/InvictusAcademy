@@ -136,5 +136,19 @@ public class PaymentController : Controller
         return Ok(response);
     }
 
+    [HttpPost]
+    [SwaggerOperation(
+        Summary = "Отклонение одобренного платежа",
+        Description = "Необходимо передать в теле запроса Id платежа и Email админа отклонившего платёж." +
+                      "А также строку с объяснением почему платёж был отклонён.")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<bool>>> CancelPayment([FromBody] CancelPaymentCommand request,
+        CancellationToken cancellationToken)
+    {
+        request.AdminEmail = User.Identity.Name;
+        var response = await _paymentService.CancelPaymentAsync(request, cancellationToken);
+        return Ok(response);
+    }
+
 
 }
