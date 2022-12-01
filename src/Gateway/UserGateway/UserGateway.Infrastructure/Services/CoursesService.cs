@@ -4,12 +4,15 @@ using ExtendedHttpClient;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using UserGateway.Application.Contracts;
+using ServicesContracts.Courses.Requests.Tests.Queries;
+using ServicesContracts.Courses.Requests.Tests.Commands;
 
 namespace UserGateway.Infrastructure.Services;
 
 public class CoursesService : ICoursesService
 {
     public ExtendedHttpClient<ICoursesService> ExtendedHttpClient { get; set; }
+
     public CoursesService(ExtendedHttpClient<ICoursesService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
@@ -43,5 +46,18 @@ public class CoursesService : ICoursesService
         return await ExtendedHttpClient.
             GetAndReturnResponseAsync<DefaultResponseObject<PurchasedArticleInfoVm>>($"Articles/GetPurchasedArticleInfo?" +
             $"UserId={query.UserId}&ModuleId={query.ModuleId}&CourseId={query.CourseId}&ArticleOrder={query.ArticleOrder}", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<List<PurchasedTestVm>>> GetPurchasedTestInfo(GetPurchasedTestQuery request, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.
+            GetAndReturnResponseAsync<DefaultResponseObject<List<PurchasedTestVm>>>($"Articles/GetPurchasedTestInfo?" +
+        $"UserId={request.UserId}&ModuleId={request.ModuleId}&CourseId={request.CourseId}&ArticleOrder={request.ArticleOrder}", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<TestResultVm>> CheckTestAnswer(CheckTestAnswersCommand request, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<CheckTestAnswersCommand, DefaultResponseObject<TestResultVm>>
+            (request, "/Tests/CheckTestAnswers", cancellationToken);
     }
 } 

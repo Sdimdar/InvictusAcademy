@@ -26,6 +26,12 @@ public class ModulesService : IModulesService
         return await ExtendedHttpClient.PostAndReturnResponseAsync<AddArticlesCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddArticles");
     }
 
+    public async Task<DefaultResponseObject<ModuleInfoVm>> AddTest(AddTestCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddTestCommand, 
+            DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddTest");
+    }
+
     public async Task<DefaultResponseObject<ModuleInfoVm>> Create(CreateModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Create");

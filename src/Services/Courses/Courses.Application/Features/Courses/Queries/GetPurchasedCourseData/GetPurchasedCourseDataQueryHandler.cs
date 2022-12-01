@@ -49,7 +49,7 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
         var coursePurchaseData = await _coursePurchasedRepository.GetFirstOrDefaultAsync(p => p.UserId == request.UserId && p.CourseId == request.CourseId);
         if (coursePurchaseData is null) return Result.Error($"Course is not purchased");
 
-        var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(request.CourseId, cancellationToken);
+        var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
         if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
         if (coursePurchaseResultData.EndDate >= DateTime.Now) return Result.Error($"Course is not allowed now");

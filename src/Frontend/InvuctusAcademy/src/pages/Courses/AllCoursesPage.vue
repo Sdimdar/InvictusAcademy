@@ -1,20 +1,19 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <left-bar />
-    <div class="my-courses">
-      <h4 style="text-align: center">Все курсы</h4>
+  <q-page-container>
+    <h4 style="text-align: center">Все курсы</h4>
 
-      <q-splitter>
-        <template v-slot:after>
-          <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
-            <q-tab-panel name="new">
-              <course-card class="list-card" v-for="course in newCourses" :data="course" />
-            </q-tab-panel>
-          </q-tab-panels>
-        </template>
-      </q-splitter>
-    </div>
-  </q-layout>
+    <q-splitter>
+      <template v-slot:after>
+        <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
+          <q-tab-panel name="new">
+            <course-card class="list-card" v-for="course in newCourses" :data="course" />
+          </q-tab-panel>
+        </q-tab-panels>
+      </template>
+    </q-splitter>
+
+  </q-page-container>
+
 </template>
 
 <script>

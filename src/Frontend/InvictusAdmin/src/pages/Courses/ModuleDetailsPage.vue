@@ -24,18 +24,11 @@
             <createArticle :title="title" :id="id" :articles="articles" @addArticle="getModuleData" />
             <div>
               <table class="styled-table">
-                  <thead>
-                      <tr>
-                          <th>Название</th>
-                          <th>Ссылка на видел</th>
-                          <th>Детали</th>
-                      </tr>
-                  </thead>
                   <tbody>
                       <tr v-for="article in articles" :key="article.order">
+                          <td>{{article.order}}</td>
                           <td>{{article.title}}</td>
-                          <td>{{article.videoLink}}</td>
-                          <articleText :id="id" :order="article.order" />
+                          <q-btn label="Детали" @click="openDetails(id, article.order)" />
                       </tr>
                   </tbody>
               </table>
@@ -55,13 +48,12 @@ import { defineComponent, ref } from "vue";
 import { updateModule, fetchModuleById } from "boot/axios";
 import notify from "boot/notifyes";
 import CreateArticle from 'src/components/Module/CreateArticleButton.vue'
-import ArticleText from 'src/components/Module/ArticleText.vue'
+
 
 export default defineComponent({
   name: "detailsPage",
   components: {
-    CreateArticle,
-    ArticleText
+    CreateArticle
   },
   setup() {
     return {
@@ -112,7 +104,10 @@ export default defineComponent({
       this.shortDescription = "";
       this.updateDialog = false;
       this.errorMessage = "";
-    }
+    },
+    openDetails(id, order){
+    this.$router.push({path:'/admin-panel/article', query:{id: id, order: order }})
+  }
   },
   beforeMount() {
     this.getModuleData()
