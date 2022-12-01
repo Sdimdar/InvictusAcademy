@@ -1,4 +1,6 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
+using AutoMapper;
 using CommonStructures;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
@@ -6,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
+using ServicesContracts.Jitsi;
+using ServicesContracts.Jitsi.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -13,10 +17,14 @@ namespace AdminGateway.MVC.Controllers;
 public class CoursesController : Controller
 {
     private readonly ICoursesService _coursesService;
+    private readonly IStreamingRoomsService _streamingRoomsService;
+    private readonly IMapper _mapper;
 
-    public CoursesController(ICoursesService coursesService)
+    public CoursesController(ICoursesService coursesService, IMapper mapper, IStreamingRoomsService streamingRoomsService)
     {
         _coursesService = coursesService;
+        _mapper = mapper;
+        _streamingRoomsService = streamingRoomsService;
     }
     
     [HttpPost]
@@ -24,9 +32,15 @@ public class CoursesController : Controller
         Summary = "Создание курса",
         Description = "Необходимо передать в теле запроса данные по новому курсу"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody]CreateCourseCommand request)
+    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody]CreateCourseAndRoomCommand request)
     {
-        var response = await _coursesService.Create(request);
+        CreateCourseCommand courseCommand = _mapper.Map<CreateCourseCommand>(request);
+        var response = await _coursesService.Create(courseCommand);
+        if (response.IsSuccess)
+        {
+            CreateStreamingRoomCommand streamingRoomCommand = _mapper.Map<CreateStreamingRoomCommand>(request);
+            var responseLast = await _streamingRoomsService.Create(streamingRoomCommand);
+        }
         return Ok(response);
     }
     
