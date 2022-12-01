@@ -34,7 +34,7 @@ public class CoursesService : ICoursesService
     public async Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query, 
         CancellationToken cancellationToken)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCourseByIdQuery, DefaultResponseObject<CourseByIdVm>>
-        (query, "/Course/GetCourse", cancellationToken);
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>
+            ( $"/Course/GetCourse?id={query.Id}");
     }
 } 

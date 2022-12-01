@@ -164,6 +164,9 @@ export default{
         videoLink: ""
       },
       showModules: false,
+      responseDataCourse:{
+        id: ''
+      },
       allModules: [
         {
           id: 0,
@@ -228,11 +231,12 @@ export default{
       try {
         console.log(this.courseData)
         const response = await createCourse(this.courseData);
-        this.showModules = true
         console.log(response)
-        if (response.status === 200) {
+        if (response.data.isSuccess) {
           console.log(response.data.value)
+          this.showModules = true
           notify.showSucsessNotify("Курс создан");
+          this.responseDataCourse.id = response.data.value.id
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -246,11 +250,12 @@ export default{
       console.log(this.forCreateModules)
       try {
         const dataForModulesInsert = {
-          courseId: this.responceDataCourse.id,
+          courseId: this.responseDataCourse.id,
           modulesId: [],
           startIndex: -1
         }
         this.forCreateModules.forEach(el => dataForModulesInsert.modulesId.push(el.id))
+        console.log(dataForModulesInsert)
         const response = await insertModules(dataForModulesInsert);
         if (response.data.isSuccess) {
             notify.showSucsessNotify("Модули добавлены");

@@ -105,11 +105,10 @@
           <div class="row">
             <div class="column" style="width: 50%;">
               <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
-                Станьте квалифицированным специалистом за 2 месяца
+                {{ course.secondName }}
             </div>
             <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 10px;" >
-              Курс про то, что надо учиться быть тренером. Тут можно смотреть видеоуроки, сдавать тесты, получать баллы, а самое главное - получить сертификат!
-              Онлайн курс, позволяющий научиться специальности “Фитнес Тренер” с нуля до про, после которого вы сможете работать в крупнейших фитнес центрах Казахстана и не только!
+              {{ course.secondDescription }}
             </div>
             <div >
               <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение"
@@ -134,53 +133,23 @@
               Всем! Курс предназначен как для новичков, так и для профессионалов!<br />
               Вам подойдёт этот курс, если вы:
             </div>
-            <div class="row" style="margin: 20px 10px 10px 10px;" >
-              <div class="col-3">
+            <div class="row" style="margin: 20px 10px 10px 10px;">
+             <div class="col-3" v-for="(point, index) in course.coursePoints" :key="`points-${index}`">
                 <div class="column">
                   <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Самая актуальная информация
+                    {{ point.pointImageLink }}
                   </div>
                   <div class="col" style="font-size: 16px; font-weight: 300;">
-                    <p> С учётом всех изменений <br /> на рынке </p>
+                    <p> {{ point.point }}</p>
                 </div>
               </div>
               </div>
-              <div class="col-3">
-                <div class="column">
-                  <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Гарантия <br /> трудоустройства
-                  </div>
-                  <div class="col" style="font-size: 16px; font-weight: 300;">
-                    <p> И персональный ментор, <br />  который всегда на связи </p>
-                </div>
-              </div>
-              </div>
-              <div class="col-3">
-                <div class="column">
-                  <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Возможность <br />  учиться удалённо
-                  </div>
-                  <div class="col" style="font-size: 16px; font-weight: 300;">
-                    <p>Из любой точки мира, <br />  нужен всего-лишь вай-фай</p>
-                </div>
-              </div>
-              </div>
-              <div class="col-3">
-                <div class="column">
-                  <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Востребованный сертификат
-                  </div>
-                  <div class="col" style="font-size: 16px; font-weight: 300;">
-                    <p > По окончанию курса <br /> вы получите сертификат </p>
-                </div>
-              </div>
-              </div>
-              <div class="btn-center">
-              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение"  />
+            </div>
+            <div class="btn-center">
+              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" />
             </div>
             </div>
             </div>
-          </div>
       </div>
       <div class="col-2">
         <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
