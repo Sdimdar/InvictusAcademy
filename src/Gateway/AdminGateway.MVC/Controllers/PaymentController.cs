@@ -111,4 +111,30 @@ public class PaymentController : Controller
         var response = await _paymentService.GetPaymentsCount(request, cancellationToken);
         return Ok(response);
     }
+
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Запрос на получение истории действий менеджера",
+        Description = "Необходимо передать admin email ")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<List<PaymentHistoryVm>>>> GetHistoryByAdminName(
+        [FromQuery] GetHistoryByAdminNameQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _paymentService.GetHistoryByAdminNameAsync(request, cancellationToken);
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Запрос на получение истории действий по заявке на покупку",
+        Description = "Необходимо передать id заявки на оплату ")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<List<PaymentHistoryVm>>>> GetHistoryByPaymentId(
+        [FromQuery] GetHistoryByPaymentIdQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _paymentService.GetHistoryByPaymentId(request, cancellationToken);
+        return Ok(response);
+    }
+
+
 }

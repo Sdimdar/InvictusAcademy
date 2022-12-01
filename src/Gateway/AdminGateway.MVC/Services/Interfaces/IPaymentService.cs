@@ -17,4 +17,10 @@ public interface IPaymentService : IUseExtendedHttpClient<IPaymentService>
 
     Task<DefaultResponseObject<int>> GetPaymentsCount(GetPaymentsCountQuery request,
         CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetHistoryByAdminNameAsync(
+        GetHistoryByAdminNameQuery request, CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetHistoryByPaymentId(
+        GetHistoryByPaymentIdQuery request, CancellationToken cancellationToken);
 }
