@@ -85,7 +85,7 @@ export default defineComponent({
         test:{
           testShowCount:"",
           testCompleteCount:"",
-          testQuestions: [{question: "", questionType: "",  answers:[{text: "", isCorrect: false}]}]
+          testQuestions: [{id: 0, question: "", questionType: "",  answers:[{id: 0, text: "", isCorrect: false}]}]
         },
         types: [{num: 0, name: 'Один вариант ответа'}, {num: 1, name: 'Несколько вариaнтов ответа'}],
       };
@@ -129,14 +129,14 @@ export default defineComponent({
       this.editTestDialog = false;
       this.errorMessage = "";
     },
-   addField(fieldType) {
-      fieldType.push({question: "", questionType: "",  answers:[{text: "", isCorrect: false}]});
+    addField(fieldType) {
+      fieldType.push({id: fieldType.length, question: "", questionType: "",  answers:[{id: 0, text: "", isCorrect: false}]});
     },
     removeField(index, fieldType) {
       fieldType.splice(index, 1);
     },
     addAnswerField(fieldType) {
-      fieldType.push({text: "", isCorrect: false});
+      fieldType.push({id: fieldType.length, text: "", isCorrect: false});
     },
   },
 });

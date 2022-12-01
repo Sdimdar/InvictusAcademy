@@ -36,16 +36,8 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody]AddTestCommand request)
     {
-        try
-        {
-            var response = await _modulesService.AddTest(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.AddTest(request);
+        return Ok(response);
     }
     
     [HttpPost]
