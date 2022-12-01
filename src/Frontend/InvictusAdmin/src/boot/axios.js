@@ -73,6 +73,7 @@ export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Module
 
 //articles
 export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);
+export const addTest = (payload) => api.post('/AdminPanel/Modules/AddTest', payload);
 
 //payments
 export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{UserId:paymentData.userId, CourseId:paymentData.courseId, Status:paymentData.status}})

@@ -1,10 +1,8 @@
 <template>
-  <q-btn
-    :class="$attrs.class"
-    label="Зарегистрироваться"
-    @click="registerDialog = true"
-  />
-
+     <q-item clickable v-ripple @click="registerDialog = true">
+    <q-item-section> Зарегистрироваться </q-item-section>
+  </q-item>
+ 
   <q-dialog v-model="registerDialog">
     <q-card style="min-width: 350px">
       <q-card-section>
@@ -149,7 +147,7 @@ export default defineComponent({
         else{
           this.errorMessages = response.data.validationErrors
         }
-        
+
       } catch (e) {
         notify.showErrorNotify(e.message);
         console.log(e);
