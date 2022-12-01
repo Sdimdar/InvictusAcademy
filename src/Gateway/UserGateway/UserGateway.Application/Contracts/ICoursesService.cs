@@ -2,6 +2,7 @@
 using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Requests.Modules.Queries;
+using ServicesContracts.Courses.Requests.Tests.Commands;
 using ServicesContracts.Courses.Requests.Tests.Queries;
 using ServicesContracts.Courses.Responses;
 
@@ -25,4 +26,7 @@ public interface ICoursesService : IUseExtendedHttpClient<ICoursesService>
 
     Task<DefaultResponseObject<List<PurchasedTestVm>>> GetPurchasedTestInfo(GetPurchasedTestQuery request,
                                                                       CancellationToken cancellationToken);
+
+    Task<DefaultResponseObject<int>> CheckTestAnswer(CheckTestAnswersCommand request,
+                                                     CancellationToken cancellationToken);
 }

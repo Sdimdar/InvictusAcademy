@@ -48,7 +48,7 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         var coursePurchaseData = await _coursePurchasedRepository.GetFirstOrDefaultAsync(p => p.UserId == request.UserId && p.CourseId == request.CourseId);
         if (coursePurchaseData is null) return Result.Error($"Course is not purchased");
 
-        var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(request.CourseId, cancellationToken);
+        var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
         if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
         if (coursePurchaseResultData.EndDate >= DateTime.Now) return Result.Error($"Course is not allowed now");
@@ -57,6 +57,14 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
 
         var modulesData = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfoData.ModulesId, cancellationToken);
+
+        var articleProgress = coursePurchaseResultData.ModuleProgresses.First(m => m.ModuleId == request.ModuleId)
+                                  .ArticlesProgresses.First(a => a.Order == request.ArticleOrder);
+
+        if (!articleProgress.IsOpened)
+        {
+            return Result.Error("This test is not opened now, pass previous tests");
+        }
 
         Test test;
         try
@@ -67,7 +75,7 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         }
         catch (InvalidOperationException)
         {
-            return Result.Error("Not found module or article");
+            return Result.Error("Not found module or article or test");
         }
 
         List<PurchasedTestVm> tests = GetTestForPassing(test);
