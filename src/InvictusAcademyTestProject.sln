@@ -73,17 +73,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtendedHttpClient", "Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalExceptionHandler", "Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj", "{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStructures", "Common\CommonStructures\CommonStructures.csproj", "{D59B6305-BE0D-41D1-A170-0D1D306006C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonStructures", "Common\CommonStructures\CommonStructures.csproj", "{D59B6305-BE0D-41D1-A170-0D1D306006C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Domain", "Services\Payment\Payment.Domain\Payment.Domain.csproj", "{55AE7FDA-6658-47E8-B194-D708235D0946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Domain", "Services\Payment\Payment.Domain\Payment.Domain.csproj", "{55AE7FDA-6658-47E8-B194-D708235D0946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Infrastructure", "Services\Payment\Payment.Infrastructure\Payment.Infrastructure.csproj", "{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Infrastructure", "Services\Payment\Payment.Infrastructure\Payment.Infrastructure.csproj", "{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E55D6B86-C005-45E4-986E-5391EEDED1A5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

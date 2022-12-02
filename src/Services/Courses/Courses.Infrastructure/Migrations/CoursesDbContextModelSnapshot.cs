@@ -127,9 +127,6 @@ namespace Courses.Infrastructure.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("CourseResultId")
-                        .HasColumnType("numeric(7,0)");
-
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TIMESTAMP")

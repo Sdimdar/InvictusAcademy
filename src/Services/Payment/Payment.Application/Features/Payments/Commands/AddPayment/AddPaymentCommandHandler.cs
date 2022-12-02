@@ -28,7 +28,7 @@ public class AddPaymentCommandHandler : IRequestHandler<AddPaymentCommand, Resul
 
         try
         {
-            await _paymentService.AddPaymentRequestAsync(request.UserEmail, request.CourseId);
+            await _paymentService.AddPaymentRequestAsync(request.UserId, request.CourseId);
             return Result.Success(true);
         }
         catch (InvalidOperationException ex)

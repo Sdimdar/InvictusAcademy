@@ -4,7 +4,8 @@ using ServicesContracts.Courses.Responses;
 
 namespace ServicesContracts.Courses.Requests.Courses.Querries;
 
-public class GetCoursesByIdListQuery : IRequest<Result<List<CoursesByIdVm>>>
+public class GetCourseDataQuery : IRequest<Result<PurchasedCourseInfoVm>>
 {
-    public List<int> CoursesId { get; set; }
+    public int UserId { get; set; }
+    public int CourseId { get; set; }
 }

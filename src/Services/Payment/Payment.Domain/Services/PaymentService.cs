@@ -1,4 +1,5 @@
-﻿using Payment.Domain.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using Payment.Domain.Contracts;
 using Payment.Domain.Enums;
 using Payment.Domain.Models;
 
@@ -7,22 +8,28 @@ namespace Payment.Domain.Services;
 public class PaymentService
 {
     private readonly List<PaymentRequest> _currentPaymentRequests;
-    private int _lastIndex;
     private readonly IPaymentRepository _paymentRepository;
+    private readonly ILogger<PaymentService> _logger;
 
-    public PaymentService(IPaymentRepository paymentRepository)
+    public PaymentService(IPaymentRepository paymentRepository, ILogger<PaymentService> logger)
     {
         _paymentRepository = paymentRepository;
-        _currentPaymentRequests = _paymentRepository.GetCurrentRequests();
-        _lastIndex = _paymentRepository.GetLastIndex();
+        _logger = logger;
+        _currentPaymentRequests = _paymentRepository.GetCurrentRequestsAsync();
     }
 
-    public async Task AddPaymentRequestAsync(string userEmail, int courseId)
+    public async Task AddPaymentRequestAsync(int userId, int courseId)
     {
-        if (GetCurrentPaymentRequests(userEmail, courseId).Count != 0) 
+        if (GetCurrentPaymentRequests(userId, courseId).Count != 0) 
             throw new InvalidOperationException("This payment is already exists");
-        var paymentRequest = new PaymentRequest(++_lastIndex, userEmail, courseId);
-        await _paymentRepository.SavePaymentAsync(paymentRequest);
+        int nextId = 0;
+        try
+        {
+            nextId = (await _paymentRepository.GetLastIndexAsync()) +1;
+        }
+        catch (Exception ex) {}
+        var paymentRequest = new PaymentRequest(nextId, userId, courseId);
+        paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);
     }
 
@@ -36,7 +43,6 @@ public class PaymentService
 
     public async Task RejectPaymentAsync(int paymentId, string rejectReason, string adminEmail)
     {
-        
         var paymentRequest = GetCurrentPaymentRequestById(paymentId);
         paymentRequest!.RejectPayment(rejectReason, adminEmail);
         await _paymentRepository.SavePaymentAsync(paymentRequest);
@@ -52,14 +58,14 @@ public class PaymentService
         return result;
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(string? userEmail = null, 
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId = null, 
                                                                     int? courseId = null, 
                                                                     PaymentState? paymentState = null)
     {
-        var currentPaymentRequests = GetCurrentPaymentRequests(userEmail, courseId);
+        var currentPaymentRequests = GetCurrentPaymentRequests(userId, courseId);
         if (paymentState == PaymentState.Opened) return currentPaymentRequests;
         
-        var dbPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userEmail, courseId, paymentState);
+        var dbPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId, paymentState);
         return await dbPaymentRequests;
     }
 
@@ -68,10 +74,10 @@ public class PaymentService
         return _currentPaymentRequests.FirstOrDefault(e => e.Id == id);
     }
 
-    private List<PaymentRequest> GetCurrentPaymentRequests(string? userEmail = null, int? courseId = null)
+    private List<PaymentRequest> GetCurrentPaymentRequests(int? userId = null, int? courseId = null)
     {
         var query = _currentPaymentRequests.AsQueryable();
-        if (userEmail is not null) query = query.Where(e => e.UserEmail == userEmail);
+        if (userId is not null) query = query.Where(e => e.UserId == userId);
         if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
         return query.ToList();
     }

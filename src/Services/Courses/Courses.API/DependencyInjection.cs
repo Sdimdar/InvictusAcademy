@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Courses.API.Mappings;
 using Courses.Application.Mappings;
+using Courses.Domain.Options;
 using DataTransferLib.Mappings;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
 
@@ -29,6 +31,15 @@ public static class DependencyInjection
         });
         return services;
     }
+
+    public static IServiceCollection AddCourseOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        var options = services.BuildServiceProvider().GetService<IOptions<CourseResultOptions>>();
+        options.Value.CourseDayDuration = int.Parse(configuration.GetSection("CourseResultOptions:CourseDayDuration").Value);
+
+        return services;
+    }
+    
     
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {

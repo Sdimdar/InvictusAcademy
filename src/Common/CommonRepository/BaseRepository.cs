@@ -44,12 +44,6 @@ public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntit
 
     public virtual async Task UpdateAsync(TEntity entity)
     {
-        var DbEntity = await GetByIdAsync(entity.Id);
-        if (DbEntity is null) 
-        {
-            AddAsync(entity);
-            return;
-        }
         entity.LastModifiedDate = DateTime.Now;
         Context.Entry(entity).State = EntityState.Modified;
         await Context.SaveChangesAsync();

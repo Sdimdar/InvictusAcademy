@@ -2,7 +2,7 @@
 
 namespace Courses.Domain.Entities.CourseInfo;
 
-public class Articles
+public class Article
 {
     public string Title { get; set; }
     public int Order { get; set; }

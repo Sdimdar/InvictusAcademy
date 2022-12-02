@@ -11,7 +11,6 @@ public class CoursePurchasedDbMap : IEntityTypeConfiguration<CoursePurchasedDbMo
         builder.HasKey(p => p.Id);
         builder.Property(p => p.CreatedDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("NOW()").IsRequired();
         builder.Property(p => p.LastModifiedDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("NOW()").IsRequired();
-        builder.Property(p => p.CourseResultId).HasColumnType("NUMERIC(7,0)").IsRequired();
         builder.Property(p => p.IsCompleted).HasColumnType("BOOLEAN").HasDefaultValue(false).IsRequired();
         builder.Property(p => p.UserId).HasColumnType("NUMERIC(7,0)").IsRequired();
         builder.HasOne<CourseDbModel>(p => p.Course)

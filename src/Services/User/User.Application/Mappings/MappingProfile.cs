@@ -22,6 +22,7 @@ public class MappingProfile : Profile
 		CreateMap<UserDbModel, GetUserDataVm>();
 		CreateMap<UserDbModel, RegisterVm>();
 		CreateMap<UserDbModel, GetUserDataQuerry>();
+		CreateMap<UserDbModel, UsersEmailsByListIdVm>();
 
 		//REQUESTS
 		CreateMap<CreateRequestCommand, RequestDbModel>();
