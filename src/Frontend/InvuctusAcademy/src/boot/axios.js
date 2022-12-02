@@ -70,3 +70,8 @@ export const getFullModulesInfo = (courseId) => api.get(`/Courses/GetFullModules
 // UserData
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 
+// FreeArticles
+export const fetchAllFreeArticles = (pageNumber, pageSize, filterString) => api.get('/FreeArticle/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filterString} });
+export const getFreeArticlesCount = () => api.get('/FreeArticle/GetCount');
+export const fetchFreeArticle = (id) => api.get('/FreeArticle/GetFreeArticleData', {params:{id: id}});
+

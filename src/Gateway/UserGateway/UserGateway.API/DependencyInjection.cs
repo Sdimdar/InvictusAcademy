@@ -67,6 +67,7 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IUserService, UserService>(configuration["ApiSettings:IdentityUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
+        services.AddServiceWithExtendedHttpClient<IFreeArticlesService, FreeArticlesService>(configuration["ApiSettings:FreeArticleUrl"]);
         return services;
     }
 
