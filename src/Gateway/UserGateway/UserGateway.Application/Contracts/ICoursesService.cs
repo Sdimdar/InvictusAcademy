@@ -27,6 +27,6 @@ public interface ICoursesService : IUseExtendedHttpClient<ICoursesService>
     Task<DefaultResponseObject<List<PurchasedTestVm>>> GetPurchasedTestInfo(GetPurchasedTestQuery request,
                                                                       CancellationToken cancellationToken);
 
-    Task<DefaultResponseObject<int>> CheckTestAnswer(CheckTestAnswersCommand request,
-                                                     CancellationToken cancellationToken);
+    Task<DefaultResponseObject<TestResultVm>> CheckTestAnswer(CheckTestAnswersCommand request,
+                                                              CancellationToken cancellationToken);
 }

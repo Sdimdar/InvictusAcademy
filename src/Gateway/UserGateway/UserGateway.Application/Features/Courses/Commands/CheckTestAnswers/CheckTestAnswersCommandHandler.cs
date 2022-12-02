@@ -18,7 +18,7 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
 
     public async Task<Result<TestResultVm>> Handle(CheckTestAnswersCommand request, CancellationToken cancellationToken)
     {
-        DefaultResponseObject<int> result = await _coursesService.CheckTestAnswer(request, cancellationToken);
+        DefaultResponseObject<TestResultVm> result = await _coursesService.CheckTestAnswer(request, cancellationToken);
         if (!result.IsSuccess)
         {
             if (result.Errors?.Length != 0)
