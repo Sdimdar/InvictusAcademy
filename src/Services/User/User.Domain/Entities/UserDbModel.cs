@@ -12,6 +12,7 @@ public class UserDbModel : BaseRepositoryEntity
     public string LastName { get; set; }
     public string? InstagramLink { get; set; }
     public DateTime RegistrationDate { get; set; } = DateTime.Now;
+    public string? City { get; set; }
     public string? Citizenship { get; set; }
     public string? AvatarLink { get; set; }
     public bool IsBanned { get; set; } = false;

@@ -60,12 +60,60 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValue("");
 
+                    b.Property<string>("SecondDescription")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(500)")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("SecondName")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(100)")
+                        .HasDefaultValue("");
+
                     b.Property<string>("VideoLink")
                         .HasColumnType("VARCHAR(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Courses.Domain.Entities.CoursePointsDbModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TIMESTAMP")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("Point")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(500)");
+
+                    b.Property<string>("PointImageLink")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CoursePoints");
                 });
 
             modelBuilder.Entity("Courses.Domain.Entities.CoursePurchasedDbModel", b =>
@@ -135,6 +183,17 @@ namespace Courses.Infrastructure.Migrations
                     b.ToTable("CourseWisheds");
                 });
 
+            modelBuilder.Entity("Courses.Domain.Entities.CoursePointsDbModel", b =>
+                {
+                    b.HasOne("Courses.Domain.Entities.CourseDbModel", "Course")
+                        .WithMany("CoursePoints")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Courses.Domain.Entities.CoursePurchasedDbModel", b =>
                 {
                     b.HasOne("Courses.Domain.Entities.CourseDbModel", "Course")
@@ -159,6 +218,8 @@ namespace Courses.Infrastructure.Migrations
 
             modelBuilder.Entity("Courses.Domain.Entities.CourseDbModel", b =>
                 {
+                    b.Navigation("CoursePoints");
+
                     b.Navigation("CoursePurchased");
 
                     b.Navigation("CourseWished");

@@ -1,9 +1,9 @@
 <template>
-     <q-item clickable v-ripple @click="logout">
-      <q-item-section>
-        <q-item-label>Выйти</q-item-label>
-      </q-item-section>
-     </q-item>
+    <q-item clickable v-ripple @click="logout">
+        <q-item-section>
+            <q-item-label>Выйти</q-item-label>
+        </q-item-section>
+    </q-item>
 </template>
 
 <script>

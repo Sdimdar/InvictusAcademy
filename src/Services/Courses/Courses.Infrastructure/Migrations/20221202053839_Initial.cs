@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Courses.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,8 +18,10 @@ namespace Courses.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "VARCHAR(100)", nullable: false, defaultValue: ""),
                     Description = table.Column<string>(type: "VARCHAR(500)", nullable: false, defaultValue: ""),
+                    SecondName = table.Column<string>(type: "VARCHAR(100)", nullable: false, defaultValue: ""),
+                    SecondDescription = table.Column<string>(type: "VARCHAR(500)", nullable: false, defaultValue: ""),
                     VideoLink = table.Column<string>(type: "VARCHAR(100)", nullable: true),
-                    Cost = table.Column<decimal>(type: "numeric(7,2)", nullable: false),
+                    Cost = table.Column<decimal>(type: "numeric(15,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "BOOLEAN", nullable: false, defaultValue: false),
                     CreatedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()"),
                     LastModifiedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()")
@@ -30,6 +32,29 @@ namespace Courses.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CoursePoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Point = table.Column<string>(type: "VARCHAR(500)", nullable: false),
+                    PointImageLink = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    CourseId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()"),
+                    LastModifiedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoursePoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CoursePoints_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CoursePurchaseds",
                 columns: table => new
                 {
@@ -37,7 +62,6 @@ namespace Courses.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<decimal>(type: "numeric(7,0)", nullable: false),
                     CourseId = table.Column<int>(type: "integer", nullable: false),
-                    CourseResultId = table.Column<decimal>(type: "numeric(7,0)", nullable: false),
                     IsCompleted = table.Column<bool>(type: "BOOLEAN", nullable: false, defaultValue: false),
                     CreatedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()"),
                     LastModifiedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()")
@@ -76,6 +100,11 @@ namespace Courses.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CoursePoints_CourseId",
+                table: "CoursePoints",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CoursePurchaseds_CourseId",
                 table: "CoursePurchaseds",
                 column: "CourseId");
@@ -88,6 +117,9 @@ namespace Courses.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CoursePoints");
+
             migrationBuilder.DropTable(
                 name: "CoursePurchaseds");
 
