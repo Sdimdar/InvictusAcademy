@@ -2,7 +2,7 @@
      <q-item clickable v-ripple @click="registerDialog = true">
     <q-item-section> Зарегистрироваться </q-item-section>
   </q-item>
- 
+
   <q-dialog v-model="registerDialog">
     <q-card style="min-width: 350px">
       <q-card-section>
@@ -94,6 +94,13 @@
             lazy-rules
             :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
           />
+          <q-input
+            dense
+            v-model="registerData.city"
+            label="Город"
+            lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
+          />
         </q-card-section>
         <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
         <q-card-actions class="text-primary">
@@ -122,6 +129,7 @@ export default defineComponent({
         phoneNumber: "",
         firstName: "",
         lastName: "",
+        city:""
       },
       registerDialog: ref(false),
       isPwd: ref(true),

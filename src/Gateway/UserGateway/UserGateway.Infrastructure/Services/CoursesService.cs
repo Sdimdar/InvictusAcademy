@@ -34,6 +34,13 @@ public class CoursesService : ICoursesService
             .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetFullByCourseId?CourseId={query.CourseId}&UserId={query.UserId}", cancellationToken);
     }
 
+    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query, 
+        CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>
+            ( $"/Course/GetCourse?id={query.Id}");
+    }
+
     public async Task<DefaultResponseObject<PurchasedCourseInfoVm>> GetPurchasedCourseInfo(GetPurchasedCourseDataQuery query,
                                                                                            CancellationToken cancellationToken)
     {

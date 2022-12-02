@@ -3,7 +3,7 @@
     <q-item-section> Войти
     </q-item-section>
   </q-item>
-  
+
   <q-dialog v-model="loginDialog">
     <q-card style="min-width: 350px">
       <q-card-section>
@@ -93,7 +93,7 @@ export default defineComponent({
         const response = await login(this.loginData);
         if(response.data.isSuccess){
           this.loginDialog = false;
-          this.$emit("autorize", response.data.email);
+          this.$emit("autorize");
           notify.showSucsessNotify("Добро пожаловать");
         }
         else{

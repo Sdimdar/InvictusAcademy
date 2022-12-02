@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <left-bar />
     <div class="my-modules">
       <h4 style="text-align: center">Модули курса</h4>
 
