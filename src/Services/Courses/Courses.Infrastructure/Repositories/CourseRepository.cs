@@ -71,6 +71,8 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
     public async Task<CourseDbModel?> GetCourseById(int id)
     {
         var result = await Context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        var points = await Context.CoursePoints.Where(c => c.CourseId == result!.Id).ToListAsync();
+        result!.CoursePoints = points;
         return result;
     }
 

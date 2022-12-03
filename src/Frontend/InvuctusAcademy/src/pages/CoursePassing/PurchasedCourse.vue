@@ -72,7 +72,7 @@ export default defineComponent({
 <style scoped>
 .flex-style{
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
 
@@ -80,5 +80,6 @@ export default defineComponent({
   box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   width: 540px;
+  margin-bottom: 150px;
 }
 </style>
