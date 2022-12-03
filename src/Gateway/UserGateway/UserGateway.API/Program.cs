@@ -13,7 +13,7 @@ try
     var services = builder.Services;
     var environment = builder.Environment;
 
-// Add services to the container.
+    // Add services to the container.
     services.AddControllers();
     services.AddEndpointsApiExplorer();
     services.AddSwaggerConfiguration();
@@ -21,18 +21,18 @@ try
     services.SetAutomapperProfiles();
     services.AddExceptionHandlers();
 
-// Add API services
+    // Add API services
     services.AddInfrastructureServices(builder.Configuration);
     services.AddApplicationServices();
     services.AddHttpClients(builder.Configuration);
 
-// Configure CORS Policy and Cookie
+    // Configure CORS Policy and Cookie
     services.SetCorsPolicy();
 
 
     var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     {
         app.UseSwagger();

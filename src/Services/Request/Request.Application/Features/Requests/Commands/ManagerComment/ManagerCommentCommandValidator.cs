@@ -3,7 +3,7 @@ using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.ManagerComment;
 
-public class ManagerCommentCommandValidator:AbstractValidator<ManagerCommentCommand>
+public class ManagerCommentCommandValidator : AbstractValidator<ManagerCommentCommand>
 {
     public ManagerCommentCommandValidator()
     {

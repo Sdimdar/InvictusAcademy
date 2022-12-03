@@ -3,7 +3,6 @@ using Ardalis.Result.FluentValidation;
 using AutoMapper;
 using CommonStructures;
 using Courses.Application.Contracts;
-using Courses.Domain.Entities.CourseInfo;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;

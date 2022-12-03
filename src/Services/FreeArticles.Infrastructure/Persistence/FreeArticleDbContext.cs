@@ -8,7 +8,7 @@ public class FreeArticleDbContext : DbContext
 {
     public DbSet<FreeArticleDbModel> FreeArticles { get; set; }
 
-    public FreeArticleDbContext(DbContextOptions<FreeArticleDbContext> options) : base(options) 
+    public FreeArticleDbContext(DbContextOptions<FreeArticleDbContext> options) : base(options)
     {
         Database.Migrate();
     }

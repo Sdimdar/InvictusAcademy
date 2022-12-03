@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
-using AutoMapper;
 using CommonStructures;
 using FluentValidation;
 using MediatR;
@@ -48,7 +47,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, Resul
             PageNumber = request.PageNumber,
             FilterString = request.FilterString
         };
-        
+
         var data = await _userRepository.GetFilteredBatchOfData(request.PageSize, request.PageNumber, request.FilterString);
         UsersVm model = new()
         {

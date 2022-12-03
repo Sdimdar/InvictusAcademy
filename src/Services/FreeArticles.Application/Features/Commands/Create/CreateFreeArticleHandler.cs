@@ -18,9 +18,9 @@ public class CreateFreeArticleHandler : IRequestHandler<CreateFreeArticleCommand
     private readonly IValidator<CreateFreeArticleCommand> _validator;
     private readonly ILogger<CreateFreeArticleHandler> _logger;
 
-    public CreateFreeArticleHandler(IMapper mapper, 
-        IFreeArticleRepository requestRepository, 
-        IValidator<CreateFreeArticleCommand> validator, 
+    public CreateFreeArticleHandler(IMapper mapper,
+        IFreeArticleRepository requestRepository,
+        IValidator<CreateFreeArticleCommand> validator,
         ILogger<CreateFreeArticleHandler> logger)
     {
         _mapper = mapper;

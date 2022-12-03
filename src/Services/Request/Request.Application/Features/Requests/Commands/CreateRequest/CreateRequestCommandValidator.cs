@@ -22,7 +22,7 @@ public class CreateRequestCommandValidator : AbstractValidator<CreateRequestComm
             .NotNull();
     }
 
-    private async Task<bool> IsNumberUnique(string phoneNumber,CancellationToken arg2)
+    private async Task<bool> IsNumberUnique(string phoneNumber, CancellationToken arg2)
     {
         return await _requestRepository.GetFirstOrDefaultAsync(r =>
             r.PhoneNumber.Equals(phoneNumber) && !r.WasCalled) is null;

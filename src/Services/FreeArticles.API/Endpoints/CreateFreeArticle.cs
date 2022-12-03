@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace FreeArticles.API.Endpoints;
 
-public class CreateFreeArticle: EndpointBaseAsync
+public class CreateFreeArticle : EndpointBaseAsync
     .WithRequest<CreateFreeArticleCommand>
     .WithActionResult<DefaultResponseObject<string>>
 {

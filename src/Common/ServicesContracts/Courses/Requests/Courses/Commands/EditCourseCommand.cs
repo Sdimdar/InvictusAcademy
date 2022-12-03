@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using Courses.Domain.Entities;
 using MediatR;
 
 namespace ServicesContracts.Courses.Requests.Courses.Commands;

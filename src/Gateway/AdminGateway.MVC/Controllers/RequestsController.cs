@@ -1,5 +1,4 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
-using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Request.Requests.Commands;

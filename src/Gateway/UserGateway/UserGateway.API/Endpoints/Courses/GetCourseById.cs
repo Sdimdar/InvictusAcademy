@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace UserGateway.API.Endpoints.Courses;
 
-public class GetCourseById:EndpointBaseAsync
+public class GetCourseById : EndpointBaseAsync
     .WithRequest<GetCourseByIdQuery>
     .WithActionResult<DefaultResponseObject<CourseByIdVm>>
 {
@@ -21,7 +21,7 @@ public class GetCourseById:EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpGet("/Courses/GetById")]
     [SwaggerOperation(
         Summary = "Получение данных о курсе по его Id",
@@ -29,7 +29,7 @@ public class GetCourseById:EndpointBaseAsync
         Tags = new[] { "Courses" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery]GetCourseByIdQuery request, 
+    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery] GetCourseByIdQuery request,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);

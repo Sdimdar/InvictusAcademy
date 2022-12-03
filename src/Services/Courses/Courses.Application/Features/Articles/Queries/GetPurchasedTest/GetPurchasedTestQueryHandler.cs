@@ -96,12 +96,12 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
     {
         List<PurchasedTestVm> tests = new();
         foreach (var testQuestion in testQuestions)
-        { 
+        {
             List<PurchasedTestAnswerVm> answers = new();
             foreach (var answer in testQuestion.Answers)
             {
                 answers.Add(new PurchasedTestAnswerVm()
-                { 
+                {
                     Id = answer.Id,
                     TestAnswer = answer.Text
                 });

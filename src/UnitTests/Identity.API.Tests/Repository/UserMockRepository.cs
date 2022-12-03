@@ -1,6 +1,5 @@
 ﻿using User.Application.Contracts;
 using User.Domain.Entities;
-using TestCommonRepository;
 
 namespace User.API.Tests.Repository;
 
@@ -76,7 +75,7 @@ public class UserMockRepository : TestCommonRepository<UserDbModel>, IUserReposi
             }
         };
     }
-    
+
     public override Task DeleteAsync(UserDbModel entity)
     {
         if (Context.FirstOrDefault(e => e.Email == entity.Email
@@ -98,7 +97,7 @@ public class UserMockRepository : TestCommonRepository<UserDbModel>, IUserReposi
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-    
+
     protected override IQueryable<UserDbModel> FilterByString(IQueryable<UserDbModel> query, string? filterString)
     {
         return string.IsNullOrEmpty(filterString)

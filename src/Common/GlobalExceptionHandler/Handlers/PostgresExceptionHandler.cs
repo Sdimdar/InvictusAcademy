@@ -1,10 +1,10 @@
-﻿using GlobalExceptionHandler.Interfaces;
+﻿using CommonStructures;
+using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Npgsql;
 using System.Net;
-using CommonStructures;
-using Microsoft.Extensions.Logging;
 
 namespace GlobalExceptionHandler.Handlers;
 

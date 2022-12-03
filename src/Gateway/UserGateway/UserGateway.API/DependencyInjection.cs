@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
@@ -35,7 +34,7 @@ public static class DependencyInjection
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
         }
-        
+
         return services;
     }
 
@@ -80,7 +79,7 @@ public static class DependencyInjection
         }).CreateMapper());
         return services;
     }
-    
+
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();

@@ -3,7 +3,6 @@ using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using AutoMapper;
 using DataTransferLib.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -20,19 +19,19 @@ public class AccountsController : Controller
         _adminService = adminService;
         _mapper = mapper;
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Вход админа в систему",
         Description = "Для входа админа необходимо ввести логин и пароль")
     ]
-    public async Task<ActionResult<DefaultResponseObject<AdminUser>>> Login([FromBody]LoginViewModel request, 
+    public async Task<ActionResult<DefaultResponseObject<AdminUser>>> Login([FromBody] LoginViewModel request,
                                                                             CancellationToken cancellationToken)
-    { 
-        var response = await _adminService.LoginAdminAsync(request, cancellationToken); 
+    {
+        var response = await _adminService.LoginAdminAsync(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о пользователе",

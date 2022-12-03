@@ -3,7 +3,7 @@ using FreeArticles.Domain.Entities;
 
 namespace FreeArticles.Application.Contracts;
 
-public interface IFreeArticleRepository: IBaseRepository<FreeArticleDbModel>
+public interface IFreeArticleRepository : IBaseRepository<FreeArticleDbModel>
 {
-    
+
 }

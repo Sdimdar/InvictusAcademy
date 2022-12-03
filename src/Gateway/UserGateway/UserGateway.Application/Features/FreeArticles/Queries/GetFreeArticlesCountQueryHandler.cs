@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using CommonStructures;
-using FreeArticles.Application.Contracts;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using ServicesContracts.FreeArticles.Queries;
@@ -12,7 +11,7 @@ public class GetFreeArticlesCountQueryHandler : IRequestHandler<GetAllFreeArticl
 {
     private readonly IFreeArticlesService _freeArticlesService;
     private readonly ILogger<GetFreeArticlesCountQueryHandler> _logger;
-    
+
     public GetFreeArticlesCountQueryHandler(IFreeArticlesService freeArticlesService, ILogger<GetFreeArticlesCountQueryHandler> logger)
     {
         _freeArticlesService = freeArticlesService;

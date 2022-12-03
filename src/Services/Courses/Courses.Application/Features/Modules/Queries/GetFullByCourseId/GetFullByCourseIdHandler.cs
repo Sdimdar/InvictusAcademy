@@ -11,7 +11,7 @@ using ServicesContracts.Courses.Requests.Modules.Queries;
 
 namespace Courses.Application.Features.Modules.Queries.GetFullByCourseId;
 
-public class GetFullByCourseIdHandler: IRequestHandler<GetFullByCourseIdQuery, Result<List<ModuleInfoDbModel>?>>
+public class GetFullByCourseIdHandler : IRequestHandler<GetFullByCourseIdQuery, Result<List<ModuleInfoDbModel>?>>
 {
     private readonly IModuleInfoRepository _repository;
     private readonly IValidator<GetFullByCourseIdQuery> _validator;
@@ -37,8 +37,8 @@ public class GetFullByCourseIdHandler: IRequestHandler<GetFullByCourseIdQuery, R
         }
         try
         {
-            var courseIsPaid =await _courseRepository.CourseIsPaid(request.UserId, request.CourseId);
-            if(!courseIsPaid) 
+            var courseIsPaid = await _courseRepository.CourseIsPaid(request.UserId, request.CourseId);
+            if (!courseIsPaid)
             {
                 _logger.LogWarning($"{BussinesErrors.BoolIsNotTrue.ToString()}: You must purchase the course to access.");
                 return Result.Error($"{BussinesErrors.BoolIsNotTrue.ToString()}: You must purchase the course to access.");

@@ -47,16 +47,6 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return course;
     }
 
-    public override  Task UpdateAsync(CourseDbModel entity)
-    {
-        foreach (var coursePoints in entity.CoursePoints)
-        {
-            coursePoints.LastModifiedDate = DateTime.Now;
-        }
-        var course = base.UpdateAsync(entity);
-        return course;
-    }
-
     public async Task<List<CourseDbModel>> GetAllActiveCourses()
     {
         IQueryable<CourseDbModel> result = Context.Courses.Where(c => c.IsActive);
@@ -77,15 +67,11 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         IQueryable<CourseDbModel> result = Context.Courses;
         return await result.ToListAsync();
     }
-    
+
     public async Task<CourseDbModel?> GetCourseById(int id)
     {
-        var course = Context.Courses.FirstOrDefault(c => c.Id == id);
-        var points = Context.CoursePoints.Where(p => p.CourseId == id).ToList();
-        if (course != null) 
-            course.CoursePoints = points;
-        
-        return course ?? throw new InvalidOperationException();
+        var result = await Context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        return result;
     }
 
     public async Task<bool> CourseIsPaid(int userId, int courseId)
@@ -102,7 +88,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         foreach (var item in coursesId)
         {
             var query = await Context.Courses.FirstOrDefaultAsync(c => c.Id == item);
-            if(query is not null)
+            if (query is not null)
                 list.Add(query);
         }
 

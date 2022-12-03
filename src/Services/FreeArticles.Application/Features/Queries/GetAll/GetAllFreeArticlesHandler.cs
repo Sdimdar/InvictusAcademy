@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using ServicesContracts.FreeArticles.Models;
 using ServicesContracts.FreeArticles.Queries;
-using ServicesContracts.Identity.Responses;
 
 namespace FreeArticles.Application.Features.Queries.GetAll;
 

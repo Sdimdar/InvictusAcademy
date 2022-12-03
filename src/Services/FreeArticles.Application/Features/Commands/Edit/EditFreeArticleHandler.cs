@@ -4,8 +4,6 @@ using AutoMapper;
 using CommonStructures;
 using FluentValidation;
 using FreeArticles.Application.Contracts;
-using FreeArticles.Application.Features.Commands.Create;
-using FreeArticles.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using ServicesContracts.FreeArticles.Commands;
@@ -19,9 +17,9 @@ public class EditFreeArticleHandler : IRequestHandler<EditFreeArticleCommand, Re
     private readonly IValidator<EditFreeArticleCommand> _validator;
     private readonly ILogger<EditFreeArticleHandler> _logger;
 
-    public EditFreeArticleHandler(IMapper mapper, 
-        IFreeArticleRepository freeArticleRepository, 
-        IValidator<EditFreeArticleCommand> validator, 
+    public EditFreeArticleHandler(IMapper mapper,
+        IFreeArticleRepository freeArticleRepository,
+        IValidator<EditFreeArticleCommand> validator,
         ILogger<EditFreeArticleHandler> logger)
     {
         _mapper = mapper;
@@ -37,7 +35,7 @@ public class EditFreeArticleHandler : IRequestHandler<EditFreeArticleCommand, Re
             _logger.LogWarning($"{BussinesErrors.RequestIsNull.ToString()}: Request is null");
             return Result.Error($"{BussinesErrors.RequestIsNull.ToString()}: Request is null");
         }
-        
+
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)

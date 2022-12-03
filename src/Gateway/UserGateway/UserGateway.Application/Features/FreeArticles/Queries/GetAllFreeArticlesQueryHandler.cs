@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using AutoMapper;
 using CommonStructures;
 using MediatR;
 using Microsoft.Extensions.Logging;

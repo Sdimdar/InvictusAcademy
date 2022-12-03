@@ -42,7 +42,7 @@ public class GetFreeArticleDataHandler : IRequestHandler<GetFreeArticleDataQuery
 
         try
         {
-            var result = await _freeArticleRepository.GetFirstOrDefaultAsync(freeArticle=>freeArticle.Id == request.Id);
+            var result = await _freeArticleRepository.GetFirstOrDefaultAsync(freeArticle => freeArticle.Id == request.Id);
             if (result is null)
             {
                 _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found with {request.Id} ID");

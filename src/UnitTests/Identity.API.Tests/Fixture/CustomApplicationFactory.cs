@@ -1,7 +1,7 @@
-﻿using User.Application.Contracts;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using User.API.Tests.Repository;
+using User.Application.Contracts;
 
 namespace User.API.Tests.Fixture;
 

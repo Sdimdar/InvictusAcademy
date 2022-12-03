@@ -1,7 +1,6 @@
 using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 
@@ -15,7 +14,7 @@ public class GetUsers : IGetUsers
     {
         ExtendedHttpClient = extendedHttpClient;
     }
-    
+
     public async Task<DefaultResponseObject<int>> GetUsersCount()
     {
         return await ExtendedHttpClient

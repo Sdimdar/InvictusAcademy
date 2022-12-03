@@ -5,14 +5,14 @@ using System.Linq.Expressions;
 
 namespace CommonRepository;
 
-public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntity> where TEntity: BaseRepositoryEntity where TContext : DbContext
+public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntity> where TEntity : BaseRepositoryEntity where TContext : DbContext
 {
     protected readonly TContext Context;
     protected BaseRepository(TContext dbContext)
     {
         Context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
-    
+
     public virtual async Task<List<TEntity>> GetAllAsync()
     {
         return await Context.Set<TEntity>().ToListAsync();
@@ -66,7 +66,7 @@ public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntit
                                                                          .Skip((page - 1) * pageSize)
                                                                          .Take(pageSize)
                                                                          .ToListAsync();
-        
+
     }
 
     public virtual async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)

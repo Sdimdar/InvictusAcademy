@@ -4,12 +4,11 @@ using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.FreeArticles.Commands;
-using ServicesContracts.FreeArticles.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace FreeArticles.API.Endpoints;
 
-public class EditFreeArticle: EndpointBaseAsync
+public class EditFreeArticle : EndpointBaseAsync
     .WithRequest<EditFreeArticleCommand>
     .WithActionResult<DefaultResponseObject<string>>
 {

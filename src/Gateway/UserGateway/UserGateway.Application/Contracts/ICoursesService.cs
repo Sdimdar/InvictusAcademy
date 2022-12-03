@@ -29,7 +29,7 @@ public interface ICoursesService : IUseExtendedHttpClient<ICoursesService>
 
     Task<DefaultResponseObject<TestResultVm>> CheckTestAnswer(CheckTestAnswersCommand request,
                                                               CancellationToken cancellationToken);
-    
-    Task<DefaultResponseObject<CourseByIdVm>> GetCourseById (GetCourseByIdQuery query,
+
+    Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query,
                                                              CancellationToken cancellationToken);
 }

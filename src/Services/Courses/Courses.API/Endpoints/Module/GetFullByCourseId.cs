@@ -1,6 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Courses.Application.Features.Modules.Queries.GetFullByCourseId;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ public class GetFullByCourseId : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpGet("/Modules/GetFullByCourseId")]
     [SwaggerOperation(
         Summary = "Получение данных о курсе по Id, только если курс приобретен",
@@ -30,7 +29,7 @@ public class GetFullByCourseId : EndpointBaseAsync
         Tags = new[] { "Module" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery]GetFullByCourseIdQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery] GetFullByCourseIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<List<ModuleInfoVm>>>(response));

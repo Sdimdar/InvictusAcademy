@@ -64,7 +64,7 @@ public class CourseInfoDbModel : MongoBaseRepositoryEntity
         }
         else
         {
-            for (int i = index; i < i+modulesId.Count; i++)
+            for (int i = index; i < i + modulesId.Count; i++)
             {
                 result.Insert(i, modulesId[i]);
             }

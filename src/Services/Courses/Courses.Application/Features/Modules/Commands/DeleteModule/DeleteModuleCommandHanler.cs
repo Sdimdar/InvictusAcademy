@@ -16,7 +16,7 @@ public class DeleteModuleCommandHanler : IRequestHandler<DeleteModuleCommand, Re
     private readonly ILogger<DeleteModuleCommandHanler> _logger;
 
     public DeleteModuleCommandHanler(IModuleInfoRepository repository,
-                                      IValidator<DeleteModuleCommand> validator, 
+                                      IValidator<DeleteModuleCommand> validator,
                                       ILogger<DeleteModuleCommandHanler> logger)
     {
         _repository = repository;

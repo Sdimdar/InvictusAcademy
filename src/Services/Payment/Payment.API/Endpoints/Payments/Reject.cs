@@ -28,7 +28,7 @@ public class Reject : EndpointBaseAsync
                       "А также строку с объяснением почему платёж был отклонён.",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] RejectPaymentCommand request, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] RejectPaymentCommand request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

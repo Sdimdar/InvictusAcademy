@@ -22,7 +22,7 @@ public class GetShortInfoByCourseId : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpGet("/Modules/GetShortInfoByCourseId")]
     [SwaggerOperation(
         Summary = "Получение данных о модулях по ID курса, без связанный разделов",
@@ -30,7 +30,7 @@ public class GetShortInfoByCourseId : EndpointBaseAsync
         Tags = new[] { "Module" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery]GetModulesByCourseId request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery] GetModulesByCourseId request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<List<ShortModuleInfoVm>>>(result));

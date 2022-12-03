@@ -17,10 +17,10 @@ public class CoursesService : ICoursesService
     {
         ExtendedHttpClient = extendedHttpClient;
     }
-    
+
     public async Task<DefaultResponseObject<CourseVm>> Create(CreateCourseCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateCourseCommand, DefaultResponseObject<CourseVm>>(request,$"/Course/Create");
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateCourseCommand, DefaultResponseObject<CourseVm>>(request, $"/Course/Create");
     }
 
     public async Task<DefaultResponseObject<CourseInfoDbModel>> EditCourse(EditCourseCommand request)
@@ -49,8 +49,7 @@ public class CoursesService : ICoursesService
 
     public async Task<DefaultResponseObject<UniqueList<int>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
-        return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
     }
 
     public async Task<DefaultResponseObject<CourseInfoVm>> InsertModule(InsertModuleCommand request)
@@ -67,10 +66,9 @@ public class CoursesService : ICoursesService
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
     }
-    
-    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourse(GetCourseByIdQuery request)
+
+    public async Task<DefaultResponseObject<CourseForAdminVm>> GetCourse(GetCoursByIdQuery request)
     {
-        return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>( $"/Course/GetCourse?id={request.Id}");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseForAdminVm>>($"/Course/GetCourse?id={request.Id}");
     }
 }
