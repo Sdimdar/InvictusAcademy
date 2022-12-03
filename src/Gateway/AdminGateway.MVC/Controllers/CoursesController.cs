@@ -59,7 +59,7 @@ public class CoursesController : Controller
         Summary = "Получение курса",
         Description = "Необходимо передать в теле запроса Id курса"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourse([FromQuery]GetCoursByIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourse([FromQuery]GetCourseByIdQuery request)
     {
         var response = await _coursesService.GetCourse(request);
         return Ok(response);
