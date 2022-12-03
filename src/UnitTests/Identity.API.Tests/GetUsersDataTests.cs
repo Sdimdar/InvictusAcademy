@@ -33,7 +33,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.Users.Count().Should().Be(USERS_COUNT - pageSize * (page - 1) < pageSize ? USERS_COUNT - pageSize * (page - 1) : pageSize);
+        data.Value!.Users.Count().Should().Be(USERS_COUNT - pageSize * (page - 1) < pageSize ? USERS_COUNT - pageSize * (page - 1) : pageSize);
         data.Value.PageVm.PageNumber.Should().Be(page);
         data.Value.PageVm.TotalPages.Should().Be((int)Math.Ceiling(USERS_COUNT / (double)pageSize));
     }
@@ -59,7 +59,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.Users.Count().Should().Be(USERS_COUNT - pageSize * (page - 1) < pageSize ? USERS_COUNT - pageSize * (page - 1) : pageSize);
+        data.Value!.Users.Count().Should().Be(USERS_COUNT - pageSize * (page - 1) < pageSize ? USERS_COUNT - pageSize * (page - 1) : pageSize);
         data.Value.PageVm.PageNumber.Should().Be(page);
         data.Value.PageVm.TotalPages.Should().Be((int)Math.Ceiling(USERS_COUNT / (double)pageSize));
     }
@@ -79,7 +79,7 @@ public class GetUsersDataTests : IClassFixture<CustomApplicationFactory<Program>
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.Users.Count().Should().Be(USERS_COUNT);
+        data.Value!.Users.Count().Should().Be(USERS_COUNT);
         data.Value.PageVm.PageNumber.Should().Be(page);
         data.Value.PageVm.TotalPages.Should().Be(1);
     }
