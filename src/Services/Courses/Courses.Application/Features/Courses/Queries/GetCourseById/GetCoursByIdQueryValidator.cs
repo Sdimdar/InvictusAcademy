@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace Courses.Application.Features.Courses.Queries.GetCourseById;
 
-public class GetCoursByIdQueryValidator : AbstractValidator<GetCoursByIdQuery>
+public class GetCoursByIdQueryValidator : AbstractValidator<GetCourseByIdQuery>
 {
     public GetCoursByIdQueryValidator()
     {
