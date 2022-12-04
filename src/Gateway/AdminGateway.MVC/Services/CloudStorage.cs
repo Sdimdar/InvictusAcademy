@@ -17,6 +17,6 @@ public class CloudStorage : ICloudStorages
     
     public async Task<DefaultResponseObject<string>> Upload(UploadFileCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<UploadFileCommand, DefaultResponseObject<string>>(request, $"/CloudService/UploadFile");
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<UploadFileCommand, DefaultResponseObject<string>>(request, $"/CloudStorage/UploadFile");
     }
 }

@@ -22,7 +22,7 @@ public class UploadFile: EndpointBaseAsync
     }
     [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = int.MaxValue)] 
     [DisableRequestSizeLimit]
-    [HttpPost("/CloudService/UploadFile")]
+    [HttpPost("/CloudStorage/UploadFile")]
     [SwaggerOperation(
         Summary = "Загрузка файла",
         Description = "Необходимо выбрать файл для загрузки на сервер",

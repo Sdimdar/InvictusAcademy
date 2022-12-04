@@ -103,3 +103,5 @@ export const fetchAllFreeArticles = (pageNumber, pageSize, filter) => api.get('/
 export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetCount');
 export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
 
+//uploadFile
+export const uploadFile = (file) => api.post('/AdminPanel/CloudStorage/UploadFile', file);

@@ -19,6 +19,8 @@ const routes = [
       { path: "createFreeArticle", component: () => import("src/pages/FreeArticles/CreateFreeArticle.vue")},
       { path: "allFreeArticles", component: () => import("src/pages/FreeArticles/AllFreeArticles.vue")},
       { path: "editFreeArticle/:id", component: () => import("src/pages/FreeArticles/EditFreeArticle.vue")},
+      { path: "S3", component: () => import("src/pages/S3/Upload.vue")},
+
     ],
   },
   // Always leave this as last one,

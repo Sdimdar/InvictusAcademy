@@ -6,6 +6,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -17,6 +18,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<FormOptions>(options =>
+        {
+            options.ValueCountLimit = 4096;
+        });
         services.AddExtendedHttpClient();
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
