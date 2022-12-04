@@ -69,7 +69,7 @@ public class ExtendedHttpClient<T>
         {
             Method = method,
             RequestUri = new Uri(HttpClient.BaseAddress!, uri),
-            Content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "video/mp4")
+            Content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json")
         };
     }
 
