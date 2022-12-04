@@ -10,7 +10,7 @@ public class UsersVm
     public int TotalPages { get; set; }
     public string? Filter { get; set; }
     public PageVm PageVm { get; set; }
-    
+
     public int UsersCount { get; set; }
     public bool HasPreviousPage
     {
@@ -19,7 +19,7 @@ public class UsersVm
             return (PageNumber > 1);
         }
     }
- 
+
     public bool HasNextPage
     {
         get

@@ -20,8 +20,8 @@ public class GetCoursesByIdListHandler : IRequestHandler<GetCoursesNamesByListId
 
     public async Task<Result<List<CoursesByIdVm>>> Handle(GetCoursesNamesByListIdQuery request, CancellationToken cancellationToken)
     {
-        
-        if(!request.ListId.Any()) return Result.Error("Request list is empty");
+
+        if (!request.ListId.Any()) return Result.Error("Request list is empty");
         try
         {
             List<CoursesByIdVm> list = new();

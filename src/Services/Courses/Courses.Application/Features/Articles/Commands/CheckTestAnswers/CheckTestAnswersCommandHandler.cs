@@ -2,14 +2,12 @@
 using Ardalis.Result.FluentValidation;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
-using Courses.Domain.Entities.CourseInfo;
 using Courses.Domain.Entities.CourseInfo.Tests;
 using Courses.Domain.Entities.CourseResults;
 using FluentValidation;
 using MediatR;
 using ServicesContracts.Courses.Requests.Tests.Commands;
 using ServicesContracts.Courses.Responses;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Courses.Application.Features.Articles.Commands.CheckTestAnswers;
 

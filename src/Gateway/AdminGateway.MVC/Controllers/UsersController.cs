@@ -1,5 +1,4 @@
 using AdminGateway.MVC.Services.Interfaces;
-using AdminGateway.MVC.ViewModels;
 using AutoMapper;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +19,13 @@ public class UsersController : Controller
         _iGetUsers = iGetUsers;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<IActionResult> GetAllRegisteredUsers([FromQuery]int pageNumber, int pageSize)
+    public async Task<IActionResult> GetAllRegisteredUsers([FromQuery] int pageNumber, int pageSize)
     {
         var response = await _iGetUsers.GetUsersAsync(pageNumber, pageSize);
         var usersList = response.Value;
@@ -39,7 +38,7 @@ public class UsersController : Controller
         };
         return Ok(responce);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает количество пользователей, для пагинации")
@@ -55,10 +54,10 @@ public class UsersController : Controller
         Summary = "Изменяет статус для User бан/не бан",
         Description = "Необходимо передать id")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> ToBan([FromQuery]ToBanCommand command)
+    public async Task<ActionResult<DefaultResponseObject<string>>> ToBan([FromQuery] ToBanCommand command)
     {
-            var response = await _iGetUsers.ChangeBanStatusAsync(command);
-            return Ok(response);
+        var response = await _iGetUsers.ChangeBanStatusAsync(command);
+        return Ok(response);
     }
-    
+
 }

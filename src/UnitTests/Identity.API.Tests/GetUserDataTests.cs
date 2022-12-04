@@ -24,7 +24,7 @@ public class GetUserDataTests : IClassFixture<CustomApplicationFactory<Program>>
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.Email.Should().Be(email);
+        data.Value!.Email.Should().Be(email);
     }
 
     public static IEnumerable<object[]> InvalidEmails()

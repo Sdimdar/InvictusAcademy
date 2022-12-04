@@ -12,7 +12,7 @@ namespace Payment.Infrastructure.Repositories;
 public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDbContext>, IPaymentRepository
 {
     private readonly IMapper _mapper;
-    
+
     public PaymentRepository(PaymentDbContext dbContext, IMapper mapper) : base(dbContext)
     {
         _mapper = mapper;

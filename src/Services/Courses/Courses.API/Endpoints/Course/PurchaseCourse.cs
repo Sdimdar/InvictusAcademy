@@ -20,14 +20,14 @@ public class PurchaseCourse : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpPost("/Course/Purchase")]
     [SwaggerOperation(
         Summary = "Добавление информации в бд о том что курс успешно куплен",
         Description = "Необходимо передать в теле запроса Id курса и Id пользователя",
         Tags = new[] { "Course" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync(PurchaseCourseCommand request, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync(PurchaseCourseCommand request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

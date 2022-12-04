@@ -36,7 +36,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
         data.Should().NotBeNull();
         data.IsSuccess.Should().BeTrue();
         data.Value.Should().NotBeNull();
-        data.Value.Email.Should().Be(command.Email);
+        data.Value!.Email.Should().Be(command.Email);
     }
 
     [Fact]

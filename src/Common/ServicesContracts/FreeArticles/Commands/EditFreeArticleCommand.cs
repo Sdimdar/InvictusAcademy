@@ -1,11 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using Ardalis.Result;
+﻿using Ardalis.Result;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ServicesContracts.FreeArticles.Models;
 
 namespace ServicesContracts.FreeArticles.Commands;
 

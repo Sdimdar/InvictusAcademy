@@ -31,8 +31,7 @@ public class GetWithParameters : EndpointBaseAsync
                       "а также можно передать тип запроса на оплату",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<PaymentsPaginationVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, 
-                                                                                           CancellationToken cancellationToken)
+    public override async Task<ActionResult<DefaultResponseObject<PaymentsPaginationVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<PaymentsPaginationVm>>(result));

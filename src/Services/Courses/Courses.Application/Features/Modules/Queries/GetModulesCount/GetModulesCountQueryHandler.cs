@@ -1,13 +1,11 @@
 using Ardalis.Result;
-using CommonStructures;
 using Courses.Application.Contracts;
 using MediatR;
 using ServicesContracts.Courses.Requests.Modules.Queries;
-using ServicesContracts.Identity.Requests.Queries;
 
 namespace Courses.Application.Features.Modules.Queries.GetModulesCount;
 
-public class GetModulesCountQueryHandler: IRequestHandler<GetModulesCountQuery, Result<int>>
+public class GetModulesCountQueryHandler : IRequestHandler<GetModulesCountQuery, Result<int>>
 {
     private readonly IModuleInfoRepository _moduleInfoRepository;
 
@@ -15,7 +13,7 @@ public class GetModulesCountQueryHandler: IRequestHandler<GetModulesCountQuery, 
     {
         _moduleInfoRepository = moduleInfoRepository;
     }
-    
+
     public async Task<Result<int>> Handle(GetModulesCountQuery request, CancellationToken cancellationToken)
     {
         return await _moduleInfoRepository.GetCountAsync();

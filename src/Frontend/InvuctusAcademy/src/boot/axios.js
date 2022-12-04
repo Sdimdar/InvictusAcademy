@@ -75,3 +75,8 @@ export const fetchAllFreeArticles = (pageNumber, pageSize, filterString) => api.
 export const getFreeArticlesCount = () => api.get('/FreeArticle/GetCount');
 export const fetchFreeArticle = (id) => api.get('/FreeArticle/GetFreeArticleData', {params:{id: id}});
 
+// Course Passing
+export const getPurchasedCourseData = (courseId) => api.get('/Courses/GetPurchasedCourseData', {params:{courseId: courseId}});
+export const getPurchasedArticle = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedArticle', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
+export const getPurchasedTest = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedTest', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
+export const checkTestAnswers = (payload) => api.post('/Tests/CheckTestAnswers', payload);

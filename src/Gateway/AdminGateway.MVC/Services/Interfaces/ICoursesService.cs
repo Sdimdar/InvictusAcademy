@@ -8,7 +8,7 @@ using ServicesContracts.Courses.Responses;
 
 namespace AdminGateway.MVC.Services.Interfaces;
 
-public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
+public interface ICoursesService : IUseExtendedHttpClient<ICoursesService>
 {
     Task<DefaultResponseObject<CourseVm>> Create(CreateCourseCommand request);
     Task<DefaultResponseObject<CourseInfoDbModel>> EditCourse(EditCourseCommand request);

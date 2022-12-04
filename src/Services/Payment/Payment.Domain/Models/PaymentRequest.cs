@@ -14,8 +14,8 @@ public class PaymentRequest
     public string? RejectReason { get; protected set; }
     public string? ModifyAdminEmail { get; protected set; }
 
-    protected PaymentRequest() {}
-    
+    protected PaymentRequest() { }
+
     public PaymentRequest(int id, int userId, int courseId)
     {
         if (id < 0) throw new ValidationDataException($"Invalid: \"{nameof(id)}\", can't be less then 0.");

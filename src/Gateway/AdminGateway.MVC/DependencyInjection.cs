@@ -91,7 +91,7 @@ public static class DependencyInjection
         services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
         return services;
     }
-    
+
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();

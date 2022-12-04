@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using User.Domain.Entities;
+﻿using User.Domain.Entities;
 
 namespace User.Infrastructure.Extensions;
 

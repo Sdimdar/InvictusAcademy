@@ -28,7 +28,7 @@ public class GetFreeArticleData : EndpointBaseAsync
         Description = "Для получения данных о пользователе необходимо передать его id через параметры в строке",
         Tags = new[] { "FreeArticle" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> HandleAsync([FromQuery]GetFreeArticleDataQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> HandleAsync([FromQuery] GetFreeArticleDataQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<FreeArticleVm>>(response));

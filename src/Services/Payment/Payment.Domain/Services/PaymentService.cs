@@ -27,10 +27,7 @@ public class PaymentService
         {
             nextId = (await _paymentRepository.GetLastIndexAsync()) + 1;
         }
-        catch (Exception ex)
-        {
-        }
-
+        catch (Exception ex) { }
         var paymentRequest = new PaymentRequest(nextId, userId, courseId);
         paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);

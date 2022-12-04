@@ -9,7 +9,7 @@ using ServicesContracts.Courses.Requests.Courses.Commands;
 
 namespace Courses.Application.Features.Courses.Commands.Edit;
 
-public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result<string>>
+public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand, Result<string>>
 {
     private readonly ICourseRepository _courseRepository;
     private readonly IValidator<EditCourseCommand> _validator;
@@ -34,14 +34,11 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
                 return Result.Error($"{BussinesErrors.NotFound.ToString()}: Course not found in database");
             }
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-            if(!validationResult.IsValid)
+            if (!validationResult.IsValid)
                 return Result.Invalid(validationResult.AsErrors());
-           
+
             course.Name = request.Name;
             course.Description = request.Description;
-            course.SecondName = request.SecondName;
-            course.SecondDescription = request.SecondDescription;
-            course.CoursePoints = request.CoursePoints;
             course.VideoLink = request.VideoLink;
             course.Cost = request.Cost;
             course.IsActive = request.IsActive;

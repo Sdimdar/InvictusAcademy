@@ -1,7 +1,6 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using ServicesContracts.FreeArticles.Commands;
 using ServicesContracts.FreeArticles.Models;
 using ServicesContracts.FreeArticles.Queries;
@@ -11,7 +10,7 @@ namespace AdminGateway.MVC.Services;
 public class FreeArticlesServices : IFreeArticlesService
 {
     public ExtendedHttpClient<IFreeArticlesService> ExtendedHttpClient { get; set; }
-    
+
     public FreeArticlesServices(ExtendedHttpClient<IFreeArticlesService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
@@ -19,12 +18,12 @@ public class FreeArticlesServices : IFreeArticlesService
 
     public async Task<DefaultResponseObject<string>> Create(CreateFreeArticleCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateFreeArticleCommand, DefaultResponseObject<string>>(request,$"/FreeArticle/Create");
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateFreeArticleCommand, DefaultResponseObject<string>>(request, $"/FreeArticle/Create");
     }
 
     public async Task<DefaultResponseObject<string>> Edit(EditFreeArticleCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<EditFreeArticleCommand, DefaultResponseObject<string>>(request,$"/FreeArticle/Edit");
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<EditFreeArticleCommand, DefaultResponseObject<string>>(request, $"/FreeArticle/Edit");
     }
 
     public async Task<DefaultResponseObject<AllFreeArticlesVm>> GetAll(GetAllFreeArticlesQuery request)

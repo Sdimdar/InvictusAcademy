@@ -4,7 +4,7 @@ using Payment.Infrastructure.Persistence.Models;
 
 namespace Payment.Infrastructure.Persistence.DbMaps;
 
-public class PaymentRequestDbMap  : IEntityTypeConfiguration<PaymentRequestDbModel>
+public class PaymentRequestDbMap : IEntityTypeConfiguration<PaymentRequestDbModel>
 {
     public void Configure(EntityTypeBuilder<PaymentRequestDbModel> builder)
     {

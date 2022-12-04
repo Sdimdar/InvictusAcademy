@@ -15,8 +15,8 @@ public class PaymentService : IPaymentService
     {
         ExtendedHttpClient = httpClient;
     }
-    
-    public async Task<DefaultResponseObject<bool>> AddPaymentRequestAsync(AddPaymentCommand request, 
+
+    public async Task<DefaultResponseObject<bool>> AddPaymentRequestAsync(AddPaymentCommand request,
                                                                      CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<AddPaymentCommand, DefaultResponseObject<bool>>
@@ -24,4 +24,31 @@ public class PaymentService : IPaymentService
     }
 
     
+    public async Task<DefaultResponseObject<bool>> ConfirmPaymentRequestAsync(ConfirmPaymentCommand request,
+                                                                         CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<ConfirmPaymentCommand, DefaultResponseObject<bool>>
+            (request, "/Payments/Confirm", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<bool>> RejectPaymentRequestAsync(RejectPaymentCommand request,
+                                                                        CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<RejectPaymentCommand, DefaultResponseObject<bool>>
+            (request, "/Payments/Reject", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<PaymentVm>> GetByIdPaymentRequestAsync(GetPaymentQuery request,
+                                                                              CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<PaymentVm>>
+            ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request,
+                                                                                              CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>
+            ($"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
+    }
 }

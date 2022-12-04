@@ -1,9 +1,8 @@
-﻿using System.Reflection;
-using AutoMapper;
+using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Payment.Application.Mappings;
+
 
 namespace Payment.Application;
 

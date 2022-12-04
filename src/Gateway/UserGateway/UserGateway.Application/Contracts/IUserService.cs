@@ -5,7 +5,7 @@ using ServicesContracts.Identity.Responses;
 
 namespace UserGateway.Application.Contracts;
 
-public interface IUserService:IUseExtendedHttpClient<IUserService>
+public interface IUserService : IUseExtendedHttpClient<IUserService>
 {
     Task<DefaultResponseObject<UserVm>> GetUserAsync(string email, CancellationToken cancellationToken);
     Task<DefaultResponseObject<RegisterVm>> RegisterAsync(RegisterCommand command, CancellationToken cancellationToken);

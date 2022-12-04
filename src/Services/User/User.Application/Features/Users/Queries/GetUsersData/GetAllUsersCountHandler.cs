@@ -2,7 +2,6 @@
 using AutoMapper;
 using MediatR;
 using ServicesContracts.Identity.Requests.Queries;
-using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 
 namespace User.Application.Features.Users.Queries.GetUsersData;

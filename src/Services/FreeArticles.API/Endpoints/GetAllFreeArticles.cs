@@ -28,7 +28,7 @@ public class GetAllFreeArticles : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "FreeArticle" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesVm>>> HandleAsync([FromQuery]GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesVm>>> HandleAsync([FromQuery] GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<AllFreeArticlesVm>>(response));

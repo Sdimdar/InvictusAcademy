@@ -7,7 +7,6 @@ using ServicesContracts.FreeArticles.Models;
 using ServicesContracts.FreeArticles.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;
-using UserGateway.Application.Features.Payments.Commands.Add;
 
 namespace UserGateway.API.Endpoints.FreeArticles;
 
@@ -30,7 +29,7 @@ public class GetAll : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "FreeArticle" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesVm>>> HandleAsync([FromQuery]GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesVm>>> HandleAsync([FromQuery] GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var email = HttpContext.Session.GetData("user").Email;
         if (email is null)

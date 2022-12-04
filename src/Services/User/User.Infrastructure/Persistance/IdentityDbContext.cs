@@ -1,6 +1,6 @@
-﻿using User.Infrastructure.Persistance.DbMap;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using User.Domain.Entities;
+using User.Infrastructure.Persistance.DbMap;
 
 namespace User.Infrastructure.Persistance;
 
@@ -8,7 +8,7 @@ public class IdentityDbContext : DbContext
 {
 
     public DbSet<UserDbModel> Users { get; set; }
-    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) 
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
     {
         Database.Migrate();
     }
