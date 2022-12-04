@@ -1,8 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <left-bar />
-    <div class="my-courses">
-      <h4 style="text-align: center">Ваши курсы</h4>
+  <q-page-container>
+    <h4 style="text-align: center">Ваши курсы</h4>
 
       <q-splitter v-model="splitterModel" style="height: 750px, margin-left: 100px">
         <template v-slot:before>
@@ -32,8 +30,8 @@
           </q-tab-panels>
         </template>
       </q-splitter>
-    </div>
-  </q-layout>
+  </q-page-container>
+
 </template>
 
 <script>

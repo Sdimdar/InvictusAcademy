@@ -36,6 +36,10 @@ namespace Identity.Infrastructure.Migrations
                     b.Property<string>("Citizenship")
                         .HasColumnType("VARCHAR(60)");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(60)");
+
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TIMESTAMP")

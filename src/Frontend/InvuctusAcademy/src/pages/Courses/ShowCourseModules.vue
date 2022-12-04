@@ -1,9 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <left-bar />
-    <div class="my-modules">
-      <h4 style="text-align: center">Модули курса</h4>
-
+  <q-page-container>
+    <h4 style="text-align: center">Модули курса</h4>
       <q-splitter >
         <template v-slot:after>
           <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
@@ -13,8 +10,7 @@
           </q-tab-panels>
         </template>
       </q-splitter>
-    </div>
-  </q-layout>
+  </q-page-container>
 </template>
 
 <script>

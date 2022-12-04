@@ -7,6 +7,5 @@ public class CoursePurchasedDbModel : BaseRepositoryEntity
     public int UserId { get; set; }
     public int CourseId { get; set; }
     public CourseDbModel Course { get; set; }
-    public int CourseResultId { get; set; }
     public bool IsCompleted { get; set; }
 }

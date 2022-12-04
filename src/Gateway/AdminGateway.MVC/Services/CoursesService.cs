@@ -49,7 +49,8 @@ public class CoursesService : ICoursesService
 
     public async Task<DefaultResponseObject<UniqueList<int>>> GetCourseModulesId(GetCourseModulesIdQuerry request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<UniqueList<int>>>($"/Course/GetModules?CourseId={request.CourseId}");
     }
 
     public async Task<DefaultResponseObject<CourseInfoVm>> InsertModule(InsertModuleCommand request)
@@ -67,8 +68,9 @@ public class CoursesService : ICoursesService
         return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveModuleCommand, DefaultResponseObject<CourseInfoVm>>(request, $"/Course/RemoveModule");
     }
     
-    public async Task<DefaultResponseObject<CourseForAdminVm>> GetCourse(GetCoursByIdQuery request)
+    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourse(GetCourseByIdQuery request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseForAdminVm>>( $"/Course/GetCourse?id={request.Id}");
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>( $"/Course/GetCourse?id={request.Id}");
     }
 }

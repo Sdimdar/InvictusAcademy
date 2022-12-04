@@ -12,7 +12,7 @@ public class ApiMappingProfile : Profile
 		CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
 		CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
         CreateMap<CourseDbModel, CourseVm>();
-        CreateMap<CourseDbModel, CourseForAdminVm>();
+        CreateMap<CourseDbModel, CourseByIdVm>();
         CreateMap<CourseInfoDbModel, CourseInfoVm>()
             .ForMember(p => p.ModulesId,
                        opt => opt.MapFrom(src => src.ModulesString == "" ? new List<int>()

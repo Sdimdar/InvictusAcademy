@@ -8,5 +8,6 @@ public class RegisteredUserVM
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
     public string Citizenship { get; set; }
+    public string City { get; set; }
     public DateTime RegistrationDate { get; set; }
 }

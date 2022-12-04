@@ -1,5 +1,9 @@
 <template>
-  <q-btn :class="$attrs.class" label="Войти" @click="loginDialog = true" />
+  <q-item clickable v-ripple @click="loginDialog = true">
+    <q-item-section>
+      <q-item-label>Войти</q-item-label>
+    </q-item-section>
+  </q-item>
 
   <q-dialog v-model="loginDialog">
     <q-card style="min-width: 350px">
@@ -8,24 +12,11 @@
       </q-card-section>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
-          <q-input
-            label="E-mail"
-            type="email"
-            dense
-            v-model="loginData.email"
-            autofocus
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
-              (val) => validateEmail(val) || 'Это не E-mail',
-            ]"
-          />
-          <q-input
-            :type="isPwd ? 'password' : 'text'"
-            label="Пароль"
-            dense
-            v-model="loginData.password"
-            lazy-rules
+          <q-input label="E-mail" type="email" dense v-model="loginData.email" autofocus lazy-rules :rules="[
+            (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+            (val) => validateEmail(val) || 'Это не E-mail',
+          ]" />
+          <q-input :type="isPwd ? 'password' : 'text'" label="Пароль" dense v-model="loginData.password" lazy-rules
             :rules="[
               (val) =>
                 (val && val.length > 6 && val.length < 21) ||
@@ -33,21 +24,12 @@
               (val) =>
                 validatePassword(val) ||
                 'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
-            ]"
-          >
+            ]">
             <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
+              <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
             </template>
           </q-input>
-          <q-checkbox
-            size="xs"
-            v-model="loginData.rememberMe"
-            label="Запомнить?"
-          />
+          <q-checkbox size="xs" v-model="loginData.rememberMe" label="Запомнить?" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -88,14 +70,14 @@ export default defineComponent({
     async onSubmit() {
       try {
         const response = await login(this.loginData);
-        if(response.data.isSuccess){
+        if (response.data.isSuccess) {
           this.loginDialog = false;
-          this.$emit("autorize", response.data.email);
+          this.$emit("autorize");
           notify.showSucsessNotify("Добро пожаловать");
         }
-        else{
+        else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        } 
+        }
       } catch (e) {
         notify.showErrorNotify(e.message);
       }

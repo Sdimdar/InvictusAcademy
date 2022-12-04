@@ -1,9 +1,9 @@
 <template>
-  <q-btn
-    :class="$attrs.class"
-    label="Зарегистрироваться"
-    @click="registerDialog = true"
-  />
+  <q-item clickable v-ripple @click="registerDialog = true">
+    <q-item-section>
+      <q-item-label>Зарегистрироваться</q-item-label>
+    </q-item-section>
+  </q-item>
 
   <q-dialog v-model="registerDialog">
     <q-card style="min-width: 350px">
@@ -12,23 +12,11 @@
       </q-card-section>
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="registerData.email"
-            autofocus
-            label="E-mail"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
-              (val) => validateEmail(val) || 'Это не E-mail',
-            ]"
-          />
-          <q-input
-            :type="isPwd ? 'password' : 'text'"
-            dense
-            v-model="registerData.password"
-            label="Пароль"
-            lazy-rules
+          <q-input dense v-model="registerData.email" autofocus label="E-mail" lazy-rules :rules="[
+            (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+            (val) => validateEmail(val) || 'Это не E-mail',
+          ]" />
+          <q-input :type="isPwd ? 'password' : 'text'" dense v-model="registerData.password" label="Пароль" lazy-rules
             :rules="[
               (val) =>
                 (val && val.length > 6 && val.length < 21) ||
@@ -36,23 +24,13 @@
               (val) =>
                 validatePassword(val) ||
                 'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
-            ]"
-          >
+            ]">
             <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
+              <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
             </template>
           </q-input>
-          <q-input
-            :type="isPwdConfirm ? 'password' : 'text'"
-            dense
-            v-model="registerData.passwordConfirm"
-            label="Повтор пароля"
-            lazy-rules
-            :rules="[
+          <q-input :type="isPwdConfirm ? 'password' : 'text'" dense v-model="registerData.passwordConfirm"
+            label="Повтор пароля" lazy-rules :rules="[
               (val) =>
                 val === registerData.password || 'Пароли должны совпадать',
               (val) =>
@@ -61,43 +39,26 @@
               (val) =>
                 validatePassword(val) ||
                 'Пароль должен содержать одну цифру, одну заглавную и одну прописную букву',
-            ]"
-          >
+            ]">
             <template v-slot:append>
-              <q-icon
-                :name="isPwdConfirm ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwdConfirm = !isPwdConfirm"
-              />
+              <q-icon :name="isPwdConfirm ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="isPwdConfirm = !isPwdConfirm" />
             </template>
           </q-input>
-          <q-input
-            dense
-            mask="#(###) ### - ####"
-            v-model="registerData.phoneNumber"
-            label="Телефонный номер"
-            lazy-rules
+          <q-input dense mask="#(###) ### - ####" v-model="registerData.phoneNumber" label="Телефонный номер" lazy-rules
             :rules="[
               (val) =>
                 (val && val.length === 17) || 'Номер должен содержать 11 цифр',
-            ]"
-          />
-          <q-input
-            dense
-            v-model="registerData.firstName"
-            label="Имя"
-            lazy-rules
-            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
-          />
-          <q-input
-            dense
-            v-model="registerData.lastName"
-            label="Фамилия"
-            lazy-rules
-            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']"
-          />
+            ]" />
+          <q-input dense v-model="registerData.firstName" label="Имя" lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']" />
+          <q-input dense v-model="registerData.lastName" label="Фамилия" lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']" />
+          <q-input dense v-model="registerData.city" label="Город" lazy-rules
+            :rules="[(val) => val !== '' || 'Это поле не может быть пустым']" />
         </q-card-section>
-        <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{item.identifier}} : {{item.errorMessage}}</div>
+        <div class="text-center" style="color:red" v-for="item in errorMessages" :key="item">{{ item.identifier }} :
+          {{ item.errorMessage }}</div>
         <q-card-actions class="text-primary">
           <q-btn flat label="Отмена" v-close-popup type="reset" />
           <q-btn flat label="Зарегистрироваться" type="submit" />
@@ -124,11 +85,12 @@ export default defineComponent({
         phoneNumber: "",
         firstName: "",
         lastName: "",
+        city: ""
       },
       registerDialog: ref(false),
       isPwd: ref(true),
       isPwdConfirm: ref(true),
-      errorMessages:"",
+      errorMessages: "",
     };
   },
   props: {
@@ -141,15 +103,15 @@ export default defineComponent({
     async onSubmit() {
       try {
         const response = await register(this.registerData);
-        if(response.data.isSuccess){
+        if (response.data.isSuccess) {
           this.registerDialog = false;
           this.$emit("autorize", response.data.email);
           notify.showSucsessNotify("Добро пожаловать");
         }
-        else{
+        else {
           this.errorMessages = response.data.validationErrors
         }
-        
+
       } catch (e) {
         notify.showErrorNotify(e.message);
         console.log(e);

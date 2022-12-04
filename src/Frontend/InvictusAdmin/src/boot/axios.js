@@ -73,6 +73,7 @@ export const fetchModuleByFilterString = (string) => api.get(`/AdminPanel/Module
 
 //articles
 export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArticles', payload);
+export const addTest = (payload) => api.post('/AdminPanel/Modules/AddTest', payload);
 
 //payments
 export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{PageNumber:paymentData.pageNumber, PageSize:paymentData.pageSize, Status:paymentData.status}})
@@ -95,5 +96,12 @@ export const getModulesByListId = (modulesId) => api.get('/AdminPanel/Modules/Ge
     paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: "repeat" })
     }
-
 });
+
+//freeArticles
+export const createFreeArticle = (articleData) => api.post('/AdminPanel/FreeArticles/Create', articleData);
+export const editFreeArticle = (articleData) => api.post('/AdminPanel/FreeArticles/Edit', articleData);
+export const fetchAllFreeArticles = (pageNumber, pageSize, filter) => api.get('/AdminPanel/FreeArticles/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filter} });
+export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetCount');
+export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
+

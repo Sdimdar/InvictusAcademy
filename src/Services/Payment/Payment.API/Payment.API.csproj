@@ -35,4 +35,8 @@
       <ProjectReference Include="..\Payment.Infrastructure\Payment.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Properties 2\launchSettings.json" />
+    </ItemGroup>
+
 </Project>

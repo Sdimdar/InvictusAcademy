@@ -19,5 +19,5 @@ public interface ICoursesService:IUseExtendedHttpClient<ICoursesService>
     Task<DefaultResponseObject<CourseInfoVm>> InsertModule(InsertModuleCommand request);
     Task<DefaultResponseObject<CourseInfoVm>> InsertModules(InsertModulesCommand request);
     Task<DefaultResponseObject<CourseInfoVm>> RemoveModule(RemoveModuleCommand request);
-    Task<DefaultResponseObject<CourseForAdminVm>> GetCourse(GetCoursByIdQuery request);
+    Task<DefaultResponseObject<CourseByIdVm>> GetCourse(GetCourseByIdQuery request);
 }

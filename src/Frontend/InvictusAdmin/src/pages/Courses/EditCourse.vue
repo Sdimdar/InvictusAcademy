@@ -31,6 +31,45 @@
     />
   </div>
 
+  <div class="q-pa-md" style="max-width: 300px">
+    <q-input
+      v-model="courseData.secondName"
+      filled
+      type="textarea"
+      label="Введите мотивирующее обращение"
+      :rules="[ myRule ]"
+    />
+  </div>
+
+  <div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.secondDescription"
+      filled
+      type="textarea"
+      label="Введите подробное второе описание"
+      :rules="[ myRule ]"
+    />
+  </div>
+
+  <div  v-for="(input, index) in courseData.coursePoints" :key="`pointsInput-${index}`">
+    <q-input dense v-model="input.point" label="Введите пункт кому курс подойдет"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]" />
+    <q-input dense v-model="input.pointImageLink" label="Введите ссылку на изображение для пункта"
+            lazy-rules
+            :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]" />
+  </div>
+
+  <q-card-actions align="right" class="text-primary">
+            <q-btn @click="addField(courseData.coursePoints)"  label="Добавить пункт" />
+            <q-btn @click="removeField(courseData.coursePoints)" label="Удалить пункт" />
+    </q-card-actions>
+
+
   <div class="q-pa-md" style="max-width: 700px">
     <q-input
       v-model="courseData.videoLink"
@@ -102,6 +141,17 @@ export default{
   data(){
     return{
       courseId: this.$route.params.id,
+      courseData:{
+        id: '',
+        name: '',
+        cost: '',
+        description: '',
+        secondName: '',
+        secondDescription: '',
+        coursePoints: [{point: "", pointImageLink: ""}],
+        isActive: true,
+        videoLink: ""
+      },
       showModules: false,
       showCourse: false,
       allModules: [],
@@ -112,23 +162,23 @@ export default{
   components: {
     VueDraggableNext
   },
-  setup () {
-    const inputRef = ref(null)
-    return {
-      search: ref(''),
-      courseData: ref({
-        name: ref(''),
-        cost: ref(null),
-        description: ref(''),
-        isActive: ref(),
-        videoLink: ref()
-      }),
-      options: [
-        true, false
-      ],
-      inputRef,
-    }
-  },
+  // setup () {
+  //   const inputRef = ref(null)
+  //   return {
+  //     search: ref(''),
+  //     courseData: ref({
+  //       name: ref(''),
+  //       cost: ref(null),
+  //       description: ref(''),
+  //       isActive: ref(),
+  //       videoLink: ref()
+  //     }),
+  //     options: [
+  //       true, false
+  //     ],
+  //     inputRef,
+  //   }
+  // },
   mounted() {
     this.getAllModules();
     this.getCourse(this.courseId);
@@ -138,13 +188,16 @@ export default{
     async getCourse(){
         try {
           const response = await getCourse(this.courseId);
-          
+          console.log(response.data.value)
           if (response.data.isSuccess) {
             this.courseData.name = response.data.value.name
             this.courseData.cost = response.data.value.cost
             this.courseData.description = response.data.value.description
+            this.courseData.secondName = response.data.value.secondName
+            this.courseData.secondDescription = response.data.value.secondDescription
             this.courseData.isActive = response.data.value.isActive
             this.courseData.videoLink = response.data.value.videoLink
+            this.courseData.coursePoints = response.data.value.coursePoints
             notify.showSucsessNotify("Курс получен");
           }
           else {
@@ -155,12 +208,11 @@ export default{
         }
     },
     async submitCourse() {
-
       //ToDo
       try {
-        this.courseData.id = this.courseId;
+        this.courseData.id = this.courseId
         const response = await editCourse(this.courseData);
-        
+        console.log(response)
         if (response.data.isSuccess) {
             this.showModules = true
             notify.showSucsessNotify("Курс отредактирован");
@@ -198,7 +250,7 @@ export default{
     async getAllModules(){
       try {
         const response = await getAllModules();
-        
+
         if (response.data.isSuccess) {
           this.allModules = response.data.value;
           notify.showSucsessNotify("Все модули получены");
@@ -213,13 +265,13 @@ export default{
     async getCourseModules(){
       try {
         const response = await getCourseModulesId(this.courseId);
-            
+
         if (response.data.isSuccess) {
           const modulesId = response.data.value;
           notify.showSucsessNotify("Все id модулей курса получены");
           try {
             const response = await getModulesByListId(modulesId);
-            
+
             if (modulesId.length > 0){
               if (response.data.isSuccess) {
                 this.forCreateModules = response.data.value;
@@ -257,7 +309,13 @@ export default{
           break;
         }
       }
-    }
+    },
+    addField(fieldType) {
+      fieldType.push({point: "", pointImageLink: ""});
+    },
+    removeField(index, fieldType) {
+      fieldType.splice(index, 1);
+    },
   }
 }
 </script>
@@ -285,8 +343,6 @@ export default{
 .module-item{
   padding: 5px 20px;
   border: 1px solid #DDD;
-}
-.module-item:hover{
 }
 
 .submitModuleButton{

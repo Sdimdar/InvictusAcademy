@@ -188,10 +188,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - "ConnectionStrings:CoursesConnectionString=Server=coursesdb;Port=5432;Database=CoursesDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
-      - "InvictusAcademyDatabase:ConnectionString=mongodb://courses-infodb:27018"
+      - "InvictusAcademyDatabase:ConnectionString=mongodb://courses-infodb"
       - "DatabaseName=InvictusAcademy"
     depends_on:
       - coursesdb
+      - courses-infodb
     ports: 
       - "7003:80"
 
