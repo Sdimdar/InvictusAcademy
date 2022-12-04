@@ -16,7 +16,8 @@
     <template v-slot:body="props" >
         <q-tr :props="props">
           <q-td key="id" :props="props">
-            {{ props.row.id }}
+            <!-- <router-link to="/admin-panel/historyPage/:id" params="{{props.row.id}}">{{props.row.id}}</router-link> -->
+            <teamplate @click="$router.push(`/admin-panel/historyPage/${props.row.id}/email`)">{{props.row.id}}</teamplate>
           </q-td>
           <q-td key="userEmail" :props="props">
             {{ props.row.userEmail }}
@@ -159,8 +160,6 @@ async function onRequest (props) {
           if(response.data.isSuccess){
             notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
             delete this.rows[index]
-            console.log("AAAAAAAAAAAAA")
-            console.log(this.rows)
           }
           else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -209,6 +208,14 @@ async function onRequest (props) {
             catch(error){
               console.log(error.message);
             }
+          },
+          redirect(paymentId){
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            console.log(paymentId)
+            this.$router.push({
+              path:"/admin-panel/historyPage",
+              props:{id:paymentId}
+            })
           }
     },
     

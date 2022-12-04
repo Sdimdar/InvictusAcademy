@@ -16,7 +16,7 @@
       <template v-slot:body="props" >
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              {{ props.row.id }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/${props.row.id}/email`)">{{props.row.id}}</teamplate>
             </q-td>
             <q-td key="userEmail" :props="props">
               {{ props.row.userEmail }}
@@ -28,7 +28,7 @@
               {{ props.row.courseName }}
             </q-td>
             <q-td key="modifyAdminEmail" :props="props">
-              {{ props.row.modifyAdminEmail }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/0/${props.row.modifyAdminEmail}`)">{{ props.row.modifyAdminEmail }}</teamplate>
             </q-td>
             <q-td key="rejectReason" :props="props">
                 {{props.row.rejectReason}}

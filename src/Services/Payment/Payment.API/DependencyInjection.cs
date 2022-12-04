@@ -25,7 +25,7 @@ public static class DependencyInjection
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Courses.API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payment.API", Version = "v1" });
             c.EnableAnnotations();
         });
         return services;

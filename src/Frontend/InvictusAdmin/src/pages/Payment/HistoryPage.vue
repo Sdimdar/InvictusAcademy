@@ -1,225 +1,164 @@
 <template>
-
-    <div class="q-pa-md" style="max-width: 100%; margin: 0 auto;">
-        <q-table
-          ref="tableRef"
-          :title=myTitle
-          :rows="rows"
-          :columns="columns"
-          row-key="id"
-          v-model:pagination="pagination"
-          :loading="loading"
-          binary-state-sort
-          @request="onRequest"
-        >
-        
-        <template v-slot:body="props" >
-            <q-tr :props="props">
-              <q-td key="id" :props="props">
-                {{ props.row.id }}
-              </q-td>
-              <q-td key="userEmail" :props="props">
-                {{ props.row.userEmail }}
-              </q-td>
-              <q-td key="courseId" :props="props">
-                {{ props.row.courseId }}
-              </q-td>
-              <q-td key="courseName" :props="props">
-                {{ props.row.courseName }}
-              </q-td>
-              <q-td key="accept" :props="props" >
-                <q-btn
-                @click="confirmPayment(props.row.id, rows.indexOf(props.row))"
-                color="secondary"
-                >Подтвердить оплату</q-btn>
-              </q-td>
-              <q-td key="rejectReason" :props="props">
-                  <q-input v-model="props.row.rejectReason" type="text" />
-                </q-td>
-                <q-td key="reject" :props="props" >
-                  <q-btn
-                  @click="reject(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
-                  color="deep-orange"
-                  >Отменить заявку</q-btn>
-                </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-    </div>
-    </template>
+  <div style="padding-left:16px">
+    <p v-if="(id !=0)">История для запроса <strong>№{{id}}</strong></p>
+    <p v-else>История для менеджера: <strong>{{email}}</strong></p>
+  </div>
+  
+<div class="q-pa-md" style="max-width: 100%; margin: 0 auto;">
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>Номер запроса</th>
+      <th>Email пользователя</th>
+      <th>Номер курса</th>
+      <th>Название курса</th>
+      <th>Статус заявки</th>
+      <th>Причина отмены</th>
+      <th>Кто подтвердил</th>
+      <th>Дата создания</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+  <template v-for="item in rows">
+  <tr>
+    <td>{{item.paymentId}}</td>
+    <td>{{item.userEmail}}</td>
+    <td>{{item.courseId}}</td>
+    <td>{{item.courseName}}</td>
+    <td>
+      <template v-if="(item.paymentState === 0)">Открытая заявка</template>
+      <template v-if="(item.paymentState === 1)">Оплачено</template>
+      <template v-if="(item.paymentState === 2)">Отмененная заявка</template>
+      <template v-if="(item.paymentState === 3)">Возврат средств</template>
+    </td>
+    <td>{{item.rejectReason}}</td>
+    <td>{{item.modifyAdminEmail}}</td>
+    <td>{{item.createdDate}}</td>
+  </tr>
+  </template>
+</tbody>
+</table>
+</div>
+</template>
     
     <script>
-    import {getPaymentsByParams,confirmPaymentById,rejectPayment, getPaymentsCount} from 'boot/axios';
+    import { getHistoryById,getHistoryByName} from 'boot/axios';
     import { ref, onMounted } from 'vue';
     import notify from "boot/notifyes";
-    
+    // import { numberLiteralTypeAnnotation } from '@babel/types';
+
+      
     const columns = [
         {name:"id", align:'center', label:"Номер запроса", field:"id", sortable:true, field: row=> row.id, format:val=>`${val}`, requires:true},
         {name:"userEmail", align:'center', label:"Email пользователя", field:'userEmail', sortable:false},
         {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
         {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
-        {name:'accept', align: 'center', label: 'Подтверждение оплаты', field: 'accept', sortable: false},
-        {name: 'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
-        {name:'reject', align: 'center', label: 'Отмена заявки', field: 'reject', sortable: false},
+        {name:'paymentState', align: 'center', label: 'Статус заявки', field: 'paymentState', sortable: false},
+        {name:'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
+        {name:'modifyAdminEmail', align: 'center', label: 'Кто подтвердил', field: 'modifyAdminEmail', sortable: false},
+        {name:'сreatedDate', align: 'center', label: 'Дата создания', field: 'сreatedDate', sortable: false}
         ]
     
     
     export default{
-        name: 'PaymentPage',
-        data(){
-          return{
-            query:{
-              status:0
-            },
-            myTitle : "Открытые заявки",
-          }
-        },
-        setup(){
-        let payload = {status:0}
-        const tableRef = ref()
-        let rows = ref([])
-        const filter = ref('')
-        const loading = ref(false)
-        const pagination = ref({
-          sortBy: 'desc',
-          descending: false,
-          page: 1,
-          rowsPerPage: 10,
-          rowsNumber: 10
-        })
-    
-    async function onRequest (props) {
-          console.log(props)
-          let { page, rowsPerPage, sortBy, descending } = props.pagination
-          let response;
-          loading.value = true
-          // update rowsCount with appropriate value
-          try {
-              response = await getPaymentsCount(payload);
-              if (response.data.isSuccess) {
-                if(response.data.value===0){
-                  loading.value = false,
-                  notify.showWarningNotify("Список заявок на оплату пуст")
-                }
-                pagination.value.rowsNumber = response.data.value;
-              }
-              else {
-                response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-                return;
-              }
-            } catch (error) {
-              console.log(error.message);
-            }
-    
-          // fetch data from "server"
-          try {
-              payload.pageNumber = page,
-              payload.pageSize = rowsPerPage
-              response = await getPaymentsByParams(payload);
-              if (response.data.isSuccess) {
-              rows.value.splice(0, rows.value.length, ...response.data.value.payments);
-            }
-            else {
-              response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-              return;
-            }
-          } catch (error) {
-            console.log(error.message);
-          }
-    
-          // don't forget to update local pagination object
-          pagination.value.page = page
-          pagination.value.rowsPerPage = rowsPerPage
-          pagination.value.sortBy = sortBy
-          pagination.value.descending = descending
-          // ...and turn of loading indicator
-          loading.value = false
-        }
-    
-        onMounted(() => {
-          // get initial data from server (1st page)
-          tableRef.value.requestServerInteraction()
-        })
+    props:{
+      id:{type:Number},
+      email:{type:String}
+    },
+    name: "HistoryPage",
+    data() {
         return {
-          tableRef,
-          filter,
-          loading,
-          pagination,
-          columns,
-          rows,
-          onRequest      
-        }
-    },methods: {
-            async confirmPayment(id,index){
-              try{
-                let payload = {paymentId:id}
-                console.log(this.rows)
-                let response = await confirmPaymentById(payload);
-                console.log(response)
-              if(response.data.isSuccess){
-                notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
-                delete this.rows[index]
-                console.log("AAAAAAAAAAAAA")
-                console.log(this.rows)
-              }
-              else {
-              response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-              return;
-            }
-              }
-              catch(error){
-                console.log(error.message);
-              }
-            },
-            async refreshTable(){
+            myTitle: "История операций",
+            rows:[]
+        };
+    },
+    methods:{
+      async  getById() {
+            let response;
+            // fetch data from "server"
               try {
-            let response = await getPaymentsByParams(this.query);
-            console.log(response)
-            console.log(this.rows.length)
-            if (response.data.isSuccess) {
-    
-            this.rows.splice(0, this.rows.length, ...response.data.value);
-          }
-          else {
-            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-            return;
-          }
-        } catch (error) {
-          console.log(error.message);
-        }
-            },
-            async reject(id,rejectMessage,index){
-                if(rejectMessage === null || rejectMessage.length < 5){
-                    return notify.showWarningNotify("Заполните причину возврата, не менее 5 символов")
-                }
-                let payload ={
-                  paymentId : id,
-                  rejectReason:rejectMessage
-                }
-                try{
-                  let response = await rejectPayment(payload);
-                  if(response.data.isSuccess){
-                  notify.showWarningNotify(`Заявка № ${id} отменена`)
-                  delete this.rows[index]
-                }else {
-              response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-              return;
-            }
-                }
-                catch(error){
-                  console.log(error.message);
-                }
+                console.log(this.id)
+              let payload = {
+                paymentId:this.id
               }
+                response = await getHistoryById(payload);
+                if (response.data.isSuccess) {
+                  console.log(response.data)
+                    this.rows.push(...response.data.value)
+                    console.log(this.rows)
+                }
+                else {
+                    response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error.message);
+            }
         },
-        
+        async getByName(){
+      let response;
+      try {
+                response = await getHistoryByName(this.email);
+                if (response.data.isSuccess) {
+                  console.log(response.data)
+                    this.rows.push(...response.data.value)
+                    console.log(this.rows)
+                }
+                else {
+                    response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+    },
+    },
+    
+    mounted(){
+      if(this.id != 0){
+        this.getById()
+      }else{
+        this.getByName()
+      }
     }
+  
+}
     </script>
-    <style>
-    .my-select{
-      padding: 16 px;
-      margin-right: 10px;
-      font-size: 18px;
-      border-radius: 5px;
-      border: 2px solid lightblue;
-    }
-    </style>
+<style scoped>
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+</style>
+  
