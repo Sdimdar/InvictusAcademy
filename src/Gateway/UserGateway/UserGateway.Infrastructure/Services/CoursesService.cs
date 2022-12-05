@@ -22,6 +22,12 @@ public class CoursesService : ICoursesService
         return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);
     }
 
+    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>($"/Course/GetCourse?Id={query.Id}", cancellationToken);
+    }
+
     public async Task<DefaultResponseObject<List<ShortModuleInfoVm>>> GetShortModulesInfoByCourseId(GetShortCourseInfoQuery query, CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ShortModuleInfoVm>>>($"/Modules/GetShortInfoByCourseId?CourseId={query.CourseId}", cancellationToken);

@@ -62,7 +62,6 @@ namespace Courses.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<decimal>(type: "numeric(7,0)", nullable: false),
                     CourseId = table.Column<int>(type: "integer", nullable: false),
-                    CourseResultId = table.Column<decimal>(type: "numeric(7,0)", nullable: false),
                     IsCompleted = table.Column<bool>(type: "BOOLEAN", nullable: false, defaultValue: false),
                     CreatedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()"),
                     LastModifiedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()")

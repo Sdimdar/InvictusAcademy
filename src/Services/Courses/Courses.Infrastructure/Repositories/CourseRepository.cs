@@ -70,7 +70,9 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
     
     public async Task<CourseDbModel?> GetCourseById(int id)
     {
+        var points = Context.CoursePoints.Where(p => p.CourseId == id).ToList();
         var result = await Context.Courses.FirstOrDefaultAsync(c=>c.Id==id);
+        result.CoursePoints = points;
         return result;
     }
 

@@ -41,7 +41,6 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand,Result
             course.Description = request.Description;
             course.SecondName = request.SecondName;
             course.SecondDescription = request.SecondDescription;
-            course.CoursePoints = request.CoursePoints;
             course.VideoLink = request.VideoLink;
             course.Cost = request.Cost;
             course.IsActive = request.IsActive;

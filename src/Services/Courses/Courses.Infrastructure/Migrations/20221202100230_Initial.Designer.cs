@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Courses.Infrastructure.Migrations
 {
     [DbContext(typeof(CoursesDbContext))]
-    [Migration("20221201195633_Initial")]
+    [Migration("20221202100230_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,9 +128,6 @@ namespace Courses.Infrastructure.Migrations
 
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
-
-                    b.Property<decimal>("CourseResultId")
-                        .HasColumnType("numeric(7,0)");
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
