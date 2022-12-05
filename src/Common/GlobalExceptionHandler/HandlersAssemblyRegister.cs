@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using GlobalExceptionHandler.Interfaces;
+﻿using GlobalExceptionHandler.Interfaces;
+using System.Reflection;
 
 namespace GlobalExceptionHandler;
 

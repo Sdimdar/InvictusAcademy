@@ -1,7 +1,7 @@
-﻿using User.Application.Contracts;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using User.API.Tests.Repository;
+using User.Application.Contracts;
 
 namespace User.API.Tests.Fixture;
 
@@ -12,7 +12,7 @@ public class CustomApplicationFactory<TProgram> : WebApplicationFactory<TProgram
         builder.ConfigureServices(services =>
         {
             var desc = services.FirstOrDefault(s => s.ServiceType == typeof(IUserRepository));
-            services.Remove(desc);
+            services.Remove(desc!);
 
             services.AddSingleton<IUserRepository, UserMockRepository>();
         });

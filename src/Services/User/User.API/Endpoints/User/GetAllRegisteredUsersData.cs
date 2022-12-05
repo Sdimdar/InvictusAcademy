@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
-using User.Application.Features.Users.Queries.GetUsersData;
 
 namespace User.API.Endpoints.User;
 

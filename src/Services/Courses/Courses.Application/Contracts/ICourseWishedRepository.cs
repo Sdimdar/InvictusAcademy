@@ -5,5 +5,5 @@ namespace Courses.Application.Contracts;
 
 public interface ICourseWishedRepository : IBaseRepository<CourseWishedDbModel>
 {
-    
+
 }

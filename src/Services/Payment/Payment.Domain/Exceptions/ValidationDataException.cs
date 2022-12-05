@@ -2,6 +2,6 @@
 
 public class ValidationDataException : ApplicationException
 {
-    public ValidationDataException() {}
-    public ValidationDataException(string message) : base(message) {}
+    public ValidationDataException() { }
+    public ValidationDataException(string message) : base(message) { }
 }

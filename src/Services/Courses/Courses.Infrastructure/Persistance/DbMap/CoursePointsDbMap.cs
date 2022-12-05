@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Courses.Infrastructure.Persistance.DbMap;
 
-public class CoursePointsDbMap: IEntityTypeConfiguration<CoursePointsDbModel>
+public class CoursePointsDbMap : IEntityTypeConfiguration<CoursePointsDbModel>
 {
     public void Configure(EntityTypeBuilder<CoursePointsDbModel> builder)
     {

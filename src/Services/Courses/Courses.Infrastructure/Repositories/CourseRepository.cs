@@ -67,12 +67,12 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         IQueryable<CourseDbModel> result = Context.Courses;
         return await result.ToListAsync();
     }
-    
+
     public async Task<CourseDbModel?> GetCourseById(int id)
     {
-        var points = Context.CoursePoints.Where(p => p.CourseId == id).ToList();
-        var result = await Context.Courses.FirstOrDefaultAsync(c=>c.Id==id);
-        result.CoursePoints = points;
+        var result = await Context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        var points = await Context.CoursePoints.Where(c => c.CourseId == result!.Id).ToListAsync();
+        result!.CoursePoints = points;
         return result;
     }
 
@@ -90,7 +90,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         foreach (var item in coursesId)
         {
             var query = await Context.Courses.FirstOrDefaultAsync(c => c.Id == item);
-            if(query is not null)
+            if (query is not null)
                 list.Add(query);
         }
 

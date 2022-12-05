@@ -7,8 +7,8 @@ namespace Payment.Infrastructure.Persistence;
 public class PaymentDbContext : DbContext
 {
     public DbSet<PaymentRequestDbModel> PaymentRequests { get; set; }
-    
-    public PaymentDbContext(DbContextOptions<PaymentDbContext> options) : base(options) 
+
+    public PaymentDbContext(DbContextOptions<PaymentDbContext> options) : base(options)
     {
         Database.Migrate();
     }

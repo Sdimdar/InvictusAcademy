@@ -4,7 +4,6 @@ using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Commands;
-using ServicesContracts.Request.Requests.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace User.API.Endpoints.User;

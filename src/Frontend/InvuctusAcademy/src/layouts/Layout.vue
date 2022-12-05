@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh lpR lFf">
 
-    <q-header class="header">
+    <q-header class="header" style="padding:10px">
       <q-toolbar>
         <div class="search">
           <q-input dense rounded outlined label="Ищете что-то конкретное?">
@@ -10,54 +10,32 @@
             </template>
           </q-input>
         </div>
-
         <q-space />
-        <TestComponent :label="loginedUserEmail" />
-        <q-space />
-
-        <div class="q-pa-md" v-if="logined">
           <q-btn-dropdown rounded color="accent" dense :label="userName" icon="account_circle">
-            <q-list>
-              <q-item clickable v-ripple to="/user">
-                <q-item-section>
-                  <q-item-label>Личный кабинет</q-item-label>
-                </q-item-section>
-              </q-item>
+            <template v-if="logined">
+              <q-list>
+                <q-item clickable v-ripple to="/user">
+                  <q-item-section>
+                    <q-item-label>Личный кабинет</q-item-label>
+                  </q-item-section>
+                </q-item>
 
-              <q-item clickable v-ripple to="">
-                <q-item-section>
-                  <q-item-label> Настройки</q-item-label>
-                </q-item-section>
-              </q-item>
+                <q-item clickable v-ripple to="">
+                  <q-item-section>
+                    <q-item-label> Настройки</q-item-label>
+                  </q-item-section>
+                </q-item>
 
-              <q-item style="padding: 0px;">
-                <q-item-section>
-                  <logout-button :logined="logined" @unautorize="unautorize" />
-                </q-item-section>
-              </q-item>
-            </q-list>
+                <logout-button :logined="logined" @unautorize="unautorize" />
+              </q-list>
+            </template>
+            <template v-else>
+              <q-list>
+                <login-button :logined="logined" @autorize="autorize" />
+                <register-button :logined="logined" @autorize="autorize" />
+              </q-list>
+            </template>
           </q-btn-dropdown>
-        </div>
-
-        <div class="q-pa-md" v-else>
-          <q-btn-dropdown dense rounded icon="account_circle" color="accent">
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <login-button :logined="logined" @autorize="autorize" />
-                </q-item-section>
-              </q-item>
-
-              <q-item>
-                <q-item-section>
-                  <register-button :logined="logined" @autorize="autorize" />
-                </q-item-section>
-              </q-item>
-
-            </q-list>
-          </q-btn-dropdown>
-        </div>
-
       </q-toolbar>
     </q-header>
 
@@ -134,103 +112,27 @@
         </q-list>
       </q-scroll-area>
 
-      <div class="absolute"  style="top: 110px; right: -15px;">
-        <q-btn
-          dense
-          round
-          unelevated
-          color="accent"
-          :icon="miniState?'chevron_right':'chevron_left'"
-          @click="switchDrawerState"
-        />
+      <div class="absolute" style="top: 110px; right: -15px;">
+        <q-btn dense round unelevated color="accent" :icon="miniState ? 'chevron_right' : 'chevron_left'"
+          @click="switchDrawerState" />
       </div>
     </q-drawer>
 
     <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
       <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
-
     </q-page-container>
-
-
-
   </q-layout>
-  <footer class="footer">
-      <q-toolbar class="row">
 
-        <div class="col-3">
-          <div class="column" style="height: 250px">
-            <div class="col">
-              <img src="img/logo_white.svg" />
-            </div>
-            <div class="col">
-              <p style="font-size: 12px; color: #F9F9F9;">Мы в соц сетях</p>
-              <div class="row">
-                <div class="icon-space"> <img src="img/icons/telegram.svg" /></div>
-                <div class="icon-space"> <img src="img/icons/whatsapp.svg" /></div>
-                <div class="icon-space"> <img src="img/icons/instagram.svg" /> </div>
-                <div class="icon-space"> <img src="img/icons/youtube.svg" /></div>
-              </div>
-            </div>
-            <div class="col" style="font-size: 14px; font-weight: 400; color: #B3B3B3;">
-              © 2022 Invictus Academy
-            </div>
-          </div>
-        </div>
-
-        <div class="col-3">
-          <div class="column" style="height: 220px">
-            <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
-              Контактная информация:
-            </div>
-            <div class="col" style="font-size: 16px; font-weight: 300; color: #F9F9F9">
-              <p> +7 (775) 887 18 76</p>
-              <p> +7 (775) 887 18 76</p>
-              <p>arystan-bakhtiyarov@mail.ru</p>
-              <p>www.invictus.kz</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-2">
-          <div class="column" style="height: 220px">
-            <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
-              Навигация:
-            </div>
-            <div class="col" style="font-size: 18px; font-weight: 400; color: #F9F9F9">
-              <p>Главная</p>
-              <p>Курсы</p>
-              <p>Чат</p>
-              <p>Статьи</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-4">
-          <div class="column" style="height: 220px">
-            <div class="col" style="font-size: 20px; font-weight: 500; color: #F9F9F9">
-              Подпишитесь на нашу рассылку, чтобы первым быть в курсе акций и скидок!
-              <p style="font-size: 14px; font-weight: 300; color: #B3B3B3;">
-                Никакого спама. Только самые ценные советы</p>
-            </div>
-            <div class="col">
-              <div class="row">
-                <q-input style="background-color: white; width: 250px; margin-right: 5px;" filled outlined
-                  label="example@mail.com" />
-                <q-btn color="accent" label="Подписаться" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </q-toolbar>
-    </footer>
+  <footer-template />
 </template>
 
 <script>
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import { fetchLoginedUserData } from 'boot/axios'
 import LogoutButton from 'components/User/LogoutButton.vue'
 import LoginButton from 'components/User/LoginButton.vue'
 import RegisterButton from 'components/User/RegisterButton.vue'
+import FooterTemplate from 'src/components/FooterTemplate.vue'
 
 export default {
   setup() {
@@ -256,7 +158,8 @@ export default {
   components: {
     LoginButton,
     LogoutButton,
-    RegisterButton
+    RegisterButton,
+    FooterTemplate
   },
   data() {
     return {
@@ -267,7 +170,7 @@ export default {
     }
   },
   methods: {
-    switchDrawerState: function() {
+    switchDrawerState: function () {
       this.miniState = !this.miniState;
     },
     autorize: async function () {
@@ -346,27 +249,12 @@ export default {
   border-radius: 20%;
 }
 
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 48px 58px 60px;
-  margin-left: 0px;
-
-  position: relative;
-  height: 271px;
-
-  width: 100%;
-
-  background: #242424;
-}
 
 .icon-space {
   padding: 0px 25px 25px 0px;
 }
 
-.spacer{
+.spacer {
   height: 250px;
 }
 </style>

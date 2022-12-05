@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
@@ -35,7 +34,7 @@ public static class DependencyInjection
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
         }
-        
+
         return services;
     }
 
@@ -67,6 +66,7 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IUserService, UserService>(configuration["ApiSettings:IdentityUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
+        services.AddServiceWithExtendedHttpClient<IFreeArticlesService, FreeArticlesService>(configuration["ApiSettings:FreeArticleUrl"]);
         return services;
     }
 
@@ -79,7 +79,7 @@ public static class DependencyInjection
         }).CreateMapper());
         return services;
     }
-    
+
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();

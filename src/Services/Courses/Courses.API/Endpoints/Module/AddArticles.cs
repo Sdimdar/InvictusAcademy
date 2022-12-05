@@ -3,7 +3,6 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;

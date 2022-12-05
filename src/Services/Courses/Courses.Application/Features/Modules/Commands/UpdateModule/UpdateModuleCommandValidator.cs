@@ -5,8 +5,8 @@ namespace Courses.Application.Features.Modules.Commands.UpdateModule;
 
 public class UpdateModuleCommandValidator : AbstractValidator<UpdateModuleCommand>
 {
-	public UpdateModuleCommandValidator()
-	{
+    public UpdateModuleCommandValidator()
+    {
         RuleFor(p => p.Id)
             .GreaterThan(-1).WithMessage("Module ID can't be less then 0");
         RuleFor(p => p.Title)

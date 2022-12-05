@@ -70,6 +70,13 @@ export const getFullModulesInfo = (courseId) => api.get(`/Courses/GetFullModules
 // UserData
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 
-//payments
-export const addToPayments = (courseId) => api.get('/Payments/Add', {params:{courseId: courseId}});
+// FreeArticles
+export const fetchAllFreeArticles = (pageNumber, pageSize, filterString) => api.get('/FreeArticle/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filterString} });
+export const getFreeArticlesCount = () => api.get('/FreeArticle/GetCount');
+export const fetchFreeArticle = (id) => api.get('/FreeArticle/GetFreeArticleData', {params:{id: id}});
 
+// Course Passing
+export const getPurchasedCourseData = (courseId) => api.get('/Courses/GetPurchasedCourseData', {params:{courseId: courseId}});
+export const getPurchasedArticle = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedArticle', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
+export const getPurchasedTest = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedTest', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
+export const checkTestAnswers = (payload) => api.post('/Tests/CheckTestAnswers', payload);

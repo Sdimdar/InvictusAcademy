@@ -7,10 +7,10 @@ namespace Courses.API.Mappings;
 
 public class ApiMappingProfile : Profile
 {
-	public ApiMappingProfile()
-	{
-		CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
-		CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
+    public ApiMappingProfile()
+    {
+        CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
+        CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
         CreateMap<CourseDbModel, CourseVm>();
         CreateMap<CourseDbModel, CourseByIdVm>();
         CreateMap<CourseInfoDbModel, CourseInfoVm>()

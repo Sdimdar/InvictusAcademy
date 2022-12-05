@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using CommonStructures;
+﻿using CommonStructures;
 using GlobalExceptionHandler.Exceptions;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;

@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace UserGateway.API.Endpoints.Courses;
 
-public class GetShortModulesInfoByCourseId :EndpointBaseAsync
+public class GetShortModulesInfoByCourseId : EndpointBaseAsync
     .WithRequest<GetShortCourseInfoQuery>
     .WithActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>
 {
@@ -22,15 +22,15 @@ public class GetShortModulesInfoByCourseId :EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpGet("/Modules/GetShortModulesInfoByCourseId")]
     [SwaggerOperation(
         Summary = "Получение данных о модулях по ID курса, не включая разделов",
         Description = "Необходимо передать в строке запроса  Id Курса",
         Tags = new[] { "Module" })
     ]
-    
-    public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery]GetShortCourseInfoQuery request, CancellationToken cancellationToken = new CancellationToken())
+
+    public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery] GetShortCourseInfoQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<List<ShortModuleInfoVm>>>(result));

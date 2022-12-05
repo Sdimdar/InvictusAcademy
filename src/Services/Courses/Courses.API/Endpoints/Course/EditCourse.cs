@@ -22,7 +22,7 @@ public class EditCourse : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpPost("/Course/Edit")]
     [SwaggerOperation(
         Summary = "Редакитрование курса",

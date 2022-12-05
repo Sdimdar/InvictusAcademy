@@ -18,13 +18,13 @@ public class AdminsController : Controller
         _adminService = adminService;
         _mapper = mapper;
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Создание нового администратора",
         Description = "Для создания нового администратора необходимо передать логин, пароль, подтверждение пароля и его роль")
     ]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> CreateAdmin([FromBody] CreateAdminVm request, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> CreateAdmin([FromBody] CreateAdminVm request,
                                                                              CancellationToken cancellationToken)
     {
         var response = await _adminService.CreateNewAdmin(request, cancellationToken);
@@ -36,19 +36,19 @@ public class AdminsController : Controller
         Summary = "Выдача бана админу по его ID",
         Description = "В теле передаётся ID админа, ему будет выдан бан, если он был в бане, то его разбанит")
     ]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> BanAdmin([FromBody] UserIdVm request, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> BanAdmin([FromBody] UserIdVm request,
                                                                           CancellationToken cancellationToken)
     {
         var response = await _adminService.BanAdmin(request.UserId, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(response));
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Снятие бана с админа по его ID",
         Description = "В теле передаётся ID админа, ему будет выдан бан, если он был в бане, то его разбанит")
     ]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> UnbanAdmin([FromBody] UserIdVm request, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> UnbanAdmin([FromBody] UserIdVm request,
                                                                             CancellationToken cancellationToken)
     {
         var response = await _adminService.UnbanAdmin(request.UserId, cancellationToken);

@@ -20,14 +20,14 @@ public class PaymentService
 
     public async Task AddPaymentRequestAsync(int userId, int courseId)
     {
-        if (GetCurrentPaymentRequests(userId, courseId).Count != 0) 
+        if (GetCurrentPaymentRequests(userId, courseId).Count != 0)
             throw new InvalidOperationException("This payment is already exists");
         int nextId = 0;
         try
         {
-            nextId = (await _paymentRepository.GetLastIndexAsync()) +1;
+            nextId = (await _paymentRepository.GetLastIndexAsync()) + 1;
         }
-        catch (Exception ex) {}
+        catch (Exception ex) { }
         var paymentRequest = new PaymentRequest(nextId, userId, courseId);
         paymentRequest = await _paymentRepository.SavePaymentAsync(paymentRequest);
         _currentPaymentRequests.Add(paymentRequest);
@@ -58,13 +58,13 @@ public class PaymentService
         return result;
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId = null, 
-                                                                    int? courseId = null, 
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId = null,
+                                                                    int? courseId = null,
                                                                     PaymentState? paymentState = null)
     {
         var currentPaymentRequests = GetCurrentPaymentRequests(userId, courseId);
         if (paymentState == PaymentState.Opened) return currentPaymentRequests;
-        
+
         var dbPaymentRequests = _paymentRepository.GetPaymentRequestsAsync(userId, courseId, paymentState);
         return await dbPaymentRequests;
     }

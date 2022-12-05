@@ -7,7 +7,7 @@ namespace Request.Infrastructure.Repositories;
 
 public class RequestRepository : BaseRepository<RequestDbModel, RequestDbContext>, IRequestRepository
 {
-    public RequestRepository(RequestDbContext dbContext) : base(dbContext) {}
+    public RequestRepository(RequestDbContext dbContext) : base(dbContext) { }
 
     protected override IQueryable<RequestDbModel> FilterByString(IQueryable<RequestDbModel> query, string? filterString)
     {

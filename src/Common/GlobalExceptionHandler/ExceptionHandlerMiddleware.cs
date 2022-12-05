@@ -1,8 +1,8 @@
-﻿using System.Net;
-using GlobalExceptionHandler.Interfaces;
+﻿using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace GlobalExceptionHandler;
 
@@ -10,20 +10,20 @@ internal class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ExceptionHandlerOptions _options;
-    
-    public ExceptionHandlerMiddleware(RequestDelegate next, ExceptionHandlerOptions options)    
-    {    
+
+    public ExceptionHandlerMiddleware(RequestDelegate next, ExceptionHandlerOptions options)
+    {
         _next = next;
         _options = options;
-    }    
-    
-    public async Task Invoke(HttpContext context, IServiceProvider provider)    
-    {    
-        try    
-        {    
-            await _next.Invoke(context);    
-        }    
-        catch (Exception exception)    
+    }
+
+    public async Task Invoke(HttpContext context, IServiceProvider provider)
+    {
+        try
+        {
+            await _next.Invoke(context);
+        }
+        catch (Exception exception)
         {
             if (_options.Handlers.TryGetValue(exception.GetType(), out Type? handlerType))
             {
@@ -38,7 +38,7 @@ internal class ExceptionHandlerMiddleware
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(data));
             }
-        }    
+        }
     }
 
     private string GetStackTrace(string @string, Exception? innerException)

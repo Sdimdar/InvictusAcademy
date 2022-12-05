@@ -28,7 +28,7 @@ public class Add : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса ID курса",
         Tags = new[] { "Payment" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromQuery]int courseId, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] int courseId,
                                                                                       CancellationToken cancellationToken)
     {
         var email = HttpContext.Session.GetData("user").Email;

@@ -6,9 +6,9 @@ namespace Payment.API.Mappings;
 
 public class ApiMappingProfile : Profile
 {
-	public ApiMappingProfile()
-	{
-		CreateMap<PaymentRequest, PaymentVm>();
-		CreateMap<PaymentRequest, PaymentsVm>();
+    public ApiMappingProfile()
+    {
+        CreateMap<PaymentRequest, PaymentVm>();
+        CreateMap<PaymentRequest, PaymentsVm>();
     }
 }

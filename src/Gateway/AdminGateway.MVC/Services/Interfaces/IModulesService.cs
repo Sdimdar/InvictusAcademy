@@ -7,7 +7,7 @@ using ServicesContracts.Courses.Responses;
 
 namespace AdminGateway.MVC.Services.Interfaces;
 
-public interface IModulesService: IUseExtendedHttpClient<IModulesService>
+public interface IModulesService : IUseExtendedHttpClient<IModulesService>
 {
     Task<DefaultResponseObject<ModuleInfoVm>> AddArticle(AddArticlesCommand request);
     Task<DefaultResponseObject<ModuleInfoVm>> AddTest(AddTestCommand request);

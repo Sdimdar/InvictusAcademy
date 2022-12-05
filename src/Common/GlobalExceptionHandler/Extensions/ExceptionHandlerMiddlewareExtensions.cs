@@ -1,32 +1,32 @@
-﻿using System.Reflection;
-using GlobalExceptionHandler.Exceptions;
+﻿using GlobalExceptionHandler.Exceptions;
 using GlobalExceptionHandler.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using System.Reflection;
 
 namespace GlobalExceptionHandler.Extensions;
 
 public static class ExceptionHandlerMiddlewareExtensions
 {
-    public static void UseGlobalExceptionHandler(this IApplicationBuilder app)  
-    {  
-        app.UseMiddleware<ExceptionHandlerMiddleware>();  
+    public static void UseGlobalExceptionHandler(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
     }
-    
+
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services)
     {
         GetOrInstantiateExceptionHandlerOptions(services);
         return services;
     }
-    
+
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services, Action<ExceptionHandlerOptions> configure)
     {
         var options = GetOrInstantiateExceptionHandlerOptions(services);
         configure(options);
         return services;
     }
-    
+
     public static IServiceCollection AddExceptionHandlers(this IServiceCollection services, params Assembly[] assemblies)
     {
         var options = GetOrInstantiateExceptionHandlerOptions(services);

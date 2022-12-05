@@ -12,7 +12,7 @@ namespace Payment.Infrastructure.Repositories;
 public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDbContext>, IPaymentRepository
 {
     private readonly IMapper _mapper;
-    
+
     public PaymentRepository(PaymentDbContext dbContext, IMapper mapper) : base(dbContext)
     {
         _mapper = mapper;
@@ -54,8 +54,8 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
         }
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, 
-                                                                    int? courseId, 
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId,
+                                                                    int? courseId,
                                                                     PaymentState? paymentState)
     {
         var query = Context.PaymentRequests.AsQueryable();

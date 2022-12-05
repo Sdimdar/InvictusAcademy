@@ -19,13 +19,13 @@ public class PaymentController : Controller
     {
         _paymentService = paymentService;
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получить данные о запросе на платёж",
         Description = "Необходимо передать в строке запроса Id платежа"
     )]
-    public async Task<ActionResult<DefaultResponseObject<PaymentVm>>> GetById([FromQuery] int paymentId ,
+    public async Task<ActionResult<DefaultResponseObject<PaymentVm>>> GetById([FromQuery] int paymentId,
                                                                               CancellationToken cancellationToken)
     {
         GetPaymentQuery query = new()
@@ -35,7 +35,7 @@ public class PaymentController : Controller
         var response = await _paymentService.GetByIdPaymentRequestAsync(query, cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение списка запросов по параметрам",
@@ -48,26 +48,26 @@ public class PaymentController : Controller
         var response = await _paymentService.GetWithParametersPaymentRequestAsync(request, cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Создание запроса на платёж",
         Description = "Необходимо передать в теле запроса Id курса и Id пользователя"
     )]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Add([FromBody] AddPaymentCommand request, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Add([FromBody] AddPaymentCommand request,
                                                                      CancellationToken cancellationToken)
     {
         var response = await _paymentService.AddPaymentRequestAsync(request, cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Подтверждение платежа",
         Description = "Необходимо передать в теле запроса Id платежа"
     )]
     [Authorize]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Confirm([FromBody]PaymentCommon request, 
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Confirm([FromBody] PaymentCommon request,
                                                                          CancellationToken cancellationToken)
     {
         ConfirmPaymentCommand query = new()
@@ -78,7 +78,7 @@ public class PaymentController : Controller
         var response = await _paymentService.ConfirmPaymentRequestAsync(query, cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Отклонение платежа",
@@ -86,7 +86,7 @@ public class PaymentController : Controller
                       "А также строку с объяснением почему платёж был отклонён."
     )]
     [Authorize]
-    public async Task<ActionResult<DefaultResponseObject<bool>>> Reject([FromBody]PaymentCommon request,
+    public async Task<ActionResult<DefaultResponseObject<bool>>> Reject([FromBody] PaymentCommon request,
                                                                         CancellationToken cancellationToken)
     {
         RejectPaymentCommand query = new()

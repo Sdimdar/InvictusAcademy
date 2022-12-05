@@ -10,12 +10,12 @@ public class RoleInitializer
         string headAdmin = "admin@gmail.com";
         string password = "Aa12345!";
 
-            var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
-            foreach (var role in roles)
-            {
-                if (await roleManager.FindByNameAsync(role) is null)
-                    await roleManager.CreateAsync(new IdentityRole(role));
-            }
+        var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
+        foreach (var role in roles)
+        {
+            if (await roleManager.FindByNameAsync(role) is null)
+                await roleManager.CreateAsync(new IdentityRole(role));
+        }
 
 
         if (await userManager.FindByNameAsync(headAdmin) == null)
