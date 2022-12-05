@@ -8,10 +8,6 @@
                         {{ data.shortDescription }}
                     </div>
                 </q-card-section>
-
-                <q-card-section class="col-5 flex flex-center">
-                    <q-img class="rounded-borders course-img" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-                </q-card-section>
             </q-card-section>
         </q-card>
     </div>
@@ -20,7 +16,7 @@
 <script>
 export default {
     props: {
-        data: []
+        data: ""
     }
 }
 </script>

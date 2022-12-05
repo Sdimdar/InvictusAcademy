@@ -70,3 +70,6 @@ export const getFullModulesInfo = (courseId) => api.get(`/Courses/GetFullModules
 // UserData
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
 
+//payments
+export const addToPayments = (courseId) => api.get('/Payments/Add', {params:{courseId: courseId}});
+
