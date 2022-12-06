@@ -3,18 +3,18 @@
 
     <div class="row justify-content-start">
 
-      <div class="col-lg-4 col-md-12 col-sm-12 article-img-box"
-           v-for="freeArticle in this.allFreeAticles"
-      >
-        <div class="card" @click="$router.push(`/FreeArticle/AboutFreeArticle/${freeArticle.id}`)">
-          <div class="card-body">
-            <h5 class="card-title">{{freeArticle.title}}</h5>
+        <div class="col-lg-4 col-md-12 col-sm-12 article-img-box"
+             v-for="freeArticle in this.allFreeAticles"
+        >
+          <div class="card" @click="$router.push(`/FreeArticle/AboutFreeArticle/${freeArticle.id}`)">
+            <div class="card-body">
+              <h5 class="card-title">{{freeArticle.title}}</h5>
+            </div>
+            <img class="card-img-top" :src="`${freeArticle.imageLink}`"
+                 alt="Card image cap"
+            >
           </div>
-          <img class="card-img-top" :src="`${freeArticle.imageLink}`"
-               alt="Card image cap"
-          >
         </div>
-      </div>
 
 
     </div>
@@ -37,7 +37,7 @@ import {ref} from "vue";
 import {fetchAllFreeArticles, getFreeArticlesCount} from "boot/axios";
 
 export default {
-  name: "allFreeArticles",
+  name: "NewFreeArticle",
   setup () {
     return {
       current: ref(5)

@@ -3,7 +3,6 @@
     <q-card class="my-card">
       <q-card-section>
         <div class="text-h6"> {{ this.article.title }} </div>
-        <div class="text-subtitle2"> {{ this.article.title }} </div>
 
       </q-card-section>
 

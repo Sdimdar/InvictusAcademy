@@ -12,6 +12,7 @@ const routes = [
       { path: "/user/ShowFullCourseModules/:id", name: 'course-fullModules', component: () => import("pages/Courses/ShowFullCourseModules.vue") },
       { path: "/freeArticle/AllFreeArticles", name: 'allFreeArticles', component: () => import("pages/FreeArticles/AllFreeArticles.vue") },
       { path: "/freeArticle/AboutFreeArticle/:id", name: 'aboutFreeArticles', component: () => import("pages/FreeArticles/AboutFreeArticle.vue") },
+      { path: "/freeArticle/NewFreeArticle", name: 'newFreeArticle', component: () => import("pages/FreeArticles/NewFreeArticle.vue") },
 
     ],
   },
