@@ -12,5 +12,5 @@ public class PaymentHistoryVm
     public PaymentState PaymentState { get; set; }
     public string? RejectReason { get; set; }
     public string? ModifyAdminEmail { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public string CreatedDate { get; set; }
 }

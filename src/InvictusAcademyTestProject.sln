@@ -78,7 +78,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
 EndProject
@@ -91,13 +90,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FreeArticles", "FreeArticles", "{32183324-7C31-461B-A5AE-B155F1B629F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Domain", "Services\Payment\Payment.Domain\Payment.Domain.csproj", "{55AE7FDA-6658-47E8-B194-D708235D0946}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.API", "Services\FreeArticles.API\FreeArticles.API.csproj", "{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Infrastructure", "Services\Payment\Payment.Infrastructure\Payment.Infrastructure.csproj", "{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Application", "Services\FreeArticles.Application\FreeArticles.Application.csproj", "{8DB430A1-FA27-4613-8115-9C968DA6D982}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Domain", "Services\FreeArticles.Domain\FreeArticles.Domain.csproj", "{E695083C-4C6B-4D05-94A4-782AE9753701}"

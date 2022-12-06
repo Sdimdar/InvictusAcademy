@@ -3,6 +3,7 @@ using Ardalis.Result;
 using AutoMapper;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
+using Payment.Domain.Enums;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
@@ -140,6 +141,36 @@ public class PaymentService : IPaymentService
             foreach (var course in coursesNames.Value)
             {
                 if (item.CourseId == course.Id) item.CourseName = course.Name;
+            }
+        }
+        //запрос в сервис для сбора инфы даты начала и конца оплаченного курса  курса
+        if (request.Status == PaymentState.Confirmed)
+        {
+            List<UserIdCourseIdQuery> listOfId = new();
+            foreach(var item in payments.Value.Payments) 
+                listOfId.Add(new UserIdCourseIdQuery{UserId = item.UserId,CourseId = item.CourseId});
+            var startedCourseRequest = new GetStartedCoursesQuery { ListOfId = listOfId };
+            var startedCourseInfo =
+                await CourseHttpClient
+                    .PostAndReturnResponseAsync<GetStartedCoursesQuery,
+                        DefaultResponseObject<List<StartedCourseInfoVm>>>(startedCourseRequest,
+                        "/Courses/GetStartedCourses");
+            if (!startedCourseInfo.IsSuccess)
+            {
+                if (startedCourseInfo.Errors.Any()) payments.Errors = usersEmails.Errors;
+                if (startedCourseInfo.ValidationErrors.Any()) payments.ValidationErrors = usersEmails.ValidationErrors;
+                return payments;
+            }
+
+            foreach (var item in payments.Value.Payments)
+            {
+                var result =
+                    startedCourseInfo.Value.FirstOrDefault(x => x.UserId == item.UserId && x.CourseId == item.CourseId);
+                if (result is not null)
+                {
+                    item.StartDate = result.StartDate;
+                    item.EndDate = result.EndDate;
+                }
             }
         }
 
