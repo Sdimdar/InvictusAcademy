@@ -17,5 +17,6 @@ public class MappingProfile : Profile
         CreateMap<UpdateModuleCommand, ModuleInfoDbModel>();
         CreateMap<CourseDbModel, CoursesByIdVm>();
         CreateMap<CoursePointsDbModel, CoursePointsVm>();
+        CreateMap<CoursePointsVm, CoursePointsDbModel>();
     }
 }
