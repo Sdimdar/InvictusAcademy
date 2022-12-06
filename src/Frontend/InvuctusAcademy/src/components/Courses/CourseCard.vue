@@ -11,12 +11,13 @@
           <q-btn v-if="data.purchased"  :href="'/course/'+ data.id" flat color="primary">
                     Перейти к курсу
                 </q-btn>
-                <q-btn v-if="!data.purchased"  @click="addToWished(data.id)" flat color="primary">
-                    Добавить в избранное
-                </q-btn>
                 <q-btn v-if="!data.purchased" @click="openPage(data.id)">
                     Детали
                 </q-btn>
+                <div style="margin-left: 10px;">
+                  <q-btn  v-if="!data.purchased" :icon="isWished ? 'favorite' : 'favorite_border'"
+                       @click="addToWished(data.id)" />
+                </div>
         </q-card-actions>
     </q-card>
 
@@ -24,13 +25,21 @@
 </template>
 
 <script>
-import { addToWished } from "boot/axios";
+import { addToWished, getWishedCourses } from "boot/axios";
 import notify from "boot/notifyes";
 
 export default {
     props: {
         data: Object
     },
+    data() {
+    return {
+      isWished: false
+    };
+  },
+  mounted() {
+    this.getWishedData()
+  },
     methods:{
     openPage(id){
       console.log(id);
@@ -38,6 +47,7 @@ export default {
     },
     async addToWished(id){
       try {
+        console.log(this.data)
         let courseId = Number(id)
         let payload ={
           CourseId: courseId
@@ -45,6 +55,21 @@ export default {
         const response = await addToWished(payload);
         if (response.data.isSuccess) {
           notify.showSucsessNotify("Курс добавлен в избранное!");
+          this.isWished = true
+        }
+      } catch (error) {
+        notify.showErrorNotify(e.message);
+      }
+    },
+    async getWishedData(){
+      try {
+        const response = await getWishedCourses();
+        if (response.data.isSuccess) {
+          let wishedCourses = response.data.value.courses;
+          let course = wishedCourses.find(c => c.id === this.data.id)
+          if(course){
+            this.isWished = true
+          }
         }
       } catch (error) {
         console.log(error.message);

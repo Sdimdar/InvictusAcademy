@@ -232,7 +232,7 @@ export default {
         notify.showSucsessNotify("Запрос на покупку отправлен менеджер свяжется  вами!");
       }
       else{
-        notify.showSucsessNotify("Что-то пошло не так. Попробуйте еще раз позже");
+        notify.showErrorNotify("Что-то пошло не так. Попробуйте еще раз позже");
       }
     },
   },

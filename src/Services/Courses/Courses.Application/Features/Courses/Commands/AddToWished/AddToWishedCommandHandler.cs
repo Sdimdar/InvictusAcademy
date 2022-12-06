@@ -41,21 +41,30 @@ public class AddToWishedCommandHandler :IRequestHandler<AddToWishedCourseCommand
             return Result.Error("Course is not found by ID");
         }
 
-        try
+        var previousWishes = _wishedCourseRepository
+            .GetFirstOrDefaultAsync(c => c.CourseId == request.CourseId && c.UserId == request.UserId).Result;
+
+        if (previousWishes is null)
         {
-            CourseWishedDbModel courseWishedDbModel = new()
+            try
             {
-                UserId = request.UserId,
-                CourseId = request.CourseId,
-                Course = course,
-                CreatedDate = DateTime.Now
-            };
-            await _wishedCourseRepository.AddAsync(courseWishedDbModel);
-            return Result.Success();
+                CourseWishedDbModel courseWishedDbModel = new()
+                {
+                    UserId = request.UserId,
+                    CourseId = request.CourseId,
+                    Course = course,
+                    CreatedDate = DateTime.Now
+                };
+            
+                await _wishedCourseRepository.AddAsync(courseWishedDbModel);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Error(ex.Message);
+            }
         }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        
+        return Result.Error("Курс уже добавлен в избранное");
     }
 }
