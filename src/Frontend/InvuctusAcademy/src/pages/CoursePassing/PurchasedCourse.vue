@@ -3,15 +3,15 @@
     <div class="flex-style">
       <component :is="courseCard" v-if="courseCard" class="card-style" @goToArticlePageEvent="goToArticlePage"
         :courseName="courseData.name"
-        :nextLearningModule="courseData.nextLearingModule" 
+        :nextLearningModule="courseData.nextLearingModule"
         :nextLearningArticle="courseData.nextLearningArticle"
-        :moduleCount="courseData.modules.length" 
+        :moduleCount="courseData.modules.length"
         :moduleCompletedCount="courseData.completedModulesCount"
       />
       <component  class="card-style" :is="modulesList" v-if="modulesList" :modules="courseData.modules" @goToArticlePageEvent="goToArticlePage"/>
     </div>
   </q-page-container>
-    
+
 </template>
 
 <script>

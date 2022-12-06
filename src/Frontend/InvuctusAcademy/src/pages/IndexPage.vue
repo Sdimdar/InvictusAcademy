@@ -14,7 +14,9 @@
 
       <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
         Мои курсы
-        <course-card class="list-card" v-for="course in currentCourses" :data="course" />
+        <div class="row">
+          <course-card class="list-card" v-for="course in currentCourses" :data="course" />
+        </div>
       </div>
 
       <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
@@ -33,7 +35,9 @@
       </div>
       <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
         Избранное
-        <div class="row"> </div>
+        <div class="row">
+          <course-card class="list-card" v-for="course in wishedCourses" :data="course" />
+        </div>
       </div>
       <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;">
         Читайте также
@@ -73,6 +77,7 @@ export default defineComponent({
     return {
       currentCourses: [],
       completedCourses: [],
+      wishedCourses:[],
       newCourses: [],
       showCourses : [],
       current: 4,

@@ -156,19 +156,23 @@
         <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
             А что внутри курса?
         </div>
-        <div v-for="(oneModule, index) in courseModules" :key="`courseModules-${index}`">
-          <q-card :class="$attrs.class" class="my-card" flat bordered @click="showDescription">
-            <q-card-section horizontal class="flex justify-between">
-              <q-card-section class="q-pt-xs">
-                    <div  dense class="text-h5 q-mt-sm q-mb-xs">
-                      Модуль № {{oneModule.id}} "{{ oneModule.title }}"
-                    </div>
-                    <div class="text-caption text-grey" v-show="isDescription">
-                        {{ oneModule.shortDescription }}
-                    </div>
-                </q-card-section>
+        <div>
+          <q-card :class="$attrs.class">
+            <q-card-section v-for="(item, index) in courseModules" :key="item.id" style="padding-bottom:0">
+              <q-expansion-item expand-separator icon="perm_identity" style="border-bottom: 1px solid #E9E9E9;">
+                <template v-slot:header>
+                  <q-item-section>
+                    {{ `Модуль №${index + 1} - ''${item.title}''` }}
+                  </q-item-section>
+                </template>
+                <q-card>
+                  <q-card-section>
+                    {{ item.shortDescription }}
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
             </q-card-section>
-        </q-card>
+          </q-card>
         </div>
       </div>
 

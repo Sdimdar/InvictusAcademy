@@ -83,7 +83,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         if (query is null) return false;
         return true;
     }
-
+    
     public async Task<List<CourseDbModel>> GetCoursesByIdList(List<int> coursesId)
     {
         List<CourseDbModel> list = new();

@@ -1,5 +1,7 @@
-﻿using DataTransferLib.Models;
+﻿using Courses.Domain.Entities;
+using DataTransferLib.Models;
 using ExtendedHttpClient;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Requests.Tests.Commands;
@@ -39,6 +41,12 @@ public class CoursesService : ICoursesService
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>
             ($"/Course/GetCourse?id={query.Id}");
+    }
+
+    public async Task<DefaultResponseObject<bool>> AddToWishedCourse(AddToWishedCourseCommand query, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddToWishedCourseCommand, DefaultResponseObject<bool>>
+            (query, "/Course/Wished", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<PurchasedCourseInfoVm>> GetPurchasedCourseInfo(GetPurchasedCourseDataQuery query,

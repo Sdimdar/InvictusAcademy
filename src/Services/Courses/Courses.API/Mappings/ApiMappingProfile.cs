@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 
 namespace Courses.API.Mappings;

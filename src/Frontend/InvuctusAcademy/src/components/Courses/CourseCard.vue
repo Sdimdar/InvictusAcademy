@@ -8,11 +8,11 @@
         </q-img>
 
         <q-card-actions>
-          <q-btn v-if="data.purchased" v-bind:href="'/user/ShowFullCourseModules/' + data.id" flat color="primary">
+          <q-btn v-if="data.purchased"  :href="'/course/'+ data.id" flat color="primary">
                     Перейти к курсу
                 </q-btn>
-                <q-btn v-if="!data.purchased" v-bind:href="'/user/ShowCourseModules/' + data.id" flat color="primary">
-                    Купить
+                <q-btn v-if="!data.purchased"  @click="addToWished(data.id)" flat color="primary">
+                    Добавить в избранное
                 </q-btn>
                 <q-btn v-if="!data.purchased" @click="openPage(data.id)">
                     Детали
@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import { addToWished } from "boot/axios";
+import notify from "boot/notifyes";
+
 export default {
     props: {
         data: Object
@@ -33,6 +36,20 @@ export default {
       console.log(id);
       this.$router.push({ path: '/user/courseDetails', query: { id: id } })
     },
+    async addToWished(id){
+      try {
+        let courseId = Number(id)
+        let payload ={
+          CourseId: courseId
+        }
+        const response = await addToWished(payload);
+        if (response.data.isSuccess) {
+          notify.showSucsessNotify("Курс добавлен в избранное!");
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   }
 }
 </script>
