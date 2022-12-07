@@ -10,6 +10,9 @@ appSettings.Local.json
 .vscode
 .vs
 
+# Some file types
+*.mp4
+
 # Vue-Quasar work folders
 .quasar
 node_modules

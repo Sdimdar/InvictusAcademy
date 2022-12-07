@@ -28,7 +28,7 @@
 
       <div class="description-elem">
         <div class="gray-sub-title" style="margin-bottom:8px; display: flex; justify-content: space-between;">
-          <span>Прогресс:</span> 
+          <span>Прогресс:</span>
           <span class="description-elem-text">
             {{(Math.ceil(progress*100))}} %
           </span>
@@ -43,8 +43,8 @@
       <div>
         <p class="card-text">Вы остановились на:</p>
         <p class="card-text blue-text">
-          Модуль "{{nextLearningModule.title}}" - 
-          {{nextLearningArticle.order}} урок - 
+          Модуль "{{nextLearningModule.title}}" -
+          {{nextLearningArticle}} урок -
           "{{nextLearningArticle.title}}"
         </p>
         <div @click="goToArticlePage(nextLearningModule.id, nextLearningArticle.order)" class="button">Продолжить обучение</div>
@@ -93,10 +93,10 @@ export default defineComponent({
 .course-logo-first-subtitle{
   font-family: 'Montserrat';
   font-style: normal;
-  margin-bottom: 10px; 
-  display: block; 
-  font-size: 22px; 
-  width: 204px; 
+  margin-bottom: 10px;
+  display: block;
+  font-size: 22px;
+  width: 204px;
   font-weight: 300;
 }
 
