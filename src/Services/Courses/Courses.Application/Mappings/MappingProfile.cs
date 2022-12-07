@@ -16,7 +16,6 @@ public class MappingProfile : Profile
         CreateMap<CreateModuleCommand, ModuleInfoDbModel>();
         CreateMap<UpdateModuleCommand, ModuleInfoDbModel>();
         CreateMap<CourseDbModel, CoursesByIdVm>();
-        CreateMap<CoursePointsDbModel, CoursePointsVm>();
-        CreateMap<CoursePointsVm, CoursePointsDbModel>();
+        CreateMap<CoursePointsDbModel, CoursePointsVm>().ReverseMap();
     }
 }

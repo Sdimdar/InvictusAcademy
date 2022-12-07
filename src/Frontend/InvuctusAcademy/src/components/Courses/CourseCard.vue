@@ -29,10 +29,10 @@ import { addToWished, getWishedCourses, removeFromWished } from "boot/axios";
 import notify from "boot/notifyes";
 
 export default {
-    props: {
-        data: Object
-    },
-    data() {
+  props: {
+    data: Object
+  },
+  data() {
     return {
       isWished: false
     };
