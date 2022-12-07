@@ -16,9 +16,10 @@ public class GetStartedCourses: EndpointBaseAsync
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public GetStartedCourses(IMediator mediator)
+    public GetStartedCourses(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpPost("/Courses/GetStartedCourses")]
@@ -30,6 +31,6 @@ public class GetStartedCourses: EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<List<StartedCourseInfoVm>>>> HandleAsync([FromBody]GetStartedCoursesQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<List<StartedCourseInfoVm>>>(result));
     }
 }

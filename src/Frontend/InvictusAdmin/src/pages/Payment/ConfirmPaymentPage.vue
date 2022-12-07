@@ -27,6 +27,14 @@
             <q-td key="courseName" :props="props">
               {{ props.row.courseName }}
             </q-td>
+            <q-td key="startDate" :props="props">
+              <template v-if="(props.row.startDate === null)">Не начат</template>
+              <template v-else>{{ props.row.startDate }}</template>
+            </q-td>
+            <q-td key="endDate" :props="props">
+              <template v-if="(props.row.endDate === null)">Не закончен</template>
+              <template v-else>{{ props.row.endDate }}</template>
+            </q-td>
             <q-td key="modifyAdminEmail" :props="props">
               <teamplate @click="$router.push(`/admin-panel/historyPage/0/${props.row.modifyAdminEmail}`)">{{ props.row.modifyAdminEmail }}</teamplate>
               
@@ -56,6 +64,8 @@
       {name:"userEmail", align:'center', label:"Email пользователя", field:'userEmail', sortable:false},
       {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
       {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
+      {name:"startDate", align:'center', label:"Начало курса", field:"startDate", sortable:false},
+      {name:"endDate", align:'center', label:"Конец курса", field:"endDate", sortable:false},
       {name:'modifyAdminEmail', align: 'center', label: 'Кто подтвердил', field: 'modifyAdminEmail', sortable: false},
       {name: 'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
       {name:'reject', align: 'center', label: 'Отмена оплаты', field: 'reject', sortable: false},
@@ -109,6 +119,7 @@
           response = await getPaymentsByParams(payload);
           if (response.data.isSuccess) {
           rows.value.splice(0, rows.value.length, ...response.data.value.payments);
+          console.log(response.data.value.payments)
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });

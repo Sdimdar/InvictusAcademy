@@ -15,10 +15,11 @@ public class GetStartedCourseInfoHandle:IRequestHandler<GetStartedCoursesQuery, 
     private readonly ICourseRepository _courseRepository;
     private readonly ICourseResultsInfoRepository _resultsInfoRepository;
 
-    public GetStartedCourseInfoHandle(ICourseRepository courseRepository, ICourseResultsInfoRepository resultsInfoRepository)
+    public GetStartedCourseInfoHandle(ICourseRepository courseRepository, ICourseResultsInfoRepository resultsInfoRepository, IMapper mapper)
     {
         _courseRepository = courseRepository;
         _resultsInfoRepository = resultsInfoRepository;
+        _mapper = mapper;
     }
 
     public async Task<Result<List<StartedCourseInfoVm>>> Handle(GetStartedCoursesQuery request, CancellationToken cancellationToken)
