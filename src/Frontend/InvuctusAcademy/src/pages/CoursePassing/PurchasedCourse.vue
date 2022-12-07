@@ -5,7 +5,7 @@
       <div style="display:flex; flex-direction:column; width:693px;">
         <div class="card-style" style=" margin-bottom: 40px;">
             <div class="course-title" style="margin-bottom: 20px;">Онлайн-курс "{{courseData.name}}"</div>
-            <div class="sub-title" style="margin-bottom: 10px;">О курсе:</div>
+            <div class="gray-sub-title" style="margin-bottom: 10px;">О курсе:</div>
             <div>{{courseData.description}}</div>
         </div>
         
@@ -98,9 +98,10 @@ export default defineComponent({
   font-size: 32px;
 }
 
-.sub-title{
+.gray-sub-title{
   font-size: 14px;
   line-height: 140%;
   color: #7D7D7D;
+  display: block;
 }
 </style>

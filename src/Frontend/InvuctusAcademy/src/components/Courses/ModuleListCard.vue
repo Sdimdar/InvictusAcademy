@@ -50,7 +50,7 @@ export default {
 }
 
 .module-title{
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 19px;
 }
