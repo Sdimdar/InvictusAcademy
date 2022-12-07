@@ -40,9 +40,6 @@ export default {
       immediate: true
     }
   },
-  async updated() {
-    
-  },
   data() {
     return {
       moduleData : {},

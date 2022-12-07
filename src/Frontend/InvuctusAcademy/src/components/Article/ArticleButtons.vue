@@ -38,7 +38,7 @@ export default {
       this.$router.push({ path: '/course/article', query: { moduleId: moduleId, articleOrder: articleOrder, courseId:this.$route.query.courseId } })
     },
     goToTest(moduleId, articleOrder) {
-
+      this.$router.push({ path: '/course/test', query: { moduleId: moduleId, articleOrder: articleOrder, courseId:this.$route.query.courseId } })
     }
   }
 }
