@@ -35,7 +35,7 @@
         </div>
         <q-linear-progress rounded size="24px" color="pink" :value="progress">
           <div class="absolute-full flex flex-center">
-            <span style="color:white; font-size: 12px;">{{progressLabel}} </span>
+            <span style="color:black; font-size: 12px;">{{progressLabel}} </span>
           </div>
         </q-linear-progress>
       </div>

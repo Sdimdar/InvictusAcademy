@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using ServicesContracts.Courses.Requests.Courses.Querries;
 
 namespace UserGateway.Application.Features.Courses.Queries.GetPurchasedArticle;
 
-public class GetPurchasedArticleGatewayQueryValidator : AbstractValidator<GetPurchasedArticleGatewayQuery>
+public class GetPurchasedArticleGatewayQueryValidator : AbstractValidator<GetPurchasedArticleQuery>
 {
     public GetPurchasedArticleGatewayQueryValidator()
     {
