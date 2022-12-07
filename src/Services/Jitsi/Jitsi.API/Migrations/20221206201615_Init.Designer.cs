@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jitsi.API.Migrations
 {
     [DbContext(typeof(StreamingRoomDbContext))]
-    [Migration("20221129233137_Init")]
+    [Migration("20221206201615_Init")]
     partial class Init
     {
         /// <inheritdoc />

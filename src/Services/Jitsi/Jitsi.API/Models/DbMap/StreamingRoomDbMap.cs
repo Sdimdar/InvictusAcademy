@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Jitsi.API.Models.DbModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Jitsi.API.Models.DbMap;
 
-public class StreamingRoomDbMap : IEntityTypeConfiguration<StreamingRoomDbMap>
+public class StreamingRoomDbMap : IEntityTypeConfiguration<StreamingRoomDbModel>
 {
-    public void Configure(EntityTypeBuilder<StreamingRoomDbMap> builder)
+    public void Configure(EntityTypeBuilder<StreamingRoomDbModel> builder)
     {
-        throw new NotImplementedException();
+        builder.Property(p => p.CreatedDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("now()").IsRequired();
+        builder.Property(p => p.LastModifiedDate).HasColumnType("TIMESTAMP");
+        builder.Property(p => p.Name).HasColumnType("VARCHAR(100)").IsRequired();
+        builder.Property(p => p.Address).HasColumnType("VARCHAR(100)").IsRequired();
     }
 }

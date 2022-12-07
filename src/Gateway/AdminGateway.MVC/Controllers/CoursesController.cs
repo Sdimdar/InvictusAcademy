@@ -17,14 +17,12 @@ namespace AdminGateway.MVC.Controllers;
 public class CoursesController : Controller
 {
     private readonly ICoursesService _coursesService;
-    private readonly IStreamingRoomsService _streamingRoomsService;
     private readonly IMapper _mapper;
 
-    public CoursesController(ICoursesService coursesService, IMapper mapper, IStreamingRoomsService streamingRoomsService)
+    public CoursesController(ICoursesService coursesService, IMapper mapper)
     {
         _coursesService = coursesService;
         _mapper = mapper;
-        _streamingRoomsService = streamingRoomsService;
     }
     
     [HttpPost]
@@ -36,11 +34,6 @@ public class CoursesController : Controller
     {
         CreateCourseCommand courseCommand = _mapper.Map<CreateCourseCommand>(request);
         var response = await _coursesService.Create(courseCommand);
-        if (response.IsSuccess)
-        {
-            CreateStreamingRoomCommand streamingRoomCommand = _mapper.Map<CreateStreamingRoomCommand>(request);
-            var responseLast = await _streamingRoomsService.Create(streamingRoomCommand);
-        }
         return Ok(response);
     }
     

@@ -74,3 +74,8 @@ export const createCourse = (courseData) => api.post('/AdminPanel/Courses/Create
 export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
 export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll');
 
+//Jitsi
+export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const getStreamingRoom = (address) => api.get('/User/GetUserData', { params: { address: address } });
+export const getCountStreamingRooms = () => api.get('/User/GetUserData');
+

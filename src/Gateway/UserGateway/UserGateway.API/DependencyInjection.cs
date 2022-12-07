@@ -67,6 +67,7 @@ public static class DependencyInjection
         services.AddServiceWithExtendedHttpClient<IUserService, UserService>(configuration["ApiSettings:IdentityUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
+        services.AddServiceWithExtendedHttpClient<IStreamingRoomService, StreamingRoomService>(configuration["ApiSettings:StreamingRoomUrl"]);
         return services;
     }
 
@@ -76,6 +77,7 @@ public static class DependencyInjection
         {
             cfg.AddProfile(new DefaultResponseObjectProfile());
             cfg.AddProfile(new UserProfile());
+            cfg.AddProfile(new StreamingRoomProfile());
         }).CreateMapper());
         return services;
     }

@@ -11,7 +11,5 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<CreateCourseAndRoomCommand, CreateCourseCommand>();
-        CreateMap<CreateCourseAndRoomCommand, CreateStreamingRoomCommand>();
     }
 }
