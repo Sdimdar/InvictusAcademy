@@ -39,8 +39,8 @@ public class GetStartedCourseInfoHandle:IRequestHandler<GetStartedCoursesQuery, 
                 CourseResultInfoDbModel? result = resultInfo.FirstOrDefault(x => x.Id == item.Id);
                 if (result is not null)
                 {
-                    item.StartDate = result.StartDate.ToString("dd.MM.yyyy hh:mm");
-                    item.EndDate = result.EndDate.ToString("dd.MM.yyyy hh:mm");
+                    item.StartDate = result.StartDate.ToString("dd.MM.yyyy hh:mm tt");
+                    item.EndDate = result.EndDate.ToString("dd.MM.yyyy hh:mm tt");
                 }
             }
             return Result.Success(response);
