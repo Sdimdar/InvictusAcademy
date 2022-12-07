@@ -1,46 +1,92 @@
 <template>
     <q-page-container>
-        <q-card class="my-card" flat bordered>
+      <div style="font-size: 32px; font-weight: 700; color: #000000; margin-bottom: 20px;">
+        Личный кабинет
+      </div>
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="column" style="width: 45%;">
+          <q-card class="my-card" flat bordered>
           <q-card-section class="text-center">
-            <q-avatar size="100px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <q-avatar size="140px"  style="margin-bottom: 15px;">
+              <img src="img/icons/avatar.svg">
             </q-avatar>
-            <div class="text-h5 text-grey-10 q-mt-sm q-mb-xs"> {{ lastName }} {{ firstName }} {{ middleName }}</div>
+            <div style="font-size: 22px; font-weight: 600; color: #000000;"> {{ firstName }} {{ lastName }} </div>
+            <div style="font-size: 16px; font-weight: 300; color: #7D7D7D;"> Ученик </div>
           </q-card-section>
 
-          <q-separator />
-
-          <q-card-section class="text-center text-grey-10 q-mt-sm q-mb-xs">
-            <q-item> Email: {{ autorizeEmail }} </q-item>
-            <q-item> Номер телефона: {{ phoneNumber }} </q-item>
-            <q-item> Instagram: {{ instagramLink }} </q-item>
-            <q-item> Гражданство: {{ citizenship }} </q-item>
+          <q-card-section>
+            <div class="row">
+              <q-item class="contacts"> Номер телефона:  </q-item>
+              <q-item class="contact-info"> {{ phoneNumber }}</q-item>
+            </div>
+            <div class="row">
+              <q-item dense class="contacts"> Электронная почта:  </q-item>
+              <q-item dense class="contact-info"> <p ></p>{{ autorizeEmail }}</q-item>
+            </div>
           </q-card-section>
 
-          <q-separator />
-
-          <q-card-actions>
-            <editProfile-button @autorize="getUserData" />
-            <editPassword-button />
+          <q-card-actions vertical align="center">
+              <editProfile-button @autorize="getUserData" />
           </q-card-actions>
         </q-card>
+        </div>
+
+        <div class="column" style="width: 45%; margin-left: 40px;">
+          <q-card class="my-card" flat bordered>
+            <q-card-section>
+              <q-item style="font-size: 22px; font-weight: 600; color: #000000;"> Мои курсы </q-item>
+          </q-card-section>
+          <q-card-section>
+            <course-card class="list-card" v-for="course in currentCourses" :data="course" />
+          </q-card-section>
+
+          <q-card-actions vertical>
+            <q-btn no-caps outline class="edit-btn">
+                Перейти к курсам
+              </q-btn>
+          </q-card-actions>
+        </q-card>
+        </div>
+
+      </div>
+
+      <div class="row"  style="margin-bottom: 20px;">
+        <div class="column" style="width: 45%;">
+          <q-card class="my-card" flat bordered>
+            <q-card-section>
+              <q-item style="font-size: 22px; font-weight: 600; color: #000000;"> Настройки </q-item>
+          </q-card-section>
+          <q-card-actions vertical align="center">
+              <editPassword-button />
+          </q-card-actions>
+        </q-card>
+        </div>
+      </div>
+
+      <div align="center" style="margin-bottom: 20px;">
+        <q-btn no-caps outline class="exit-btn">
+          Выйти
+        </q-btn>
+      </div>
     </q-page-container>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { fetchUserData } from "boot/axios";
+import { fetchUserData, getCurrentCourses } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
 import EditProfileButton from 'components/User/EditProfileButton.vue'
 import EditPasswordButton from 'components/User/EditPasswordButton.vue'
 import LeftBar from "components/LeftBar.vue";
+import CourseCard from "components/Courses/CourseCard.vue";
 
 export default defineComponent({
   name: "UserInfoPage",
   components: {
     EditProfileButton,
     EditPasswordButton,
-    LeftBar
+    LeftBar,
+    CourseCard
   },
   data() {
     return {
@@ -51,7 +97,8 @@ export default defineComponent({
       middleName: "",
       lastName: "",
       instagramLink: "",
-      citizenship: ""
+      citizenship: "",
+      currentCourses: []
     };
   },
   methods: {
@@ -72,12 +119,25 @@ export default defineComponent({
         this.$router.push({ name: 'homepage' })
       }
     },
+    async getCoursesData() {
+      try {
+        const response = await getCurrentCourses();
+        if (response.data.isSuccess) {
+          this.currentCourses = response.data.value.courses;
+          console.log(response.data.value.courses)
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   },
   mounted() {
     this.getUserData();
+    this.getCoursesData();
   },
   updated() {
     this.getUserData();
+    this.getCoursesData();
   }
 });
 </script>
@@ -86,6 +146,8 @@ export default defineComponent({
 .my-card {
   width: 100%;
   max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.12);
 }
 
 .user {
@@ -95,5 +157,35 @@ export default defineComponent({
 .user-data {
   display: flex;
   flex-direction: column;
+}
+
+.contact-info{
+  width: 50%;
+  font-size: 16px;
+  font-weight: 300;
+  color: #000000;
+}
+
+.contacts{
+  width: 50%;
+  font-size: 16px;
+  font-weight: 300;
+  color: #7D7D7D;
+}
+
+.edit-btn{
+    color:#0375DF;
+    font-size: 16px;
+    font-weight: 500;
+    width: 480px;
+    margin-left:8px;
+    border-radius: 10px;
+  }
+
+.exit-btn{
+    color:#CD3838;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
 }
 </style>
