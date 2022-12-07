@@ -1,6 +1,9 @@
 <template>
   <q-page-container v-if="!logined">
-    <request-button />
+    <div>
+
+    </div>
+
   </q-page-container>
 
   <q-page-container v-else class="column" style="padding-bottom: 0px; ">
@@ -26,7 +29,7 @@
               <q-btn dense round unelevated color="accent" icon="chevron_left"
                   @click="prevCourses" v-show="currentLenght" />
             </div>
-            <course-card class="list-card" v-for="course in showCourses" :data="course" />
+            <course-card class="list-card" v-for="course in showCourses" :data="course" @wished="getCoursesData"/>
             <div>
               <q-btn dense round unelevated color="accent" icon="chevron_right"
                   @click="nextCourses()"  :disable="(newCourses.length < current)"/>
@@ -36,7 +39,7 @@
       <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
         Избранное
         <div class="row">
-          <course-card class="list-card" v-for="course in wishedCourses" :data="course" />
+          <course-card class="list-card" v-for="course in wishedCourses" :data="course" @wished="getCoursesData"/>
         </div>
       </div>
       <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;">

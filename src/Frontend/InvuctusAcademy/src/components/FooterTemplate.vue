@@ -53,15 +53,11 @@
       <div class="col-4">
         <div class="column" style="height: 220px">
           <div class="col" style="font-size: 20px; font-weight: 500; color: #F9F9F9">
-            Подпишитесь на нашу рассылку, чтобы первым быть в курсе акций и скидок!
-            <p style="font-size: 14px; font-weight: 300; color: #B3B3B3;">
-              Никакого спама. Только самые ценные советы</p>
+            Оставьте заявку и мы обязательно перезвоним!
           </div>
           <div class="col">
             <div class="row">
-              <q-input style="background-color: white; width: 250px; margin-right: 5px;" filled outlined
-                label="example@mail.com" />
-              <q-btn color="accent" label="Подписаться" />
+              <request-button />
             </div>
           </div>
         </div>
@@ -71,13 +67,16 @@
 </template>
 
 <script>
+import RequestButton from 'components/RequestButton.vue'
     export default {
-        
+      components: {
+        RequestButton
+  },
     }
 </script>
 
 <style scoped>
-    
+
 .footer {
   display: flex;
   flex-direction: row;

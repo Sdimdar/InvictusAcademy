@@ -1,8 +1,15 @@
 <template>
   <q-page-container>
-    <h4 style="text-align: center">Все курсы</h4>
     <div class="row">
           <course-card class="list-card" v-for="course in currentCourses" :data="course" />
+    </div>
+
+    <div class="row">
+          <course-card class="list-card" v-for="course in wishedCourses" :data="course" />
+    </div>
+
+    <div class="row">
+          <course-card class="list-card" v-for="course in newCourses" :data="course" />
     </div>
 
   </q-page-container>
@@ -25,6 +32,7 @@ export default {
     return {
       currentCourses: [],
       completedCourses: [],
+      wishedCourses:[],
       newCourses: [],
     };
   },

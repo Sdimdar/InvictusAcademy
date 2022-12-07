@@ -15,8 +15,8 @@
                     Детали
                 </q-btn>
                 <div style="margin-left: 10px;">
-                  <q-btn  v-if="!data.purchased" :icon="isWished ? 'favorite' : 'favorite_border'"
-                       @click="addToWished(data.id)" />
+                  <q-btn  v-if="!data.purchased" flat round color="accent" :icon="isWished ? 'favorite' : 'favorite_border'"
+                  @click="addOrRemoveWished(data.id)" />
                 </div>
         </q-card-actions>
     </q-card>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { addToWished, getWishedCourses } from "boot/axios";
+import { addToWished, getWishedCourses, removeFromWished } from "boot/axios";
 import notify from "boot/notifyes";
 
 export default {
@@ -45,8 +45,10 @@ export default {
       console.log(id);
       this.$router.push({ path: '/user/courseDetails', query: { id: id } })
     },
-    async addToWished(id){
-      try {
+    async addOrRemoveWished(id){
+      console.log(this.isWished)
+      if(this.isWished === false){
+        try {
         console.log(this.data)
         let courseId = Number(id)
         let payload ={
@@ -56,10 +58,29 @@ export default {
         if (response.data.isSuccess) {
           notify.showSucsessNotify("Курс добавлен в избранное!");
           this.isWished = true
+          this.$emit("wished");
         }
       } catch (error) {
         notify.showErrorNotify(e.message);
       }
+      }
+      else{
+        try {
+        let courseId = Number(id)
+        let payload ={
+          CourseId: courseId
+        }
+        const response = await removeFromWished(payload);
+        if (response.data.isSuccess) {
+          notify.showSucsessNotify("Курс удален из избранного!");
+          this.isWished = false
+          this.$emit("wished");
+        }
+      } catch (error) {
+        notify.showErrorNotify(e.message);
+      }
+      }
+
     },
     async getWishedData(){
       try {
@@ -88,5 +109,6 @@ export default {
     .my-card{
       margin: 10px;
       width: 220px;
+      border-radius: 12px;
 }
 </style>

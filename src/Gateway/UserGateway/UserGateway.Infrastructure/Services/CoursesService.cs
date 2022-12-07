@@ -49,6 +49,12 @@ public class CoursesService : ICoursesService
             (query, "/Course/Wished", cancellationToken);
     }
 
+    public async Task<DefaultResponseObject<bool>> RemoveFromWishedCourse(RemoveFromWishedCommand request, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveFromWishedCommand, DefaultResponseObject<bool>>
+            (request, "/Course/RemoveWished", cancellationToken);
+    }
+
     public async Task<DefaultResponseObject<PurchasedCourseInfoVm>> GetPurchasedCourseInfo(GetPurchasedCourseDataQuery query,
                                                                                            CancellationToken cancellationToken)
     {

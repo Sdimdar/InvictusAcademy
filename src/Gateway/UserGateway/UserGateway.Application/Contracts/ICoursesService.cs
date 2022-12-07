@@ -35,6 +35,9 @@ public interface ICoursesService : IUseExtendedHttpClient<ICoursesService>
     Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query,
                                                              CancellationToken cancellationToken);
     
-    Task<DefaultResponseObject<bool>> AddToWishedCourse(AddToWishedCourseCommand query,
+    Task<DefaultResponseObject<bool>> AddToWishedCourse(AddToWishedCourseCommand request,
+        CancellationToken cancellationToken);
+    
+    Task<DefaultResponseObject<bool>> RemoveFromWishedCourse(RemoveFromWishedCommand request,
         CancellationToken cancellationToken);
 }
