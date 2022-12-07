@@ -5,6 +5,6 @@ namespace UserGateway.Application.Features.Payments.Commands.Add;
 
 public class AddPaymentCommand : IRequest<Result<bool>>
 {
-    public string UserEmal { get; set; }
+    public string UserEmail { get; set; }
     public int CourseId { get; set; }
 }

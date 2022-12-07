@@ -17,7 +17,7 @@ public class AddPaymentCommandHandler : IRequestHandler<AddPaymentCommand, Resul
 
     public async Task<Result<bool>> Handle(AddPaymentCommand request, CancellationToken cancellationToken)
     {
-        var userResponse = await _userService.GetUserAsync(request.UserEmal, cancellationToken);
+        var userResponse = await _userService.GetUserAsync(request.UserEmail, cancellationToken);
         if (userResponse.IsSuccess)
         {
             ServicesContracts.Payments.Commands.AddPaymentCommand command = new()

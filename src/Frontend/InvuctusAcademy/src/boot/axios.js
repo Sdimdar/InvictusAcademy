@@ -62,6 +62,7 @@ export const getCompletedCourses = () => api.get('/Courses/GetCompleted');
 export const getWishedCourses = () => api.get('/Courses/GetWished');
 export const getNewCourses = () => api.get('/Courses/GetNew');
 export const getCourseById = (courseId) => api.get('/Courses/GetById', {params:{Id: courseId}});
+export const addToWished = (payload) => api.post('/Courses/AddToWished', payload);
 
 // modules
 export const getShortModulesInfo = (courseId) => api.get(`/Modules/GetShortModulesInfoByCourseId`, {params:{courseId: courseId}});
@@ -80,3 +81,9 @@ export const getPurchasedCourseData = (courseId) => api.get('/Courses/GetPurchas
 export const getPurchasedArticle = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedArticle', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
 export const getPurchasedTest = (courseId, moduleId, articleOrder) => api.get('/Articles/GetPurchasedTest', {params:{courseId: courseId, moduleId: moduleId, articleOrder: articleOrder}});
 export const checkTestAnswers = (payload) => api.post('/Tests/CheckTestAnswers', payload);
+
+//payment
+export const addToPayments = (courseId) => api.get('/Payments/Add', {params:{courseId: courseId}});
+
+
+

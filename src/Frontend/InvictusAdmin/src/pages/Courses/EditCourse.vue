@@ -211,8 +211,9 @@ export default{
       //ToDo
       try {
         this.courseData.id = this.courseId
+        console.log(this.courseData)
         const response = await editCourse(this.courseData);
-        console.log(response)
+        console.log(response.data)
         if (response.data.isSuccess) {
             this.showModules = true
             notify.showSucsessNotify("Курс отредактирован");
