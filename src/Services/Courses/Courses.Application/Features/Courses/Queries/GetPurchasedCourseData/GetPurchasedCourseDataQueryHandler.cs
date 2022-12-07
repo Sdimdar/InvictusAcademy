@@ -67,6 +67,10 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
                 Id = item.Id,
                 ShortDescription = item.ShortDescription,
                 Title = item.Title,
+                ArticlesCount = item.Articles?.Count?? 0,
+                CompletedArticlesCount = coursePurchaseResultData.ModuleProgresses.First(m => m.ModuleId == item.Id)
+                                                              .ArticlesProgresses?.Where(a => a.IsSuccess)
+                                                                                  .ToList().Count?? 0,
                 IsCompleted = coursePurchaseResultData.ModuleProgresses.First(o => o.ModuleId == item.Id).IsSuccess
             });
         }

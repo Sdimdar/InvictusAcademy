@@ -1,27 +1,30 @@
 <template>
-  <q-card :class="$attrs.class">
-      <q-card-section>
-        <div class="course-title"> {{ courseName }} </div>
-      </q-card-section>
+  <div :class="$attrs.class">
 
-      <q-card-section>
-        <div class="progres-title">Прогресс:</div>
+      <div class="course-logo" style="color:#F9F9F9;">
+        <span style="margin-bottom: 10px; display: block; font-size: 22px; width: 204px; font-weight: 100;">Онлайн курс:</span>
+        <span style="font-size: 22px; display: block;  width: 204px; font-weight: bold;">{{ courseName }}</span>
+      </div>
+      
+
+      <div>
+        <div class="sub-title">Прогресс:</div>
         <p class="card-text">
           {{moduleCompletedCount}}/{{moduleCount}} модулей
         </p>
         <q-linear-progress rounded size="24px" color="accent" :value="progress" />
-      </q-card-section>
+      </div>
 
-      <q-card-section>
+      <div>
         <p class="card-text">Вы остановились на:</p>
         <p class="card-text blue-text">
           Модуль "{{nextLearningModule.title}}" - 
           {{nextLearningArticle.order}} урок - 
           "{{nextLearningArticle.title}}"
         </p>
-        <q-btn @click="goToArticlePage(nextLearningModule.id, nextLearningArticle.order)" outline style="color: #CD3838;" label="Продолжить обучение" />
-      </q-card-section>
-    </q-card>
+        <div @click="goToArticlePage(nextLearningModule.id, nextLearningArticle.order)" class="button">Продолжить обучение</div>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -51,6 +54,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.course-logo{
+  padding: 49px 16px;
+  background: linear-gradient(102.29deg, #E5B1B1 0%, #D76969 100%);
+  box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+}
 .course-title{
   font-size: 32px;
   font-weight: 700;
@@ -70,5 +79,22 @@ export default defineComponent({
 
 .blue-text{
   color: #0375DF;
+}
+
+.button{
+  padding: 16px 32px;
+  width: 100%;
+  /* gap: 10px;
+  width: 332px;
+  height: 51px; */
+  background: #CD3838;
+  box-shadow: 0px 4px 22px rgba(177, 20, 20, 0.12);
+  border-radius: 10px;
+  border-color: #CD3838;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #F9F9F9;
 }
 </style>
