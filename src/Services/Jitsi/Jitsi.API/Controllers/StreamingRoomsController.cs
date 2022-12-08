@@ -12,7 +12,7 @@ using ServicesContracts.Jitsi.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Jitsi.API.Controllers;
-[Route("AdminPanel/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class StreamingRoomsController : Controller
 {
     private readonly IStreamingRoomRepository _streamingRoomRepository;
