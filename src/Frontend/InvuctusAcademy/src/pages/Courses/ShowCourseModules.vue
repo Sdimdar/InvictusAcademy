@@ -17,10 +17,9 @@
 import { ref } from "vue";
 import { getShortModulesInfo } from "boot/axios";
 import ModuleCard from "components/Modules/ModuleCard.vue";
-import LeftBar from "components/LeftBar.vue";
 
 export default ({
-  components: { ModuleCard, LeftBar },
+  components: { ModuleCard },
   props: {
     logined: {
       Type: Boolean,

@@ -1,12 +1,5 @@
 <template>
-  <q-page-container v-if="!logined">
-    <div>
-
-    </div>
-
-  </q-page-container>
-
-  <q-page-container v-else class="column" style="padding-bottom: 0px; ">
+  <q-page-container v-if="logined" class="column" style="padding-bottom: 0px; ">
       <div class="col">
         <div class="video-container">
         <video autoplay muted loop style="width: 1140px;">
