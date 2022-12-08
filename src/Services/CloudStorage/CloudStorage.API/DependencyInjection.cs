@@ -3,7 +3,6 @@ using CloudStorage.Application.Mappings;
 using DataTransferLib.Mappings;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
-// using CloudStorage.Application.Mappings;
 
 
 namespace CloudStorage.API;
@@ -24,6 +23,7 @@ public static class DependencyInjection
     {
         services.AddCors(options => options.AddPolicy("CorsPolicy", policy =>
         {
+            policy.WithOrigins("http://localhost:8082").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             policy.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         }));
         return services;

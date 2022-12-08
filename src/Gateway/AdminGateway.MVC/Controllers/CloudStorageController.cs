@@ -2,6 +2,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.CloudStorage.Requests.Commands;
+using ServicesContracts.CloudStorage.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -14,15 +15,24 @@ public class CloudStorageController : Controller
     {
         _cloudStorages = cloudStorages;
     }
-    [HttpPost]
+    [HttpGet]
     [SwaggerOperation(
-        Summary = "Загрузка файла на облако",
-        Description = "Выберите файл для загрузки")
+        Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
+        Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<ActionResult<DefaultResponseObject<string>>> UploadFile([FromForm]UploadFileCommand fileCommand)
+    public async Task<ActionResult<DefaultResponseObject<GetAllFilesVM>>> GetAllFiles(int pageNumber = 1, int pageSize = 10)
     {
-        var response = await _cloudStorages.Upload(fileCommand);
+        var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize);
         return Ok(response);
+    }
 
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Возвращает количество записей Request , для пагинации")
+    ]
+    public async Task<ActionResult<DefaultResponseObject<int>>> GetFilesCount()
+    {
+        var response = await _cloudStorages.GetFilesCount();
+        return Ok(response);
     }
 }

@@ -25,7 +25,7 @@ public static class DependencyInjection
         services.AddExtendedHttpClient();
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
-        services.AddServiceWithExtendedHttpClient<ICloudStorages, CloudStorage>(
+        services.AddServiceWithExtendedHttpClient<ICloudStorages, Services.CloudStorage>(
             configuration["ApiSettings:CloudStorageUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IModulesService, ModulesService>(configuration["ApiSettings:CourseUrl"]);
@@ -84,6 +84,7 @@ public static class DependencyInjection
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         services.AddTransient<IAdminService, AdminService>();
+        services.AddTransient<ICloudStorages, Services.CloudStorage>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
         services.AddTransient<ICoursesService, CoursesService>();

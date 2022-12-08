@@ -10,6 +10,7 @@ public class CloudStorageDbMap : IEntityTypeConfiguration<CloudStorageDbModel>
     {
         builder.HasKey(p => p.Id);
         builder.Property(r => r.FileName).HasColumnType("VARCHAR(100)").IsRequired();
+        builder.Property(r => r.FilePath).HasColumnType("VARCHAR(100)").IsRequired();
         builder.Property(p => p.CreatedDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("NOW()").IsRequired();
         builder.Property(p => p.LastModifiedDate).HasColumnType("TIMESTAMP").HasDefaultValueSql("NOW()").IsRequired();
         

@@ -13,6 +13,14 @@ const api = axios.create({
   timeout: 30000,
 });
 
+const fileApi = axios.create({
+  baseURL: "https://localhost:7215",
+  timeout: 30000,
+})
+
+fileApi.defaults.headers.common["Content-Type"] = "application/json";
+fileApi.defaults.withCredentials = true;
+
 api.defaults.headers.common["Content-Type"] = "application/json";
 api.defaults.withCredentials = true;
 
@@ -44,7 +52,7 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 })
 
-export { api }
+export { api, fileApi }
 //admin
 export const login = (payload) => api.post('/AdminPanel/Accounts/Login', payload);
 export const fetchLoginedUserData = () => api.get("/AdminPanel/Accounts/GetAdminData");
@@ -103,5 +111,6 @@ export const fetchAllFreeArticles = (pageNumber, pageSize, filter) => api.get('/
 export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetCount');
 export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
 
-//uploadFile
-export const uploadFile = (file) => api.post('/AdminPanel/CloudStorage/UploadFile', file);
+// filesData
+export const fetchFilesData = (pageNumber, pageSize) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchFilesCount = () => api.get('/AdminPanel/CLoudStorage/GetFilesCount');

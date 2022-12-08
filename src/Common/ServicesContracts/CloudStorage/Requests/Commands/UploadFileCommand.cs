@@ -6,5 +6,6 @@ namespace ServicesContracts.CloudStorage.Requests.Commands;
 
 public class UploadFileCommand : IRequest<Result<string>>
 {
-    public IFormFile File { get; set; }
+    public string FilePath { get; set; }
+    public string FileName { get; set; }
 }

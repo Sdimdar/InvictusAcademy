@@ -17,6 +17,7 @@ try
     services.AddMvc();
     services.AddEndpointsApiExplorer();
     services.AddControllers().AddNewtonsoftJson();
+    services.SetCorsPolicy();
     services.AddSwaggerConfiguration();
     services.AddExceptionHandlers();
 
@@ -36,6 +37,7 @@ try
         app.UseSwaggerUI();
     }
 
+    app.UseCors("CorsPolicy");
     app.UseGlobalExceptionHandler();
     app.MapControllers();
 
