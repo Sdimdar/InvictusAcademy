@@ -14,7 +14,9 @@ const routes = [
       { path: "paymentRequests", component: () => import("src/pages/Payment/PaymentRequestPage.vue")},
       { path: "confirmPayments", component: () => import("src/pages/Payment/ConfirmPaymentPage.vue")},
       { path: "rejectRequests", component: () => import("src/pages/Payment/RejectRequests.vue")},
-      { path: "CreateRoom", component: () => import("src/pages/Jitsi/CreateRoom.vue")}
+      { path: "CreateRoom", component: () => import("src/pages/Jitsi/CreateRoom.vue")},
+      { path: "AllRooms", component: () => import("src/pages/Jitsi/AllRooms.vue")},
+      { path: "Room/:address/:name", component: () => import("src/pages/Jitsi/Room.vue")}
     ],
   },
   // Always leave this as last one,
