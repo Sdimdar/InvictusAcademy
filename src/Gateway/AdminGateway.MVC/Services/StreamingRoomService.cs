@@ -20,30 +20,30 @@ public class StreamingRoomService : IStreamingRoomService
     }
 
 
-    public async Task<ActionResult<DefaultResponseObject<string>>> Create(CreateStreamingRoomCommand request)
+    public async Task<DefaultResponseObject<string>> Create(CreateStreamingRoomCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateStreamingRoomCommand, DefaultResponseObject<string>>(request, $"/StreamingRooms/Create");
 
     }
 
-    public async Task<ActionResult<DefaultResponseObject<string>>> OpenOrCloseRoom(string address)
+    public async Task<DefaultResponseObject<string>> OpenOrCloseRoom(string address)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<string, DefaultResponseObject<string>>(address, $"/StreamingRooms/OpenOrCloseRoom");
 
     }
 
-    public async Task<ActionResult<DefaultResponseObject<AllStreamingRoomsVm>>> GetAll(GetAllRoomsQuery request)
+    public async Task<DefaultResponseObject<AllStreamingRoomsVm>> GetAll(GetAllRoomsQuery request)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<AllStreamingRoomsVm>>(
             $"/StreamingRooms/GetAll?pageNumber={request.PageNumber}&pageSize={request.PageSize}");    
     }
 
-    public async Task<ActionResult<DefaultResponseObject<int>>> GetCount()
+    public async Task<DefaultResponseObject<int>> GetCount()
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<int>>($"/StreamingRooms/GetCount");
     }
 
-    public async Task<ActionResult<DefaultResponseObject<StreamingRoomVm>>> GetByAddress(GetByAddressQuery request)
+    public async Task<DefaultResponseObject<StreamingRoomVm>> GetByAddress(GetByAddressQuery request)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<StreamingRoomVm>>($"/StreamingRooms/GetByAddress?Address={request.Address}");
     }

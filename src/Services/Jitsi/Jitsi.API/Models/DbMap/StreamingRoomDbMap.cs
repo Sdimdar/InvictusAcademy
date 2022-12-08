@@ -12,5 +12,6 @@ public class StreamingRoomDbMap : IEntityTypeConfiguration<StreamingRoomDbModel>
         builder.Property(p => p.LastModifiedDate).HasColumnType("TIMESTAMP");
         builder.Property(p => p.Name).HasColumnType("VARCHAR(100)").IsRequired();
         builder.Property(p => p.Address).HasColumnType("VARCHAR(100)").IsRequired();
+        builder.Property(p => p.ImageLink).HasColumnType("VARCHAR(100)").IsRequired();
     }
 }

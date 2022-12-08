@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jitsi.API.Migrations
 {
     [DbContext(typeof(StreamingRoomDbContext))]
-    [Migration("20221206201615_Init")]
+    [Migration("20221208193110_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -38,13 +38,17 @@ namespace Jitsi.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ImageLink")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsOpened")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()

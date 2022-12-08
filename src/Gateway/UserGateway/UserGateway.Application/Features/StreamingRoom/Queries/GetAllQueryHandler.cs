@@ -22,10 +22,11 @@ public class GetAllQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<AllSt
 
     public async Task<Result<AllStreamingRoomsVm>> Handle(GetAllRoomsQuery request, CancellationToken cancellationToken)
     {
-        var streamingRooms = await _streamingRoomService.GetAll(request, cancellationToken);
-        return Result.Success(_mapper.Map<Result<AllStreamingRoomsVm>>(streamingRooms));
-        // return Result.Success(_mapper.Map<AllStreamingRoomsVm>(streamingRooms));
-        // return Result.Success(streamingRooms.Result.Value);
-        // return Result.Success(streamingRooms);
+        var response = await _streamingRoomService.GetAll(request, cancellationToken);
+        if (response.IsSuccess)
+        {
+            return Result.Success(response.Value);
+        }
+        return Result.Error(response.Errors);
     }
 }

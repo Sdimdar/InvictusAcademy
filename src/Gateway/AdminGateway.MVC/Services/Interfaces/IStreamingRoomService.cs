@@ -9,9 +9,9 @@ namespace AdminGateway.MVC.Services.Interfaces;
 
 public interface IStreamingRoomService : IUseExtendedHttpClient<IStreamingRoomService>
 {
-    Task<ActionResult<DefaultResponseObject<string>>> Create(CreateStreamingRoomCommand request);
-    Task<ActionResult<DefaultResponseObject<string>>> OpenOrCloseRoom(string address);
-    Task<ActionResult<DefaultResponseObject<AllStreamingRoomsVm>>> GetAll(GetAllRoomsQuery request);
-    Task<ActionResult<DefaultResponseObject<int>>> GetCount();
-    Task<ActionResult<DefaultResponseObject<StreamingRoomVm>>> GetByAddress(GetByAddressQuery request);
+    Task<DefaultResponseObject<string>> Create(CreateStreamingRoomCommand request);
+    Task<DefaultResponseObject<string>> OpenOrCloseRoom(string address);
+    Task<DefaultResponseObject<AllStreamingRoomsVm>> GetAll(GetAllRoomsQuery request);
+    Task<DefaultResponseObject<int>> GetCount();
+    Task<DefaultResponseObject<StreamingRoomVm>> GetByAddress(GetByAddressQuery request);
 }

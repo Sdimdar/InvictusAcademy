@@ -20,8 +20,11 @@ public class GetByAddressQueryHandler : IRequestHandler<GetByAddressQuery, Resul
 
     public async Task<Result<StreamingRoomVm>> Handle(GetByAddressQuery request, CancellationToken cancellationToken)
     {
-        var response =await _streamingRoomService.GetCount(cancellationToken);
-        // return Result.Success(_mapper.Map<Result<StreamingRoomVm>>(response));
-        return Result.Success(_mapper.Map<StreamingRoomVm>(response));
+        var response =await _streamingRoomService.GetByAddress(request, cancellationToken);
+        if (response.IsSuccess)
+        {
+            return Result.Success(response.Value);
+        }
+        return Result.Error(response.Errors);
     }
 }

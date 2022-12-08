@@ -1,6 +1,10 @@
-﻿namespace ServicesContracts.Jitsi.Commands;
+﻿using Ardalis.Result;
+using MediatR;
 
-public class CreateStreamingRoomCommand
+namespace ServicesContracts.Jitsi.Commands;
+
+public class CreateStreamingRoomCommand : IRequest<Result<string>>
 {
     public string Name { get; set; }
+    public string ImageLink { get; set; }
 }

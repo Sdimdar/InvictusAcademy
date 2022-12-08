@@ -20,7 +20,10 @@ public class GetCountQueryHandler : IRequestHandler<GetCountRoomsQuery, Result<i
     public async Task<Result<int>> Handle(GetCountRoomsQuery request, CancellationToken cancellationToken)
     {
         var response = await _streamingRoomService.GetCount(cancellationToken);
-        // return Result.Success(_mapper.Map<Result<int>>(response));
-        return Result.Success(_mapper.Map<int>(response));
+        if (response.IsSuccess)
+        {
+            return Result.Success(response.Value);
+        }
+        return Result.Error(response.Errors);
     }
 }
