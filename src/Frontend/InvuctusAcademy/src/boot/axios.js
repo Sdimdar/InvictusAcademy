@@ -76,6 +76,6 @@ export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll');
 
 //Jitsi
 export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
-export const getStreamingRoom = (address) => api.get('/User/GetUserData', { params: { address: address } });
-export const getCountStreamingRooms = () => api.get('/User/GetUserData');
+export const getStreamingRoom = (address) => api.get('/StreamingRooms/GetByAddress', { params: { address: address } });
+export const getCountStreamingRooms = () => api.get('/StreamingRooms/GetCount');
 

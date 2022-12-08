@@ -9,8 +9,8 @@ const routes = [
       { path: "/user/AllCoursesPage", name: 'user-allcoursespage', component: () => import("pages/Courses/AllCoursesPage.vue") },
       { path: "/user/ShowCourseModules/:id", name: 'course-modules', component: () => import("pages/Courses/ShowCourseModules.vue") },
       { path: "/user/ShowFullCourseModules/:id", name: 'course-fullModules', component: () => import("pages/Courses/ShowFullCourseModules.vue") },
-      { path: "/Jitsi/:name", name: 'Jitsi', component: () => import("pages/Jitsi/Jitsi.vue") },
-      { path: "/Test", name: 'Test', component: () => import("pages/Jitsi/Test.vue") },
+      { path: "StreamingRooms/Room/:address", component: () => import("src/pages/Jitsi/Room.vue")},
+      { path: "StreamingRooms/AllRooms", component: () => import("src/pages/Jitsi/AllRooms.vue")}
       ],
   },
   // Always leave this as last one,
