@@ -87,7 +87,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple to="/freeArticle/AllFreeArticles">
             <q-item-section avatar>
               <img src="img/icons/book.svg" />
             </q-item-section>
