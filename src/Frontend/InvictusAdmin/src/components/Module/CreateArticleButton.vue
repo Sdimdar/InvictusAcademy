@@ -9,9 +9,26 @@
       <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
         <q-card-section>
 
-          <q-input dense v-model="newArticle.title" label="Название статьи" />
-          <q-input dense v-model="newArticle.order"  type="number" label="Порядковый номер в модуле" />
-          <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео" />
+          <q-input dense v-model="newArticle.title" label="Название статьи"
+          lazy-rules
+          :rules="[
+            (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+          ]" />
+
+          <q-input dense v-model="newArticle.order"
+          type="number"
+          label="Порядковый номер в модуле"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
+                (val) => validateOrder(val)|| 'Урок с таким номер уже существует'
+              ]"/>
+
+          <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]"/>
 
       <div class="q-pa-md q-gutter-sm">
         <q-editor
@@ -45,23 +62,6 @@
                   'size-6',
                   'size-7'
                 ]
-              },
-              {
-                label: $q.lang.editor.defaultFont,
-                icon: $q.iconSet.editor.font,
-                fixedIcon: true,
-                list: 'no-icons',
-                options: [
-                  'default_font',
-                  'arial',
-                  'arial_black',
-                  'comic_sans',
-                  'courier_new',
-                  'impact',
-                  'lucida_grande',
-                  'times_new_roman',
-                  'verdana'
-                ]
               }
             ],
             ['unordered', 'ordered'],
@@ -69,16 +69,10 @@
             ['undo', 'redo'],
             ['viewsource']
           ]"
-          :fonts="{
-            arial: 'Arial',
-            arial_black: 'Arial Black',
-            comic_sans: 'Comic Sans MS',
-            courier_new: 'Courier New',
-            impact: 'Impact',
-            lucida_grande: 'Lucida Grande',
-            times_new_roman: 'Times New Roman',
-            verdana: 'Verdana'
-          }"
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Поле не должно быть пустым'
+              ]"
         />
         </div>
 
@@ -106,7 +100,6 @@ export default defineComponent({
         required: true,
       },
       id: {
-        type: Number,
         required: true,
       },
       articles: {
@@ -143,7 +136,7 @@ export default defineComponent({
           articles: this.articles
         }
         const response = await addNewArticle(payload);
-        console.log(response)
+        console.log(payload)
 
         if(response.data.isSuccess){
           this.newArticleDialog = false
@@ -165,7 +158,13 @@ export default defineComponent({
       this.articles.videoLink = "";
       this.articles.text = "";
       this.errorMessage = "";
-    }
+    },
+    validateOrder(value) {
+      if(this.articles.find(a => a.order === Number(value))){
+        return false
+      }
+      return true
+      },
   },
 });
 </script>

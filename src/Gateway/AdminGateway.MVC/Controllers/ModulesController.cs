@@ -1,6 +1,5 @@
 ﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using Ardalis.Result;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
@@ -26,16 +25,19 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticles([FromBody]AddArticlesCommand request)
     {
-        try
-        {
-            var response = await _modulesService.AddArticle(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.AddArticle(request);
+        return Ok(response);
+    }
+    
+    [HttpPost]
+    [SwaggerOperation(
+        Summary = "Добавление теста в статью",
+        Description = "Необходимо передать в теле запроса объект с ID модуля, порядковый номер статьи и тест"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody]AddTestCommand request)
+    {
+        var response = await _modulesService.AddTest(request);
+        return Ok(response);
     }
     
     [HttpPost]
@@ -68,16 +70,8 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody]UpdateModuleCommand request)
     {
-        try
-        {
-            var response = await _modulesService.Update(request);
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.Update(request);
+        return Ok(response);
     }
     
     [HttpGet]
@@ -87,16 +81,8 @@ public class ModulesController: Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
     {
-        try
-        {
-            var response = await _modulesService.GetAll();
-            return Ok(response);
-        }
-        catch (Exception e)
-        {
-            ErrorVM error = new ErrorVM(e.Message);
-            return Ok(error);
-        }
+        var response = await _modulesService.GetAll();
+        return Ok(response);
     }
     
     [HttpGet]

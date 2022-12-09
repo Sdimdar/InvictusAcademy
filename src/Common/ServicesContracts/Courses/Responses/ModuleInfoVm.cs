@@ -7,5 +7,5 @@ public class ModuleInfoVm
     public int Id { get; set; }
     public string Title { get; set; }
     public string ShortDescription { get; set; }
-    public List<Articles>? Articles { get; set; } = null;
+    public List<Article>? Articles { get; set; } = null;
 }

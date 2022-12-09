@@ -25,40 +25,41 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
         return query;
     }
 
-    public List<PaymentRequest> GetCurrentRequests()
+    public async Task<int> GetLastIndexAsync()
+    {
+        return await Context.PaymentRequests.MaxAsync(p => p.Id);
+    }
+
+    public List<PaymentRequest> GetCurrentRequestsAsync()
     {
         var dbData = Context.PaymentRequests.Where(e => e.PaymentState == PaymentState.Opened).ToList();
         return _mapper.Map<List<PaymentRequest>>(dbData);
     }
 
-    public int GetLastIndex()
-    {
-        return !Context.PaymentRequests.Any() ? 0 : Context.PaymentRequests.Max(e => e.Id);
-    }
-
-    public async Task SavePaymentAsync(PaymentRequest paymentRequest)
+    public async Task<PaymentRequest> SavePaymentAsync(PaymentRequest paymentRequest)
     {
         var payment = await GetByIdAsync(paymentRequest.Id);
         if (payment is null)
         {
             payment = _mapper.Map<PaymentRequestDbModel>(paymentRequest);
+            return _mapper.Map<PaymentRequest>(await AddAsync(payment));
         }
         else
         {
             payment.PaymentState = paymentRequest.PaymentState;
             payment.RejectReason = paymentRequest.RejectReason;
             payment.ModifyAdminEmail = paymentRequest.ModifyAdminEmail;
+            await UpdateAsync(payment);
+            return _mapper.Map<PaymentRequest>(payment);
         }
-        await UpdateAsync(payment);
-        
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(string? userEmail, 
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, 
                                                                     int? courseId, 
                                                                     PaymentState? paymentState)
     {
         var query = Context.PaymentRequests.AsQueryable();
-        if (userEmail is not null) query = query.Where(e => e.UserEmail == userEmail);
+        if (userId is not null) query = query.Where(e => e.UserId == userId);
         if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
         if (paymentState is not null) query = query.Where(e => e.PaymentState == paymentState);
         var data = await query.ToListAsync();

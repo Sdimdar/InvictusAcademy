@@ -61,6 +61,7 @@ export const getCurrentCourses = () => api.get('/Courses/GetCurrent');
 export const getCompletedCourses = () => api.get('/Courses/GetCompleted');
 export const getWishedCourses = () => api.get('/Courses/GetWished');
 export const getNewCourses = () => api.get('/Courses/GetNew');
+export const getCourseById = (courseId) => api.get('/Courses/GetById', {params:{Id: courseId}});
 
 // modules
 export const getShortModulesInfo = (courseId) => api.get(`/Modules/GetShortModulesInfoByCourseId`, {params:{courseId: courseId}});
@@ -68,11 +69,11 @@ export const getFullModulesInfo = (courseId) => api.get(`/Courses/GetFullModules
 
 // UserData
 export const fetchUserData = (email) => api.get('/User/GetUserData', { params: { email: email } });
-export const fetchAllRequest = (pageNumber, pageSize) => api.get('/AdminPanel/Requests/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
-export const fetchRequestsCount = () => api.get('/AdminPanel/Requests/GetRequestsCount');
-export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
-export const insertModules = (modulesData) => api.post('/AdminPanel/Courses/InsertModules', modulesData);
-export const getAllModules = () => api.get('/AdminPanel/Modules/GetAll');
+
+// FreeArticles
+export const fetchAllFreeArticles = (pageNumber, pageSize, filterString) => api.get('/FreeArticle/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filterString} });
+export const getFreeArticlesCount = () => api.get('/FreeArticle/GetCount');
+export const fetchFreeArticle = (id) => api.get('/FreeArticle/GetFreeArticleData', {params:{id: id}});
 
 //Jitsi
 export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });

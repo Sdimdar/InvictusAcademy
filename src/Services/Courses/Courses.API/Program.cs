@@ -19,6 +19,7 @@ try
     services.AddControllers();
     services.AddSwaggerConfiguration();
     services.AddExceptionHandlers();
+    services.AddCourseOptions(builder.Configuration);
 
 // Add API services
     services.AddInfrastructureServices(builder.Configuration);
@@ -31,7 +32,7 @@ try
     var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
+    if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))                                     
     {
         app.UseSwagger();
         app.UseSwaggerUI();

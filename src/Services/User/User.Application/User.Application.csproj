@@ -11,8 +11,8 @@
     <PackageReference Include="Ardalis.Result.FluentValidation" Version="4.1.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="FluentValidation" Version="11.2.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
     <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="NLog" Version="5.0.5" />
@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
     <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
     <ProjectReference Include="..\..\..\Gateway\UserGateway\UserGateway.Application\UserGateway.Application.csproj" />
+    <ProjectReference Include="..\..\Courses\Courses.Application\Courses.Application.csproj" />
     <ProjectReference Include="..\..\Request\Request.Application\Request.Application.csproj" />
     <ProjectReference Include="..\User.Domain\User.Domain.csproj" />
   </ItemGroup>

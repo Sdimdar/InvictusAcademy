@@ -57,11 +57,6 @@ public class UsersController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ToBan([FromQuery]ToBanCommand command)
     {
-            if (command.Id <= 0)
-            {
-                ErrorVM error = new ErrorVM("Id was not assigned");
-                return Ok(error);
-            }
             var response = await _iGetUsers.ChangeBanStatusAsync(command);
             return Ok(response);
     }

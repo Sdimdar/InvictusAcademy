@@ -26,6 +26,12 @@ public class ModulesService : IModulesService
         return await ExtendedHttpClient.PostAndReturnResponseAsync<AddArticlesCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddArticles");
     }
 
+    public async Task<DefaultResponseObject<ModuleInfoVm>> AddTest(AddTestCommand request)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddTestCommand, 
+            DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddTest");
+    }
+
     public async Task<DefaultResponseObject<ModuleInfoVm>> Create(CreateModuleCommand request)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<CreateModuleCommand, DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Create");
@@ -65,23 +71,24 @@ public class ModulesService : IModulesService
     public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetByListOfId(GetModulesByListOfIdQuery request)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < request.ModulesId.Count; i++)
+        if (request.ModulesId is not null)
         {
-            if (i==request.ModulesId.Count-1)
+            for (int i = 0; i < request.ModulesId.Count; i++)
             {
-                stringBuilder.Append("ModulesId=");
-                stringBuilder.Append(request.ModulesId[i]);
-            }
-            else
-            {
-                stringBuilder.Append("ModulesId=");
-                stringBuilder.Append(request.ModulesId[i]);
-                stringBuilder.Append("&");
+                if (i == request.ModulesId.Count - 1)
+                {
+                    stringBuilder.Append("ModulesId=");
+                    stringBuilder.Append(request.ModulesId[i]);
+                }
+                else
+                {
+                    stringBuilder.Append("ModulesId=");
+                    stringBuilder.Append(request.ModulesId[i]);
+                    stringBuilder.Append("&");
+                }
             }
         }
-
-        string requestString = stringBuilder.ToString();
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetByListOfId?{requestString}");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetByListOfId?{stringBuilder}");
     }
 
     public async Task<DefaultResponseObject<ModuleInfoVm>> Update(UpdateModuleCommand request)

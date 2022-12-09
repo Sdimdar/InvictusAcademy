@@ -16,7 +16,17 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7213;http://localhost:6213",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      }
+    },
+    "Payment.API.NoSwagger": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7213;http://localhost:6213",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
       }
     }
   }

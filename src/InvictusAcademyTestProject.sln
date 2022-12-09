@@ -73,17 +73,32 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtendedHttpClient", "Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalExceptionHandler", "Common\GlobalExceptionHandler\GlobalExceptionHandler.csproj", "{BDB3D1C5-034B-4D8C-9AF1-63C7F51853F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonStructures", "Common\CommonStructures\CommonStructures.csproj", "{D59B6305-BE0D-41D1-A170-0D1D306006C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonStructures", "Common\CommonStructures\CommonStructures.csproj", "{D59B6305-BE0D-41D1-A170-0D1D306006C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Services\Payment\Payment.API\Payment.API.csproj", "{FA922977-16A2-40B4-B079-97B495B6AF69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Application", "Services\Payment\Payment.Application\Payment.Application.csproj", "{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Domain", "Services\Payment\Payment.Domain\Payment.Domain.csproj", "{55AE7FDA-6658-47E8-B194-D708235D0946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Domain", "Services\Payment\Payment.Domain\Payment.Domain.csproj", "{55AE7FDA-6658-47E8-B194-D708235D0946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Infrastructure", "Services\Payment\Payment.Infrastructure\Payment.Infrastructure.csproj", "{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Infrastructure", "Services\Payment\Payment.Infrastructure\Payment.Infrastructure.csproj", "{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E55D6B86-C005-45E4-986E-5391EEDED1A5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FreeArticles", "FreeArticles", "{32183324-7C31-461B-A5AE-B155F1B629F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.API", "Services\FreeArticles.API\FreeArticles.API.csproj", "{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Application", "Services\FreeArticles.Application\FreeArticles.Application.csproj", "{8DB430A1-FA27-4613-8115-9C968DA6D982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Domain", "Services\FreeArticles.Domain\FreeArticles.Domain.csproj", "{E695083C-4C6B-4D05-94A4-782AE9753701}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Infrastructure", "Services\FreeArticles.Infrastructure\FreeArticles.Infrastructure.csproj", "{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jitsi", "Jitsi", "{268FDF06-5BD3-42E0-9DA1-F6D220F71286}"
 EndProject
@@ -219,6 +234,22 @@ Global
 		{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB430A1-FA27-4613-8115-9C968DA6D982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB430A1-FA27-4613-8115-9C968DA6D982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB430A1-FA27-4613-8115-9C968DA6D982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB430A1-FA27-4613-8115-9C968DA6D982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E695083C-4C6B-4D05-94A4-782AE9753701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E695083C-4C6B-4D05-94A4-782AE9753701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E695083C-4C6B-4D05-94A4-782AE9753701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E695083C-4C6B-4D05-94A4-782AE9753701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8647188B-44C6-4885-BC2C-1749820EF7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8647188B-44C6-4885-BC2C-1749820EF7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8647188B-44C6-4885-BC2C-1749820EF7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -265,6 +296,11 @@ Global
 		{5F95E3A4-5C44-4CEB-805A-C5216CBB6C14} = {47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}
 		{55AE7FDA-6658-47E8-B194-D708235D0946} = {47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}
 		{4E1A78B1-9C9C-4FB5-B8E4-45FCFA96DF0E} = {47DFD87E-C195-49EB-A9DF-7B26D77FC6B1}
+		{32183324-7C31-461B-A5AE-B155F1B629F7} = {99B0D8FD-A360-4717-B637-D8AA37CD6105}
+		{5DF3686F-984A-48F3-854A-3BB5CC3E01A1} = {32183324-7C31-461B-A5AE-B155F1B629F7}
+		{8DB430A1-FA27-4613-8115-9C968DA6D982} = {32183324-7C31-461B-A5AE-B155F1B629F7}
+		{E695083C-4C6B-4D05-94A4-782AE9753701} = {32183324-7C31-461B-A5AE-B155F1B629F7}
+		{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA} = {32183324-7C31-461B-A5AE-B155F1B629F7}
 		{268FDF06-5BD3-42E0-9DA1-F6D220F71286} = {99B0D8FD-A360-4717-B637-D8AA37CD6105}
 		{8647188B-44C6-4885-BC2C-1749820EF7EA} = {268FDF06-5BD3-42E0-9DA1-F6D220F71286}
 	EndGlobalSection

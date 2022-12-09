@@ -12,8 +12,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Courses.API.Endpoints.Course;
 
 public class GetCourseById: EndpointBaseAsync
-    .WithRequest<GetCoursByIdQuery>
-    .WithActionResult<DefaultResponseObject<CourseForAdminVm>>
+    .WithRequest<GetCourseByIdQuery>
+    .WithActionResult<DefaultResponseObject<CourseByIdVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -31,9 +31,9 @@ public class GetCourseById: EndpointBaseAsync
         Tags = new[] { "Course" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseForAdminVm>>> HandleAsync([FromQuery]GetCoursByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery]GetCourseByIdQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<CourseForAdminVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<CourseByIdVm>>(result));
     }
 }
