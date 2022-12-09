@@ -37,7 +37,6 @@
 <script>
 import { ref } from "vue";
 import CourseCard from "components/Courses/CourseCard.vue";
-import LeftBar from "components/LeftBar.vue";
 import {
   getCurrentCourses,
   getCompletedCourses,

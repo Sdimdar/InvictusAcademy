@@ -42,6 +42,7 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand, Resul
             course.VideoLink = request.VideoLink;
             course.Cost = request.Cost;
             course.IsActive = request.IsActive;
+            course.PassingDayCount = request.PassingDayCount;
             await _courseRepository.UpdateAsync(course);
             return Result.Success();
         }

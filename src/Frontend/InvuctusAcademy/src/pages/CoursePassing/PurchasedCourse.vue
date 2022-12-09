@@ -18,6 +18,7 @@
         :nextLearningArticle="courseData.nextLearningArticle"
         :moduleCount="courseData.modules.length"
         :moduleCompletedCount="courseData.completedModulesCount"
+        :passingTime="courseData.passingTime"
       />
     </div>
   </q-page-container>

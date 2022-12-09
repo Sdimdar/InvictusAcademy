@@ -77,7 +77,6 @@ import { fetchUserData, getCurrentCourses } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
 import EditProfileButton from 'components/User/EditProfileButton.vue'
 import EditPasswordButton from 'components/User/EditPasswordButton.vue'
-import LeftBar from "components/LeftBar.vue";
 import CourseCard from "components/Courses/CourseCard.vue";
 
 export default defineComponent({
@@ -85,7 +84,6 @@ export default defineComponent({
   components: {
     EditProfileButton,
     EditPasswordButton,
-    LeftBar,
     CourseCard
   },
   data() {
