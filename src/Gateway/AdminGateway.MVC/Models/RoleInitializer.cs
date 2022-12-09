@@ -10,7 +10,7 @@ public class RoleInitializer
         string headAdmin = "admin@gmail.com";
         string password = "Aa12345!";
 
-        var roles = new[] { "admin", "manager", "copywriter", "instructor", "moderator" };
+        var roles = new[] { RolesHelper.Administrator, RolesHelper.Manager, RolesHelper.Instructor};
         foreach (var role in roles)
         {
             if (await roleManager.FindByNameAsync(role) is null)

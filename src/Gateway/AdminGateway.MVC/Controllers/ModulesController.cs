@@ -1,6 +1,8 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
@@ -8,6 +10,7 @@ using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
+[Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Instructor}")]
 [Route("AdminPanel/[controller]/[action]")]
 public class ModulesController : Controller
 {
@@ -28,7 +31,6 @@ public class ModulesController : Controller
         var response = await _modulesService.AddArticle(request);
         return Ok(response);
     }
-
     [HttpPost]
     [SwaggerOperation(
         Summary = "Добавление теста в статью",
@@ -39,7 +41,7 @@ public class ModulesController : Controller
         var response = await _modulesService.AddTest(request);
         return Ok(response);
     }
-
+    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Создание модуля",
@@ -63,6 +65,7 @@ public class ModulesController : Controller
         return Ok(response);
     }
 
+    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Изменение данных о модуле",

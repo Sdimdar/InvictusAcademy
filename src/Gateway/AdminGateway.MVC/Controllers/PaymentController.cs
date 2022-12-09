@@ -1,4 +1,5 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
 
+[Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Manager}")]
 [Route("AdminPanel/[controller]/[action]")]
 public class PaymentController : Controller
 {

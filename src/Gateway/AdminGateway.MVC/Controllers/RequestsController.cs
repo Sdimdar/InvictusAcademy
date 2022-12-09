@@ -1,5 +1,7 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Request.Requests.Commands;
 using ServicesContracts.Request.Responses;
@@ -16,7 +18,7 @@ public class RequestsController : Controller
         _requestService = requestService;
     }
 
-
+    [Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Manager}")]
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
@@ -37,7 +39,8 @@ public class RequestsController : Controller
         var response = await _requestService.GetRequestsCountAsync();
         return Ok(response);
     }
-
+    
+    [Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Manager}")]
     [HttpPost]
     [SwaggerOperation(
         Summary = "Изменяет статус для Request обзвонен/необзвонен",
@@ -50,6 +53,7 @@ public class RequestsController : Controller
 
     }
 
+    [Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Manager}")]
     [HttpPost]
     [SwaggerOperation(
         Summary = "Добавляет комментарий",
