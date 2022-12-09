@@ -20,10 +20,7 @@ const routes = [
 
   {
     path: "/reqister",
-    component: () => import("pages/RegisterPage.vue"),
-    children: [
-      { path: "/reqister", name: 'register', component: () => import("pages/RegisterPage.vue") }
-    ]
+    component: () => import("pages/RegisterPage.vue")
   },
   // Always leave this as last one,
   // but you can also remove it

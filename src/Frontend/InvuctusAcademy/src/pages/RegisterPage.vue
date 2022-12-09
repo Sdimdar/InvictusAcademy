@@ -121,7 +121,6 @@ export default defineComponent({
       isPwd: ref(true),
       isPwdConfirm: ref(true),
       errorMessages: "",
-      logined: false,
     };
   },
   methods: {
@@ -130,7 +129,6 @@ export default defineComponent({
       try {
         const response = await register(this.registerData);
         if (response.data.isSuccess) {
-          this.logined = true;
           notify.showSucsessNotify("Добро пожаловать");
           this.$router.push({ path: '/'})
         }

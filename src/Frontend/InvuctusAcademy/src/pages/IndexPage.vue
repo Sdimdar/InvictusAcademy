@@ -1,52 +1,52 @@
 <template>
   <q-page-container v-if="logined" class="column" style="padding-bottom: 0px; ">
-      <div class="col">
-        <div class="video-container">
+    <div class="col">
+      <div class="video-container">
         <video autoplay muted loop style="width: 1140px;">
-            <source src="video/invictus_video.mp4" type="video/mp4" />
+          <source src="video/invictus_video.mp4" type="video/mp4" />
         </video>
-        </div>
       </div>
+    </div>
 
-      <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
-        Мои курсы
-        <div class="row">
-          <course-card class="list-card" v-for="course in currentCourses" :data="course" />
-        </div>
+    <div v-if="(currentCourses.length > 0)" class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+      Мои курсы
+      <div class="row">
+        <course-card class="list-card" v-for="course in currentCourses" :data="course" />
       </div>
+    </div>
 
-      <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
-        Идеально подойдут вам
-          <div class="row">
-            <div>
-              <q-btn dense round unelevated color="accent" icon="chevron_left"
-                  @click="prevCourses" v-show="currentLenght" />
-            </div>
-            <course-card class="list-card" v-for="course in showCourses" :data="course" @wished="getCoursesData"/>
-            <div>
-              <q-btn dense round unelevated color="accent" icon="chevron_right"
-                  @click="nextCourses()"  :disable="(newCourses.length < current)"/>
-            </div>
-            </div>
-      </div>
-      <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
-        Избранное
-        <div class="row">
-          <course-card class="list-card" v-for="course in wishedCourses" :data="course" @wished="getCoursesData"/>
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+      Идеально подойдут вам
+      <div class="row">
+        <div>
+          <q-btn dense round unelevated color="accent" icon="chevron_left" @click="prevCourses"
+            v-show="currentLenght" />
+        </div>
+        <course-card class="list-card" v-for="course in showCourses" :data="course" @wished="getCoursesData" />
+        <div>
+          <q-btn dense round unelevated color="accent" icon="chevron_right" @click="nextCourses()"
+            :disable="(newCourses.length < current)" />
         </div>
       </div>
-      <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;">
-        Читайте также
-        <div class="row">
+    </div>
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+      Избранное
+      <div class="row">
+        <course-card class="list-card" v-for="course in wishedCourses" :data="course" @wished="getCoursesData" />
+      </div>
+    </div>
+    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;">
+      Читайте также
+      <div class="row">
 
-        </div>
       </div>
+    </div>
   </q-page-container>
 
 </template>
 
 <script>
-import { defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import {
   getCurrentCourses,
   getCompletedCourses,
@@ -73,9 +73,9 @@ export default defineComponent({
     return {
       currentCourses: [],
       completedCourses: [],
-      wishedCourses:[],
+      wishedCourses: [],
       newCourses: [],
-      showCourses : [],
+      showCourses: [],
       current: 4,
       currentLenght: false
     };
@@ -90,7 +90,7 @@ export default defineComponent({
         if (response.data.isSuccess) {
           this.newCourses = response.data.value.courses;
           console.log(this.newCourses);
-          this.showCourses =this.newCourses.slice(0, 4)
+          this.showCourses = this.newCourses.slice(0, 4)
         }
       } catch (error) {
         console.log(error.message);
@@ -125,20 +125,20 @@ export default defineComponent({
       }
     },
     nextCourses() {
-    	if( this.current < this.newCourses.length)
-        this.showCourses =this.newCourses.slice(this.current, this.current+4)
-      	this.current = this.current + 4
-        this.currentLenght = true
-        console.log(this.current)
+      if (this.current < this.newCourses.length)
+        this.showCourses = this.newCourses.slice(this.current, this.current + 4)
+      this.current = this.current + 4
+      this.currentLenght = true
+      console.log(this.current)
     },
     prevCourses() {
-    	if(this.current > 4)
+      if (this.current > 4)
         this.current = this.current - 4
-        this.showCourses =this.newCourses.slice(this.current-4, this.current)
-        if(this.current === 4){
-          this.currentLenght = false
-        }
-        console.log(this.current)
+      this.showCourses = this.newCourses.slice(this.current - 4, this.current)
+      if (this.current === 4) {
+        this.currentLenght = false
+      }
+      console.log(this.current)
     }
   },
 })
@@ -146,10 +146,10 @@ export default defineComponent({
 
 <style>
 .video-container {
-    height: 200px;
-    width:  200px;
-    margin-top: -50px;
-    position: relative;
+  height: 200px;
+  width: 200px;
+  margin-top: -50px;
+  position: relative;
 }
 
 .video-container video {
@@ -159,6 +159,4 @@ export default defineComponent({
   object-fit: cover;
   z-index: 0;
 }
-
-
 </style>
