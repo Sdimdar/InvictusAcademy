@@ -99,7 +99,7 @@ export default {
       }
     },
   },
-  components: { CourseCard, LeftBar },
+  components: { CourseCard },
 };
 </script>
 
