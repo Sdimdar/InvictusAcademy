@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-card :class="$attrs.class" class="my-card" flat bordered>
+        <q-card class="my-card" flat bordered>
             <q-card-section horizontal class="flex justify-between">
                 <q-card-section class="q-pt-xs">
                     <div class="text-h5 q-mt-sm q-mb-xs">{{ data.title }}</div>
@@ -8,10 +8,10 @@
                         {{ data.shortDescription }}
                     </div>
                     <div>
-                        
+
                     </div>
                 </q-card-section>
-                
+
                 <q-card-section class="col-5 flex flex-center">
                     <q-img class="rounded-borders course-img" src="https://cdn.quasar.dev/img/parallax2.jpg" />
                 </q-card-section>
@@ -21,12 +21,8 @@
 </template>
 
 <script>
-import Articles from "components/Modules/Articles.vue";
-import LeftBar from "components/LeftBar.vue";
 
 export default {
-    
-    components: { Articles, LeftBar },
     props: {
         data: []
     }

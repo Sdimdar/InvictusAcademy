@@ -30,6 +30,7 @@ export default {
     },
     methods:{
     openPage(id){
+      console.log(id);
       this.$router.push({ path: '/user/courseDetails', query: { id: id } })
     },
   }

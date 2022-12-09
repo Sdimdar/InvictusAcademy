@@ -31,7 +31,7 @@ public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntit
     public virtual async Task<TEntity?> GetByIdAsync(int id)
     {
         return await Context.Set<TEntity>()
-                            .FirstOrDefaultAsync(i => i.Id == id);
+            .FirstOrDefaultAsync(i => i.Id == id);
     }
 
     public virtual async Task<TEntity> AddAsync(TEntity entity)
