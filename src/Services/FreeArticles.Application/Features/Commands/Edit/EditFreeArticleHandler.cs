@@ -52,6 +52,7 @@ public class EditFreeArticleHandler : IRequestHandler<EditFreeArticleCommand, Re
             result.Text = request.Text;
             result.VideoLink = request.VideoLink;
             result.IsVisible = request.IsVisible;
+            result.ImageLink = request.ImageLink;
             await _freeArticleRepository.UpdateAsync(result);
             return Result.Success();
         }

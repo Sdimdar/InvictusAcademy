@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FreeArticles.Infrastructure.Migrations
 {
     [DbContext(typeof(FreeArticleDbContext))]
-    [Migration("20221123124307_Initial")]
-    partial class Initial
+    [Migration("20221204224836_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,10 @@ namespace FreeArticles.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("NOW()");
+
+                    b.Property<string>("ImageLink")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("boolean");
