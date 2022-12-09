@@ -3,6 +3,7 @@ using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ServicesContracts.CloudStorage.Requests.Queries;
 using ServicesContracts.CloudStorage.Requests.Querries;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -27,7 +28,7 @@ public class GetFilesCount : EndpointBaseAsync
     ]
     public async override Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var response = await _mediator.Send(new GetAllFilesQuery(), cancellationToken);
+        var response = await _mediator.Send(new GetFilesCountQuery(), cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

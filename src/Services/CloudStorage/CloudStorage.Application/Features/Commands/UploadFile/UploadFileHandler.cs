@@ -69,6 +69,7 @@ public class UploadFileHandler : IRequestHandler<UploadFileCommand, Result<strin
             newFile.FilePath = keyName;
             newFile.FileName = fileName;
             newFile.LastModifiedDate = DateTime.Now;
+            //var isExist = await _repository.GetAsync(x => x.FileName == fileName);
             var result = await _repository.AddAsync(newFile);
             if (result is null)
             {

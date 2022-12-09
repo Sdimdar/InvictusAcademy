@@ -3,13 +3,14 @@ using Ardalis.Result.FluentValidation;
 using CloudStorage.Application.Contracts;
 using CommonStructures;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using ServicesContracts.CloudStorage.Requests.Querries;
 using ServicesContracts.CloudStorage.Responses;
 
 namespace CloudStorage.Application.Features.Queries.GetAllFiles;
 
-public class GetAllFilesHandler
+public class GetAllFilesHandler : IRequestHandler<GetAllFilesQuery, Result<GetAllFilesVM>>
 {
     private readonly ICloudStorageRepository _cloudStorage;
     private readonly IValidator<GetAllFilesQuery> _validator;
@@ -42,7 +43,8 @@ public class GetAllFilesHandler
         }
 
         var data = await _cloudStorage.GetFilteredBatchOfData(request.PageSize, request.PageNumber);
-
+        data.ToList().ForEach(x => x.FilePath = $"https://invictus.object.pscloud.io/{x.FilePath}");
+        
         var response = new GetAllFilesVM
         {
             PageNumber = request.PageNumber,
