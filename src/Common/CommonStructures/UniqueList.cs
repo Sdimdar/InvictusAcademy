@@ -144,4 +144,5 @@ public class UniqueList<T> : ICollection<T>, IList<T>, ICloneable
         }
         return result;
     }
+
 }

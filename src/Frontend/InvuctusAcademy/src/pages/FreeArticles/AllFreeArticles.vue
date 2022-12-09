@@ -1,140 +1,109 @@
 <template>
-  <q-input style="max-width: 200px" dense debounce="300" v-model="filter" placeholder="Поиск">
-    <template v-slot:append>
-      <q-icon name="search" />
-    </template>
-  </q-input>
-  <div class="q-pa-md">
-    <q-table
-      ref="tableRef"
-      :rows="rows"
-      :columns="columns"
-      row-key="id"
-      v-model:pagination="pagination"
-      :loading="loading"
-      :filter="filter"
-      binary-state-sort
-      @request="onRequest"
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="title" :props="props">
-            {{ props.row.title }}
-          </q-td>
-          <q-td key="isVisible" :props="props">
-            {{ props.row.isVisible }}
+  <div class="container">
 
-          </q-td>
-          <q-btn @click="$router.push(`/FreeArticle/AboutFreeArticle/${props.row.id}`)"  class="nav-button" label="Прочитать" ></q-btn>
-        </q-tr>
-      </template>
+    <div class="row justify-content-start">
 
-    </q-table>
+      <div class="col-lg-4 col-md-12 col-sm-12 article-img-box"
+           v-for="freeArticle in this.allFreeAticles"
+      >
+        <div class="card" @click="$router.push(`/FreeArticle/AboutFreeArticle/${freeArticle.id}`)">
+          <div class="card-body">
+            <h5 class="card-title">{{freeArticle.title}}</h5>
+          </div>
+          <img class="card-img-top" :src="`${freeArticle.imageLink}`"
+               alt="Card image cap"
+          >
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="this.pageNumber"
+        @click="getFreeArticlesMounted"
+        color="black"
+        :max="countPages"
+        :max-pages="10"
+        :boundary-numbers="false"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import {ref} from "vue";
 import {fetchAllFreeArticles, getFreeArticlesCount} from "boot/axios";
-import { ref, onMounted } from 'vue';
-import notify from "boot/notifyes";
-
-const columns = [
-  { name: 'title', align: 'center', label: 'Название', field: 'title', sortable: false },
-]
 
 export default {
   name: "allFreeArticles",
-  data(){
-    return{
-      title: "",
-      id: ""
+  setup () {
+    return {
+      current: ref(5)
     }
   },
-  setup(){
-    const tableRef = ref()
-    const rows = ref([])
-    const filter = ref('')
-    const loading = ref(false)
-    const pagination = ref({
-      sortBy: 'desc',
-      descending: false,
-      page: 1,
-      rowsPerPage: 3,
-      rowsNumber: 10
-    })
-
-    async function onRequest (props) {
-      console.log(props)
-      let { page, rowsPerPage, sortBy, descending } = props.pagination
-      let response;
-
-      // пока что запретил показывать All
-      //if(rowsPerPage === 0) rowsPerPage = 3
-
-      loading.value = true
-
-      // update rowsCount with appropriate value
-      try {
-        response = await getFreeArticlesCount();
-        console.log("Response:")
-        console.log(response)
-        if (response.data.isSuccess) {
-          pagination.value.rowsNumber = response.data.value;
-        }
-        else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-          return;
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-
-      // fetch data from "server"
-      try {
-        console.log(page + " " + rowsPerPage)
-        if(rowsPerPage === 0){
-          response = await fetchAllFreeArticles(0, rowsPerPage)
-        }
-        else{
-          response = await fetchAllFreeArticles(page, rowsPerPage, props.filter)
-        }
-        console.log("Response:")
-        console.log(response)
-        if (response.data.isSuccess) {
-          rows.value.splice(0, rows.value.length, ...response.data.value.freeArticles);
-        }
-        else {
-          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-          return;
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-
-      // don't forget to update local pagination object
-      pagination.value.page = page
-      pagination.value.rowsPerPage = rowsPerPage
-      pagination.value.sortBy = sortBy
-      pagination.value.descending = descending
-
-      // ...and turn of loading indicator
-      loading.value = false
+  data(){
+    return{
+      allFreeAticles: [{}],
+      pageNumber: 1,
+      countPages: 0,
+      pageSize: 5,
     }
-
-    onMounted(() => {
-      // get initial data from server (1st page)
-      tableRef.value.requestServerInteraction()
-    })
-
-    return {
-      tableRef,
-      filter,
-      loading,
-      pagination,
-      columns,
-      rows,
-      onRequest
+  },
+  mounted() {
+    this.getFreeArticlesMounted();
+  },
+  methods:{
+    async getFreeArticlesMounted() {
+      try {
+        const response = await fetchAllFreeArticles(this.pageNumber, this.pageSize);
+        if (response.data.isSuccess) {
+          this.allFreeAticles = response.data.value.freeArticles;
+          await this.getAllFreeArticlesCount();
+        } else {
+          response.data.errors.forEach(element => {
+            notify.showErrorNotify(element);
+          });
+        }
+      } catch (e) {
+        notify.showErrorNotify(e.message);
+      }
+    },
+    async getAllFreeArticlesCount() {
+      try {
+        const response = await getFreeArticlesCount();
+        if (response.data.isSuccess) {
+          this.countPages = Math.ceil(response.data.value / this.pageSize)
+          console.log(response.data)
+        } else {
+          response.data.errors.forEach(element => {
+            notify.showErrorNotify(element);
+          });
+        }
+      } catch (e) {
+        notify.showErrorNotify(e.message);
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+
+.article-img-box {
+  margin-bottom: 100px;
+  height: 160px;
+  width: 270px;
+}
+
+.card-title{
+  font-size: medium;
+  text-align: center;
+}
+
+.card-body{
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
+</style>

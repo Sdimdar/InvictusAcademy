@@ -1,10 +1,27 @@
 <template>
   <q-page-container>
-    <h4 style="text-align: center">Все курсы</h4>
+
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+        Мои курсы
     <div class="row">
           <course-card class="list-card" v-for="course in currentCourses" :data="course" />
     </div>
+  </div>
 
+  <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+    Избранное
+    <div class="row">
+          <course-card class="list-card" v-for="course in wishedCourses" :data="course" />
+    </div>
+  </div>
+
+  <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+    Новые курсы
+    <div class="row">
+          <course-card class="list-card" v-for="course in newCourses" :data="course" />
+    </div>
+  </div>
+  
   </q-page-container>
 
 </template>
@@ -25,6 +42,7 @@ export default {
     return {
       currentCourses: [],
       completedCourses: [],
+      wishedCourses:[],
       newCourses: [],
     };
   },

@@ -15,4 +15,6 @@ public class CreateCourseCommand : IRequest<Result<CourseDbModel>>
     public List<CoursePointsVm> CoursePoints { get; set; }
     public decimal Cost { get; set; }
     public bool IsActive { get; set; }
+
+    public int PassingDayCount { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using CommonRepository;
+﻿using System.Linq.Expressions;
+using CommonRepository;
 using CommonRepository.Models;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
@@ -83,7 +84,7 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         if (query is null) return false;
         return true;
     }
-
+    
     public async Task<List<CourseDbModel>> GetCoursesByIdList(List<int> coursesId)
     {
         List<CourseDbModel> list = new();
@@ -95,6 +96,11 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         }
 
         return list;
+    }
+
+    public async Task<List<CourseDbModel>> GetCoursesByFilter(Expression<Func<CourseDbModel, bool>> predicate)
+    {
+        return await Context.Courses.Where(predicate).ToListAsync();
     }
 
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)

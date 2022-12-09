@@ -2,16 +2,17 @@
   <div class="q-pa-md">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6"> {{ this.article.title }} </div>
-        <div class="text-subtitle2"> {{ this.article.title }} </div>
-
+        <div class="text-h4 article-title"> {{ this.article.title }} </div>
+        <img class="article-image" :src="`${this.article.imageLink}`"
+             alt="image cap"
+        >
       </q-card-section>
 
-      <iframe width="560" height="315" src="" title="YouTube video player"
+      <iframe class="article-video" width="560" height="315" :src="`${this.article.videoLink}`" title="YouTube video player"
               frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen></iframe>
 
-      <q-card-section class="bg-grey-3">
+      <q-card-section class="">
         <div v-html="article.text"></div>
       </q-card-section>
 
@@ -66,6 +67,7 @@ export default defineComponent({
           this.article.title = response.data.value.title
           this.article.text = response.data.value.text
           this.article.videoLink = response.data.value.videoLink
+          this.article.imageLink = response.data.value.imageLink
           this.article.id = response.data.value.id
           notify.showSucsessNotify("Бесплатная статья найдена");
         }
@@ -95,7 +97,25 @@ export default defineComponent({
       this.article.title = "";
       this.article.text = "добавить текст";
       this.article.videoLink = "";
+      this.article.imageLink = ""
     }
   },
 });
 </script>
+<style scoped>
+  .article-title{
+    text-align: center;
+  }
+  .article-image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  .article-video{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+</style>

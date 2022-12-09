@@ -14,7 +14,13 @@ const routes = [
       { path: "/freeArticle/AboutFreeArticle/:id", name: 'aboutFreeArticles', component: () => import("pages/FreeArticles/AboutFreeArticle.vue") },
       { path: "/course/:id", name: 'purchasedCourseData', component: () => import("pages/CoursePassing/PurchasedCourse.vue") },
       { path: "/course/article", name: 'purchasedArticleData', component: () => import("pages/CoursePassing/PurchasedArticle.vue") },
+      { path: "/course/test", name: 'purchasedTestPassing', component: () => import("pages/CoursePassing/TestPassingPage.vue")},
     ],
+  },
+
+  {
+    path: "/reqister",
+    component: () => import("pages/RegisterPage.vue")
   },
   // Always leave this as last one,
   // but you can also remove it

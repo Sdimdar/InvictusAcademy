@@ -14,5 +14,8 @@ public class CreateFreeArticleCommandValidator : AbstractValidator<CreateFreeArt
         RuleFor(q => q.Text)
             .NotEmpty().WithMessage("Text is required")
             .NotNull();
+        RuleFor(q => q.ImageLink)
+            .NotEmpty().WithMessage("Image is required")
+            .NotNull();
     }
 }

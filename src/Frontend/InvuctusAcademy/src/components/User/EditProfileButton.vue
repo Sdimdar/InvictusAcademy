@@ -1,6 +1,8 @@
 <template>
-    <q-btn color="primary" label="Редактировать данные" @click="getUserData" />
-  
+    <q-btn no-caps outline class="edit-btn" @click="getUserData">
+      Редактировать
+    </q-btn>
+
     <q-dialog v-model="editDialog">
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -38,7 +40,7 @@
           />
 
           </q-card-section>
-  
+
           <q-card-actions class="text-primary">
             <q-btn flat type="reset" label="Отмена" />
             <q-btn flat type="submit" label="Сохранить" />
@@ -47,14 +49,14 @@
       </q-card>
     </q-dialog>
   </template>
-    
+
   <script>
   import { defineComponent } from "vue";
   import { editProfile } from "boot/axios";
   import { fetchLoginedUserData } from 'boot/axios'
   import { fetchUserData } from 'boot/axios'
   import notify from "boot/notifyes";
-  
+
   export default defineComponent({
     name: "edit-button",
     data() {
@@ -117,4 +119,15 @@
     },
   });
   </script>
-    
+
+  <style>
+  .edit-btn{
+    color:#0375DF;
+    font-size: 16px;
+    font-weight: 500;
+    width: 450px;
+    margin-left: 8px;
+    border-radius: 10px;
+  }
+
+</style>

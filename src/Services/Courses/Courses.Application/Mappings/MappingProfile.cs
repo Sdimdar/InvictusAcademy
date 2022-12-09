@@ -18,5 +18,6 @@ public class MappingProfile : Profile
         CreateMap<CourseDbModel, CoursesByIdVm>();
         CreateMap<CoursePointsDbModel, CoursePointsVm>().ReverseMap();
         CreateMap<CoursePurchasedDbModel, StartedCourseInfoVm>();
+        CreateMap<CoursePointsDbModel, CoursePointsVm>().ReverseMap();
     }
 }
