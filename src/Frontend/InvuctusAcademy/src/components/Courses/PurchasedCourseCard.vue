@@ -23,7 +23,7 @@
 
       <div class="description-elem">
         <span class="gray-sub-title" style="margin-bottom:8px">Время прохождения</span>
-        <span class="description-elem-text">{{passingTime}} {{passingTime == 1 ? 'день' : 'дня'}}</span>
+        <span class="description-elem-text">{{passingTime}} {{daysString}}</span>
       </div>
 
       <div class="description-elem">
@@ -71,6 +71,27 @@ export default defineComponent({
     },
     progressLabel() {
       return `${this.moduleCompletedCount}\\${this.moduleCount} модулей`
+    },
+    daysString() {
+      if(this.passingTime > 9 && this.passingTime < 21) return "дней"
+      const remainder = this.passingTime % 10;
+      switch (remainder) {
+        case 0:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:  
+          return "дней"
+        case 1:
+          return "день"
+        case 2:
+        case 3:
+        case 4:
+          return "дня"
+        default:
+          return ""
+      }
     }
   },
   methods:{
