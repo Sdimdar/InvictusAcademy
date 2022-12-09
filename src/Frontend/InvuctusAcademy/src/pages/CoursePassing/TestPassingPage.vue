@@ -1,30 +1,32 @@
 <template>
   <q-page-container v-if="!isChecked">
-    <div v-for="(question, questionIndex) in testData">
+    <div class="question" v-for="(question, questionIndex) in testData">
       <div v-if="(question.questionType == 0)">
-        {{ (questionIndex + 1) }}. {{ question.testQuestion }} - единичный
-        <div v-for="answer in question.testAnswers">
-          <input type="radio" :id="answer.id" :value="answer.id" v-model="answers[questionIndex].choosedAnswers[0]">
-          <label> {{ answer.testAnswer }}</label>
+        <span class="question-title">{{ (questionIndex + 1) }}. {{ question.testQuestion }}</span>
+        <span class="question-subtitle"></span>
+        <div v-for="answer in question.testAnswers" class="answer">
+          <input type="radio" :id="answer.id" :value="answer.id" v-model="answers[questionIndex].choosedAnswers[0]" class="answer-input-single">
+          <label class="answer-label"> {{ answer.testAnswer }}</label>
           <br>
         </div>
       </div>
       <div v-if="(question.questionType == 1)">
-        {{ (questionIndex + 1) }}. {{ question.testQuestion }} - множественный
-        <div v-for="answer in question.testAnswers">
-          <input type="checkbox" :id="answer.id" :value="answer.id" v-model="answers[questionIndex].choosedAnswers">
-          <label>{{ answer.testAnswer }}</label>
+        <span class="question-title">{{ (questionIndex + 1) }}. {{ question.testQuestion }}</span>
+        <span class="question-subtitle">Возможно несколько вариантов ответа</span>
+        <div v-for="answer in question.testAnswers" class="answer">
+          <input type="checkbox" :id="answer.id" :value="answer.id" v-model="answers[questionIndex].choosedAnswers" class="answer-input-multiple">
+          <label class="answer-label">{{ answer.testAnswer }}</label>
           <br>
         </div>
       </div>
     </div>
-    <button @click="checkTestData()">Отправить</button>
+    <button class="submit-button" @click="checkTestData()">Отправить</button>
   </q-page-container>
-  <q-page-container v-else>
-    <h2 v-if="checkData.isSucsess">Тест успешно сдан</h2>
-    <h2 v-else>Тест провален</h2>
-    <p>Отвечено правильно на {{checkData.rightAnswersCount}} из необходимых {{checkData.needAnswersCount}}</p>
-    <button @click="goToArticlePage(this.$route.query.moduleId, this.$route.query.articleOrder)">Вернуться к статье</button>
+  <q-page-container v-else style="text-align:center;">
+    <h4 v-if="checkData.isSucsess">Тест успешно сдан</h4>
+    <h4 v-else>Тест провален</h4>
+    <p style="margin-bottom: 40px;">Отвечено правильно на {{checkData.rightAnswersCount}} из необходимых {{checkData.needAnswersCount}}</p>
+    <button class="back-button" @click="goToArticlePage(this.$route.query.moduleId, this.$route.query.articleOrder)">Вернуться к статье</button>
   </q-page-container>
 </template>
 
@@ -104,6 +106,76 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.question{
+  margin-bottom: 40px;
+}
 
+.question-title{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+  color: #3B3E4B;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.question-subtitle{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+  color: #878CA3;
+  display: block;
+  margin-bottom: 32px;
+}
+
+.answer{
+  margin-bottom: 5px;
+}
+
+.answer-input-single{
+  margin-right: 12px;
+}
+
+.answer-input-multiple{
+  margin-right: 12px;
+}
+
+.answer-label{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #4B4C7A;
+}
+
+.submit-button{
+  background: #CD3838;
+  box-shadow: 0px 4px 22px rgba(177, 20, 20, 0.12);
+  border: 0px;
+  border-radius: 10px;
+  padding: 16px 32px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #F9F9F9;
+}
+
+.submit-button:hover{
+  background: #ca2323;
+}
+
+.back-button{
+  background-color: white;
+  border: 1px solid #CD3838;
+  border-radius: 10px;
+  padding: 16px 32px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: black;
+}
+
+.back-button:hover{
+  box-shadow: 0px 4px 22px rgba(177, 20, 20, 0.12);
+}
 </style>
