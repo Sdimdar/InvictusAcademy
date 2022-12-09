@@ -52,7 +52,7 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
         if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate >= DateTime.Now) return Result.Error($"Course is not allowed now");
+        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
         if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
@@ -95,7 +95,7 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
                 };
                 foreach (var article in module.ArticlesProgresses)
                 {
-                    if (article.IsOpened)
+                    if (article.IsOpened && !article.IsSuccess)
                     {
                         Article? articleInfo = moduleInfo.Articles?.First(a => a.Order == article.Order);
                         if (articleInfo is null) break;
@@ -121,7 +121,8 @@ public class GetPurchasedCourseDataQueryHandler : IRequestHandler<GetPurchasedCo
             Modules = shortModules,
             CompletedModulesCount = completedModulesCount,
             NextLearingModule = nextLearningModule,
-            NextLearningArticle = nextLearningArticle
+            NextLearningArticle = nextLearningArticle,
+            PassingTime = courseData.PassingDayCount
         };
 
         return Result.Success(result);

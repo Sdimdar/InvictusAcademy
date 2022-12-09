@@ -9,4 +9,5 @@ public class PurchasedCourseInfoVm
     public ShortModuleInfoVm? NextLearingModule { get; set; }
     public ShortArticleInfoVm? NextLearningArticle { get; set; }
     public List<PurchasedModuleInfoVm> Modules { get; set; }
+    public int PassingTime { get; set; }
 }

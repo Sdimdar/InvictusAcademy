@@ -91,7 +91,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
                 Id = coursePurchasedDbModel.Id,
                 Score = 0.0f,
                 StartDate = DateTime.Now,
-                EndDate = DateTime.Now + TimeSpan.FromDays(_courseOptions.Value.CourseDayDuration),
+                EndDate = DateTime.Now + TimeSpan.FromDays(course.PassingDayCount),
                 ModuleProgresses = await CreateModulesProgressDataAsync(courseInfo, cancellationToken)
             };
             await _courseResultsInfoRepository.CreateAsync(entity, cancellationToken);

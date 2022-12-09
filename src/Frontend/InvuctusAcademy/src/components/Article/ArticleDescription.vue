@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; flex-direction: column;">
+  <div style="display: flex; flex-direction: column; max-width: 810px;">
     <iframe class="video" width="810" height="404" src="https://www.youtube.com/embed/KnkxyFnzdHY"
       title="YouTube video player" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

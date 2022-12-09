@@ -19,7 +19,7 @@ import { getShortModulesInfo } from "boot/axios";
 import ModuleCard from "components/Modules/ModuleCard.vue";
 
 export default ({
-  components: { ModuleCard },
+  components: { moduleCard },
   props: {
     logined: {
       Type: Boolean,

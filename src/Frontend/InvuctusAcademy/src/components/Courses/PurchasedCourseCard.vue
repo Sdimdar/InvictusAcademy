@@ -23,7 +23,7 @@
 
       <div class="description-elem">
         <span class="gray-sub-title" style="margin-bottom:8px">Время прохождения</span>
-        <span class="description-elem-text">Вечность</span>
+        <span class="description-elem-text">{{passingTime}} {{daysString}}</span>
       </div>
 
       <div class="description-elem">
@@ -40,11 +40,11 @@
         </q-linear-progress>
       </div>
 
-      <div>
+      <div v-if="nextLearningArticle != null">
         <p class="card-text">Вы остановились на:</p>
         <p class="card-text blue-text">
           Модуль "{{nextLearningModule.title}}" -
-          {{nextLearningArticle}} урок -
+          {{nextLearningArticle.order}} урок -
           "{{nextLearningArticle.title}}"
         </p>
         <div @click="goToArticlePage(nextLearningModule.id, nextLearningArticle.order)" class="button">Продолжить обучение</div>
@@ -62,7 +62,8 @@ export default defineComponent({
     nextLearningModule: Object,
     nextLearningArticle: Object,
     moduleCount: Number,
-    moduleCompletedCount: Number
+    moduleCompletedCount: Number,
+    passingTime: Number
   },
   computed:{
     progress() {
@@ -70,6 +71,27 @@ export default defineComponent({
     },
     progressLabel() {
       return `${this.moduleCompletedCount}\\${this.moduleCount} модулей`
+    },
+    daysString() {
+      if(this.passingTime > 9 && this.passingTime < 21) return "дней"
+      const remainder = this.passingTime % 10;
+      switch (remainder) {
+        case 0:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:  
+          return "дней"
+        case 1:
+          return "день"
+        case 2:
+        case 3:
+        case 4:
+          return "дня"
+        default:
+          return ""
+      }
     }
   },
   methods:{

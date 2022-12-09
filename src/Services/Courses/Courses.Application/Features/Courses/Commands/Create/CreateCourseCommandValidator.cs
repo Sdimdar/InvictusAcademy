@@ -22,5 +22,7 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
             .NotEmpty().WithMessage("Description is required")
             .NotNull()
             .MaximumLength(500).WithMessage("Video Link can't be longer then 500 symbols");
+        RuleFor(p => p.PassingDayCount)
+            .GreaterThan(0).WithMessage("Course can't be passing less then 1 day");
     }
 }
