@@ -22,7 +22,7 @@ public class FreeArticlesController : Controller
     
     [HttpPost]
     [SwaggerOperation(
-        Summary = "Получение всех бесплатных статей",
+        Summary = "Создание бесплатной статьи",
         Description = "Необходимо передать в теле запроса поля"
     )]
     public async Task<ActionResult<DefaultResponseObject<string>>> Create([FromBody]CreateFreeArticleCommand request)
