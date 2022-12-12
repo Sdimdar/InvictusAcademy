@@ -11,13 +11,12 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
     var services = builder.Services;
-    var environment = builder.Environment;
 
     // Add services to the container.
     services.AddControllers();
     services.AddEndpointsApiExplorer();
     services.AddSwaggerConfiguration();
-    services.ConfigureSessionServices(environment);
+    services.ConfigureSessionServices(builder.Environment);
     services.SetAutomapperProfiles();
     services.AddExceptionHandlers();
 
