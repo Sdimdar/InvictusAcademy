@@ -5,11 +5,9 @@ services:
     image: postgres
     container_name: sessionsdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
-    ports:
-      - "5430:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/sessionsData
 
@@ -17,11 +15,9 @@ services:
     image: postgres
     container_name: admindb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
-    ports:
-      - "5431:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/adminData
   
@@ -29,12 +25,10 @@ services:
     image: postgres
     container_name: userdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=UserDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: UserDb
     restart: always
-    ports:
-      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/userData
 
@@ -42,12 +36,10 @@ services:
     image: postgres
     container_name: requestdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=RequestDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: RequestDb
     restart: always
-    ports:
-      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/requestData
 
@@ -55,12 +47,10 @@ services:
     image: postgres
     container_name: coursesdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=CoursesDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: CoursesDb
     restart: always
-    ports:
-      - "5435:5432"
     volumes:
       - postgres_data:/var/lib/postgressql/coursesData
 
@@ -72,6 +62,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "5051:80"
+    volumes:
+      - postgres_data:/pgadmindata
 
   coursesinfodb:
     image: mongo:latest
@@ -81,8 +73,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    ports:
-      - ":27017"
     volumes:
       - mongo_data:/data/db
   
@@ -91,7 +81,7 @@ services:
     container_name: mongo-express-invuctus
     restart: unless-stopped
     ports:
-      - 8085:8081
+      - "8085:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
@@ -107,7 +97,7 @@ services:
       context: Frontend/InvuctusAcademy
       dockerfile: Dockerfile
       args:
-        - GATEWAY=${USER_GATEWAY}:8000
+        GATEWAY: ${USER_GATEWAY}:8000
     container_name: user-frontend
     depends_on:
       - gateway.api
@@ -120,7 +110,7 @@ services:
       context: Frontend/InvictusAdmin
       dockerfile: Dockerfile
       args:
-        - GATEWAY=${ADMIN_GATEWAY}:8001
+        GATEWAY: ${ADMIN_GATEWAY}:8001
     container_name: admin-frontend
     depends_on:
       - admingateway.api
@@ -178,8 +168,6 @@ services:
       - "ConnectionStrings:UserConnectionString=Server=userdb;Port=5432;Database=UserDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - userdb
-    ports: 
-      - "7001:80"
 
   request.api:
     image: ${DOCKER_REGISTRY-}requestapi
@@ -192,8 +180,6 @@ services:
       - "ConnectionStrings:RequestConnectionString=Server=requestdb;Port=5432;Database=RequestDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - requestdb
-    ports: 
-      - "7002:80"
 
   courses.api:
     image: ${DOCKER_REGISTRY-}coursesapi
@@ -209,8 +195,6 @@ services:
     depends_on:
       - coursesdb
       - coursesinfodb
-    ports: 
-      - "7003:80"
 
 volumes:
   postgres_data:
