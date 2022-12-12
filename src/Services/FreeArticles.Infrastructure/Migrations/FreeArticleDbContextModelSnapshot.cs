@@ -35,6 +35,10 @@ namespace FreeArticles.Infrastructure.Migrations
                         .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<string>("ImageLink")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsVisible")
                         .HasColumnType("boolean");
 

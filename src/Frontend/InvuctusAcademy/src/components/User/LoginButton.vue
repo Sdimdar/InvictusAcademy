@@ -1,22 +1,19 @@
 <template>
-  <q-item clickable v-ripple @click="loginDialog = true">
-    <q-item-section>
-      <q-item-label>Войти</q-item-label>
-    </q-item-section>
-  </q-item>
+  <div align="center" class="column" style="margin-top: 60px; margin-bottom: 50px;">
+    <div class="col">
+      <img src="img/logo.svg">
+    </div>
 
-  <q-dialog v-model="loginDialog">
-    <q-card style="min-width: 350px">
-      <q-card-section>
-        <div class="text-h6 text-center">Авторизация</div>
-      </q-card-section>
-      <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
-        <q-card-section>
-          <q-input label="E-mail" type="email" dense v-model="loginData.email" autofocus lazy-rules :rules="[
+    <div class="col" style="margin-top: 30px; margin-bottom: 20px;">
+      <p style="font-size: 32px; font-weight: 700; color: #000000; margin-top: 50px; margin-bottom: 50px;">
+        Авторизация
+      </p>
+      <q-form class="q-gutter-md" @submit="onSubmit">
+          <q-input class="login-input" label="Электронная почта" type="email" dense v-model="loginData.email" autofocus lazy-rules :rules="[
             (val) => (val && val.length > 0) || 'Поле не должно быть пустым',
             (val) => validateEmail(val) || 'Это не E-mail',
           ]" />
-          <q-input :type="isPwd ? 'password' : 'text'" label="Пароль" dense v-model="loginData.password" lazy-rules
+          <q-input class="login-input" :type="isPwd ? 'password' : 'text'" label="Введите пароль" dense v-model="loginData.password" lazy-rules
             :rules="[
               (val) =>
                 (val && val.length > 6 && val.length < 21) ||
@@ -29,16 +26,18 @@
               <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
             </template>
           </q-input>
-          <q-checkbox size="xs" v-model="loginData.rememberMe" label="Запомнить?" />
-        </q-card-section>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat type="reset" label="Отмена" />
-          <q-btn flat type="submit" label="Войти" />
-        </q-card-actions>
+          <q-btn class="login-btn" no-caps flat type="submit">
+            Войти
+          </q-btn>
       </q-form>
-    </q-card>
-  </q-dialog>
+  </div>
+  <div class="col">
+    <a :href="'/reqister'" style="font-size: 13px; font-weight: 400; color: #0375DF;">
+      У меня нет аккаунта
+    </a>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -98,3 +97,26 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.login-input{
+  width: 380px;
+  height: 56px;
+  background: #FCFCFF;
+  border: 1px solid #CCCEF2;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.login-btn{
+  width: 380px;
+  height: 51px;
+  background: #c23636;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #F9F9F9;
+}
+
+</style>

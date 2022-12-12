@@ -8,6 +8,7 @@
 
         <q-input dense v-model="article.title" label="Название статьи" />
         <q-input dense v-model="article.videoLink" label="Ссылка на видео" />
+        <q-input dense v-model="article.imageLink" label="Ссылка на картинку статьи" />
         <q-select
           label="Видимость"
           transition-show="scale"
@@ -124,6 +125,7 @@ export default defineComponent({
       article:{
         title:"",
         videoLink:"",
+        imageLink: "",
         id: 0,
         isVisible: 'false',
         text:"добавить текст"
@@ -143,6 +145,7 @@ export default defineComponent({
           this.article.title = response.data.value.title
           this.article.text = response.data.value.text
           this.article.videoLink = response.data.value.videoLink
+          this.article.imageLink = response.data.value.imageLink
           this.article.id = response.data.value.id
           this.article.isVisible = response.data.value.isVisible
           notify.showSucsessNotify("Бесплатная статья найдена");
@@ -171,6 +174,7 @@ export default defineComponent({
     },
     onReset() {
       this.article.title = "";
+      this.article.imageLink = "";
       this.article.text = "добавить текст";
       this.article.videoLink = "";
     }

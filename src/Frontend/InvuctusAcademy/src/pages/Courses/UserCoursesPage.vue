@@ -1,7 +1,5 @@
 <template>
   <q-page-container>
-    <h4 style="text-align: center">Ваши курсы</h4>
-
       <q-splitter v-model="splitterModel" style="height: 750px, margin-left: 100px">
         <template v-slot:before>
           <q-tabs v-model="tab" vertical class="text-teal">

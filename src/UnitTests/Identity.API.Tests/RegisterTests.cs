@@ -25,7 +25,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -52,7 +52,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -88,7 +88,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -123,7 +123,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = invalidNumber
         };
 
@@ -157,7 +157,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -190,7 +190,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = invalidMiddleName,
             LastName = "Famine",
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -224,7 +224,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = invalidLastName,
             InstagramLink = null,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 
@@ -257,7 +257,7 @@ public class RegisterTests : IClassFixture<CustomApplicationFactory<Program>>
             MiddleName = "Famine",
             LastName = "Famine",
             InstagramLink = invalidInstagramLink,
-            Citizenship = "Казахстан",
+            City = "Казахстан",
             PhoneNumber = "89233047662"
         };
 

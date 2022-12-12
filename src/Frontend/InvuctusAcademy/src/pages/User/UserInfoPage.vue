@@ -64,7 +64,7 @@
       </div>
 
       <div align="center" style="margin-bottom: 20px;">
-        <q-btn no-caps outline class="exit-btn">
+        <q-btn no-caps outline class="exit-btn" @click="unautorize">
           Выйти
         </q-btn>
       </div>
@@ -73,7 +73,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { fetchUserData, getCurrentCourses } from "boot/axios";
+import { fetchUserData, getCurrentCourses, fetchlogout } from "boot/axios";
 import { fetchLoginedUserData } from 'boot/axios'
 import EditProfileButton from 'components/User/EditProfileButton.vue'
 import EditPasswordButton from 'components/User/EditPasswordButton.vue'
@@ -96,7 +96,8 @@ export default defineComponent({
       lastName: "",
       instagramLink: "",
       citizenship: "",
-      currentCourses: []
+      currentCourses: [],
+      logined: true,
     };
   },
   methods: {
@@ -127,7 +128,13 @@ export default defineComponent({
       } catch (error) {
         console.log(error.message);
       }
-    }
+    },
+    unautorize: function () {
+      fetchlogout();
+      this.logined = false;
+      this.autorizeEmail = ""
+      window.location.reload();
+    },
   },
   mounted() {
     this.getUserData();
