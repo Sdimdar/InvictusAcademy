@@ -43,9 +43,7 @@ try
             await RoleInitializer.InitializeAsync(userManager, rolesManager);
         }
         catch (Exception e)
-        {
-            // var logger = options.GetRequiredService<ILogger<Program>>();
-            // logger.LogError(e, "An error occurred while seeding the database.");    
+        {   
             logger.Error(e, "An error occurred while seeding the database.");
         }
     }

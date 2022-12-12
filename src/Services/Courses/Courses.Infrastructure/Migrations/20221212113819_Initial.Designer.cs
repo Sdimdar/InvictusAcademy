@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Courses.Infrastructure.Migrations
 {
     [DbContext(typeof(CoursesDbContext))]
-    [Migration("20221209063806_AddCoursePassingTime")]
-    partial class AddCoursePassingTime
+    [Migration("20221212113819_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,8 +62,8 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValue("");
 
-                    b.Property<decimal>("PassingDayCount")
-                        .HasColumnType("numeric(10,0)");
+                    b.Property<int>("PassingDayCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecondDescription")
                         .IsRequired()

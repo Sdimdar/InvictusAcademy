@@ -27,13 +27,4 @@
     <ProjectReference Include="..\Courses.Domain\Courses.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20221202053839_Initial.cs" />
-    <Compile Remove="Migrations\20221202053839_Initial.Designer.cs" />
-  </ItemGroup>
-
 </Project>

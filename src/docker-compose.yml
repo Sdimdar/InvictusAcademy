@@ -73,17 +73,33 @@ services:
     ports:
       - "5051:80"
 
-  courses-infodb:
-    image: mongo
-    container_name: courses-infodb
+  coursesinfodb:
+    image: mongo:latest
+    command: mongod --auth
+    container_name: coursesinfodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
-      - "27018:27017"
+      - ":27017"
     volumes:
-      - mongo_data:/data/coursesInfoDb
+      - mongo_data:/data/db
+  
+  mongo-express-invuctus:
+    image: mongo-express:latest
+    container_name: mongo-express-invuctus
+    restart: unless-stopped
+    ports:
+      - 8085:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: coursesinfodb
+    depends_on:
+      - coursesinfodb
 
   user-frontend:
     image: ${DOCKER_REGISTRY-}userfrontend
@@ -188,11 +204,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - "ConnectionStrings:CoursesConnectionString=Server=coursesdb;Port=5432;Database=CoursesDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
-      - "InvictusAcademyDatabase:ConnectionString=mongodb://courses-infodb"
+      - "InvictusAcademyDatabase:ConnectionString=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@coursesinfodb"
       - "DatabaseName=InvictusAcademy"
     depends_on:
       - coursesdb
-      - courses-infodb
+      - coursesinfodb
     ports: 
       - "7003:80"
 

@@ -23,6 +23,7 @@ namespace Courses.Infrastructure.Migrations
                     VideoLink = table.Column<string>(type: "VARCHAR(100)", nullable: true),
                     Cost = table.Column<decimal>(type: "numeric(15,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "BOOLEAN", nullable: false, defaultValue: false),
+                    PassingDayCount = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()"),
                     LastModifiedDate = table.Column<DateTime>(type: "TIMESTAMP", nullable: false, defaultValueSql: "NOW()")
                 },
