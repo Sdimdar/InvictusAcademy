@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="showCourses.length != 0">
       Идеально подойдут вам
       <div class="row">
         <div>
@@ -29,16 +29,16 @@
         </div>
       </div>
     </div>
-    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="wishedCourses.length != 0">
       Избранное
       <div class="row">
         <course-card class="list-card" v-for="course in wishedCourses" :data="course" @wished="getCoursesData" />
       </div>
     </div>
-    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;">
+    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="allFreeAticles.length != 0">
       Читайте также
       <div class="row">
-
+        <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
       </div>
     </div>
   </q-page-container>
@@ -52,16 +52,18 @@ import {
   getCompletedCourses,
   getWishedCourses,
   getNewCourses,
+  fetchAllFreeArticles
 } from "boot/axios";
-
 import RequestButton from 'components/RequestButton.vue'
 import CourseCard from "components/Courses/CourseCard.vue";
+import FreeArticleCard from "src/components/FreeArticle/FreeArticleCard.vue";
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
     RequestButton,
     CourseCard,
+    FreeArticleCard
   },
   props: {
     logined: {
@@ -77,11 +79,13 @@ export default defineComponent({
       newCourses: [],
       showCourses: [],
       current: 4,
-      currentLenght: false
+      currentLenght: false,
+      allFreeAticles: [{}]
     };
   },
   mounted() {
     this.getCoursesData();
+    this.getFreeArticles();
   },
   methods: {
     async getCoursesData() {
@@ -139,6 +143,20 @@ export default defineComponent({
         this.currentLenght = false
       }
       console.log(this.current)
+    },
+    async getFreeArticles() {
+      try {
+        const response = await fetchAllFreeArticles(1, 5);
+        if (response.data.isSuccess) {
+          this.allFreeAticles = response.data.value.freeArticles;
+        } else {
+          response.data.errors.forEach(element => {
+            console.log(element);
+          });
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
     }
   },
 })

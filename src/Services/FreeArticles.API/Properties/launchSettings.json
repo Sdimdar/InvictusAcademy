@@ -1,13 +1,5 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:1899",
-      "sslPort": 44309
-    }
-  },
   "profiles": {
     "FreeArticles.API": {
       "commandName": "Project",
@@ -19,10 +11,12 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
+    "FreeArticles.API.NoSwagger": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7214;http://localhost:6214",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
