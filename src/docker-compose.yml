@@ -9,7 +9,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgressql/sessionsData
+      - session_data:/var/lib/postgresql/data
+      - session_data:/var/lib/postgressql/userData
 
   admindb:
     image: postgres
@@ -19,7 +20,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgressql/adminData
+      - admindb_data:/var/lib/postgressql/adminData
+      - admindb_data:/var/lib/postgresql/data
   
   userdb:
     image: postgres
@@ -30,7 +32,8 @@ services:
       POSTGRES_DB: UserDb
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgressql/userData
+      - userdb_data:/var/lib/postgressql/userData
+      - userdb_data:/var/lib/postgresql/data
 
   requestdb:
     image: postgres
@@ -41,7 +44,8 @@ services:
       POSTGRES_DB: RequestDb
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgressql/requestData
+      - requestdb_data:/var/lib/postgressql/requestData
+      - requestdb_data:/var/lib/postgresql/data
 
   coursesdb:
     image: postgres
@@ -52,7 +56,8 @@ services:
       POSTGRES_DB: CoursesDb
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgressql/coursesData
+      - coursesdb_data:/var/lib/postgressql/coursesData
+      - coursesdb_data:/var/lib/postgresql/data
 
   invictus.pgadmin:
     container_name: invictus.pgadmin
@@ -63,7 +68,7 @@ services:
     ports:
       - "5051:80"
     volumes:
-      - postgres_data:/pgadmindata
+      - pgadmin_data:/var/lib/pgadmin
 
   coursesinfodb:
     image: mongo:latest
@@ -75,6 +80,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     volumes:
       - mongo_data:/data/db
+      - mongo_data:/data/configdb
   
   mongo-express-invuctus:
     image: mongo-express:latest
@@ -197,5 +203,10 @@ services:
       - coursesinfodb
 
 volumes:
-  postgres_data:
-  mongo_data:    
+  mongo_data:
+  session_data:
+  pgadmin_data:
+  admindb_data:
+  coursesdb_data:
+  requestdb_data:
+  userdb_data:    
