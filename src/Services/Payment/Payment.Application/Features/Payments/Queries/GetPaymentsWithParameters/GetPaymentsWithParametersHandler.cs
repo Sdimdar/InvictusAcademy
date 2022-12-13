@@ -1,7 +1,9 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Payment.Domain.Models;
 using Payment.Domain.Services;
 using ServicesContracts.Payments.Queries;
@@ -12,6 +14,7 @@ public class GetPaymentsWithParametersHandler : IRequestHandler<GetPaymentsWithP
 {
     private readonly PaymentService _paymentService;
     private readonly IValidator<GetPaymentsWithParametersQuery> _validator;
+    private readonly ILogger<GetPaymentsWithParametersHandler> _logger;
 
     public GetPaymentsWithParametersHandler(PaymentService paymentService, IValidator<GetPaymentsWithParametersQuery> validator)
     {
@@ -34,11 +37,13 @@ public class GetPaymentsWithParametersHandler : IRequestHandler<GetPaymentsWithP
         }
         catch (InvalidOperationException ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogWarning($"{BussinesErrors.InvalidCastException.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.InvalidCastException.ToString()}: {ex.Message}");
         }
         catch (NullReferenceException ex)
         {
-            return Result.Error("Payment with this Id not found");
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Payment with this Id not found");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Payment with this Id not found");;
         }
     }
 }
