@@ -14,4 +14,8 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CommonStructures\CommonStructures.csproj" />
+  </ItemGroup>
+
 </Project>
