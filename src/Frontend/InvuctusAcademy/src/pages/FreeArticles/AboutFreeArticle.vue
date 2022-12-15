@@ -8,7 +8,7 @@
         >
       </q-card-section>
 
-      <iframe class="article-video" width="560" height="315" :src="`${this.article.videoLink}`" title="YouTube video player"
+      <iframe v-if="this.article.videoLink.length > 1" class="article-video" width="560" height="315" :src="`${this.article.videoLink}`" title="YouTube video player"
               frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen></iframe>
 
