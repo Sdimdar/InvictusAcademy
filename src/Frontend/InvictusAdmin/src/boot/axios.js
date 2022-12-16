@@ -14,7 +14,7 @@ const api = axios.create({
 });
 
 const fileApi = axios.create({
-  baseURL: "https://localhost:7215",
+  baseURL: process.env.CLOUD_STORAGE_URL,
   timeout: 30000,
 })
 

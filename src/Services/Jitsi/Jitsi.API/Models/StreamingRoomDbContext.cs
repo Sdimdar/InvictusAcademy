@@ -9,6 +9,6 @@ public class StreamingRoomDbContext : DbContext
 
     public StreamingRoomDbContext(DbContextOptions<StreamingRoomDbContext> options) : base(options)
     {
-        
+        Database.Migrate();
     }
 }
