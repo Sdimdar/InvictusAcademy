@@ -1,4 +1,5 @@
 ﻿using Ardalis.Result;
+using AutoMapper;
 using MediatR;
 using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
@@ -9,9 +10,11 @@ namespace User.Application.Features.Users.Queries.GetUsersData;
 public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<UsersVm>>
 {
     private readonly IUserRepository _userRepository;
-    public GetAllUsersHandler(IUserRepository userRepository)
+    private readonly IMapper _mapper;
+    public GetAllUsersHandler(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public async Task<Result<UsersVm>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
@@ -22,11 +25,12 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Use
             return Result.Error("Request list is empty");
         }
 
+        var users = _mapper.Map<List<UserVm>>(result);
         var response = new UsersVm()
         {
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,
-            Users = result
+            Users = users
         };
         return Result.Success(response);
     }

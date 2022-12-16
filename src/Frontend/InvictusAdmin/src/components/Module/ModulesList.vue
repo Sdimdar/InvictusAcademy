@@ -81,7 +81,7 @@ export default {
       sortBy: 'desc',
       descending: false,
       pageNumber: 1,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
       rowsNumber: 10
     })
 
@@ -162,9 +162,8 @@ export default {
       this.$router.push(route);
     },
     async update(){
-      //await onRequest({pagination:this.pagination})
-      //window.location.reload()
+      await this.tableRef.requestServerInteraction()
     }
-  }
+  },
 }
 </script>

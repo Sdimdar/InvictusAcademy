@@ -65,7 +65,7 @@
           {{ item.errorMessage }}</div>
 
         <q-btn class="register-btn" no-caps flat @click="onSubmit()">
-          Зарегестрироваться
+          Зарегистрироваться
         </q-btn>
       </q-form>
       <div class="col" style="margin-top: 10px;">
