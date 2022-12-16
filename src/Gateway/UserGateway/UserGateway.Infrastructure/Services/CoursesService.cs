@@ -1,11 +1,13 @@
-﻿using DataTransferLib.Models;
-using ServicesContracts.Courses.Responses;
+﻿using Courses.Domain.Entities;
+using DataTransferLib.Models;
 using ExtendedHttpClient;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Requests.Modules.Queries;
-using UserGateway.Application.Contracts;
-using ServicesContracts.Courses.Requests.Tests.Queries;
 using ServicesContracts.Courses.Requests.Tests.Commands;
+using ServicesContracts.Courses.Requests.Tests.Queries;
+using ServicesContracts.Courses.Responses;
+using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
 
@@ -17,10 +19,10 @@ public class CoursesService : ICoursesService
     {
         ExtendedHttpClient = extendedHttpClient;
     }
-    
+
     public async Task<DefaultResponseObject<CoursesVm>?> GetCoursesAsync(GetCoursesQuery query, CancellationToken cancellationToken)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, "/Courses/GetCourses", cancellationToken);
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<GetCoursesQuery, DefaultResponseObject<CoursesVm>>(query, $"/Courses/GetCourses?UserId={query.UserId}&Type={query.Type}", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<List<ShortModuleInfoVm>>> GetShortModulesInfoByCourseId(GetShortCourseInfoQuery query, CancellationToken cancellationToken)
@@ -34,11 +36,23 @@ public class CoursesService : ICoursesService
             .GetAndReturnResponseAsync<DefaultResponseObject<List<ModuleInfoVm>>>($"/Modules/GetFullByCourseId?CourseId={query.CourseId}&UserId={query.UserId}", cancellationToken);
     }
 
-    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query, 
+    public async Task<DefaultResponseObject<CourseByIdVm>> GetCourseById(GetCourseByIdQuery query,
         CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<CourseByIdVm>>
-            ( $"/Course/GetCourse?id={query.Id}");
+            ($"/Course/GetCourse?id={query.Id}");
+    }
+
+    public async Task<DefaultResponseObject<bool>> AddToWishedCourse(AddToWishedCourseCommand query, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddToWishedCourseCommand, DefaultResponseObject<bool>>
+            (query, "/Course/Wished", cancellationToken);
+    }
+
+    public async Task<DefaultResponseObject<bool>> RemoveFromWishedCourse(RemoveFromWishedCommand request, CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<RemoveFromWishedCommand, DefaultResponseObject<bool>>
+            (request, "/Course/RemoveWished", cancellationToken);
     }
 
     public async Task<DefaultResponseObject<PurchasedCourseInfoVm>> GetPurchasedCourseInfo(GetPurchasedCourseDataQuery query,
@@ -67,4 +81,4 @@ public class CoursesService : ICoursesService
         return await ExtendedHttpClient.PostAndReturnResponseAsync<CheckTestAnswersCommand, DefaultResponseObject<TestResultVm>>
             (request, "/Tests/CheckTestAnswers", cancellationToken);
     }
-} 
+}

@@ -28,7 +28,7 @@ public class GetById : EndpointBaseAsync
         Description = "Необходимо передать в сроке запроса Id платежа",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<PaymentVm>>> HandleAsync([FromQuery] GetPaymentQuery request, 
+    public override async Task<ActionResult<DefaultResponseObject<PaymentVm>>> HandleAsync([FromQuery] GetPaymentQuery request,
                                                                                            CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

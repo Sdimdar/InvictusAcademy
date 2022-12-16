@@ -16,7 +16,7 @@ public class GetCourseModulesIdQuerryHandler : IRequestHandler<GetCourseModulesI
     private readonly ILogger<GetCourseModulesIdQuerryHandler> _logger;
 
     public GetCourseModulesIdQuerryHandler(ICourseInfoRepository courseInfoRepository,
-                                          IValidator<GetCourseModulesIdQuerry> validator, 
+                                          IValidator<GetCourseModulesIdQuerry> validator,
                                           ILogger<GetCourseModulesIdQuerryHandler> logger)
     {
         _courseInfoRepository = courseInfoRepository;

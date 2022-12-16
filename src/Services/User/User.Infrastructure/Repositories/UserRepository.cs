@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using User.Application.Contracts;
 using User.Domain.Entities;
 using User.Infrastructure.Persistance;
-using ServicesContracts.Identity.Requests.Queries;
 
 namespace User.Infrastructure.Repositories;
 
@@ -30,7 +29,7 @@ public class UserRepository : BaseRepository<UserDbModel, IdentityDbContext>, IU
         foreach (var item in usersId)
         {
             var query = await Context.Users.FirstOrDefaultAsync(c => c.Id == item);
-            if(query is not null)
+            if (query is not null)
                 list.Add(query);
         }
 

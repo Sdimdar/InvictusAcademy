@@ -1,7 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using ServicesContracts.Courses.Responses;
-using ServicesContracts.Identity.Responses;
 
 namespace ServicesContracts.Courses.Requests.Courses.Querries;
 

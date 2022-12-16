@@ -12,7 +12,7 @@ namespace Payment.Infrastructure.Repositories;
 public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDbContext>, IPaymentRepository
 {
     private readonly IMapper _mapper;
-    
+
     public PaymentRepository(PaymentDbContext dbContext, IMapper mapper) : base(dbContext)
     {
         _mapper = mapper;
@@ -54,21 +54,33 @@ public class PaymentRepository : BaseRepository<PaymentRequestDbModel, PaymentDb
         }
     }
 
-    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int? userId, 
-                                                                    int? courseId, 
-                                                                    PaymentState? paymentState)
+    public async Task<List<PaymentRequest>> GetPaymentRequestsAsync(int pageSize, int page, PaymentState paymentState)
     {
-        var query = Context.PaymentRequests.AsQueryable();
-        if (userId is not null) query = query.Where(e => e.UserId == userId);
-        if (courseId is not null) query = query.Where(e => e.CourseId == courseId);
-        if (paymentState is not null) query = query.Where(e => e.PaymentState == paymentState);
-        var data = await query.ToListAsync();
-        return _mapper.Map<List<PaymentRequest>>(data);
+        var response = await Context.PaymentRequests.Where(c=>c.PaymentState == paymentState)
+            .OrderByDescending(e=>e.LastModifiedDate)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return _mapper.Map<List<PaymentRequest>>(response);
     }
 
     public async Task<PaymentRequest?> GetPaymentRequestByIdAsync(int id)
     {
         var data = await GetByIdAsync(id);
         return _mapper.Map<PaymentRequest>(data);
+    }
+
+    public async Task<int> GetPaymentsCount(PaymentState paymentState)
+    {
+        var query = await Context.PaymentRequests.Where(e => e.PaymentState == paymentState).ToListAsync();
+        return query.Count();
+    }
+
+    public async Task<bool> CheckPaymentConfirm(int paymentId)
+    {
+        var query =  Context.PaymentRequests.FirstOrDefaultAsync(p =>
+            p.Id == paymentId && p.PaymentState == PaymentState.Confirmed);
+        if (await query is null) return false;
+        return true;
     }
 }

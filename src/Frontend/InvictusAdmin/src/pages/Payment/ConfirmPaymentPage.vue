@@ -16,7 +16,7 @@
       <template v-slot:body="props" >
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              {{ props.row.id }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/${props.row.id}/email`)">{{props.row.id}}</teamplate>
             </q-td>
             <q-td key="userEmail" :props="props">
               {{ props.row.userEmail }}
@@ -27,15 +27,24 @@
             <q-td key="courseName" :props="props">
               {{ props.row.courseName }}
             </q-td>
+            <q-td key="startDate" :props="props">
+              <template v-if="(props.row.startDate === null)">Не начат</template>
+              <template v-else>{{ props.row.startDate }}</template>
+            </q-td>
+            <q-td key="endDate" :props="props">
+              <template v-if="(props.row.endDate === null)">Не закончен</template>
+              <template v-else>{{ props.row.endDate }}</template>
+            </q-td>
             <q-td key="modifyAdminEmail" :props="props">
-              {{ props.row.modifyAdminEmail }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/0/${props.row.modifyAdminEmail}`)">{{ props.row.modifyAdminEmail }}</teamplate>
+              
             </q-td>
             <q-td key="rejectReason" :props="props">
                 <q-input v-model="props.row.rejectReason" type="text" />
               </q-td>
               <q-td key="reject" :props="props" >
                 <q-btn
-                @click="reject(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
+                @click="cancel(props.row.id, props.row.rejectReason,rows.indexOf(props.row))"
                 color="red"
                 >Отменить оплату</q-btn>
               </q-td>
@@ -46,7 +55,7 @@
   </template>
   
   <script>
-  import {getPaymentsByParams,confirmPaymentById,rejectPayment} from 'boot/axios';
+  import {getPaymentsByParams,confirmPaymentById,cancelPayment} from 'boot/axios';
   import { ref, onMounted } from 'vue';
   import notify from "boot/notifyes";
   
@@ -55,6 +64,8 @@
       {name:"userEmail", align:'center', label:"Email пользователя", field:'userEmail', sortable:false},
       {name:"courseId", align:'center', label:"Номер курса", field:"courseId", sortable:false},
       {name:"courseName", align:'center', label:"Название курса", field:"courseName", sortable:false},
+      {name:"startDate", align:'center', label:"Начало курса", field:"startDate", sortable:false},
+      {name:"endDate", align:'center', label:"Конец курса", field:"endDate", sortable:false},
       {name:'modifyAdminEmail', align: 'center', label: 'Кто подтвердил', field: 'modifyAdminEmail', sortable: false},
       {name: 'rejectReason', align: 'center', label: 'Причина отмены', field: 'rejectReason', sortable: false},
       {name:'reject', align: 'center', label: 'Отмена оплаты', field: 'reject', sortable: false},
@@ -79,7 +90,7 @@
         descending: false,
         page: 1,
         rowsPerPage: 10,
-        rowsNumber: rows.length
+        rowsNumber: 10
       })
   
   async function onRequest (props) {
@@ -88,27 +99,27 @@
         let response;
         loading.value = true
         // update rowsCount with appropriate value
-        // try {
-        //   response = await fetchRequestsCount();
-        //   console.log("Response:")
-        //   console.log(response)
-        //   if (response.data.isSuccess) {
-        //     pagination.value.rowsNumber = response.data.value;
-        //   }
-        //   else {
-        //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        //     return;
-        //   }
-        // } catch (error) {
-        //   console.log(error.message);
-        // }
-  
-        // fetch data from "server"
         try {
-          
+          response = await getPaymentsCount(payload);
+          if (response.data.isSuccess) {
+            pagination.value.rowsNumber = response.data.value;
+          }
+          else {
+            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+            return;
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+
+      // fetch data from "server"
+      try {
+          payload.pageNumber = page,
+          payload.pageSize = rowsPerPage
           response = await getPaymentsByParams(payload);
           if (response.data.isSuccess) {
-          rows.value.splice(0, rows.value.length, ...response.data.value);
+          rows.value.splice(0, rows.value.length, ...response.data.value.payments);
+          console.log(response.data.value.payments)
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -141,24 +152,6 @@
         onRequest      
       }
   },methods: {
-          async confirmPayment(id,index){
-            try{
-              let payload = {paymentId:id}
-              let response = await confirmPaymentById(payload);
-            if(response.data.isSuccess){
-              notify.showSucsessNotify(`Оплата для заявки ${id} подтверждена`)
-              delete this.rows[index]
-            
-            }
-            else {
-            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-            return;
-          }
-            }
-            catch(error){
-              console.log(error.message);
-            }
-          },
           async refreshTable(){
             try {
           let response = await getPaymentsByParams(this.query);
@@ -176,7 +169,7 @@
         console.log(error.message);
       }
           },
-          async reject(id,rejectMessage,index){
+          async cancel(id,rejectMessage,index){
               if(rejectMessage === null || rejectMessage.length < 5){
                   return notify.showWarningNotify("Заполните причину возврата, не менее 5 символов")
               }
@@ -185,9 +178,9 @@
                 rejectReason:rejectMessage
               }
               try{
-                let response = await rejectPayment(payload);
+                let response = await cancelPayment(payload);
                 if(response.data.isSuccess){
-                notify.showWarningNotify(`Заявка № ${id} отменена`)
+                notify.showWarningNotify(`Оплата по заявке № ${id} отменена`)
                 delete this.rows[index]
               }else {
             response.data.errors.forEach(element => { notify.showErrorNotify(element); });

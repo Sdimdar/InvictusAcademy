@@ -16,7 +16,7 @@ public class GetCourseByIdHandler : IRequestHandler<GetCourseByIdQuery, Result<C
         _coursesService = coursesService;
         _userService = userService;
     }
-    
+
     public async Task<Result<CourseByIdVm>> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
     {
         var response = await _coursesService.GetCourseById(request, cancellationToken);

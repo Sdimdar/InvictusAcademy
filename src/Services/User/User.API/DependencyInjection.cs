@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using DataTransferLib.Mappings;
-using User.Application.Mappings;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
+using User.Application.Mappings;
 
 namespace User.API;
 public static class DependencyInjection
@@ -26,7 +26,7 @@ public static class DependencyInjection
         });
         return services;
     }
-    
+
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();

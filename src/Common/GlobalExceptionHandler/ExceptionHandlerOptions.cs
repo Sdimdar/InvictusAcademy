@@ -10,7 +10,7 @@ public sealed class ExceptionHandlerOptions
     {
         Handlers = new Dictionary<Type, Type>();
     }
-    
+
     internal void Add(Type exceptionType, Type handlerType)
     {
         if (Handlers.TryAdd(exceptionType, handlerType)) return;

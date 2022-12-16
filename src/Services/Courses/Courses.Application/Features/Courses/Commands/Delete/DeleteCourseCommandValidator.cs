@@ -5,9 +5,9 @@ namespace Courses.Application.Features.Courses.Commands.Delete;
 
 public class DeleteCourseCommandValidator : AbstractValidator<DeleteCourseCommand>
 {
-	public DeleteCourseCommandValidator()
-	{
-		RuleFor(e => e.Id)
-			.GreaterThan(-1).WithMessage("Course ID can't be less then 0");
-	}
+    public DeleteCourseCommandValidator()
+    {
+        RuleFor(e => e.Id)
+            .GreaterThan(-1).WithMessage("Course ID can't be less then 0");
+    }
 }

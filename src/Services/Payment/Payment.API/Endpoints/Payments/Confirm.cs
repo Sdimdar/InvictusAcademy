@@ -20,14 +20,14 @@ public class Confirm : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpPost("/Payments/Confirm")]
     [SwaggerOperation(
         Summary = "Подтверждение платежа",
         Description = "Необходимо передать в теле запроса Id платежа и Email админа подтвердившего платёж",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] ConfirmPaymentCommand request, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] ConfirmPaymentCommand request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

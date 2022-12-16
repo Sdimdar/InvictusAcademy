@@ -1,14 +1,13 @@
 ﻿using Ardalis.Result;
 using AutoMapper;
 using MediatR;
-using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Identity.Requests.Queries;
 using ServicesContracts.Identity.Responses;
 using User.Application.Contracts;
 
 namespace User.Application.Features.Users.Queries.GetUsersListById;
 
-public class GetUsersListByIdHandler:IRequestHandler<GetUsersEmailsByListIdQuery, Result<List<UsersEmailsByListIdVm>>>
+public class GetUsersListByIdHandler : IRequestHandler<GetUsersEmailsByListIdQuery, Result<List<UsersEmailsByListIdVm>>>
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
@@ -20,7 +19,7 @@ public class GetUsersListByIdHandler:IRequestHandler<GetUsersEmailsByListIdQuery
 
     public async Task<Result<List<UsersEmailsByListIdVm>>> Handle(GetUsersEmailsByListIdQuery request, CancellationToken cancellationToken)
     {
-        if(!request.ListId.Any()) return Result.Error("Request list is empty");
+        if (!request.ListId.Any()) return Result.Error("Request list is empty");
         try
         {
             List<UsersEmailsByListIdVm> list = new();

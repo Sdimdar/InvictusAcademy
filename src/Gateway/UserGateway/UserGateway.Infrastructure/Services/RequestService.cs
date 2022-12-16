@@ -1,6 +1,5 @@
 ﻿using DataTransferLib.Models;
 using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using ServicesContracts.Request.Requests.Commands;
 using UserGateway.Application.Contracts;
 
@@ -21,5 +20,5 @@ public class RequestService : IRequestService
                 "/Request/Create", cancellationToken);
     }
 
-    
+
 }

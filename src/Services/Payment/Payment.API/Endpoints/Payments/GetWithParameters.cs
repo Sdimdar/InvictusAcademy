@@ -1,17 +1,19 @@
 ﻿using Ardalis.ApiEndpoints;
+using Ardalis.Result;
 using AutoMapper;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Payments.Models;
 using ServicesContracts.Payments.Queries;
+using ServicesContracts.Payments.Response;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Payment.API.Endpoints.Payments;
 
 public class GetWithParameters : EndpointBaseAsync
     .WithRequest<GetPaymentsWithParametersQuery>
-    .WithActionResult<DefaultResponseObject<PaymentsVm>>
+    .WithActionResult<DefaultResponseObject<PaymentsPaginationVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,10 +31,9 @@ public class GetWithParameters : EndpointBaseAsync
                       "а также можно передать тип запроса на оплату",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<PaymentsVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, 
-                                                                                           CancellationToken cancellationToken)
+    public override async Task<ActionResult<DefaultResponseObject<PaymentsPaginationVm>>> HandleAsync([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<PaymentsVm>>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<PaymentsPaginationVm>>(result));
     }
 }

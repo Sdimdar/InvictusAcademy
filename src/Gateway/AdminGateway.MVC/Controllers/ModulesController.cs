@@ -1,6 +1,8 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using DataTransferLib.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
@@ -8,8 +10,9 @@ using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
+[Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Instructor}")]
 [Route("AdminPanel/[controller]/[action]")]
-public class ModulesController: Controller
+public class ModulesController : Controller
 {
     private readonly IModulesService _modulesService;
 
@@ -17,24 +20,23 @@ public class ModulesController: Controller
     {
         _modulesService = modulesService;
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Добавление статей в модуль",
         Description = "Необходимо передать в теле запроса объект с ID модуля и список объектов статей"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticles([FromBody]AddArticlesCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticles([FromBody] AddArticlesCommand request)
     {
         var response = await _modulesService.AddArticle(request);
         return Ok(response);
     }
-    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Добавление теста в статью",
         Description = "Необходимо передать в теле запроса объект с ID модуля, порядковый номер статьи и тест"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody]AddTestCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody] AddTestCommand request)
     {
         var response = await _modulesService.AddTest(request);
         return Ok(response);
@@ -45,35 +47,36 @@ public class ModulesController: Controller
         Summary = "Создание модуля",
         Description = "Для создания модуля нужно передать его название и описание, также можно сразу передать вместе с статьями"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create([FromBody]CreateModuleCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create([FromBody] CreateModuleCommand request)
     {
         var response = await _modulesService.Create(request);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Удаление модуля по его ID",
         Description = "Необходимо передать в теле метода объект содержащий ID метода на удаление, " +
                       "если этот метод используется в каком либо курсе вернёт ошибку"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody]DeleteModuleCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody] DeleteModuleCommand request)
     {
         var response = await _modulesService.Delete(request);
         return Ok(response);
     }
+
     
     [HttpPost]
     [SwaggerOperation(
         Summary = "Изменение данных о модуле",
         Description = "В теле запроса передаются новые данные для модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody]UpdateModuleCommand request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody] UpdateModuleCommand request)
     {
         var response = await _modulesService.Update(request);
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о всех модулях",
@@ -84,7 +87,7 @@ public class ModulesController: Controller
         var response = await _modulesService.GetAll();
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает количество модулей, для пагинации")
@@ -94,7 +97,7 @@ public class ModulesController: Controller
         var response = await _modulesService.GetModulesCount();
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о модулях которые подходят под строку фильтрации",
@@ -105,24 +108,24 @@ public class ModulesController: Controller
         var response = await _modulesService.GetFilterByString(request);
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery]ModuleByIdVm request)
+    public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery] ModuleByIdVm request)
     {
         var response = await _modulesService.GetById(request);
         return Ok(response);
     }
-    
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Получение данных о модуле по его ID",
         Description = "Необходимо передать в строке запроса Id модуля"
     )]
-    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId([FromQuery]GetModulesByListOfIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId([FromQuery] GetModulesByListOfIdQuery request)
     {
         var response = await _modulesService.GetByListOfId(request);
         return Ok(response);

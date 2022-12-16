@@ -1,8 +1,4 @@
-﻿using Ardalis.Result;
-using MediatR;
-using ServicesContracts.Identity.Responses;
-
-namespace ServicesContracts.FreeArticles.Models;
+﻿namespace ServicesContracts.FreeArticles.Models;
 
 public class AllFreeArticlesVm
 {

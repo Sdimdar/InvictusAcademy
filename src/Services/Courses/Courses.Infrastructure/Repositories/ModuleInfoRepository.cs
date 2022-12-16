@@ -1,4 +1,5 @@
-﻿using CommonRepository;
+﻿using Ardalis.Result;
+using CommonRepository;
 using CommonRepository.Models;
 using CommonStructures;
 using Courses.Application.Contracts;
@@ -6,7 +7,6 @@ using Courses.Domain.Entities.CourseInfo;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Text.Json;
-using Ardalis.Result;
 
 namespace Courses.Infrastructure.Repositories;
 

@@ -20,7 +20,7 @@ public class UpdateModuleCommandHanler : IRequestHandler<UpdateModuleCommand, Re
 
     public UpdateModuleCommandHanler(IModuleInfoRepository repository,
                                       IValidator<UpdateModuleCommand> validator,
-                                      IMapper mapper, 
+                                      IMapper mapper,
                                       ILogger<UpdateModuleCommandHanler> logger)
     {
         _repository = repository;

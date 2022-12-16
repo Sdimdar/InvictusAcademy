@@ -37,6 +37,6 @@ public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, R
             return Result.Error($"{BussinesErrors.NotFound.ToString()}: Course with Id: {request.Id} not found");
         }
         await _courseRepository.DeleteAsync(entity);
-        return Result.Success(); 
+        return Result.Success();
     }
 }

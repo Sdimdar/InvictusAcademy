@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Responses;
 using UserGateway.Application.Features.User.Querries.GetUserData;
 

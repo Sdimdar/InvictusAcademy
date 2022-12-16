@@ -44,10 +44,5 @@ public class PaymentService : IPaymentService
             ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
     }
 
-    public async Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
-                                                                                              CancellationToken cancellationToken)
-    {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>
-            ($"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}", cancellationToken);
-    }
+   
 }

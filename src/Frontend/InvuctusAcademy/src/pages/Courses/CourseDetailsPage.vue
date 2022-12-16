@@ -1,5 +1,5 @@
 <template>
-  <q-page-container class="column" style="height: 2000px; padding-bottom: 0px;">
+  <q-page-container class="column" style="padding-bottom: 30px;">
 
       <div class="col-3">
         <div class="row" style="margin-left: 20px;">
@@ -46,7 +46,7 @@
               </div>
             </div>
             <div>
-              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" />
+              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" @click="addPayment"/>
             </div>
           </div>
 
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="col-1" style="margin-left: 20px;">
+      <div class="col-1" style="margin-left: 20px; margin-top: 50px;">
         <div class="row">
               <div class="col-3">
                 <div class="column">
@@ -91,7 +91,7 @@
               <div class="col-3">
                 <div class="column">
                   <div class="col" style="font-size: 22px; font-weight: 600;">
-                    Востребованный сертификат
+                    Востребованный <br /> сертификат
                   </div>
                   <div class="col" style="font-size: 16px; font-weight: 300;">
                     <p > По окончанию курса <br /> вы получите сертификат </p>
@@ -111,7 +111,7 @@
               {{ course.secondDescription }}
             </div>
             <div >
-              <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение"
+              <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение" @click="addPayment"
               style="margin: 20px 10px 10px 10px;" />
             </div>
             </div>
@@ -123,21 +123,21 @@
           </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-3" style="margin-top: 50px;">
         <div class="row">
           <div class="column">
-              <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
+              <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 0px;">
                 Кому этот курс подойдёт?
             </div>
-            <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 10px;" >
+            <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 0px;" >
               Всем! Курс предназначен как для новичков, так и для профессионалов!<br />
               Вам подойдёт этот курс, если вы:
             </div>
-            <div class="row" style="margin: 20px 10px 10px 10px;">
+            <div class="row" style="margin: 20px 10px 10px 0px;">
              <div class="col-3" v-for="(point, index) in course.coursePoints" :key="`points-${index}`">
-                <div class="column">
-                  <div class="col" style="font-size: 22px; font-weight: 600;">
-                    {{ point.pointImageLink }}
+                <div class="column" style="text-align: center;">
+                  <div class="col" style="font-size: 22px; font-weight: 600; margin-bottom: 10px;">
+                    <img class="image-targeting" :src="point.pointImageLink"/>
                   </div>
                   <div class="col" style="font-size: 16px; font-weight: 300;">
                     <p> {{ point.point }}</p>
@@ -145,72 +145,59 @@
               </div>
               </div>
             </div>
+            </div>
+            </div>
             <div class="btn-center">
-              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" />
-            </div>
-            </div>
+              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение"  @click="addPayment" />
             </div>
       </div>
-      <div class="col-2">
+
+      <div class="col-2" style="margin-top: 30px;">
         <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
             А что внутри курса?
         </div>
-        <div class="q-pa-md">
-    <q-table
-      :title="title"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-    >
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th auto-width />
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.label }}
-          </q-th>
-        </q-tr>
-      </template>
+        <div>
+          <q-card :class="$attrs.class">
+            <q-card-section v-for="(item, index) in courseModules" :key="item.id" style="padding-bottom:0">
+              <q-expansion-item expand-separator icon="perm_identity" style="border-bottom: 1px solid #E9E9E9;">
+                <template v-slot:header>
+                  <q-item-section>
+                    {{ `Модуль №${index + 1} - ''${item.title}''` }}
+                  </q-item-section>
+                </template>
+                <q-card>
+                  <q-card-section>
+                    {{ item.shortDescription }}
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
 
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td auto-width>
-            <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-          </q-td>
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.value }}
-          </q-td>
-        </q-tr>
-        <q-tr v-show="props.expand" :props="props">
-          <q-td colspan="100%">
-            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
-  </div>
-  </div>
 </q-page-container>
 
 </template>
 
 <script>
 import { ref } from "vue";
-import { getCourseById, getShortModulesInfo } from "boot/axios";
+import { getCourseById, getShortModulesInfo, addToPayments } from "boot/axios";
+import notify from "boot/notifyes";
 
 export default {
   data() {
     return {
-      id: Number(this.$route.query.id),
+      id: this.$route.query.id,
       course:"",
-      courseModules: []
+      courseModules: [],
+      isDescription: false
+    };
+  },
+  setup() {
+    return {
+      tab: ref("current"),
+      splitterModel: ref(20),
     };
   },
   mounted() {
@@ -219,11 +206,34 @@ export default {
   methods: {
     async getCourseData() {
       const response = await getCourseById(this.id);
-      console.log(response.data)
       this.course = response.data.value
-      const modulesresponse = await getShortModulesInfo(this.id);
-      console.log(modulesresponse.data)
-      this.courseModules = modulesresponse.data.value
+      console.log(this.course)
+      this.getModuleData()
+    },
+    async getModuleData() {
+      const courseId = this.id;
+      try {
+        const response = await getShortModulesInfo(courseId);
+        if (response.data.isSuccess) {
+          this.courseModules = response.data.value;
+          console.log(this.courseModules)
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    showDescription() {
+      this.isDescription = !this.isDescription;
+    },
+    async addPayment() {
+      const response = await addToPayments(this.id);
+      if(response.data.isSuccess){
+        console.log(response.data.value)
+        notify.showSucsessNotify("Запрос на покупку отправлен менеджер свяжется  вами!");
+      }
+      else{
+        notify.showErrorNotify("Что-то пошло не так. Попробуйте еще раз позже");
+      }
     },
   },
 };
@@ -260,5 +270,8 @@ export default {
   margin-top: 30px;
 }
 
+.image-targeting{
+  width: 250px;
+}
 </style>
 

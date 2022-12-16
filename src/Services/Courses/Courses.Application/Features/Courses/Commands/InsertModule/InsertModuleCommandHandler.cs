@@ -73,8 +73,8 @@ public class InsertModuleCommandHandler : IRequestHandler<InsertModuleCommand, R
         }
         catch (ArgumentOutOfRangeException ex)
         {
-            _logger.LogError($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}");;
-            return Result.Error($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}");;
+            _logger.LogError($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}"); ;
+            return Result.Error($"{BussinesErrors.ArgumentOutOfRangeException.ToString()}: {ex.Message}"); ;
         }
     }
 }

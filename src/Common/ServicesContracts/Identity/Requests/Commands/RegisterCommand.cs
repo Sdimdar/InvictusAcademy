@@ -1,7 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using ServicesContracts.Identity.Responses;
-using System.Security.Claims;
 
 namespace ServicesContracts.Identity.Requests.Commands;
 
@@ -15,8 +14,6 @@ public class RegisterCommand : IRequest<Result<RegisterVm>>
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
     public string? InstagramLink { get; set; }
-    public string? Citizenship { get; set; }
-    
-    public string City { get; set; }
+    public string? City { get; set; }
 
 }

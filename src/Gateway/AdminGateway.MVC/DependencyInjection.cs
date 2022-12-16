@@ -6,6 +6,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
 using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -17,13 +18,20 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<FormOptions>(options =>
+        {
+            options.ValueCountLimit = 4096;
+        });
         services.AddExtendedHttpClient();
         services.AddServiceWithExtendedHttpClient<IRequestService, RequestService>(configuration["ApiSettings:RequestUrl"]);
         services.AddServiceWithExtendedHttpClient<IGetUsers, GetUsers>(configuration["ApiSettings:IdentityUrl"]);
+        services.AddServiceWithExtendedHttpClient<ICloudStorages, Services.CloudStorage>(
+            configuration["ApiSettings:CloudStorageUrl"]);
         services.AddServiceWithExtendedHttpClient<ICoursesService, CoursesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IModulesService, ModulesService>(configuration["ApiSettings:CourseUrl"]);
         services.AddServiceWithExtendedHttpClient<IPaymentService, PaymentService>(configuration["ApiSettings:PaymentUrl"]);
         services.AddServiceWithExtendedHttpClient<IFreeArticlesService, FreeArticlesServices>(configuration["ApiSettings:FreeArticleUrl"]);
+        services.AddServiceWithExtendedHttpClient<IStreamingRoomService, StreamingRoomService>(configuration["ApiSettings:StreamingRoomUrl"]);
         return services;
     }
 
@@ -77,6 +85,7 @@ public static class DependencyInjection
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         services.AddTransient<IAdminService, AdminService>();
+        services.AddTransient<ICloudStorages, Services.CloudStorage>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IGetUsers, GetUsers>();
         services.AddTransient<ICoursesService, CoursesService>();
@@ -91,7 +100,7 @@ public static class DependencyInjection
         services.AddIdentity<AdminUser, IdentityRole>().AddEntityFrameworkStores<AdminDbContext>();
         return services;
     }
-    
+
     public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();

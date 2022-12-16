@@ -28,7 +28,7 @@ public class GetAllRequestsHandler : IRequestHandler<GetAllRequestsQuery, Result
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
-        
+
         var usersCount = _requestRepository.GetCountAsync();
         if (request.PageSize == 0)
         {

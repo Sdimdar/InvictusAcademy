@@ -8,6 +8,7 @@
 
           <q-input dense v-model="newArticle.title" label="Название статьи" />
           <q-input dense v-model="newArticle.videoLink" label="Ссылка на видео" />
+          <q-input dense v-model="newArticle.imageLink" label="Ссылка на картинку статьи" />
 
           <div class="q-pa-md q-gutter-sm">
             <q-editor height="330px"
@@ -107,6 +108,7 @@ export default defineComponent({
       newArticle:{
         title:"",
         videoLink:"",
+        imageLink: "",
         text:"добавить текст"
       }
     };
@@ -129,6 +131,7 @@ export default defineComponent({
     },
     onReset() {
       this.newArticle.title = "";
+      this.newArticle.imageLink = "";
       this.newArticle.text = "добавить текст";
       this.newArticle.videoLink = "";
     }

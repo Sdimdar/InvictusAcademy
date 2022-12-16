@@ -13,4 +13,5 @@ public class CourseByIdVm
     public decimal Cost { get; set; }
     public string? VideoLink { get; set; }
     public bool IsActive { get; set; }
+    public int PassingDayCount { get; set; }
 }

@@ -23,14 +23,14 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
     private readonly IOptions<CourseResultOptions> _courseOptions;
     private readonly ILogger<PurchaseCourseCommand> _logger;
     private readonly ICoursePurchasedRepository _coursePurchasedRepository;
-    
-    public PurchaseCourseHandler(IValidator<PurchaseCourseCommand> validator, 
-                                 ICourseRepository courseRepository, 
-                                 ICourseResultsInfoRepository courseResultsInfoRepository, 
-                                 ICourseInfoRepository courseInfoRepository, 
-                                 IModuleInfoRepository moduleInfoRepository, 
-                                 IOptions<CourseResultOptions> courseOptions, 
-                                 ILogger<PurchaseCourseCommand> logger, 
+
+    public PurchaseCourseHandler(IValidator<PurchaseCourseCommand> validator,
+                                 ICourseRepository courseRepository,
+                                 ICourseResultsInfoRepository courseResultsInfoRepository,
+                                 ICourseInfoRepository courseInfoRepository,
+                                 IModuleInfoRepository moduleInfoRepository,
+                                 IOptions<CourseResultOptions> courseOptions,
+                                 ILogger<PurchaseCourseCommand> logger,
                                  ICoursePurchasedRepository coursePurchasedRepository)
     {
         _validator = validator;
@@ -42,7 +42,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
         _logger = logger;
         _coursePurchasedRepository = coursePurchasedRepository;
     }
-    
+
     public async Task<Result<bool>> Handle(PurchaseCourseCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"A request to create a paid table came in: " +
@@ -78,20 +78,20 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
                 IsCompleted = false
             };
             coursePurchasedDbModel = await _coursePurchasedRepository.AddAsync(coursePurchasedDbModel);
-            
+
             var courseInfo = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
             if (courseInfo is null)
             {
                 _logger.LogInformation($"Course with Id: \'{request.CourseId}\' is broken don't have info");
                 return Result.Error("Course is broken don't have info");
             }
-            
+
             CourseResultInfoDbModel entity = new()
-            {   
+            {
                 Id = coursePurchasedDbModel.Id,
                 Score = 0.0f,
                 StartDate = DateTime.Now,
-                EndDate = DateTime.Now + TimeSpan.FromDays(_courseOptions.Value.CourseDayDuration),
+                EndDate = DateTime.Now + TimeSpan.FromDays(course.PassingDayCount),
                 ModuleProgresses = await CreateModulesProgressDataAsync(courseInfo, cancellationToken)
             };
             await _courseResultsInfoRepository.CreateAsync(entity, cancellationToken);
@@ -105,13 +105,13 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
         }
     }
 
-    private async Task<List<ModuleProgress>> CreateModulesProgressDataAsync(CourseInfoDbModel courseInfo, 
+    private async Task<List<ModuleProgress>> CreateModulesProgressDataAsync(CourseInfoDbModel courseInfo,
                                                                            CancellationToken cancellationToken)
     {
         List<ModuleProgress> moduleProgresses = new();
         var courseModules = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfo.ModulesId, cancellationToken);
         if (courseModules is null) return moduleProgresses;
-        
+
         foreach (var moduleInfo in courseModules)
         {
             moduleProgresses.Add(new ModuleProgress()
@@ -125,7 +125,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
                 ArticlesProgresses = CreateArticlesProgressData(moduleInfo)
             });
         }
-        
+
         return moduleProgresses;
     }
 
@@ -133,7 +133,7 @@ public class PurchaseCourseHandler : IRequestHandler<PurchaseCourseCommand, Resu
     {
         List<ArticleProgress> articlesProgresses = new();
         if (moduleInfo.Articles is null) return articlesProgresses;
-        
+
         for (int i = 0; i < moduleInfo.Articles.Count; i++)
         {
             articlesProgresses.Add(new ArticleProgress()

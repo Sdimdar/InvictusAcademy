@@ -1,5 +1,7 @@
 <template>
-  <q-btn :class="$attrs.class" label="Оставить заявку" @click="requestDialog = true" />
+  <q-btn :class="$attrs.class" label="Оставить заявку" @click="requestDialog = true"  no-caps color="accent"
+  style="font-size: 20px; font-weight: 500; color: #F9F9F9"
+  />
 
   <q-dialog v-model="requestDialog">
     <q-card style="min-width: 350px">
@@ -35,7 +37,7 @@
     </q-card>
   </q-dialog>
 </template>
-  
+
 <script>
 import { defineComponent } from "vue";
 import { createRequest } from "boot/axios";
@@ -77,4 +79,3 @@ export default defineComponent({
   },
 });
 </script>
-  

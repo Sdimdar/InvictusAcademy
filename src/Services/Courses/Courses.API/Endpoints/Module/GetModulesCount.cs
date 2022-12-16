@@ -4,12 +4,11 @@ using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Queries;
-using ServicesContracts.Identity.Requests.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Module;
 
-public class GetModulesCount: EndpointBaseAsync
+public class GetModulesCount : EndpointBaseAsync
     .WithoutRequest
     .WithActionResult<DefaultResponseObject<int>>
 {

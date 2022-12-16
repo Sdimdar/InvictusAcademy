@@ -117,7 +117,7 @@
        test:{
           testShowCount:"",
           testCompleteCount:"",
-          testQuestions: [{id: 1, question: "", questionType: "",  answers:[{id: 1, text: "", isCorrect: false}]}]
+          testQuestions: [{id: 0, question: "", questionType: "",  answers:[{id: 0, text: "", isCorrect: false}]}]
         },
         types: [{num: 0, name: 'Один вариант ответа'}, {num: 1, name: 'Несколько вариaнтов ответа'}],
        article: "",

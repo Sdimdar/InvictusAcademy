@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Courses.Application.Features.Modules.Queries.GetShortModulesInfoByCourseId;
 
-public class GetModulesByCourseIdHandler:
+public class GetModulesByCourseIdHandler :
     IRequestHandler<ServicesContracts.Courses.Requests.Modules.Queries.GetModulesByCourseId, Result<List<ModuleInfoDbModel>?>>
 {
     private readonly IModuleInfoRepository _repository;

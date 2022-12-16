@@ -10,5 +10,5 @@ public class CoursePointsVm : IRequest<Result<CoursePointsDbModel>>
     public string PointImageLink { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime LastModifiedDate { get; set; }
-    
+
 }

@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using Courses.Domain.Entities;
 using MediatR;
 
 namespace ServicesContracts.Courses.Requests.Courses.Commands;
@@ -11,8 +10,9 @@ public class EditCourseCommand : IRequest<Result<string>>
     public string Description { get; set; }
     public string SecondName { get; set; }
     public string SecondDescription { get; set; }
-    public ICollection<CoursePointsDbModel> CoursePoints { get; set; }
+    public ICollection<CoursePointsVm> CoursePoints { get; set; }
     public string? VideoLink { get; set; }
     public decimal Cost { get; set; }
     public bool IsActive { get; set; }
+    public int PassingDayCount { get; set; }
 }

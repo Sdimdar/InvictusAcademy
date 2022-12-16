@@ -9,7 +9,7 @@ using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.ManagerComment;
 
-public class ManagerCommentHandler: IRequestHandler<ManagerCommentCommand, Result<string>>
+public class ManagerCommentHandler : IRequestHandler<ManagerCommentCommand, Result<string>>
 {
     private readonly IRequestRepository _requestRepository;
     private readonly IValidator<ManagerCommentCommand> _validator;

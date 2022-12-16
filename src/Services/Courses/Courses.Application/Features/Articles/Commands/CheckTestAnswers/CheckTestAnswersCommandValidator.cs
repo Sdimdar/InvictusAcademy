@@ -5,8 +5,8 @@ namespace Courses.Application.Features.Articles.Commands.CheckTestAnswers;
 
 public class CheckTestAnswersCommandValidator : AbstractValidator<CheckTestAnswersCommand>
 {
-	public CheckTestAnswersCommandValidator()
-	{
+    public CheckTestAnswersCommandValidator()
+    {
         RuleFor(p => p.UserId)
             .GreaterThan(-1).WithMessage("User ID can't be less then 0");
         RuleFor(p => p.ArticleOrder)

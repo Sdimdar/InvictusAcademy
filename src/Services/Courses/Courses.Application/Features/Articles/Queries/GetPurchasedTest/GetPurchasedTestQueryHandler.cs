@@ -51,7 +51,7 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
         if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate >= DateTime.Now) return Result.Error($"Course is not allowed now");
+        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
         if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
@@ -96,12 +96,12 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
     {
         List<PurchasedTestVm> tests = new();
         foreach (var testQuestion in testQuestions)
-        { 
+        {
             List<PurchasedTestAnswerVm> answers = new();
             foreach (var answer in testQuestion.Answers)
             {
                 answers.Add(new PurchasedTestAnswerVm()
-                { 
+                {
                     Id = answer.Id,
                     TestAnswer = answer.Text
                 });
