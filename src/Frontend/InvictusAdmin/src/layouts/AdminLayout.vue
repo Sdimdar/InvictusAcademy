@@ -59,6 +59,18 @@
 
               <q-separator />
 
+              <q-item clickable v-ripple to="/admin-panel/S3">
+                <q-item-section avatar>
+                  <q-icon name="file_upload" />
+                </q-item-section>
+
+                <q-item-section>
+                  Загрузка файлов
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
               <q-item clickable v-ripple to="/admin-panel/createAdmin">
                 <q-item-section avatar>
                   <q-icon name="star" />

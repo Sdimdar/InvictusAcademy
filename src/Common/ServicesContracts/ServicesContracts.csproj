@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\CloudStorage\CloudStorage.Domain\CloudStorage.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Courses\Courses.Domain\Courses.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Payment\Payment.Domain\Payment.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Request\Request.Domain\Request.Domain.csproj" />

@@ -19,6 +19,8 @@ const routes = [
       { path: "createFreeArticle", component: () => import("src/pages/FreeArticles/CreateFreeArticle.vue")},
       { path: "allFreeArticles", component: () => import("src/pages/FreeArticles/AllFreeArticles.vue")},
       { path: "editFreeArticle/:id", component: () => import("src/pages/FreeArticles/EditFreeArticle.vue")},
+      { path: "S3", component: () => import("src/pages/S3/Upload.vue")},
+
       { path: "rejectRequests", component: () => import("src/pages/Payment/RejectRequests.vue")},
       {path: "historyPage/:id/:email",props:true, component:() => import("src/pages/Payment/HistoryPage.vue")}
     ],

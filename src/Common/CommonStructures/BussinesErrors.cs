@@ -14,5 +14,6 @@ public enum BussinesErrors
     ListIsEmpty,
     KeyNotFoundException,
     BoolIsNotTrue,
-    RequestIsNull
+    RequestIsNull,
+    ErrorWithUploadingFile
 }
