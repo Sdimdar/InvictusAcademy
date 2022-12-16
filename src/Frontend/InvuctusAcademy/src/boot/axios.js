@@ -86,5 +86,8 @@ export const checkTestAnswers = (payload) => api.post('/Tests/CheckTestAnswers',
 //payment
 export const addToPayments = (courseId) => api.get('/Payments/Add', {params:{courseId: courseId}});
 
-
+//Jitsi
+export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const getStreamingRoom = (address) => api.get('/StreamingRooms/GetByAddress', { params: { address: address } });
+export const getCountStreamingRooms = () => api.get('/StreamingRooms/GetCount');
 

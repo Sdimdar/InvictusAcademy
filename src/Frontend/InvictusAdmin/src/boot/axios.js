@@ -116,6 +116,16 @@ export const fetchAllFreeArticles = (pageNumber, pageSize, filter) => api.get('/
 export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetCount');
 export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
 
+
+//Jitsi
+export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/AdminPanel/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const getStreamingRoom = (address) => api.get('/AdminPanel/StreamingRooms/GetByAddress', { params: { address: address } });
+export const getCountStreamingRooms = () => api.get('/AdminPanel/StreamingRooms/GetCount');
+export const createStreamingRoom = (payload) => api.post('/AdminPanel/StreamingRooms/Create', payload);
+export const closeRoom = (payload) => api.post('/AdminPanel/StreamingRooms/OpenOrCloseRoom', payload, {headers: {
+    "Content-Type": "application/json"}
+});
+
 // filesData
 export const fetchFilesData = (pageNumber, pageSize) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
 export const fetchFilesCount = () => api.get('/AdminPanel/CLoudStorage/GetFilesCount');

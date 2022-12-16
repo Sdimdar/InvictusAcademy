@@ -1,5 +1,7 @@
 ﻿using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
+using AdminGateway.MVC.ViewModels;
+using AutoMapper;
 using CommonStructures;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
@@ -8,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
+using ServicesContracts.Jitsi;
+using ServicesContracts.Jitsi.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
@@ -16,10 +20,12 @@ namespace AdminGateway.MVC.Controllers;
 public class CoursesController : Controller
 {
     private readonly ICoursesService _coursesService;
+    private readonly IMapper _mapper;
 
-    public CoursesController(ICoursesService coursesService)
+    public CoursesController(ICoursesService coursesService, IMapper mapper)
     {
         _coursesService = coursesService;
+        _mapper = mapper;
     }
 
     [HttpPost]
@@ -27,9 +33,10 @@ public class CoursesController : Controller
         Summary = "Создание курса",
         Description = "Необходимо передать в теле запроса данные по новому курсу"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody] CreateCourseCommand request)
+    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody]CreateCourseAndRoomCommand request)
     {
-        var response = await _coursesService.Create(request);
+        CreateCourseCommand courseCommand = _mapper.Map<CreateCourseCommand>(request);
+        var response = await _coursesService.Create(courseCommand);
         return Ok(response);
     }
 

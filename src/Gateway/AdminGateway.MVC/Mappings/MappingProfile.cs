@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AdminGateway.MVC.ViewModels;
+using AutoMapper;
 
 namespace AdminGateway.MVC.Mappings;
 

@@ -159,6 +159,31 @@
 
               <q-separator />
 
+              <q-item clickable v-ripple to="/admin-panel/createRoom">
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+
+                <q-item-section>
+                  Создать комнату
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+
+              <q-item clickable v-ripple to="/admin-panel/allRooms">
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+
+                <q-item-section>
+                  Все комнаты
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
           </q-list>
         </q-scroll-area>
       </q-drawer>
