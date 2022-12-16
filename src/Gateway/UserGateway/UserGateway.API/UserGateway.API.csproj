@@ -8,7 +8,7 @@
 		<Platforms>AnyCPU</Platforms>
 		<UserSecretsId>c3ffd9e1-20d1-4330-80d0-6161c48a74ec</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..</DockerfileContext>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>

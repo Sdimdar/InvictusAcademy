@@ -7,6 +7,8 @@ WORKDIR /app
 # set env variables
 ARG GATEWAY
 ENV GATEWAY $GATEWAY
+ARG CLOUD_STORAGE_URL
+ENV CLOUD_STORAGE_URL $CLOUD_STORAGE_URL
 
 # install and cache app dependencies
 COPY package.json .
@@ -16,7 +18,7 @@ RUN npm install
 COPY . .
 
 # generate build
-RUN GATEWAY=$GATEWAY npx quasar build 
+RUN GATEWAY=$GATEWAY CLOUD_STORAGE_URL=$CLOUD_STORAGE_URL npx quasar build 
 
 ############
 ### prod ###
