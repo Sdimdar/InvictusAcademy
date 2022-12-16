@@ -135,9 +135,9 @@
             </div>
             <div class="row" style="margin: 20px 10px 10px 0px;">
              <div class="col-3" v-for="(point, index) in course.coursePoints" :key="`points-${index}`">
-                <div class="column">
-                  <div class="col" style="font-size: 22px; font-weight: 600;">
-                    {{ point.pointImageLink }}
+                <div class="column" style="text-align: center;">
+                  <div class="col" style="font-size: 22px; font-weight: 600; margin-bottom: 10px;">
+                    <img class="image-targeting" :src="point.pointImageLink"/>
                   </div>
                   <div class="col" style="font-size: 16px; font-weight: 300;">
                     <p> {{ point.point }}</p>
@@ -270,5 +270,8 @@ export default {
   margin-top: 30px;
 }
 
+.image-targeting{
+  width: 250px;
+}
 </style>
 

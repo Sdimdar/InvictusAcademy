@@ -1,16 +1,13 @@
 <template>
   <q-page-container>
-    <div class="article-title"> {{ this.article.title }} </div>
-    <iframe class="article-video" width="560" height="315" :src="`${this.article.videoLink}`"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+    <div class="article-title"> {{ article.title }} </div>
+    <video class="article-video" controls="controls" :src="article.videoLink"></video>
     <div class="article-text" v-html="article.text"></div>
   </q-page-container>
 </template>
 
 <script>
-import { notify } from "boot/notifyes"
+import notify from "boot/notifyes";
 import { fetchFreeArticle } from "boot/axios";
 import { defineComponent } from "vue";
 

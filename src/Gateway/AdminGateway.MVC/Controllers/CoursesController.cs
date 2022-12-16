@@ -33,7 +33,7 @@ public class CoursesController : Controller
         Summary = "Создание курса",
         Description = "Необходимо передать в теле запроса данные по новому курсу"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody]CreateCourseAndRoomCommand request)
+    public async Task<ActionResult<DefaultResponseObject<CourseVm>>> CreateCourse([FromBody] CreateCourseCommand request)
     {
         CreateCourseCommand courseCommand = _mapper.Map<CreateCourseCommand>(request);
         var response = await _coursesService.Create(courseCommand);

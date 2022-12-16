@@ -158,9 +158,6 @@ export default defineComponent({
 .button{
   padding: 16px 32px;
   width: 100%;
-  /* gap: 10px;
-  width: 332px;
-  height: 51px; */
   background: #CD3838;
   box-shadow: 0px 4px 22px rgba(177, 20, 20, 0.12);
   border-radius: 10px;
@@ -170,5 +167,10 @@ export default defineComponent({
   line-height: 19px;
   text-align: center;
   color: #F9F9F9;
+  cursor: pointer;
+}
+
+.button:hover{
+  background-color: #cc4949;
 }
 </style>
