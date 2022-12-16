@@ -12,11 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Courses.Infrastructure.Migrations
 {
     [DbContext(typeof(CoursesDbContext))]
-<<<<<<<< HEAD:src/Services/Courses/Courses.Infrastructure/Migrations/20221212113819_Initial.Designer.cs
-    [Migration("20221212113819_Initial")]
-========
-    [Migration("20221202053839_Initial")]
->>>>>>>> origin/issue-52_payment:src/Services/Courses/Courses.Infrastructure/Migrations/20221204125538_Init.Designer.cs
+    [Migration("20221216042407_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

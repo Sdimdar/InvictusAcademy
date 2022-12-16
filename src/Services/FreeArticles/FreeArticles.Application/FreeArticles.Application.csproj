@@ -23,8 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Common\CommonRepository\CommonRepository.csproj" />
-      <ProjectReference Include="..\..\Common\ServicesContracts\ServicesContracts.csproj" />
+      <ProjectReference Include="..\..\..\Common\CommonRepository\CommonRepository.csproj" />
+      <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
       <ProjectReference Include="..\FreeArticles.Domain\FreeArticles.Domain.csproj" />
     </ItemGroup>
 

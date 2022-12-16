@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Payment.API.NoSwagger</ActiveDebugProfile>
+    <ActiveDebugProfile>CloudStorage.API.NoSwagger</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

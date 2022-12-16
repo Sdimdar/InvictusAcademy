@@ -92,13 +92,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FreeArticles", "FreeArticles", "{32183324-7C31-461B-A5AE-B155F1B629F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.API", "Services\FreeArticles.API\FreeArticles.API.csproj", "{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.API", "Services\FreeArticles\FreeArticles.API\FreeArticles.API.csproj", "{5DF3686F-984A-48F3-854A-3BB5CC3E01A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Application", "Services\FreeArticles.Application\FreeArticles.Application.csproj", "{8DB430A1-FA27-4613-8115-9C968DA6D982}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Application", "Services\FreeArticles\FreeArticles.Application\FreeArticles.Application.csproj", "{8DB430A1-FA27-4613-8115-9C968DA6D982}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Domain", "Services\FreeArticles.Domain\FreeArticles.Domain.csproj", "{E695083C-4C6B-4D05-94A4-782AE9753701}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Domain", "Services\FreeArticles\FreeArticles.Domain\FreeArticles.Domain.csproj", "{E695083C-4C6B-4D05-94A4-782AE9753701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Infrastructure", "Services\FreeArticles.Infrastructure\FreeArticles.Infrastructure.csproj", "{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeArticles.Infrastructure", "Services\FreeArticles\FreeArticles.Infrastructure\FreeArticles.Infrastructure.csproj", "{6BCF084B-EC3F-43A9-BC90-D2A6BCF3AADA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CloudStorage", "CloudStorage", "{3A738B65-535B-407D-9AA9-810F7568AC48}"
 EndProject
