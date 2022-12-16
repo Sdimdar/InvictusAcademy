@@ -10,4 +10,5 @@ public interface ICloudStorageRepository : IBaseRepository<CloudStorageDbModel>
 {
     Task<bool> GetFilesByName(string fileName);
     Task<List<CloudStorageDbModel>> GetFilerByFilterString(string filterString, CancellationToken cancellationToken);
+    Task<List<string>> GetFilesName(string fileName);
 }
