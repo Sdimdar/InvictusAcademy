@@ -14,5 +14,9 @@ public enum BussinesErrors
     ListIsEmpty,
     KeyNotFoundException,
     BoolIsNotTrue,
-    RequestIsNull
+    RequestIsNull,
+    IsNotAllowed,
+    CourseIsNotPurchased,
+    IsNotOpened,
+    IsNotAvailable
 }

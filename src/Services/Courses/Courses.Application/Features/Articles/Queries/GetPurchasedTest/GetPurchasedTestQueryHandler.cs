@@ -1,9 +1,11 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities.CourseInfo.Tests;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Tests.Queries;
 using ServicesContracts.Courses.Responses;
 
@@ -17,13 +19,14 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly ICourseResultsInfoRepository _courseResultsInfoRepository;
     private readonly IValidator<GetPurchasedTestQuery> _validaotor;
+    private readonly ILogger<GetPurchasedTestQueryHandler> _logger;
 
     public GetPurchasedTestQueryHandler(ICourseRepository courseRepository,
                                           ICoursePurchasedRepository coursePurchasedRepository,
                                           ICourseInfoRepository courseInfoRepository,
                                           IModuleInfoRepository moduleInfoRepository,
                                           ICourseResultsInfoRepository courseResultsInfoRepository,
-                                          IValidator<GetPurchasedTestQuery> validaotor)
+                                          IValidator<GetPurchasedTestQuery> validaotor, ILogger<GetPurchasedTestQueryHandler> logger)
     {
         _courseRepository = courseRepository;
         _coursePurchasedRepository = coursePurchasedRepository;
@@ -31,6 +34,7 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         _moduleInfoRepository = moduleInfoRepository;
         _courseResultsInfoRepository = courseResultsInfoRepository;
         _validaotor = validaotor;
+        _logger = logger;
     }
 
     public async Task<Result<List<PurchasedTestVm>>> Handle(GetPurchasedTestQuery request,
@@ -43,18 +47,40 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
         }
 
         var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
-        if (courseData is null) return Result.Error($"Course with ID {request.CourseId} is not exist");
+        if (courseData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.DataIsNotExist.ToString()}: Course with ID {request.CourseId} is not exist");
+            return Result.Error($"{BussinesErrors.DataIsNotExist.ToString()}: Course with ID {request.CourseId} is not exist");
+        }
 
         var coursePurchaseData = await _coursePurchasedRepository.GetFirstOrDefaultAsync(p => p.UserId == request.UserId && p.CourseId == request.CourseId);
-        if (coursePurchaseData is null) return Result.Error($"Course is not purchased");
+        if (coursePurchaseData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+            return Result.Error($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+        }
 
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
-        if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
-                                                                             $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
+        if (coursePurchaseResultData is null){
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found in mongo db info about result of " +
+                               $"course with ID: {request.CourseId} and user Id: {request.UserId}");
+            throw new InvalidDataException($"{BussinesErrors.NotFound.ToString()}: Not found in mongo db info about result of " +
+                                           $"course with ID: {request.CourseId} and user Id: {request.UserId}");
+            
+        }
+
+        if (coursePurchaseResultData.EndDate <= DateTime.Now)
+        {
+            _logger.LogWarning($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+            return Result.Error($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+        }
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
-        if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
+        if (courseInfoData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.DataIsNotExist.ToString()}: Course info with ID {request.CourseId} is not exist");
+            return Result.Error($"{BussinesErrors.DataIsNotExist.ToString()}: Course info with ID {request.CourseId} is not exist");
+        }
 
         var modulesData = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfoData.ModulesId, cancellationToken);
 
@@ -63,7 +89,8 @@ public class GetPurchasedTestQueryHandler : IRequestHandler<GetPurchasedTestQuer
 
         if (!articleProgress.IsOpened)
         {
-            return Result.Error("This test is not opened now, pass previous tests");
+            _logger.LogWarning($"{BussinesErrors.IsNotOpened.ToString()}: This test is not opened now, pass previous tests");
+            return Result.Error($"{BussinesErrors.IsNotOpened.ToString()}: This test is not opened now, pass previous tests");
         }
 
         Test test;

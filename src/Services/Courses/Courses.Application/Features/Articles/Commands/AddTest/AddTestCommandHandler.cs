@@ -5,6 +5,7 @@ using Courses.Application.Contracts;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Responses;
 
@@ -15,12 +16,14 @@ public class AddTestCommandHandler : IRequestHandler<AddTestCommand, Result<Modu
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly IValidator<AddTestCommand> _validator;
     private readonly IMapper _mapper;
+    private readonly ILogger<AddTestCommandHandler> _logger;
 
-    public AddTestCommandHandler(IModuleInfoRepository moduleInfoRepository, IValidator<AddTestCommand> validator, IMapper mapper)
+    public AddTestCommandHandler(IModuleInfoRepository moduleInfoRepository, IValidator<AddTestCommand> validator, IMapper mapper, ILogger<AddTestCommandHandler> logger)
     {
         _moduleInfoRepository = moduleInfoRepository;
         _validator = validator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Result<ModuleInfoVm>> Handle(AddTestCommand request, CancellationToken cancellationToken)
