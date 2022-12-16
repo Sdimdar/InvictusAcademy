@@ -18,7 +18,7 @@ try
     services.AddMvc();
     services.AddEndpointsApiExplorer();
     services.AddControllers().AddNewtonsoftJson();
-    services.SetCorsPolicy();
+    services.SetCorsPolicy(builder.Environment);
     services.AddSwaggerConfiguration();
     services.AddExceptionHandlers();
 
