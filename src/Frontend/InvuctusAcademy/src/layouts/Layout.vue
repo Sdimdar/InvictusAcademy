@@ -1,9 +1,10 @@
 <template>
   <q-layout view="lHh lpR lFf">
+    <login-button v-if="!logined" :logined="logined" @autorize="autorize" />
 
-    <q-header class="header" style="padding:10px">
+    <q-header v-if="logined" class="header" style="padding:10px">
       <q-toolbar>
-        <div class="search">
+        <div class="search" >
           <q-input dense rounded outlined label="Ищете что-то конкретное?">
             <template v-slot:append>
               <q-icon name="search" />
@@ -27,12 +28,6 @@
                 </q-item>
 
                 <logout-button :logined="logined" @unautorize="unautorize" />
-              </q-list>
-            </template>
-            <template v-else>
-              <q-list>
-                <login-button :logined="logined" @autorize="autorize" />
-                <register-button :logined="logined" @autorize="autorize" />
               </q-list>
             </template>
           </q-btn-dropdown>
@@ -87,7 +82,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple to="/freeArticle/AllFreeArticles">
             <q-item-section avatar>
               <img src="img/icons/book.svg" />
             </q-item-section>

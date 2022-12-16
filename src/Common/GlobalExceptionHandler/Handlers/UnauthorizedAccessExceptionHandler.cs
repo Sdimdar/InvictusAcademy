@@ -1,9 +1,9 @@
-﻿using System.Net;
-using CommonStructures;
+﻿using CommonStructures;
 using GlobalExceptionHandler.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace GlobalExceptionHandler.Handlers;
 
@@ -16,14 +16,14 @@ public class UnauthorizedAccessExceptionHandler : IExceptionHandler
         _logger = logger;
         ExceptionType = typeof(UnauthorizedAccessException);
     }
-    
+
     public async Task HandleAsync(Exception exception, HttpContext context)
     {
         if (exception is UnauthorizedAccessException unauthorizedAccessException)
         {
             _logger.LogWarning($"{BussinesErrors.UnauthorizedAccessException.ToString()}: {exception.Message}");
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            var data= "Authorize exception: " + unauthorizedAccessException.Message;
+            var data = "Authorize exception: " + unauthorizedAccessException.Message;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(data));
         }

@@ -16,14 +16,14 @@ public static class Extensions
         _isInitialized = true;
         return services;
     }
-    
+
     public static IServiceCollection AddServiceWithExtendedHttpClient<TClass>(this IServiceCollection services, string uri)
         where TClass : class, IUseExtendedHttpClient<TClass>
     {
         services.AddServiceWithExtendedHttpClient<TClass>(httpOptions => httpOptions.BaseAddress = new Uri(uri));
         return services;
     }
-    
+
     public static IServiceCollection AddServiceWithExtendedHttpClient<TClass>(this IServiceCollection services, Action<HttpClient> httpOptions)
         where TClass : class, IUseExtendedHttpClient<TClass>
     {
@@ -31,12 +31,12 @@ public static class Extensions
         services.AddSingleton(provider => new HttpClientOptions<TClass>(httpOptions));
         var options = services.BuildServiceProvider().GetRequiredService<ExtendedHttpClientOptions>();
         Type[] typesArgs = { typeof(TClass) };
-        services.AddTransient(typeof(ExtendedHttpClient<TClass>) , options.ExtendedHttpClientType.MakeGenericType(typesArgs));
+        services.AddTransient(typeof(ExtendedHttpClient<TClass>), options.ExtendedHttpClientType.MakeGenericType(typesArgs));
         services.AddTransient<TClass>();
 
         return services;
     }
-    
+
     public static IServiceCollection AddServiceWithExtendedHttpClient<TClass, TImplementation>(this IServiceCollection services, string uri)
         where TClass : class, IUseExtendedHttpClient<TClass>
         where TImplementation : class, TClass
@@ -44,7 +44,7 @@ public static class Extensions
         services.AddServiceWithExtendedHttpClient<TClass, TImplementation>(httpOptions => httpOptions.BaseAddress = new Uri(uri));
         return services;
     }
-    
+
     public static IServiceCollection AddServiceWithExtendedHttpClient<TClass, TImplementation>(this IServiceCollection services, Action<HttpClient> httpOptions)
         where TClass : class, IUseExtendedHttpClient<TClass>
         where TImplementation : class, TClass

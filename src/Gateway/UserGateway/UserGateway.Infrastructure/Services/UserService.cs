@@ -1,13 +1,12 @@
 ﻿using DataTransferLib.Models;
+using ExtendedHttpClient;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
-using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using UserGateway.Application.Contracts;
 
 namespace UserGateway.Infrastructure.Services;
 
-public class UserService :IUserService
+public class UserService : IUserService
 {
     public ExtendedHttpClient<IUserService> ExtendedHttpClient { get; set; }
     public UserService(ExtendedHttpClient<IUserService> extendedHttpClient)
@@ -15,7 +14,7 @@ public class UserService :IUserService
         ExtendedHttpClient = extendedHttpClient;
     }
 
-    
+
     public async Task<DefaultResponseObject<string>> EditAsync(EditCommand command, CancellationToken cancellationToken)
     {
         return await ExtendedHttpClient.PostAndReturnResponseAsync<EditCommand, DefaultResponseObject<string>>(command,
@@ -41,5 +40,5 @@ public class UserService :IUserService
             command, "/User/Register", cancellationToken);
     }
 
-    
+
 }

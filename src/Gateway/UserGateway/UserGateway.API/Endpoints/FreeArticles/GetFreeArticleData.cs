@@ -29,7 +29,7 @@ public class GetFreeArticleData : EndpointBaseAsync
         Description = "Для получения данных о пользователе необходимо передать его id через параметры в строке",
         Tags = new[] { "FreeArticle" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> HandleAsync([FromQuery]GetFreeArticleDataQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> HandleAsync([FromQuery] GetFreeArticleDataQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var email = HttpContext.Session.GetData("user").Email;
         if (email is null)

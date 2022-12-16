@@ -14,7 +14,7 @@
     </div>
     <div class="q-pa-md">
       <div class="q-gutter-sm row items-start">
-        <q-uploader url="https://localhost:7215/CloudStorage/UploadFile" color="teal" flat bordered
+        <q-uploader :url="cloudStorageUplodadURL" color="teal" flat bordered
           style="max-width: 300px" />
       </div>
     </div>
@@ -116,6 +116,14 @@ export default {
       rows,
       onRequest
     }
+  },
+  data() {
+    return {
+      cloudStorageUplodadURL: `${process.env.CLOUD_STORAGE_URL}/CloudStorage/UploadFile`
+    }
+  },
+  mounted() {
+    console.log(process.env.CLOUD_STORAGE_URL);
   }
 }
 </script>

@@ -1,4 +1,5 @@
-﻿using CommonRepository;
+﻿using System.Linq.Expressions;
+using CommonRepository;
 using CommonRepository.Models;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
@@ -47,16 +48,6 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         return course;
     }
 
-    public override  Task UpdateAsync(CourseDbModel entity)
-    {
-        foreach (var coursePoints in entity.CoursePoints)
-        {
-            coursePoints.LastModifiedDate = DateTime.Now;
-        }
-        var course = base.UpdateAsync(entity);
-        return course;
-    }
-
     public async Task<List<CourseDbModel>> GetAllActiveCourses()
     {
         IQueryable<CourseDbModel> result = Context.Courses.Where(c => c.IsActive);
@@ -77,15 +68,13 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         IQueryable<CourseDbModel> result = Context.Courses;
         return await result.ToListAsync();
     }
-    
+
     public async Task<CourseDbModel?> GetCourseById(int id)
     {
-        var course = Context.Courses.FirstOrDefault(c => c.Id == id);
-        var points = Context.CoursePoints.Where(p => p.CourseId == id).ToList();
-        if (course != null) 
-            course.CoursePoints = points;
-        
-        return course ?? throw new InvalidOperationException();
+        var result = await Context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        var points = await Context.CoursePoints.Where(c => c.CourseId == result!.Id).ToListAsync();
+        result!.CoursePoints = points;
+        return result;
     }
 
     public async Task<bool> CourseIsPaid(int userId, int courseId)
@@ -95,18 +84,23 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
         if (query is null) return false;
         return true;
     }
-
+    
     public async Task<List<CourseDbModel>> GetCoursesByIdList(List<int> coursesId)
     {
         List<CourseDbModel> list = new();
         foreach (var item in coursesId)
         {
             var query = await Context.Courses.FirstOrDefaultAsync(c => c.Id == item);
-            if(query is not null)
+            if (query is not null)
                 list.Add(query);
         }
 
         return list;
+    }
+
+    public async Task<List<CourseDbModel>> GetCoursesByFilter(Expression<Func<CourseDbModel, bool>> predicate)
+    {
+        return await Context.Courses.Where(predicate).ToListAsync();
     }
 
     public async Task<List<CourseDbModel>> GetStartedCourses(int userId)
@@ -135,5 +129,17 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
             : query.Where(v => v.Name.ToLower().Contains(filterString.ToLower())
                             || v.Description.ToLower().Contains(filterString.ToLower())
             );
+    }
+
+    public async Task<List<CoursePurchasedDbModel>> GetPurchaseCourseByUserId(List<int> usersId)
+    {
+        List<CoursePurchasedDbModel> list = new();
+        foreach (var item in usersId)
+        {
+            var query = await Context.CoursePurchaseds.FirstOrDefaultAsync(c => c.UserId == item);
+            if (query is not null)
+                list.Add(query);
+        }
+        return list;
     }
 }

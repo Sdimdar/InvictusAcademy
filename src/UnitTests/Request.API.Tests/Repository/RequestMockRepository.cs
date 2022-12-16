@@ -1,6 +1,5 @@
 ﻿using Request.Application.Contracts;
 using Request.Domain.Entities;
-using TestCommonRepository;
 
 namespace Request.API.Tests.Repository;
 
@@ -52,21 +51,21 @@ public class RequestMockRepository : TestCommonRepository<RequestDbModel>, IRequ
             }
         };
     }
-    
+
     public override Task DeleteAsync(RequestDbModel entity)
     {
         if (Context.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-    
+
     public override Task UpdateAsync(RequestDbModel entity)
     {
         if (Context.FirstOrDefault(e => e.PhoneNumber == entity.PhoneNumber) == null)
             throw new InvalidOperationException("User with this data is not exists");
         return Task.CompletedTask;
     }
-    
+
     protected override IQueryable<RequestDbModel> FilterByString(IQueryable<RequestDbModel> query, string? filterString)
     {
         return string.IsNullOrEmpty(filterString)

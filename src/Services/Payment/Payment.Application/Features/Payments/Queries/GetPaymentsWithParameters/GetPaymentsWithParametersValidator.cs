@@ -7,7 +7,9 @@ public class GetPaymentsWithParametersValidator : AbstractValidator<GetPaymentsW
 {
     public GetPaymentsWithParametersValidator()
     {
-        RuleFor(p => p.CourseId)
-            .GreaterThan(-1).WithMessage("Course Id can't be less then 0");
+        RuleFor(p => p.PageNumber)
+            .GreaterThan(0).WithMessage("Page number can't be less then 1");
+        RuleFor(p => p.PageSize)
+            .GreaterThan(-1).WithMessage("Page size can't be less then 0");
     }
 }

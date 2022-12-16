@@ -28,7 +28,7 @@ public class Add : EndpointBaseAsync
         Description = "Необходимо передать в теле запроса ID курса",
         Tags = new[] { "Payment" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody]int courseId, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromQuery] int courseId,
                                                                                       CancellationToken cancellationToken)
     {
         var email = HttpContext.Session.GetData("user").Email;
@@ -39,7 +39,7 @@ public class Add : EndpointBaseAsync
         AddPaymentCommand query = new()
         {
             CourseId = courseId,
-            UserEmal = email
+            UserEmail = email
         };
         var result = await _mediator.Send(query, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));

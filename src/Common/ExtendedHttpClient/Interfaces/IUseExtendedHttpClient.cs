@@ -1,6 +1,4 @@
-﻿using ExtendedHttpClient;
-
-namespace ExtendedHttpClient.Interfaces;
+﻿namespace ExtendedHttpClient.Interfaces;
 
 public interface IUseExtendedHttpClient<T> where T : class
 {

@@ -1,9 +1,8 @@
 using AdminGateway.MVC;
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Models.DbModels;
-using Microsoft.AspNetCore.Identity;
 using GlobalExceptionHandler.Extensions;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using NLog;
 using NLog.Web;
 
@@ -16,22 +15,22 @@ try
     builder.AddLogging();
     var services = builder.Services;
 
-// Add services to the container.
+    // Add services to the container.
     services.AddControllersWithViews();
     services.AddExceptionHandlers();
 
-//swagger
+    //swagger
     services.AddSwaggerConfiguration();
 
-//custom services
+    //custom services
     services.AddCustomServices();
     services.AddDbServices(builder.Configuration);
     services.AddHttpClients(builder.Configuration);
 
-//mapper
+    //mapper
     services.SetAutomapperProfiles();
 
-// Configure CORS Policy and Cookie
+    // Configure CORS Policy and Cookie
     services.SetCorsPolicy(builder.Environment);
 
     var app = builder.Build();
@@ -45,14 +44,12 @@ try
             await RoleInitializer.InitializeAsync(userManager, rolesManager);
         }
         catch (Exception e)
-        {
-            // var logger = options.GetRequiredService<ILogger<Program>>();
-            // logger.LogError(e, "An error occurred while seeding the database.");    
+        {   
             logger.Error(e, "An error occurred while seeding the database.");
         }
     }
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     {
         app.UseSwagger();

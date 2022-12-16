@@ -21,7 +21,7 @@ public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T :
 
     public virtual async Task<List<T>> GetAsync(CancellationToken cancellationToken) =>
         await BaseCollection.Find(_ => true).ToListAsync(cancellationToken);
-    
+
     public virtual async Task<T?> GetAsync(int id, CancellationToken cancellationToken) =>
         await BaseCollection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
@@ -30,7 +30,7 @@ public abstract class MongoBaseRepository<T> : IMongoBaseRepository<T> where T :
     {
         var entitiesDb = await BaseCollection.Find(_ => true).ToListAsync(cancellationToken);
         if (!entitiesDb.Any() && entity.Id < 1) entity.Id = 1;
-        if(entity.Id == 0) entity.Id = (await (await BaseCollection.FindAsync(_ => true, cancellationToken: cancellationToken)).ToListAsync(cancellationToken)).Last().Id + 1;
+        if (entity.Id == 0) entity.Id = (await (await BaseCollection.FindAsync(_ => true, cancellationToken: cancellationToken)).ToListAsync(cancellationToken)).Last().Id + 1;
         await BaseCollection.InsertOneAsync(entity, cancellationToken);
         return entity;
     }

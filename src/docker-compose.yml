@@ -5,64 +5,107 @@ services:
     image: postgres
     container_name: sessionsdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
-    ports:
-      - "5430:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/sessionsData
+      - session_data:/var/lib/postgresql/data
+      - session_data:/var/lib/postgressql/userData
 
   admindb:
     image: postgres
     container_name: admindb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
-    ports:
-      - "5431:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/adminData
+      - admindb_data:/var/lib/postgressql/adminData
+      - admindb_data:/var/lib/postgresql/data
   
   userdb:
     image: postgres
     container_name: userdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=UserDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: UserDb
     restart: always
-    ports:
-      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/userData
+      - userdb_data:/var/lib/postgressql/userData
+      - userdb_data:/var/lib/postgresql/data
 
   requestdb:
     image: postgres
     container_name: requestdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=RequestDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: RequestDb
     restart: always
-    ports:
-      - "5434:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/requestData
+      - requestdb_data:/var/lib/postgressql/requestData
+      - requestdb_data:/var/lib/postgresql/data
 
   coursesdb:
     image: postgres
     container_name: coursesdb
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=CoursesDb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: CoursesDb
     restart: always
-    ports:
-      - "5435:5432"
     volumes:
-      - postgres_data:/var/lib/postgressql/coursesData
+      - coursesdb_data:/var/lib/postgressql/coursesData
+      - coursesdb_data:/var/lib/postgresql/data
+
+  cloudstoragedb:
+    image: postgres
+    container_name: cloudstoragedb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: CloudStarageDb
+    restart: always
+    volumes:
+      - cloudstoragedb_data:/var/lib/postgressql/cloudStorageData
+      - cloudstoragedb_data:/var/lib/postgresql/data
+
+  jitsidb:
+    image: postgres
+    container_name: jitsidb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: JitsiDb
+    restart: always
+    volumes:
+      - jitsidb_data:/var/lib/postgressql/JitsiDb
+      - jitsidb_data:/var/lib/postgresql/data
+
+  paymentdb:
+    image: postgres
+    container_name: paymentdb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: PaymentDb
+    restart: always
+    volumes:
+      - paymentdb_data:/var/lib/postgressql/JitsiDb
+      - paymentdb_data:/var/lib/postgresql/data
+  
+  freearticlesdb:
+    image: postgres
+    container_name: freearticlesdb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: FreeArticlesDb
+    restart: always
+    volumes:
+      - freearticlesdb_data:/var/lib/postgressql/JitsiDb
+      - freearticlesdb_data:/var/lib/postgresql/data
 
   invictus.pgadmin:
     container_name: invictus.pgadmin
@@ -72,18 +115,35 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "5051:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
-  courses-infodb:
-    image: mongo
-    container_name: courses-infodb
+  coursesinfodb:
+    image: mongo:latest
+    command: mongod --auth
+    container_name: coursesinfodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    ports:
-      - "27018:27017"
     volumes:
-      - mongo_data:/data/coursesInfoDb
+      - mongo_data:/data/db
+      - mongo_data:/data/configdb
+  
+  mongo-express-invuctus:
+    image: mongo-express:latest
+    container_name: mongo-express-invuctus
+    restart: unless-stopped
+    ports:
+      - "8085:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: coursesinfodb
+    depends_on:
+      - coursesinfodb
 
   user-frontend:
     image: ${DOCKER_REGISTRY-}userfrontend
@@ -91,7 +151,7 @@ services:
       context: Frontend/InvuctusAcademy
       dockerfile: Dockerfile
       args:
-        - GATEWAY=${USER_GATEWAY}:8000
+        GATEWAY: ${USER_GATEWAY}:8000
     container_name: user-frontend
     depends_on:
       - gateway.api
@@ -104,7 +164,8 @@ services:
       context: Frontend/InvictusAdmin
       dockerfile: Dockerfile
       args:
-        - GATEWAY=${ADMIN_GATEWAY}:8001
+        GATEWAY: ${ADMIN_GATEWAY}:8001
+        CLOUD_STORAGE_URL: ${CLOUD_STORAGE_URL}:8005
     container_name: admin-frontend
     depends_on:
       - admingateway.api
@@ -123,13 +184,21 @@ services:
       - "ApiSettings:IdentityUrl=http://user.api"
       - "ApiSettings:RequestUrl=http://request.api"
       - "ApiSettings:CourseUrl=http://courses.api"
+      - "ApiSettings:PaymentUrl=http://payment.api"
+      - "ApiSettings:FreeArticleUrl=http://freearticles.api"
+      - "ApiSettings:StreamingRoomUrl=http://jitsi.api"
     depends_on:
       - sessionsdb
       - user.api
       - courses.api
       - request.api
+      - payment.api
+      - freearticles.api
+      - jitsi.api
     ports: 
       - "8000:80"
+    volumes:
+      - logs_volume:/app/logs
 
   admingateway.api:
     image: ${DOCKER_REGISTRY-}admingatewayapi
@@ -143,13 +212,39 @@ services:
       - "ApiSettings:IdentityUrl=http://user.api"
       - "ApiSettings:RequestUrl=http://request.api"
       - "ApiSettings:CourseUrl=http://courses.api"
+      - "ApiSettings:PaymentUrl=http://payment.api"
+      - "ApiSettings:FreeArticleUrl=http://freearticles.api"
+      - "ApiSettings:StreamingRoomUrl=http://jitsi.api"
+      - "ApiSettings:CloudStorageUrl=http://cloudstorage.api"
     depends_on:
       - admindb
       - user.api
       - courses.api
       - request.api
+      - payment.api
+      - freearticles.api
+      - jitsi.api
+      - cloudstorage.api
     ports: 
       - "8001:80"
+    volumes:
+      - logs_volume:/app/logs
+  
+  cloudstorage.api:
+    image: ${DOCKER_REGISTRY-}cloudstorageapi
+    build:
+      context: .
+      dockerfile: Services/CloudStorage/CloudStorage.API/Dockerfile
+    container_name: cloudstorage.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - "ConnectionStrings:CloudStorageConnectionString=Server=cloudstoragedb;Port=5432;Database=CloudStorageDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    depends_on:
+      - cloudstoragedb
+    ports:
+      - "8005:80"
+    volumes:
+      - logs_volume:/app/logs
   
   user.api:
     image: ${DOCKER_REGISTRY-}userapi
@@ -162,8 +257,8 @@ services:
       - "ConnectionStrings:UserConnectionString=Server=userdb;Port=5432;Database=UserDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - userdb
-    ports: 
-      - "7001:80"
+    volumes:
+      - logs_volume:/app/logs
 
   request.api:
     image: ${DOCKER_REGISTRY-}requestapi
@@ -176,8 +271,8 @@ services:
       - "ConnectionStrings:RequestConnectionString=Server=requestdb;Port=5432;Database=RequestDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - requestdb
-    ports: 
-      - "7002:80"
+    volumes:
+      - logs_volume:/app/logs
 
   courses.api:
     image: ${DOCKER_REGISTRY-}coursesapi
@@ -188,14 +283,66 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - "ConnectionStrings:CoursesConnectionString=Server=coursesdb;Port=5432;Database=CoursesDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
-      - "InvictusAcademyDatabase:ConnectionString=mongodb://courses-infodb"
+      - "InvictusAcademyDatabase:ConnectionString=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@coursesinfodb"
       - "DatabaseName=InvictusAcademy"
     depends_on:
       - coursesdb
-      - courses-infodb
-    ports: 
-      - "7003:80"
+      - coursesinfodb
+    volumes:
+      - logs_volume:/app/logs
+  
+  jitsi.api:
+    image: ${DOCKER_REGISTRY-}jitsiapi
+    build:
+      context: .
+      dockerfile: Services/Jitsi/Jitsi.API/Dockerfile
+    container_name: jitsi.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - "ConnectionStrings:StreamingRoomConnectionString=Server=jitsidb;Port=5432;Database=JitsiDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    depends_on:
+      - jitsidb
+    volumes:
+      - logs_volume:/app/logs
+  
+  payment.api:
+    image: ${DOCKER_REGISTRY-}paymentapi
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.API/Dockerfile
+    container_name: payment.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - "ConnectionStrings:PaymentConnectionString=Server=paymentdb;Port=5432;Database=PaymentDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    depends_on:
+      - paymentdb
+    volumes:
+      - logs_volume:/app/logs
+
+  freearticles.api:
+    image: ${DOCKER_REGISTRY-}freearticlesapi
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.API/Dockerfile
+    container_name: freearticles.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - "ConnectionStrings:FreeArticleConnectionString=Server=freearticlesdb;Port=5432;Database=FreeArticlesDb;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+    depends_on:
+      - freearticlesdb
+    volumes:
+      - logs_volume:/app/logs
 
 volumes:
-  postgres_data:
-  mongo_data:    
+  mongo_data:
+  pgadmin_data:
+  session_data:
+  admindb_data:
+  coursesdb_data:
+  requestdb_data:
+  cloudstoragedb_data:
+  userdb_data:
+  jitsidb_data: 
+  paymentdb_data:
+  freearticlesdb_data:
+  logs_volume:   

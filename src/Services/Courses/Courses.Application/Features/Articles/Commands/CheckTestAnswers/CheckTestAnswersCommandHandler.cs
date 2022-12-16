@@ -2,14 +2,12 @@
 using Ardalis.Result.FluentValidation;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
-using Courses.Domain.Entities.CourseInfo;
 using Courses.Domain.Entities.CourseInfo.Tests;
 using Courses.Domain.Entities.CourseResults;
 using FluentValidation;
 using MediatR;
 using ServicesContracts.Courses.Requests.Tests.Commands;
 using ServicesContracts.Courses.Responses;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Courses.Application.Features.Articles.Commands.CheckTestAnswers;
 
@@ -48,7 +46,7 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
         if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate >= DateTime.Now) return Result.Error($"Course is not allowed now");
+        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
         if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
@@ -75,7 +73,7 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
             return Result.Error("Not found module or article or test");
         }
         TestResultVm result = CheckTestAnswers(test, request.Answers);
-        var task = ChangeDbResultsStates(request, coursePurchaseData, coursePurchaseResultData, result, cancellationToken);
+        await ChangeDbResultsStates(request, coursePurchaseData, coursePurchaseResultData, result, cancellationToken);
 
         return Result.Success(result);
     }
@@ -157,14 +155,13 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
                 moduleProgress.Score = moduleScore;
                 if (CheckModulesStatus(coursePurchaseResultData.ModuleProgresses, out float courseScore))
                 {
-                    coursePurchaseResultData.EndDate = DateTime.Now;
                     coursePurchaseResultData.Score = courseScore;
                     await SetCourseIsCompletedStateInPostgres(coursePurchaseData.CourseId);
                 }
             }
         }
 
-        var task = _courseResultsInfoRepository.UpdateAsync(coursePurchaseData.Id, coursePurchaseResultData, cancellationToken);
+        await _courseResultsInfoRepository.UpdateAsync(coursePurchaseData.Id, coursePurchaseResultData, cancellationToken);
     }
 
     private static bool CheckArticlesStatus(ModuleProgress moduleProgress, out float moduleScore)

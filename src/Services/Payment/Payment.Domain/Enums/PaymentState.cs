@@ -4,5 +4,6 @@ public enum PaymentState
 {
     Opened,
     Confirmed,
-    Rejected
+    Rejected,
+    Cancelled
 }

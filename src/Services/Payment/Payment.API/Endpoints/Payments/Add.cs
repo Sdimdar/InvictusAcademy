@@ -20,14 +20,14 @@ public class Add : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpPost("/Payments/Add")]
     [SwaggerOperation(
         Summary = "Добавление платежа в список платежей",
         Description = "Необходимо передать в теле запроса Id курса и Id пользователя",
         Tags = new[] { "Payments" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] AddPaymentCommand request, 
+    public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync(AddPaymentCommand request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);

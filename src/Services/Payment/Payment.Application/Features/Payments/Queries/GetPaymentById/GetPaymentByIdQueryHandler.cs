@@ -1,7 +1,9 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Payment.Domain.Models;
 using Payment.Domain.Services;
 using ServicesContracts.Payments.Queries;
@@ -12,11 +14,13 @@ public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentQuery, Resul
 {
     private readonly PaymentService _paymentService;
     private readonly IValidator<GetPaymentQuery> _validator;
+    private readonly ILogger<GetPaymentByIdQueryHandler> _logger;
 
-    public GetPaymentByIdQueryHandler(PaymentService paymentService, IValidator<GetPaymentQuery> validator)
+    public GetPaymentByIdQueryHandler(PaymentService paymentService, IValidator<GetPaymentQuery> validator, ILogger<GetPaymentByIdQueryHandler> logger)
     {
         _paymentService = paymentService;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<PaymentRequest?>> Handle(GetPaymentQuery request, CancellationToken cancellationToken)
@@ -34,11 +38,13 @@ public class GetPaymentByIdQueryHandler : IRequestHandler<GetPaymentQuery, Resul
         }
         catch (InvalidOperationException ex)
         {
-            return Result.Error(ex.Message);
+            _logger.LogWarning($"{BussinesErrors.InvalidCastException.ToString()}: {ex.Message}");
+            return Result.Error($"{BussinesErrors.InvalidCastException.ToString()}: {ex.Message}");
         }
         catch (NullReferenceException ex)
         {
-            return Result.Error("Payment with this Id not found");
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Payment with this Id not found");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Payment with this Id not found");;
         }
     }
 }

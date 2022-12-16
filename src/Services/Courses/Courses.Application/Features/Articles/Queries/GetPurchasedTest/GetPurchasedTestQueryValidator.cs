@@ -5,8 +5,8 @@ namespace Courses.Application.Features.Articles.Queries.GetPurchasedTest;
 
 public class GetPurchasedTestQueryValidator : AbstractValidator<GetPurchasedTestQuery>
 {
-	public GetPurchasedTestQueryValidator()
-	{
+    public GetPurchasedTestQueryValidator()
+    {
         RuleFor(p => p.UserId)
             .GreaterThan(-1).WithMessage("User ID can't be less then 0");
         RuleFor(p => p.ArticleOrder)

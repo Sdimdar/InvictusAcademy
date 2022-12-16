@@ -1,17 +1,28 @@
 <template>
+  
   <q-page-container>
-    <div class="flex-style">
-      <component :is="courseCard" v-if="courseCard" class="card-style" @goToArticlePageEvent="goToArticlePage"
+    <div class="flex-style" >
+      <div style="display:flex; flex-direction:column; width:693px;">
+        <div class="card-style" style=" margin-bottom: 40px;">
+            <div class="course-title" style="margin-bottom: 20px;">Онлайн-курс "{{courseData.name}}"</div>
+            <div class="gray-sub-title" style="margin-bottom: 10px;">О курсе:</div>
+            <div>{{courseData.description}}</div>
+        </div>
+        
+        <component style="width:693px"  class="card-style" :is="modulesList" v-if="modulesList" :modules="courseData.modules" @goToArticlePageEvent="goToArticlePage"/>
+        
+      </div>
+      <component style="width:380px;" :is="courseCard" v-if="courseCard" class="card-style" @goToArticlePageEvent="goToArticlePage"
         :courseName="courseData.name"
-        :nextLearningModule="courseData.nextLearingModule" 
+        :nextLearningModule="courseData.nextLearingModule"
         :nextLearningArticle="courseData.nextLearningArticle"
-        :moduleCount="courseData.modules.length" 
+        :moduleCount="courseData.modules.length"
         :moduleCompletedCount="courseData.completedModulesCount"
+        :passingTime="courseData.passingTime"
       />
-      <component  class="card-style" :is="modulesList" v-if="modulesList" :modules="courseData.modules" @goToArticlePageEvent="goToArticlePage"/>
     </div>
   </q-page-container>
-    
+
 </template>
 
 <script>
@@ -69,7 +80,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
 .flex-style{
   display: flex;
   flex-wrap: nowrap;
@@ -79,6 +90,19 @@ export default defineComponent({
 .card-style{
   box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
-  width: 540px;
+  padding: 24px;
+  gap: 20px;
+}
+
+.course-title{
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.gray-sub-title{
+  font-size: 14px;
+  line-height: 140%;
+  color: #7D7D7D;
+  display: block;
 }
 </style>

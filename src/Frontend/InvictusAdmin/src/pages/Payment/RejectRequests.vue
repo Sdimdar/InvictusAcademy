@@ -16,7 +16,7 @@
       <template v-slot:body="props" >
           <q-tr :props="props">
             <q-td key="id" :props="props">
-              {{ props.row.id }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/${props.row.id}/email`)">{{props.row.id}}</teamplate>
             </q-td>
             <q-td key="userEmail" :props="props">
               {{ props.row.userEmail }}
@@ -28,7 +28,7 @@
               {{ props.row.courseName }}
             </q-td>
             <q-td key="modifyAdminEmail" :props="props">
-              {{ props.row.modifyAdminEmail }}
+              <teamplate @click="$router.push(`/admin-panel/historyPage/0/${props.row.modifyAdminEmail}`)">{{ props.row.modifyAdminEmail }}</teamplate>
             </q-td>
             <q-td key="rejectReason" :props="props">
                 {{props.row.rejectReason}}
@@ -40,7 +40,7 @@
   </template>
   
   <script>
-  import {getPaymentsByParams,confirmPaymentById,rejectPayment} from 'boot/axios';
+  import {getPaymentsByParams,confirmPaymentById,rejectPayment,getPaymentsCount} from 'boot/axios';
   import { ref, onMounted } from 'vue';
   import notify from "boot/notifyes";
   
@@ -72,7 +72,7 @@
         descending: false,
         page: 1,
         rowsPerPage: 10,
-        rowsNumber: rows.length
+        rowsNumber: 10
       })
   
   async function onRequest (props) {
@@ -81,27 +81,27 @@
         let response;
         loading.value = true
         // update rowsCount with appropriate value
-        // try {
-        //   response = await fetchRequestsCount();
-        //   console.log("Response:")
-        //   console.log(response)
-        //   if (response.data.isSuccess) {
-        //     pagination.value.rowsNumber = response.data.value;
-        //   }
-        //   else {
-        //     response.data.errors.forEach(element => { notify.showErrorNotify(element); });
-        //     return;
-        //   }
-        // } catch (error) {
-        //   console.log(error.message);
-        // }
-  
-        // fetch data from "server"
         try {
-          
-          response = await getPaymentsByParams(payload);
+          response = await getPaymentsCount(payload);
           if (response.data.isSuccess) {
-          rows.value.splice(0, rows.value.length, ...response.data.value);
+            pagination.value.rowsNumber = response.data.value;
+          }
+          else {
+            response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+            return;
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+
+      // fetch data from "server"
+      try {
+          payload.pageNumber = page,
+          payload.pageSize = rowsPerPage
+          response = await getPaymentsByParams(payload);
+          console.log(response)
+          if (response.data.isSuccess) {
+          rows.value.splice(0, rows.value.length, ...response.data.value.payments);
         }
         else {
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
@@ -155,7 +155,6 @@
           async refreshTable(){
             try {
           let response = await getPaymentsByParams(this.query);
-          console.log(response)
           console.log(this.rows.length)
           if (response.data.isSuccess) {
   

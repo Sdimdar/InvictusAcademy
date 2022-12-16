@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Courses.API.Endpoints.Module;
 
-public class AddTest: EndpointBaseAsync
+public class AddTest : EndpointBaseAsync
     .WithRequest<AddTestCommand>
     .WithActionResult<DefaultResponseObject<ModuleInfoVm>>
 {
@@ -29,7 +29,7 @@ public class AddTest: EndpointBaseAsync
         Tags = new[] { "Module" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync(AddTestCommand request, 
+    public override async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> HandleAsync(AddTestCommand request,
         CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);

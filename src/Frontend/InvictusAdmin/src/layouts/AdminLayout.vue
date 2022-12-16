@@ -106,7 +106,7 @@
             </q-item>
 
             <q-separator />
-            
+
             <q-item clickable v-ripple to="/admin-panel/paymentRequests">
                 <q-item-section avatar>
                   <q-icon name="money" />
@@ -136,6 +136,49 @@
                 </q-item-section>
                 <q-item-section>
                   Отмененные заявки
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/admin-panel/allFreeArticles">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>
+                  Бесплатные статьи
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/admin-panel/createFreeArticle">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>
+                  Создать бесплатную статью
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              <q-item clickable v-ripple to="/admin-panel/createRoom">
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+
+                <q-item-section>
+                  Создать комнату
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+
+              <q-item clickable v-ripple to="/admin-panel/allRooms">
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+
+                <q-item-section>
+                  Все комнаты
                 </q-item-section>
               </q-item>
 

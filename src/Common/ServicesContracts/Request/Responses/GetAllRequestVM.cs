@@ -16,7 +16,7 @@ public class GetAllRequestVm
             return (PageNumber > 1);
         }
     }
- 
+
     public bool HasNextPage
     {
         get

@@ -1,20 +1,18 @@
-﻿using System.Text;
-using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
-using Ardalis.Result;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
-using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Modules.Commands;
 using ServicesContracts.Courses.Requests.Modules.Queries;
 using ServicesContracts.Courses.Responses;
+using System.Text;
 
 namespace AdminGateway.MVC.Services;
 
 public class ModulesService : IModulesService
-{ 
+{
     public ExtendedHttpClient<IModulesService> ExtendedHttpClient { get; set; }
-    
+
     public ModulesService(ExtendedHttpClient<IModulesService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;
@@ -28,7 +26,7 @@ public class ModulesService : IModulesService
 
     public async Task<DefaultResponseObject<ModuleInfoVm>> AddTest(AddTestCommand request)
     {
-        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddTestCommand, 
+        return await ExtendedHttpClient.PostAndReturnResponseAsync<AddTestCommand,
             DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/AddTest");
     }
 
@@ -58,14 +56,14 @@ public class ModulesService : IModulesService
     public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetFilterByString(GetModulesByFilterStringQuery request)
     {
         return await ExtendedHttpClient
-            .GetAndReturnResponseAsync<GetModulesByFilterStringQuery, 
-                DefaultResponseObject<List<ModuleInfoVm>>>(request,$"/Module/GetByFilterString");
+            .GetAndReturnResponseAsync<GetModulesByFilterStringQuery,
+                DefaultResponseObject<List<ModuleInfoVm>>>(request, $"/Module/GetByFilterString");
     }
 
     public async Task<DefaultResponseObject<ModuleInfoVm>> GetById(ModuleByIdVm request)
     {
-        return await ExtendedHttpClient.GetAndReturnResponseAsync<ModuleByIdVm, 
-            DefaultResponseObject<ModuleInfoVm>>(request,$"/Module/GetById");
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<ModuleByIdVm,
+            DefaultResponseObject<ModuleInfoVm>>(request, $"/Module/GetById");
     }
 
     public async Task<DefaultResponseObject<List<ModuleInfoVm>>> GetByListOfId(GetModulesByListOfIdQuery request)
@@ -94,7 +92,7 @@ public class ModulesService : IModulesService
     public async Task<DefaultResponseObject<ModuleInfoVm>> Update(UpdateModuleCommand request)
     {
         return await ExtendedHttpClient
-            .PostAndReturnResponseAsync<UpdateModuleCommand, 
+            .PostAndReturnResponseAsync<UpdateModuleCommand,
                 DefaultResponseObject<ModuleInfoVm>>(request, $"/Modules/Update");
     }
 }

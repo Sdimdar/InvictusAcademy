@@ -1,6 +1,5 @@
 ﻿using DataTransferLib.Models;
 using ExtendedHttpClient;
-using ExtendedHttpClient.Interfaces;
 using ServicesContracts.FreeArticles.Models;
 using ServicesContracts.FreeArticles.Queries;
 using UserGateway.Application.Contracts;
@@ -10,7 +9,7 @@ namespace UserGateway.Infrastructure.Services;
 public class FreeArticlesService : IFreeArticlesService
 {
     public ExtendedHttpClient<IFreeArticlesService> ExtendedHttpClient { get; set; }
-    
+
     public FreeArticlesService(ExtendedHttpClient<IFreeArticlesService> extendedHttpClient)
     {
         ExtendedHttpClient = extendedHttpClient;

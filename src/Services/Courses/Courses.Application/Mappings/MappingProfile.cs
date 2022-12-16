@@ -9,14 +9,15 @@ namespace Courses.Application.Mappings;
 
 public class MappingProfile : Profile
 {
-	public MappingProfile()
-	{
-		CreateMap<CreateCourseCommand, CourseDbModel>();
-		CreateMap<EditCourseCommand, CourseDbModel>();
-		CreateMap<CreateModuleCommand, ModuleInfoDbModel>();
-		CreateMap<UpdateModuleCommand, ModuleInfoDbModel>();
-		CreateMap<CourseDbModel,CoursesByIdVm>();
-		CreateMap<CoursePointsDbModel, CoursePointsVm>();
-		CreateMap<CoursePointsVm, CoursePointsDbModel>();
-	}
+    public MappingProfile()
+    {
+        CreateMap<CreateCourseCommand, CourseDbModel>();
+        CreateMap<EditCourseCommand, CourseDbModel>();
+        CreateMap<CreateModuleCommand, ModuleInfoDbModel>();
+        CreateMap<UpdateModuleCommand, ModuleInfoDbModel>();
+        CreateMap<CourseDbModel, CoursesByIdVm>();
+        CreateMap<CoursePointsDbModel, CoursePointsVm>().ReverseMap();
+        CreateMap<CoursePurchasedDbModel, StartedCourseInfoVm>();
+        CreateMap<CoursePointsDbModel, CoursePointsVm>().ReverseMap();
+    }
 }

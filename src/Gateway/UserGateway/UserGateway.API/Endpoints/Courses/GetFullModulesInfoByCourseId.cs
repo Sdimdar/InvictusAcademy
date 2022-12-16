@@ -10,7 +10,7 @@ using UserGateway.Application.Features.Courses.Queries.GetFullModulesInfoByCours
 
 namespace UserGateway.API.Endpoints.Courses;
 
-public class GetFullModulesInfoByCourseId:EndpointBaseAsync
+public class GetFullModulesInfoByCourseId : EndpointBaseAsync
     .WithRequest<GetFullByCourseIdGatewayQuery>
     .WithActionResult<DefaultResponseObject<List<ModuleInfoVm>>>
 {
@@ -29,7 +29,7 @@ public class GetFullModulesInfoByCourseId:EndpointBaseAsync
         Description = "Необходимо передать в строке запроса  Id курса",
         Tags = new[] { "Module" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery]GetFullByCourseIdGatewayQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> HandleAsync([FromQuery] GetFullByCourseIdGatewayQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         string email = HttpContext.Session.GetData("user")!.Email;
         request.UserEmail = email;

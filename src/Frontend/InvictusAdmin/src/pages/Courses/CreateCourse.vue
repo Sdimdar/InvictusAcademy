@@ -89,6 +89,17 @@
       />
     </div>
   </div>
+
+  <div class="q-pa-md" style="max-width: 500px">
+    <div class="q-gutter-md">
+      <q-input
+        filled
+        v-model="courseData.passingDayCount"
+        label="Время прохождения курса в днях"
+        type="number"
+      />
+    </div>
+  </div>
   <q-btn color="black" label="Создать курс" @click="submitCourse" />
 
 
@@ -161,7 +172,8 @@ export default{
         secondDescription: '',
         coursePoints: [{point: "", pointImageLink: ""}],
         isActive: true,
-        videoLink: ""
+        videoLink: "",
+        passingDayCount: 1
       },
       showModules: false,
       responseDataCourse:{

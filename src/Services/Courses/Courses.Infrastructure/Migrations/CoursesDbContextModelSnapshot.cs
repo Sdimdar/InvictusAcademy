@@ -60,6 +60,9 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(100)")
                         .HasDefaultValue("");
 
+                    b.Property<int>("PassingDayCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("SecondDescription")
                         .IsRequired()
                         .ValueGeneratedOnAdd()

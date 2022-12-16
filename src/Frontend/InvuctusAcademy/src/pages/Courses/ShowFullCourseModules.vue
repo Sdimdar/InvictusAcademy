@@ -20,10 +20,9 @@
 import { ref } from "vue";
 import { getFullModulesInfo } from "boot/axios";
 import ModuleCard from "components/Modules/ModuleCardFull.vue";
-import LeftBar from "components/LeftBar.vue";
 
 export default ({
-  components: { ModuleCard, LeftBar },
+  components: { ModuleCard },
   props: {
     logined: {
       Type: Boolean,
@@ -43,7 +42,7 @@ export default ({
   },
   data() {
     return {
-      id: this.$route.params.id,
+      id: this.$route.query.id,
       getFullModulesInfo: [],
 
     };

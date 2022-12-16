@@ -14,7 +14,7 @@ const api = axios.create({
 });
 
 const fileApi = axios.create({
-  baseURL: "https://localhost:7215",
+  baseURL: process.env.CLOUD_STORAGE_URL,
   timeout: 30000,
 })
 
@@ -84,9 +84,14 @@ export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArtic
 export const addTest = (payload) => api.post('/AdminPanel/Modules/AddTest', payload);
 
 //payments
-export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{UserId:paymentData.userId, CourseId:paymentData.courseId, Status:paymentData.status}})
+export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{PageNumber:paymentData.pageNumber, PageSize:paymentData.pageSize, Status:paymentData.status}})
 export const confirmPaymentById = (payload)=> api.post(`/AdminPanel/Payment/Confirm`, payload);
 export const rejectPayment = (payload) => api.post(`/AdminPanel/Payment/Reject`, payload)
+export const getPaymentsCount = (payload) => api.get(`/AdminPanel/Payment/GetPaymentCount`,{params:{PaymentState:payload.status}})
+export const cancelPayment = (payload) => api.post(`/AdminPanel/Payment/CancelPayment`,payload)
+export const getHistoryById = (payload) =>api.get(`/AdminPanel/Payment/GetHistoryByPaymentId?PaymentId=${payload.paymentId}`)
+export const getHistoryByName = (email) =>api.get(`/AdminPanel/Payment/GetHistoryByAdminName?AdminEmail=${email}`)
+
 
 //courses
 export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);
@@ -110,6 +115,16 @@ export const editFreeArticle = (articleData) => api.post('/AdminPanel/FreeArticl
 export const fetchAllFreeArticles = (pageNumber, pageSize, filter) => api.get('/AdminPanel/FreeArticles/GetAll', { params:{ pageNumber: pageNumber, pageSize: pageSize, filterString: filter} });
 export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetCount');
 export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
+
+
+//Jitsi
+export const getAllStreamingRooms = (pageNumber, pageSize) => api.get('/AdminPanel/StreamingRooms/GetAll', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const getStreamingRoom = (address) => api.get('/AdminPanel/StreamingRooms/GetByAddress', { params: { address: address } });
+export const getCountStreamingRooms = () => api.get('/AdminPanel/StreamingRooms/GetCount');
+export const createStreamingRoom = (payload) => api.post('/AdminPanel/StreamingRooms/Create', payload);
+export const closeRoom = (payload) => api.post('/AdminPanel/StreamingRooms/OpenOrCloseRoom', payload, {headers: {
+    "Content-Type": "application/json"}
+});
 
 // filesData
 export const fetchFilesData = (pageNumber, pageSize, filterString) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber, filterString: filterString } });

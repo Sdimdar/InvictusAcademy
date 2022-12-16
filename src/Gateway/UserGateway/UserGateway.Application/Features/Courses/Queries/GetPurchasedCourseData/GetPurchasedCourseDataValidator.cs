@@ -5,8 +5,8 @@ namespace UserGateway.Application.Features.Courses.Queries.GetPurchasedCourseDat
 
 public class GetPurchasedCourseDataValidator : AbstractValidator<GetPurchasedCourseDataQuery>
 {
-	public GetPurchasedCourseDataValidator()
-	{
+    public GetPurchasedCourseDataValidator()
+    {
         RuleFor(p => p.CourseId)
             .GreaterThan(-1).WithMessage("Course ID can't be less then 0");
         RuleFor(p => p.UserId)

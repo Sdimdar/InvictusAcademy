@@ -64,7 +64,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .MaximumLength(100).WithMessage("MiddleName must be less than 100 characters long");
         RuleFor(q => q.InstagramLink)
             .MaximumLength(100).WithMessage("InstagramLink must be less than 100 characters long");
-        RuleFor(q => q.Citizenship)
+        RuleFor(q => q.City)
             .MaximumLength(60).WithMessage("Citizenship must be less than 60 characters long");
     }
 

@@ -54,7 +54,10 @@ module.exports = configure(function (ctx) {
       env: {
         GATEWAY: ctx.dev
                  ? "https://localhost:7153"
-                 : process.env.GATEWAY
+                 : process.env.GATEWAY,
+        CLOUD_STORAGE_URL: ctx.dev
+                 ? "https://localhost:7215"
+                 : process.env.CLOUD_STORAGE_URL
       },
       // transpile: false,
       // publicPath: '/',

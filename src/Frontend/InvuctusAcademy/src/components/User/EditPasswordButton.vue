@@ -1,8 +1,10 @@
 <template>
-    <q-btn color="primary" label="Изменить пароль" @click="getUserData" />
-  
+    <q-btn no-caps outline class="edit-btn" @click="getUserData">
+        Изменить пароль
+    </q-btn>
+
     <q-dialog v-model="editDialog">
-        
+
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6 text-center">Изменить пароль</div>
@@ -10,9 +12,9 @@
         <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
           <q-card-section class="q-pt-none">
 
-            <q-input 
+            <q-input
             :type="isOldPwd ? 'password' : 'text'"
-            label="Старый пароль" 
+            label="Старый пароль"
             v-model="editPassword.oldPassword"
             >
             <template v-slot:append>
@@ -24,7 +26,7 @@
             </template>
           </q-input>
 
-            <q-input 
+            <q-input
             :type="isNewPwd ? 'password' : 'text'"
             dense
             v-model="editPassword.newPassword"
@@ -47,11 +49,11 @@
             </template>
           </q-input>
 
-            <q-input 
+            <q-input
             :type="isConfirm ? 'password' : 'text'"
             dense
             v-model="editPassword.confirmPassword"
-            label="Повторите пароль" 
+            label="Повторите пароль"
             lazy-rules
             :rules="[
               (val) =>
@@ -73,7 +75,7 @@
           </q-input>
 
           </q-card-section>
-  
+
           <q-card-actions class="text-primary">
             <q-btn flat type="reset" label="Отмена" />
             <q-btn flat type="submit" label="Сохранить" />
@@ -82,14 +84,14 @@
       </q-card>
     </q-dialog>
   </template>
-    
+
   <script>
   import { defineComponent, ref } from "vue";
   import { editPassword } from "boot/axios";
   import { fetchLoginedUserData } from 'boot/axios'
   import constants from "../../static/constants";
   import notify from "boot/notifyes";
-  
+
   export default defineComponent({
     name: "editPassword-button",
     data() {
@@ -140,4 +142,15 @@
     },
   });
   </script>
-    
+
+<style>
+.edit-btn{
+  color:#0375DF;
+  font-size: 16px;
+  font-weight: 500;
+  width: 450px;
+  margin-left: 8px;
+  border-radius: 10px;
+}
+
+</style>

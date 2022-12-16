@@ -1,7 +1,6 @@
-namespace AdminGateway.MVC.ViewModels
+namespace AdminGateway.MVC.ViewModels;
+
+public class RegisteredUsersVM
 {
-    public class RegisteredUsersVM
-    {
-        public List<RegisteredUserVM> RegisteredUsers { get; set; }
-    }
+    public List<RegisteredUserVM> RegisteredUsers { get; set; }
 }

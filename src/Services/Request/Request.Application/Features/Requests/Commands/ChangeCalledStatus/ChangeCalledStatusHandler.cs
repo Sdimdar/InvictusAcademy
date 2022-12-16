@@ -7,7 +7,7 @@ using ServicesContracts.Request.Requests.Commands;
 
 namespace Request.Application.Features.Requests.Commands.ChangeCalledStatus;
 
-public class ChangeCalledStatusHandler:IRequestHandler<ChangeCalledStatusCommand, Result<string>>
+public class ChangeCalledStatusHandler : IRequestHandler<ChangeCalledStatusCommand, Result<string>>
 {
     private readonly IRequestRepository _requestRepository;
     private readonly ILogger<ChangeCalledStatusHandler> _logger;
@@ -17,7 +17,7 @@ public class ChangeCalledStatusHandler:IRequestHandler<ChangeCalledStatusCommand
         _requestRepository = requestRepository;
         _logger = logger;
     }
-    
+
     public async Task<Result<string>> Handle(ChangeCalledStatusCommand request, CancellationToken cancellationToken)
     {
         var result = await _requestRepository.GetFirstOrDefaultAsync(r => r.Id == request.Id);
@@ -36,6 +36,6 @@ public class ChangeCalledStatusHandler:IRequestHandler<ChangeCalledStatusCommand
         result.WasCalled = true;
         await _requestRepository.UpdateAsync(result);
         return Result.Success();
-            
+
     }
 }

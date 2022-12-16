@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo;
+using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Responses;
 
 namespace Courses.API.Mappings;
 
 public class ApiMappingProfile : Profile
 {
-	public ApiMappingProfile()
-	{
-		CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
-		CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
+    public ApiMappingProfile()
+    {
+        CreateMap<ModuleInfoDbModel, ModuleInfoVm>();
+        CreateMap<ModuleInfoDbModel, ShortModuleInfoVm>();
         CreateMap<CourseDbModel, CourseVm>();
         CreateMap<CourseDbModel, CourseByIdVm>();
         CreateMap<CourseInfoDbModel, CourseInfoVm>()

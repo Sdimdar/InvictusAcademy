@@ -22,7 +22,7 @@ public class EditCourse : EndpointBaseAsync
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
     [HttpPost("/Course/Edit")]
     [SwaggerOperation(
         Summary = "Редакитрование курса",
@@ -30,7 +30,7 @@ public class EditCourse : EndpointBaseAsync
         Tags = new[] { "Course" })
     ]
 
-    public override async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> HandleAsync(EditCourseCommand request, CancellationToken cancellationToken)
+    public override async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> HandleAsync(EditCourseCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<CourseInfoDbModel>>(result));

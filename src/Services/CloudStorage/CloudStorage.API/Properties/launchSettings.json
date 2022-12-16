@@ -11,7 +11,7 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7215;http://localhost:6215"
     },
-    "Request.API.NoSwagger": {
+    "CloudStorage.API.NoSwagger": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "swagger",
@@ -27,15 +27,6 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
       "useSSL": true
-    }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:24033",
-      "sslPort": 44313
     }
   }
 }

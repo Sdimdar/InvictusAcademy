@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
-using CommonRepository.Abstractions;
+﻿using CommonRepository.Abstractions;
 using CommonRepository.Models;
+using System.Linq.Expressions;
 
 namespace TestCommonRepository;
 
@@ -12,13 +12,13 @@ public abstract class TestCommonRepository<TEntity> : IBaseRepository<TEntity> w
     {
         Context = new List<TEntity>();
     }
-    
+
     public virtual Task<List<TEntity>> GetAllAsync()
     {
         return Task.FromResult(Context.ToList());
     }
 
-    public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, 
+    public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate,
                                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy)
     {
         var query = Context.AsQueryable().Where(predicate);
@@ -66,6 +66,6 @@ public abstract class TestCommonRepository<TEntity> : IBaseRepository<TEntity> w
                                                                        .Take(pageSize);
         return Task.FromResult(query.ToList());
     }
-    
+
     protected abstract IQueryable<TEntity> FilterByString(IQueryable<TEntity> query, string? filterString);
 }

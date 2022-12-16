@@ -13,4 +13,6 @@ public class PaymentsVm
     public PaymentState PaymentState { get; set; }
     public string? RejectReason { get; set; }
     public string? ModifyAdminEmail { get; set; }
+    public string StartDate { get; set; }
+    public string EndDate { get; set; }
 }
