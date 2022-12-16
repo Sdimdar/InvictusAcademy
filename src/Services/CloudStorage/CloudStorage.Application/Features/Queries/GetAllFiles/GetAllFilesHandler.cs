@@ -42,7 +42,7 @@ public class GetAllFilesHandler : IRequestHandler<GetAllFilesQuery, Result<GetAl
             return Result.Error($"{BussinesErrors.ListIsEmpty.ToString()}: Request list is empty");
         }
 
-        var data = await _cloudStorage.GetFilteredBatchOfData(request.PageSize, request.PageNumber);
+        var data = await _cloudStorage.GetFilteredBatchOfData(request.PageSize, request.PageNumber, request.FilterString);
         data.ToList().ForEach(x => x.FilePath = $"https://invictus.object.pscloud.io/{x.FilePath}");
         
         var response = new GetAllFilesVM

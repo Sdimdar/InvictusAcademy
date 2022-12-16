@@ -10,7 +10,7 @@ public interface ICloudStorages : IUseExtendedHttpClient<ICloudStorages>
 {
     Task<DefaultResponseObject<string>> Upload (UploadFileCommand request);
     
-    Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize);
+    Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize, string? filterString);
     Task<DefaultResponseObject<int>> GetFilesCount();
     Task<DefaultResponseObject<List<GetAllFilesVM>>> GetFilterByString(GetFilesByFilterStringQuery request);
 

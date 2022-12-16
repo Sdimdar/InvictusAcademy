@@ -22,9 +22,9 @@ public class CloudStorageController : Controller
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<ActionResult<DefaultResponseObject<GetAllFilesVM>>> GetAllFiles(int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<DefaultResponseObject<GetAllFilesVM>>> GetAllFiles(int pageNumber, int pageSize, string? filterString)
     {
-        var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize);
+        var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize, filterString);
         return Ok(response);
     }
 

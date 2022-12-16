@@ -23,10 +23,10 @@ public class CloudStorage : ICloudStorages
         return await ExtendedHttpClient.PostAndReturnResponseAsync<UploadFileCommand, DefaultResponseObject<string>>(request, $"/CloudStorage/UploadFile");
     }
 
-    public async Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize)
+    public async Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize, string? filterString)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<GetAllFilesVM>>(
-            $"/CloudStorage/GetAllFiles?pageNumber={pageNumber}&pageSize={pageSize}");
+            $"/CloudStorage/GetAllFiles?pageNumber={pageNumber}&pageSize={pageSize}&filterString={filterString}");
     }
 
     public async Task<DefaultResponseObject<int>> GetFilesCount()

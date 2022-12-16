@@ -9,19 +9,4 @@ public class GetAllFilesVM
     public int TotalPages { get; set; }
     public List<CloudStorageDbModel> Files { get; set; }
     public int RequestsCount { get; set; }
-    public bool HasPreviousPage
-    {
-        get
-        {
-            return (PageNumber > 1);
-        }
-    }
- 
-    public bool HasNextPage
-    {
-        get
-        {
-            return (PageNumber < TotalPages);
-        }
-    }
 }

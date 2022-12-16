@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { fetchFilesData, fetchFilesCount } from "boot/axios";
+import {fetchFilesData, fetchFilesCount, fetchAllFreeArticles} from "boot/axios";
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 const columns = [
@@ -78,7 +78,12 @@ export default {
       // fetch data from "server"
       try {
         console.log(page + " " + rowsPerPage)
-        response = await fetchFilesData(page, rowsPerPage)
+        if(rowsPerPage === 0){
+          response = await fetchFilesData(0, rowsPerPage)
+        }
+        else{
+          response = await fetchFilesData(page, rowsPerPage, props.filter)
+        }
         console.log("Files on data:")
         console.log(response)
         if (response.status === 200) {
