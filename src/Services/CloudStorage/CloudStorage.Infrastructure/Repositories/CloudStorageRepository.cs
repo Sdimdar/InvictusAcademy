@@ -37,4 +37,15 @@ public class CloudStorageRepository : BaseRepository<CloudStorageDbModel, CloudS
             .Where(c => c.FileName.ToLower().Contains(filterString.ToLower()));
         return query.ToList();
     }
+
+    public async Task<List<string>> GetFilesName(string fileName)
+    {
+        var searchList = new List<string>();
+        var query = Context.CloudStorageFiles.ToList().FindAll(c => c.FileName.Contains(fileName));
+        foreach (var item in query)
+        {
+            searchList.Add(item.FilePath);
+        }
+        return searchList;
+    }
 }

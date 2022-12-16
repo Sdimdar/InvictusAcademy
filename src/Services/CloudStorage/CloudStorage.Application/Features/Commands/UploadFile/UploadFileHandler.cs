@@ -52,7 +52,7 @@ public class UploadFileHandler : IRequestHandler<UploadFileCommand, Result<strin
             string fileExtenstion = Path.GetExtension(filePath.FilePath);
             switch (fileExtenstion)
             {
-                case ".mp4": case ".avi": case ".mov":
+                case ".mp4": case ".mov":
                     keyName = $"video/{keyName}";
                     break;
                 case ".jpg": case ".jpeg": case ".png":
