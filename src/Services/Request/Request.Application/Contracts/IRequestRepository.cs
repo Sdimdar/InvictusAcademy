@@ -6,4 +6,5 @@ namespace Request.Application.Contracts;
 
 public interface IRequestRepository : IBaseRepository<RequestDbModel>
 {
+    
 }

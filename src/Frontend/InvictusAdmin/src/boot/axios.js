@@ -112,5 +112,6 @@ export const getFreeArticlesCount = () => api.get('/AdminPanel/FreeArticles/GetC
 export const fetchFreeArticle = (id) => api.get('/AdminPanel/FreeArticles/GetFreeArticleData', {params:{id: id}});
 
 // filesData
-export const fetchFilesData = (pageNumber, pageSize) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchFilesData = (pageNumber, pageSize, filterString) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber, filterString: filterString } });
 export const fetchFilesCount = () => api.get('/AdminPanel/CLoudStorage/GetFilesCount');
+export const fetchFilesByFilterString = (filterString) => api.get(`/AdminPanel/CLoudStorage/GetFilterByString?filteredString=${filterString}`);

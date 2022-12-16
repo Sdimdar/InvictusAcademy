@@ -2,6 +2,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
 using ServicesContracts.CloudStorage.Requests.Commands;
+using ServicesContracts.CloudStorage.Requests.Queries;
 using ServicesContracts.CloudStorage.Responses;
 using ServicesContracts.Identity.Responses;
 
@@ -32,5 +33,12 @@ public class CloudStorage : ICloudStorages
     {
         return await ExtendedHttpClient
             .GetAndReturnResponseAsync<DefaultResponseObject<int>>("/CloudStorage/GetFilesCount");
+    }
+    
+    public async Task<DefaultResponseObject<List<GetAllFilesVM>>> GetFilterByString(GetFilesByFilterStringQuery filterString)
+    {
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<GetFilesByFilterStringQuery, 
+                DefaultResponseObject<List<GetAllFilesVM>>>(filterString,$"/CloudStorage/GetFilterByString?filteredString={filterString}");
     }
 }

@@ -29,14 +29,14 @@ public class GetAllFilesHandler : IRequestHandler<GetAllFilesQuery, Result<GetAl
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid) return Result.Invalid(validationResult.AsErrors());
 
-        var usersCount = _cloudStorage.GetCountAsync();
+        var usersCount = await _cloudStorage.GetCountAsync();
         if (request.PageSize == 0)
         {
             request.PageNumber = 1;
-            request.PageSize = await usersCount;
+            request.PageSize = usersCount;
         }
 
-        if (await usersCount == 0)
+        if (usersCount == 0)
         {
             _logger.LogWarning($"{BussinesErrors.ListIsEmpty.ToString()}: Request list is empty");
             return Result.Error($"{BussinesErrors.ListIsEmpty.ToString()}: Request list is empty");

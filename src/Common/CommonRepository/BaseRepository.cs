@@ -33,7 +33,7 @@ public abstract class BaseRepository<TEntity, TContext> : IBaseRepository<TEntit
         return await Context.Set<TEntity>()
                             .FirstOrDefaultAsync(i => i.Id == id);
     }
-
+    
     public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         entity.CreatedDate = DateTime.Now;
