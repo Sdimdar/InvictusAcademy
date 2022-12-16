@@ -1,13 +1,16 @@
+using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
 using DataTransferLib.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
-
+[Authorize]
 [Route("AdminPanel/[controller]/[action]")]
 public class UsersController : Controller
 {
@@ -20,6 +23,7 @@ public class UsersController : Controller
         _mapper = mapper;
     }
 
+    [Authorize(Roles = RolesHelper.Administrator)]
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
@@ -38,7 +42,7 @@ public class UsersController : Controller
         };
         return Ok(responce);
     }
-
+    
     [HttpGet]
     [SwaggerOperation(
         Summary = "Возвращает количество пользователей, для пагинации")
@@ -48,7 +52,8 @@ public class UsersController : Controller
         var response = await _iGetUsers.GetUsersCount();
         return Ok(response);
     }
-
+    
+    [Authorize(Roles = RolesHelper.Administrator)]
     [HttpPost]
     [SwaggerOperation(
         Summary = "Изменяет статус для User бан/не бан",

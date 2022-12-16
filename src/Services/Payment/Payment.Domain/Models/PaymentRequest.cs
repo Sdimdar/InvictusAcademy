@@ -41,4 +41,10 @@ public class PaymentRequest
         RejectReason = reason!;
         PaymentState = PaymentState.Rejected;
     }
+    public void CancelPayment(string reason, string adminEmail)
+    {
+        ModifyAdminEmail = adminEmail!;
+        RejectReason = reason!;
+        PaymentState = PaymentState.Cancelled;
+    }
 }

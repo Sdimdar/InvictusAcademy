@@ -23,8 +23,8 @@ public class Reject : EndpointBaseAsync
 
     [HttpPost("/Payments/Reject")]
     [SwaggerOperation(
-        Summary = "Отклонение платежа",
-        Description = "Необходимо передать в теле запроса Id платежа и Email админа отклонившего платёж." +
+        Summary = "Отклонение заявки на платеж",
+        Description = "Необходимо передать в теле запроса Id платежа и Email админа отклонившего заявку на платёж." +
                       "А также строку с объяснением почему платёж был отклонён.",
         Tags = new[] { "Payments" })
     ]

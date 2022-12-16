@@ -76,9 +76,14 @@ export const addNewArticle = (payload) => api.post('/AdminPanel/Modules/AddArtic
 export const addTest = (payload) => api.post('/AdminPanel/Modules/AddTest', payload);
 
 //payments
-export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{UserId:paymentData.userId, CourseId:paymentData.courseId, Status:paymentData.status}})
+export const getPaymentsByParams = (paymentData) => api.get(`/AdminPanel/Payment/GetWithParametersPayment`, {params:{PageNumber:paymentData.pageNumber, PageSize:paymentData.pageSize, Status:paymentData.status}})
 export const confirmPaymentById = (payload)=> api.post(`/AdminPanel/Payment/Confirm`, payload);
 export const rejectPayment = (payload) => api.post(`/AdminPanel/Payment/Reject`, payload)
+export const getPaymentsCount = (payload) => api.get(`/AdminPanel/Payment/GetPaymentCount`,{params:{PaymentState:payload.status}})
+export const cancelPayment = (payload) => api.post(`/AdminPanel/Payment/CancelPayment`,payload)
+export const getHistoryById = (payload) =>api.get(`/AdminPanel/Payment/GetHistoryByPaymentId?PaymentId=${payload.paymentId}`)
+export const getHistoryByName = (email) =>api.get(`/AdminPanel/Payment/GetHistoryByAdminName?AdminEmail=${email}`)
+
 
 //courses
 export const createCourse = (courseData) => api.post('/AdminPanel/Courses/CreateCourse', courseData);

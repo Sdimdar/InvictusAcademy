@@ -130,4 +130,16 @@ public class CourseRepository : BaseRepository<CourseDbModel, CoursesDbContext>,
                             || v.Description.ToLower().Contains(filterString.ToLower())
             );
     }
+
+    public async Task<List<CoursePurchasedDbModel>> GetPurchaseCourseByUserId(List<int> usersId)
+    {
+        List<CoursePurchasedDbModel> list = new();
+        foreach (var item in usersId)
+        {
+            var query = await Context.CoursePurchaseds.FirstOrDefaultAsync(c => c.UserId == item);
+            if (query is not null)
+                list.Add(query);
+        }
+        return list;
+    }
 }

@@ -3,6 +3,7 @@ using Ardalis.Result;
 using AutoMapper;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
+using Payment.Domain.Enums;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
@@ -10,6 +11,7 @@ using ServicesContracts.Identity.Responses;
 using ServicesContracts.Payments.Commands;
 using ServicesContracts.Payments.Models;
 using ServicesContracts.Payments.Queries;
+using ServicesContracts.Payments.Response;
 
 namespace AdminGateway.MVC.Services;
 
@@ -82,15 +84,22 @@ public class PaymentService : IPaymentService
             ($"/Payments/Get?PaymentId={request.PaymentId}", cancellationToken);
     }
 
-    public async Task<DefaultResponseObject<List<PaymentsVm>>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request,
+    public async Task<DefaultResponseObject<int>> GetPaymentsCount(GetPaymentsCountQuery request,
+        CancellationToken cancellationToken)
+    {
+        return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<int>>
+            ($"/Payments/Count?PaymentState={request.PaymentState}");
+    }
+
+    public async Task<DefaultResponseObject<PaymentsPaginationVm>> GetWithParametersPaymentRequestAsync(GetPaymentsWithParametersQuery request, 
                                                                                                     CancellationToken cancellationToken)
     {
-        var payments = await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<List<PaymentsVm>>>(
-            $"/Payments/GetWithParameters?UserEmail={request.UserId}&CourseId={request.CourseId}&Status={request.Status}",
+        var payments = await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<PaymentsPaginationVm>>(
+            $"/Payments/GetWithParameters?PageNumber={request.PageNumber}&PageSize={request.PageSize}&Status={request.Status}",
             cancellationToken);
         if (!payments.IsSuccess) return payments;
         List<int> list = new();
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             list.Add(item.CourseId);
         }
@@ -104,15 +113,14 @@ public class PaymentService : IPaymentService
             return payments;
         }
         list = new List<int>();
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             list.Add(item.UserId);
         }
 
-        var test = internalRequest;
         internalRequest.ListId = list;
         var usersEmails =
-            await UsersHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery, DefaultResponseObject<List<UsersEmailsByListIdVm>>>(internalRequest,
+            await UsersHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery,DefaultResponseObject<List<UsersEmailsByListIdVm>>>(internalRequest,
                 "/User/GetUsersById");
         if (!usersEmails.IsSuccess)
         {
@@ -120,22 +128,134 @@ public class PaymentService : IPaymentService
             if (usersEmails.ValidationErrors.Any()) payments.ValidationErrors = usersEmails.ValidationErrors;
             return payments;
         }
-
-        foreach (var item in payments.Value)
+        
+        foreach (var item in payments.Value.Payments)
         {
             foreach (var user in usersEmails.Value)
             {
                 if (item.UserId == user.Id) item.UserEmail = user.Email;
             }
         }
-        foreach (var item in payments.Value)
+        foreach (var item in payments.Value.Payments)
         {
             foreach (var course in coursesNames.Value)
             {
                 if (item.CourseId == course.Id) item.CourseName = course.Name;
             }
         }
+        //запрос в сервис для сбора инфы даты начала и конца оплаченного курса  курса
+        if (request.Status == PaymentState.Confirmed)
+        {
+            List<UserIdCourseIdQuery> listOfId = new();
+            foreach(var item in payments.Value.Payments) 
+                listOfId.Add(new UserIdCourseIdQuery{UserId = item.UserId,CourseId = item.CourseId});
+            var startedCourseRequest = new GetStartedCoursesQuery { ListOfId = listOfId };
+            var startedCourseInfo =
+                await CourseHttpClient
+                    .PostAndReturnResponseAsync<GetStartedCoursesQuery,
+                        DefaultResponseObject<List<StartedCourseInfoVm>>>(startedCourseRequest,
+                        "/Courses/GetStartedCourses");
+            if (!startedCourseInfo.IsSuccess)
+            {
+                if (startedCourseInfo.Errors.Any()) payments.Errors = usersEmails.Errors;
+                if (startedCourseInfo.ValidationErrors.Any()) payments.ValidationErrors = usersEmails.ValidationErrors;
+                return payments;
+            }
+
+            foreach (var item in payments.Value.Payments)
+            {
+                var result =
+                    startedCourseInfo.Value.FirstOrDefault(x => x.UserId == item.UserId && x.CourseId == item.CourseId);
+                if (result is not null)
+                {
+                    item.StartDate = result.StartDate;
+                    item.EndDate = result.EndDate;
+                }
+            }
+        }
 
         return payments;
     }
+
+    public async Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetHistoryByAdminNameAsync(
+        GetHistoryByAdminNameQuery request, CancellationToken cancellationToken)
+    {
+        var paymentsHistory = await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<List<PaymentHistoryVm>>>(
+                $"Payments/GetHistoryByAdminName?AdminEmail={request.AdminEmail}");
+        if (!paymentsHistory.IsSuccess) return paymentsHistory;
+        paymentsHistory = await GetEmailsAndCourseNames(paymentsHistory);
+        return paymentsHistory;
+    }
+
+    public async Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetHistoryByPaymentId(
+        GetHistoryByPaymentIdQuery request, CancellationToken cancellationToken)
+    {
+        var paymentsHistory = await ExtendedHttpClient
+            .GetAndReturnResponseAsync<DefaultResponseObject<List<PaymentHistoryVm>>>(
+                $"Payments/GetHistoryById?PaymentId={request.PaymentId}");
+        if (!paymentsHistory.IsSuccess) return paymentsHistory;
+        paymentsHistory = await GetEmailsAndCourseNames(paymentsHistory);
+        return paymentsHistory;
+    }
+
+    public async Task<DefaultResponseObject<bool>> CancelPaymentAsync(CancelPaymentCommand request,
+        CancellationToken cancellationToken)
+    {
+        var response = await ExtendedHttpClient.PostAndReturnResponseAsync<CancelPaymentCommand, DefaultResponseObject<bool>>(
+            request, "/Payments/Cancel", cancellationToken);
+        return response;
+    }
+
+    //Используется только для типа PaymentHistoryVm
+    private async Task<DefaultResponseObject<List<PaymentHistoryVm>>> GetEmailsAndCourseNames(
+        DefaultResponseObject<List<PaymentHistoryVm>> paymentsHistory)
+    {
+        List<int> list = new();
+        foreach (var item in paymentsHistory.Value)
+        {
+            list.Add(item.CourseId);
+        }
+        GetCoursesNamesByListIdQuery internalRequest = new GetCoursesNamesByListIdQuery { ListId = list };
+        var coursesNames = await CourseHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery, DefaultResponseObject<List<CoursesByIdVm>>>(internalRequest,
+            "/Course/GetCoursesById");
+        if (!coursesNames.IsSuccess)
+        {
+            if (coursesNames.Errors.Any()) paymentsHistory.Errors = coursesNames.Errors;
+            if (coursesNames.ValidationErrors.Any()) paymentsHistory.ValidationErrors = coursesNames.ValidationErrors;
+            return paymentsHistory;
+        }
+        list = new List<int>();
+        foreach (var item in paymentsHistory.Value)
+        {
+            list.Add(item.UserId);
+        }
+        internalRequest.ListId = list;
+        var usersEmails =
+            await UsersHttpClient.PostAndReturnResponseAsync<GetCoursesNamesByListIdQuery,DefaultResponseObject<List<UsersEmailsByListIdVm>>>(internalRequest,
+                "/User/GetUsersById");
+        if (!usersEmails.IsSuccess)
+        {
+            if (usersEmails.Errors.Any()) paymentsHistory.Errors = usersEmails.Errors;
+            if (usersEmails.ValidationErrors.Any()) paymentsHistory.ValidationErrors = usersEmails.ValidationErrors;
+            return paymentsHistory;
+        }
+        
+        foreach (var item in paymentsHistory.Value)
+        {
+            foreach (var user in usersEmails.Value)
+            {
+                if (item.UserId == user.Id) item.UserEmail = user.Email;
+            }
+        }
+        foreach (var item in paymentsHistory.Value)
+        {
+            foreach (var course in coursesNames.Value)
+            {
+                if (item.CourseId == course.Id) item.CourseName = course.Name;
+            }
+        }
+        return paymentsHistory;
+    }
+    
 }

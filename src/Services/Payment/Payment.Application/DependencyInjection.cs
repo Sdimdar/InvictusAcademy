@@ -1,7 +1,8 @@
-﻿using FluentValidation;
+using System.Reflection;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+
 
 namespace Payment.Application;
 
@@ -15,4 +16,5 @@ public static class DependencyInjection
 
         return services;
     }
+    
 }

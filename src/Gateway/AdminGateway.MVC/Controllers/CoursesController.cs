@@ -1,7 +1,9 @@
-﻿using AdminGateway.MVC.Services.Interfaces;
+﻿using AdminGateway.MVC.Models;
+using AdminGateway.MVC.Services.Interfaces;
 using CommonStructures;
 using Courses.Domain.Entities.CourseInfo;
 using DataTransferLib.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Courses.Requests.Courses.Commands;
 using ServicesContracts.Courses.Requests.Courses.Querries;
@@ -9,6 +11,7 @@ using ServicesContracts.Courses.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdminGateway.MVC.Controllers;
+[Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Instructor}")]
 [Route("AdminPanel/[controller]/[action]")]
 public class CoursesController : Controller
 {
