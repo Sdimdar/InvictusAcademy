@@ -61,7 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdminGateway", "AdminGatewa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{C3684626-959D-4CE0-AB89-58C2F64B6395}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API.Tests", "UnitTests\Identity.API.Tests\User.API.Tests.csproj", "{9760B0D9-007E-4968-816D-600FFF45C132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API.Tests", "UnitTests\User.API.Tests\User.API.Tests.csproj", "{9760B0D9-007E-4968-816D-600FFF45C132}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Request.API.Tests", "UnitTests\Request.API.Tests\Request.API.Tests.csproj", "{8D24B600-0130-47E2-8A39-6B471D9B8F85}"
 EndProject

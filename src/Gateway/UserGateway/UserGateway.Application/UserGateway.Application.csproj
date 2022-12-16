@@ -30,7 +30,6 @@
     <ProjectReference Include="..\..\..\Common\ExtendedHttpClient\ExtendedHttpClient.csproj" />
     <ProjectReference Include="..\..\..\Common\PasswordsHash\StringHash.csproj" />
     <ProjectReference Include="..\..\..\Common\ServicesContracts\ServicesContracts.csproj" />
-    <ProjectReference Include="..\..\..\Services\FreeArticles.Application\FreeArticles.Application.csproj" />
     <ProjectReference Include="..\UserGateway.Domain\UserGateway.Domain.csproj" />
   </ItemGroup>
 
