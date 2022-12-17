@@ -60,17 +60,4 @@ public class CloudStorageController : Controller
         var eResult = await _mediator.Send(new UploadFileCommand{FilePath = string.Empty} , cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<string>>(eResult));
     }
-
-    [HttpPost("/CloudStorage/GetFilePathByName")]
-    [SwaggerOperation(
-        Summary = "Поиск файла по имени",
-        Description = "Впишите имя файла для поиска",
-        Tags = new[] {"S3"})
-    ]
-    public async Task<ActionResult<DefaultResponseObject<List<string>>>> GetFilePathByName([FromQuery]string fileName, CancellationToken cancellationToken)
-    {
-        var result = _mediator.Send(new GetFilePathByName() {FileName = fileName},
-            cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<List<string>>>(result));
-    }
 }

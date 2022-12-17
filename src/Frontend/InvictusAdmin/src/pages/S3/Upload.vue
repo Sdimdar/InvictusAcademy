@@ -12,18 +12,19 @@
         </template>
       </q-table>
     </div>
+
     <div class="q-pa-md">
       <div class="q-gutter-sm row items-start">
-        <q-uploader :url="cloudStorageUplodadURL" color="teal" flat bordered
-          style="max-width: 300px" />
+        <q-uploader :url="cloudStorageUplodadURL" color="teal" flat bordered style="max-width: 300px" />
       </div>
     </div>
+
   </div>
 
 </template>
 
 <script>
-import {fetchFilesData, fetchFilesCount, fetchAllFreeArticles} from "boot/axios";
+import { fetchFilesData, fetchFilesCount } from "boot/axios";
 import { ref, onMounted } from 'vue';
 import notify from "boot/notifyes";
 const columns = [
@@ -45,7 +46,7 @@ export default {
       sortBy: 'desc',
       descending: false,
       page: 1,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
       rowsNumber: 10
     })
 
@@ -54,12 +55,7 @@ export default {
       let { page, rowsPerPage, sortBy, descending } = props.pagination
       let response;
 
-      // пока что запретил показывать All
-      //if(rowsPerPage === 0) rowsPerPage = 3
-
       loading.value = true
-
-      // update rowsCount with appropriate value
       try {
         response = await fetchFilesCount();
         console.log("Files on count:")
@@ -78,10 +74,10 @@ export default {
       // fetch data from "server"
       try {
         console.log(page + " " + rowsPerPage)
-        if(rowsPerPage === 0){
+        if (rowsPerPage === 0) {
           response = await fetchFilesData(0, rowsPerPage)
         }
-        else{
+        else {
           response = await fetchFilesData(page, rowsPerPage, props.filter)
         }
         console.log("Files on data:")
