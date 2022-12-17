@@ -12,7 +12,7 @@ namespace UserGateway.API.Endpoints.FreeArticles;
 
 public class GetAll : EndpointBaseAsync
     .WithRequest<GetAllFreeArticlesQuery>
-    .WithActionResult<DefaultResponseObject<AllFreeArticlesVm>>
+    .WithActionResult<DefaultResponseObject<AllFreeArticlesShortVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ public class GetAll : EndpointBaseAsync
         Description = "Для пагинации требуется вести в строку номер страницы, строка фильтра может быть пустой",
         Tags = new[] { "FreeArticle" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesVm>>> HandleAsync([FromQuery] GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<DefaultResponseObject<AllFreeArticlesShortVm>>> HandleAsync([FromQuery] GetAllFreeArticlesQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
         var email = HttpContext.Session.GetData("user").Email;
         if (email is null)
@@ -37,6 +37,6 @@ public class GetAll : EndpointBaseAsync
             throw new UnauthorizedAccessException("User is not authorized");
         }
         var result = await _mediator.Send(request, cancellationToken);
-        return Ok(_mapper.Map<DefaultResponseObject<AllFreeArticlesVm>>(result));
+        return Ok(_mapper.Map<DefaultResponseObject<AllFreeArticlesShortVm>>(result));
     }
 }

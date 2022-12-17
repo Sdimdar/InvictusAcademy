@@ -12,7 +12,7 @@ namespace UserGateway.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<DefaultResponseObject<UserVm>>
+    .WithActionResult<DefaultResponseObject<GetUserDataVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ public class GetUserData : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<GetUserDataVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         string? email = HttpContext.Session.GetData("user")?.Email;
         GetUserDataQuerry query = new() { Email = email };
