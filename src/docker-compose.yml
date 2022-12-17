@@ -1,16 +1,13 @@
 version: '3.4'
 
-services:
-  sessionsdb:
-    image: postgres
-    container_name: sessionsdb
+services:  
+  redis:
+    image: redis/redis-stack-server
+    container_name: redis
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    restart: always
+      - REQUIREPASS=${REDIS_PASSWORD}
     volumes:
-      - session_data:/var/lib/postgresql/data
-      - session_data:/var/lib/postgressql/userData
+      - redis_data:/bitnami/redis/data
 
   admindb:
     image: postgres
@@ -180,7 +177,7 @@ services:
     container_name: gateway.api
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - "ConnectionStrings:SessionConnectionString=Server=sessionsdb;Port=5432;UserId=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+      - ConnectionStrings:RedisCacheConnectionString=redis,password=${REDIS_PASSWORD}
       - "ApiSettings:IdentityUrl=http://user.api"
       - "ApiSettings:RequestUrl=http://request.api"
       - "ApiSettings:CourseUrl=http://courses.api"
@@ -188,17 +185,17 @@ services:
       - "ApiSettings:FreeArticleUrl=http://freearticles.api"
       - "ApiSettings:StreamingRoomUrl=http://jitsi.api"
     depends_on:
-      - sessionsdb
       - user.api
       - courses.api
       - request.api
       - payment.api
       - freearticles.api
       - jitsi.api
+      - redis
     ports: 
       - "8000:80"
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
 
   admingateway.api:
     image: ${DOCKER_REGISTRY-}admingatewayapi
@@ -228,7 +225,7 @@ services:
     ports: 
       - "8001:80"
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
   
   cloudstorage.api:
     image: ${DOCKER_REGISTRY-}cloudstorageapi
@@ -244,7 +241,7 @@ services:
     ports:
       - "8005:80"
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
   
   user.api:
     image: ${DOCKER_REGISTRY-}userapi
@@ -258,7 +255,7 @@ services:
     depends_on:
       - userdb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
 
   request.api:
     image: ${DOCKER_REGISTRY-}requestapi
@@ -272,7 +269,7 @@ services:
     depends_on:
       - requestdb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
 
   courses.api:
     image: ${DOCKER_REGISTRY-}coursesapi
@@ -289,7 +286,7 @@ services:
       - coursesdb
       - coursesinfodb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
   
   jitsi.api:
     image: ${DOCKER_REGISTRY-}jitsiapi
@@ -303,7 +300,7 @@ services:
     depends_on:
       - jitsidb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
   
   payment.api:
     image: ${DOCKER_REGISTRY-}paymentapi
@@ -317,7 +314,7 @@ services:
     depends_on:
       - paymentdb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
 
   freearticles.api:
     image: ${DOCKER_REGISTRY-}freearticlesapi
@@ -331,7 +328,7 @@ services:
     depends_on:
       - freearticlesdb
     volumes:
-      - logs_volume:/app/logs
+      - ../logs:/app/logs
 
 volumes:
   mongo_data:
@@ -345,4 +342,4 @@ volumes:
   jitsidb_data: 
   paymentdb_data:
   freearticlesdb_data:
-  logs_volume:   
+  redis_data: 
