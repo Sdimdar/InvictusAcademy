@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <q-page-container>
 
     <div class="row justify-content-start">
 
@@ -29,7 +29,7 @@
         :boundary-numbers="false"
       />
     </div>
-  </div>
+  </q-page-container>
 </template>
 
 <script>

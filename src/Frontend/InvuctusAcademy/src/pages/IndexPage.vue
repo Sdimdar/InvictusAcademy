@@ -41,6 +41,12 @@
         <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
       </div>
     </div>
+    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="allStreamingRooms">
+      Скорые трансляции
+      <div class="row">
+        <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
+      </div>
+    </div>
   </q-page-container>
 
 </template>
@@ -52,7 +58,8 @@ import {
   getCompletedCourses,
   getWishedCourses,
   getNewCourses,
-  fetchAllFreeArticles
+  fetchAllFreeArticles,
+  getAllStreamingRooms
 } from "boot/axios";
 import RequestButton from 'components/RequestButton.vue'
 import CourseCard from "components/Courses/CourseCard.vue";
@@ -80,14 +87,31 @@ export default defineComponent({
       showCourses: [],
       current: 4,
       currentLenght: false,
-      allFreeAticles: [{}]
+      allFreeAticles: [{}],
+      allStreamingRooms : null
     };
   },
-  mounted() {
-    this.getCoursesData();
-    this.getFreeArticles();
+  async mounted() {
+    await this.getCoursesData()
+    await this.getFreeArticles()
+    await this.getAllStreamingRooms()
   },
   methods: {
+    async getAllStreamingRooms() {
+      try {
+        const response = await getAllStreamingRooms(1, 5);
+        if (response.data.isSuccess) {
+          this.allStreamingRooms = response.data.value.streamingRooms;
+          await this.getCountStreamingRooms();
+        } else {
+          response.data.errors.forEach(element => {
+            notify.showErrorNotify(element);
+          });
+        }
+      } catch (e) {
+        notify.showErrorNotify(e.message);
+      }
+    },
     async getCoursesData() {
       try {
         const response = await getNewCourses();
