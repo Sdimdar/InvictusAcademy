@@ -200,7 +200,7 @@ export default {
       }
     }
   },
-  async beforeMounted() {
+  async mounted() {
     await this.getUserData()
   }
 }
