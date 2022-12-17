@@ -8,7 +8,7 @@
       </q-img>
 
       <q-card-actions>
-        <q-btn v-if="data.purchased" :href="'/course/' + data.id" flat color="primary">
+        <q-btn v-if="data.purchased" @click="openPurchasedCoursePage(data.id)" flat color="primary">
           Перейти к курсу
         </q-btn>
         <q-btn v-if="!data.purchased" @click="openPage(data.id)">
@@ -41,8 +41,10 @@ export default {
     this.getWishedData()
   },
   methods: {
+    openPurchasedCoursePage(id){
+      this.$router.push({ path: `/course/${id}`})
+    },
     openPage(id) {
-      console.log(id);
       this.$router.push({ path: '/user/courseDetails', query: { id: id } })
     },
     async addOrRemoveWished(id) {

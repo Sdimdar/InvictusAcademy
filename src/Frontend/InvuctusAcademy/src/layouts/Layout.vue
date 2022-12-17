@@ -72,12 +72,12 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item >
             <q-item-section avatar>
               <img src="img/icons/message.svg" />
             </q-item-section>
 
-            <q-item-section>
+            <q-item-section style="color: gray;">
               Чат
             </q-item-section>
           </q-item>
@@ -94,12 +94,12 @@
 
           <div class="spacer"></div>
 
-          <q-item clickable v-ripple>
+          <q-item>
             <q-item-section avatar>
               <img src="img/icons/support.svg" />
             </q-item-section>
 
-            <q-item-section>
+            <q-item-section style="color: gray;">
               Тех.поддержка
             </q-item-section>
           </q-item>
@@ -114,7 +114,7 @@
     </q-drawer>
 
     <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
-      <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
+      <router-view v-if="logined" :logined="logined" :loginedUserEmail="loginedUserEmail" />
     </q-page-container>
   </q-layout>
 
@@ -160,8 +160,7 @@ export default {
     return {
       logined: false,
       loginedUserEmail: "",
-      userName: "",
-      initialized: false
+      userName: ""
     }
   },
   methods: {
@@ -196,9 +195,8 @@ export default {
       }
     }
   },
-  async created() {
+  async beforeMounted() {
     await this.getUserData()
-    this.initialized = true
   }
 }
 </script>

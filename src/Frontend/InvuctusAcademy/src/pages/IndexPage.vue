@@ -1,14 +1,15 @@
 <template>
   <q-page-container v-if="logined" class="column" style="padding-bottom: 0px; ">
+
     <div class="col">
       <div class="video-container">
-        <video autoplay muted loop style="width: 1140px;">
-          <source src="video/invictus_video.mp4" type="video/mp4" />
+        <video autoplay muted loop >
+          <source src="https://invictus.object.pscloud.io/video/I AM INVICTUS.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
 
-    <div v-if="(currentCourses.length > 0)" class="col" style="font-size: 32px; font-weight: 700; color: #000000;">
+    <div class="col" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="currentCourses.length != 0" >
       Мои курсы
       <div class="row">
         <course-card class="list-card" v-for="course in currentCourses" :data="course" />
@@ -41,17 +42,18 @@
         <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
       </div>
     </div>
-    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="allStreamingRooms">
-      Скорые трансляции
-      <div class="row">
-        <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
-      </div>
+    <div class="col-2" style="font-size: 32px; font-weight: 700; color: #000000;" v-if="allStreamingRooms.length != 0">
+        Скорые трансляции
+        <div class="row">
+          <stream-card :stream="stream" v-for="stream in allStreamingRooms"/>
+        </div>
     </div>
   </q-page-container>
 
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { defineComponent } from 'vue'
 import {
   getCurrentCourses,
@@ -64,13 +66,15 @@ import {
 import RequestButton from 'components/RequestButton.vue'
 import CourseCard from "components/Courses/CourseCard.vue";
 import FreeArticleCard from "src/components/FreeArticle/FreeArticleCard.vue";
+import StreamCard from "src/components/Jitsi/StreamCard.vue"
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
     RequestButton,
     CourseCard,
-    FreeArticleCard
+    FreeArticleCard,
+    StreamCard
   },
   props: {
     logined: {
@@ -87,14 +91,17 @@ export default defineComponent({
       showCourses: [],
       current: 4,
       currentLenght: false,
-      allFreeAticles: [{}],
-      allStreamingRooms : null
+      allFreeAticles: [],
+      allStreamingRooms : [],
+      quasar: useQuasar()
     };
   },
   async mounted() {
+    this.quasar.loading.show()
     await this.getCoursesData()
     await this.getFreeArticles()
     await this.getAllStreamingRooms()
+    this.quasar.loading.hide()
   },
   methods: {
     async getAllStreamingRooms() {
@@ -102,14 +109,13 @@ export default defineComponent({
         const response = await getAllStreamingRooms(1, 5);
         if (response.data.isSuccess) {
           this.allStreamingRooms = response.data.value.streamingRooms;
-          await this.getCountStreamingRooms();
         } else {
           response.data.errors.forEach(element => {
-            notify.showErrorNotify(element);
+            console.log(element)
           });
         }
       } catch (e) {
-        notify.showErrorNotify(e.message);
+        console.log(e.message)
       }
     },
     async getCoursesData() {
@@ -188,10 +194,10 @@ export default defineComponent({
 
 <style>
 .video-container {
-  height: 200px;
-  width: 200px;
-  margin-top: -50px;
+  height: 300px;
+  width: 95%;
   position: relative;
+  margin: -50px auto 50px;
 }
 
 .video-container video {

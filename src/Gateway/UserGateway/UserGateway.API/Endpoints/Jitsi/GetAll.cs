@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Jitsi.Models;
 using ServicesContracts.Jitsi.Queries;
 using Swashbuckle.AspNetCore.Annotations;
+using UserGateway.API.Extensions;
 
 namespace UserGateway.API.Endpoints.Jitsi;
 
@@ -30,6 +31,11 @@ public class GetAll : EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<AllStreamingRoomsVm>>> HandleAsync([FromQuery]GetAllRoomsQuery request, CancellationToken cancellationToken)
     {
+        var email = HttpContext.Session.GetData("user").Email;
+        if (email is null)
+        {
+            throw new UnauthorizedAccessException("User is not authorized");
+        }
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<AllStreamingRoomsVm>>(response));
     }

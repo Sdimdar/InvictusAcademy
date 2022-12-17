@@ -25,8 +25,6 @@ export default defineComponent({
     async getFreeArticle() {
       try {
         const response = await fetchFreeArticle(this.$route.params.id);
-        console.log("FREEARTICLE")
-        console.log(response)
         if (response.data.isSuccess) {
           this.article.title = response.data.value.title
           this.article.videoLink = response.data.value.videoLink
@@ -36,12 +34,13 @@ export default defineComponent({
           response.data.errors.forEach(element => { notify.showErrorNotify(element); });
         }
       } catch (e) {
-        notify.showErrorNotify(e.message);
+        console.log(e.message);
       }
     }
   },
 });
 </script>
+
 <style scoped>
 .article-title {
   text-align: center;

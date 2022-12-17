@@ -1,17 +1,17 @@
 <template>
   <q-card class="my-card">
-      <q-img :src="`${freeArticle.imageLink}`">
-        <div class="absolute-bottom">
-          <div class="text-h6">{{ freeArticle.title }}</div>
-        </div>
-      </q-img>
+    <q-img :src="`${freeArticle.imageLink}`">
+      <div class="absolute-bottom">
+        <div class="text-h6">{{ freeArticle.title }}</div>
+      </div>
+    </q-img>
 
-      <q-card-actions>
-        <q-btn @click="redirectToArticle(freeArticle.id)">
-          Читать
-        </q-btn>
-      </q-card-actions>
-    </q-card>
+    <q-card-actions>
+      <q-btn @click="redirectToArticle(freeArticle.id)">
+        Читать
+      </q-btn>
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
     freeArticle: Object
   },
   methods: {
-    redirectToArticle(id){
+    redirectToArticle(id) {
       this.$router.push(`/FreeArticle/AboutFreeArticle/${id}`)
     }
   }
