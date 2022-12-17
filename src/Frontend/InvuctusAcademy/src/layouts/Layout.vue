@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh lpR lFf">
-    <login-button v-if="!logined" :logined="logined" @autorize="autorize" />
+    <login-button v-if="!logined && isLoginMode" :logined="logined" @autorize="autorize" @changeMode="changeMode"/>
+    <register-button v-if="!logined && !isLoginMode" :logined="logined" @autorize="autorize" @changeMode="changeMode"/>
 
     <q-header v-if="logined" class="header" style="padding:10px">
       <q-toolbar>
@@ -160,7 +161,8 @@ export default {
     return {
       logined: false,
       loginedUserEmail: "",
-      userName: ""
+      userName: "",
+      isLoginMode: true
     }
   },
   methods: {
@@ -173,6 +175,9 @@ export default {
     unautorize: function () {
       this.logined = false;
       this.loginedUserEmail = ""
+    },
+    changeMode: function(){
+      this.isLoginMode = !this.isLoginMode;
     },
     async getUserData() {
       try {
