@@ -117,7 +117,7 @@
             </div>
             <div class="column" style="width: 50%;">
               <div style="padding: 20px;">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/GNgEW-Qh4XU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <video width="560" height="315" class="article-video" controls="controls" :src="course.videoLink"></video>
               </div>
             </div>
           </div>
@@ -157,7 +157,7 @@
             А что внутри курса?
         </div>
         <div>
-          <q-card :class="$attrs.class">
+          <q-card style="margin-right:50px; padding:0 20px 30px">
             <q-card-section v-for="(item, index) in courseModules" :key="item.id" style="padding-bottom:0">
               <q-expansion-item expand-separator icon="perm_identity" style="border-bottom: 1px solid #E9E9E9;">
                 <template v-slot:header>

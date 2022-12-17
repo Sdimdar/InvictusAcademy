@@ -47,6 +47,7 @@ public class EditCommandHandler : IRequestHandler<EditCommand, Result>
         result.MiddleName = request.MiddleName;
         result.InstagramLink = request.InstagramLink;
         result.Citizenship = request.Citizenship;
+        result.City = request.City;
 
         await _userRepository.UpdateAsync(result);
         return Result.Success();

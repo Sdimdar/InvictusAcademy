@@ -1,5 +1,5 @@
 <template>
-    <q-btn no-caps outline class="edit-btn" @click="getUserData">
+    <q-btn no-caps outline :class="$attrs.class" @click="getUserData">
         Изменить пароль
     </q-btn>
 
