@@ -1,8 +1,10 @@
 ﻿using Ardalis.Result;
+using CommonStructures;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities.CourseInfo;
 using Courses.Domain.Entities.CourseResults;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Courses.Querries;
 using ServicesContracts.Courses.Responses;
 
@@ -15,33 +17,54 @@ public class GetPurchasedArticleQueryHandler : IRequestHandler<GetPurchasedArtic
     private readonly ICourseInfoRepository _courseInfoRepository;
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly ICourseResultsInfoRepository _courseResultsInfoRepository;
+    private readonly ILogger<GetPurchasedArticleQueryHandler> _logger;
 
     public GetPurchasedArticleQueryHandler(ICourseRepository courseRepository,
                                            ICoursePurchasedRepository coursePurchasedRepository,
                                            ICourseInfoRepository courseInfoRepository,
                                            IModuleInfoRepository moduleInfoRepository,
-                                           ICourseResultsInfoRepository courseResultsInfoRepository)
+                                           ICourseResultsInfoRepository courseResultsInfoRepository, ILogger<GetPurchasedArticleQueryHandler> logger)
     {
         _courseRepository = courseRepository;
         _coursePurchasedRepository = coursePurchasedRepository;
         _courseInfoRepository = courseInfoRepository;
         _moduleInfoRepository = moduleInfoRepository;
         _courseResultsInfoRepository = courseResultsInfoRepository;
+        _logger = logger;
     }
 
     public async Task<Result<PurchasedArticleInfoVm>> Handle(GetPurchasedArticleQuery request,
                                                              CancellationToken cancellationToken)
     {
         var courseData = await _courseRepository.GetByIdAsync(request.CourseId);
-        if (courseData is null) return Result.Error($"Course with ID {request.CourseId} is not exist");
+        if (courseData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.DataIsNotExist.ToString()}: Course with ID {request.CourseId} is not exist");
+            return Result.Error($"{BussinesErrors.DataIsNotExist.ToString()}: Course with ID {request.CourseId} is not exist");
+        }
 
         var coursePurchaseData = await _coursePurchasedRepository.GetFirstOrDefaultAsync(p => p.UserId == request.UserId && p.CourseId == request.CourseId);
-        if (coursePurchaseData is null) return Result.Error($"Course is not purchased");
+        if (coursePurchaseData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+            return Result.Error($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+        }
 
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
-        if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
+        if (coursePurchaseResultData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found in mongo db info about result of " +
+                               $"course with ID: {request.CourseId} and user Id: {request.UserId}");
+            throw new InvalidDataException($"{BussinesErrors.NotFound.ToString()}: Not found in mongo db info about result of " +
                                                                              $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
+            
+        }
+
+        if (coursePurchaseResultData.EndDate <= DateTime.Now)
+        {
+            _logger.LogWarning($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+            return Result.Error($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+        }
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
         if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
@@ -57,13 +80,15 @@ public class GetPurchasedArticleQueryHandler : IRequestHandler<GetPurchasedArtic
         }
         catch (InvalidOperationException ex)
         {
-            return Result.Error("Not found module or article");
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found module or article");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Not found module or article");
         }
 
 
         if (!articleProgress.IsOpened)
         {
-            return Result.Error("Article is not aviliable now, pass the previous tests");
+            _logger.LogWarning($"{BussinesErrors.IsNotAvailable.ToString()}: Article is not aviliable now, pass the previous tests");
+            return Result.Error($"{BussinesErrors.IsNotAvailable.ToString()}: Article is not aviliable now, pass the previous tests");
         }
 
         articleProgress.StartDate ??= DateTime.Now;
