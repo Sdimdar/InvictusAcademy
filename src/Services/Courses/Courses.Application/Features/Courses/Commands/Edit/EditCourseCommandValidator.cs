@@ -14,6 +14,8 @@ public class EditCourseCommandValidator : AbstractValidator<EditCourseCommand>
             .GreaterThan(0).WithMessage("Cost can't be smaller then 0");
         RuleFor(p => p.VideoLink)
             .MaximumLength(100).WithMessage("Video Link can't be longer then 100 symbols");
+        RuleFor(p => p.LogoImageLink)
+            .MaximumLength(100).WithMessage("Logo image link can't be longer then 100 symbols");
         RuleFor(p => p.Name)
             .NotEmpty().WithMessage("Name is required")
             .NotNull()

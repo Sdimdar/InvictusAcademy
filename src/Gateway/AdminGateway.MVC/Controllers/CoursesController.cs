@@ -58,7 +58,7 @@ public class CoursesController : Controller
                       "Что бы получить все активные курсы для неавторизованных, UserId не указывать, CourseType = 0" +
                       "Что бы получить все курсы для неавторизованных, UserId не указывать, CourseType = 4"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourses([FromQuery] GetCoursesQuery request)
+    public async Task<ActionResult<DefaultResponseObject<CoursesVm>>> GetCourses([FromQuery] GetCoursesQuery request)
     {
         var response = await _coursesService.GetCourses(request);
         return Ok(response);
@@ -69,7 +69,7 @@ public class CoursesController : Controller
         Summary = "Получение курса",
         Description = "Необходимо передать в теле запроса Id курса"
     )]
-    public async Task<ActionResult<DefaultResponseObject<CourseInfoDbModel>>> GetCourse([FromQuery] GetCourseByIdQuery request)
+    public async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> GetCourse([FromQuery] GetCourseByIdQuery request)
     {
         var response = await _coursesService.GetCourse(request);
         return Ok(response);

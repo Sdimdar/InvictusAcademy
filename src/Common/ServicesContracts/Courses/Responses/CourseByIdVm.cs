@@ -12,6 +12,7 @@ public class CourseByIdVm
     public List<CoursePointsVm>? CoursePoints { get; set; }
     public decimal Cost { get; set; }
     public string? VideoLink { get; set; }
+    public string LogoImageLink { get; set; }
     public bool IsActive { get; set; }
     public int PassingDayCount { get; set; }
 }

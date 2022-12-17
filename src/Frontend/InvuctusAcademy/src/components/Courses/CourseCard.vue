@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+      <q-img :src="data.logoImageLink == '' ? 'https://cdn.quasar.dev/img/parallax2.jpg' : data.logoImageLink">
         <div class="absolute-bottom">
           <div class="text-h6">{{ data.name }}</div>
         </div>
