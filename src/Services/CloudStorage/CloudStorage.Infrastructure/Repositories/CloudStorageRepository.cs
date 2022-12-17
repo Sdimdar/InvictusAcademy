@@ -4,6 +4,10 @@ using CloudStorage.Application.Contracts;
 using CloudStorage.Domain.Entities;
 using CloudStorage.Infrastructure.Persistence;
 using CommonRepository;
+using DataTransferLib.Models;
+using Microsoft.EntityFrameworkCore;
+using ServicesContracts.CloudStorage.Requests.Queries;
+using ServicesContracts.CloudStorage.Responses;
 
 namespace CloudStorage.Infrastructure.Repositories;
 
@@ -19,4 +23,29 @@ public class CloudStorageRepository : BaseRepository<CloudStorageDbModel, CloudS
             );
     }
 
+    public async Task<bool> GetFilesByName(string fileName)
+    {
+        var query = await Context.CloudStorageFiles
+                    .FirstOrDefaultAsync(c => c.FileName == fileName);
+                if (query is null) return false;
+                return true;
+    }
+
+    public async Task<List<CloudStorageDbModel>> GetFilerByFilterString(string filterString, CancellationToken cancellationToken)
+    {
+        IQueryable<CloudStorageDbModel> query = Context.CloudStorageFiles
+            .Where(c => c.FileName.ToLower().Contains(filterString.ToLower()));
+        return query.ToList();
+    }
+
+    public async Task<List<string>> GetFilesName(string fileName)
+    {
+        var searchList = new List<string>();
+        var query = Context.CloudStorageFiles.ToList().FindAll(c => c.FileName.Contains(fileName));
+        foreach (var item in query)
+        {
+            searchList.Add(item.FilePath);
+        }
+        return searchList;
+    }
 }

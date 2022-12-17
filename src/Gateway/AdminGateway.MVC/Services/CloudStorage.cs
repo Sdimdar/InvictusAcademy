@@ -2,6 +2,7 @@ using AdminGateway.MVC.Services.Interfaces;
 using DataTransferLib.Models;
 using ExtendedHttpClient;
 using ServicesContracts.CloudStorage.Requests.Commands;
+using ServicesContracts.CloudStorage.Requests.Queries;
 using ServicesContracts.CloudStorage.Responses;
 using ServicesContracts.Identity.Responses;
 
@@ -22,15 +23,22 @@ public class CloudStorage : ICloudStorages
         return await ExtendedHttpClient.PostAndReturnResponseAsync<UploadFileCommand, DefaultResponseObject<string>>(request, $"/CloudStorage/UploadFile");
     }
 
-    public async Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize)
+    public async Task<DefaultResponseObject<GetAllFilesVM>> GetFilesAsync(int pageNumber, int pageSize, string? filterString)
     {
         return await ExtendedHttpClient.GetAndReturnResponseAsync<DefaultResponseObject<GetAllFilesVM>>(
-            $"/CloudStorage/GetAllFiles?pageNumber={pageNumber}&pageSize={pageSize}");
+            $"/CloudStorage/GetAllFiles?pageNumber={pageNumber}&pageSize={pageSize}&filterString={filterString}");
     }
 
     public async Task<DefaultResponseObject<int>> GetFilesCount()
     {
         return await ExtendedHttpClient
             .GetAndReturnResponseAsync<DefaultResponseObject<int>>("/CloudStorage/GetFilesCount");
+    }
+    
+    public async Task<DefaultResponseObject<List<GetAllFilesVM>>> GetFilterByString(GetFilesByFilterStringQuery filterString)
+    {
+        return await ExtendedHttpClient
+            .GetAndReturnResponseAsync<GetFilesByFilterStringQuery, 
+                DefaultResponseObject<List<GetAllFilesVM>>>(filterString,$"/CloudStorage/GetFilterByString?filteredString={filterString}");
     }
 }

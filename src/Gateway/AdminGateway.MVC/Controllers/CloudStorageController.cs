@@ -1,7 +1,9 @@
 using AdminGateway.MVC.Services.Interfaces;
+using CloudStorage.Domain.Entities;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.CloudStorage.Requests.Commands;
+using ServicesContracts.CloudStorage.Requests.Queries;
 using ServicesContracts.CloudStorage.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -20,9 +22,9 @@ public class CloudStorageController : Controller
         Summary = "Возвращает список запросов постранично, если передать страницу 0, вернет всех",
         Description = "Необходимо передать номер страницы и количество на странице")
     ]
-    public async Task<ActionResult<DefaultResponseObject<GetAllFilesVM>>> GetAllFiles(int pageNumber = 1, int pageSize = 10)
+    public async Task<ActionResult<DefaultResponseObject<GetAllFilesVM>>> GetAllFiles(int pageNumber, int pageSize, string? filterString)
     {
-        var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize);
+        var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize, filterString);
         return Ok(response);
     }
 
@@ -35,4 +37,16 @@ public class CloudStorageController : Controller
         var response = await _cloudStorages.GetFilesCount();
         return Ok(response);
     }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Получение данных о модулях которые подходят под строку фильтрации",
+        Description = "Необходимо передать в строке строку фильтрации"
+    )]
+    public async Task<ActionResult<DefaultResponseObject<List<GetAllFilesVM>>>> GetFilterByString(GetFilesByFilterStringQuery request)
+    {
+        var response = await _cloudStorages.GetFilterByString(request);
+        return Ok(response);
+    }
+    
 }
