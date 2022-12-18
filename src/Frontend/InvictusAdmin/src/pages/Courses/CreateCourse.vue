@@ -41,10 +41,27 @@
     <q-btn @click="addField(courseData.coursePoints)" label="Добавить пункт" />
     <q-btn @click="removeField(courseData.coursePoints)" label="Удалить пункт" />
   </q-card-actions>
-
-  <div class="q-pa-md" style="max-width: 700px">
-    <q-input v-model="courseData.videoLink" filled label="Адрес для видео" type="textarea" />
+  <div class="uploadPage">
+    <div class="q-pa-md" style="width: 50%;">
+      <q-input v-model="courseData.videoLink" filled label="Адрес для видео" type="textarea" />
+    </div>
+    <div style="width: 50%;">
+      <div class="q-pa-md">
+        <q-table ref="tableRef" title="Поиск ссылок по имени файла --------->" :rows="rows" :columns="columns" row-key="id"
+          v-model:pagination="pagination" :loading="loading" :filter="filter" binary-state-sort @request="onRequest">
+          <template v-slot:top-right>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Поиск">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+        </q-table>
+      </div>
+    </div>
   </div>
+
+
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
       <q-select label="isActive" transition-show="scale" transition-hide="scale" filled v-model="courseData.isActive"
@@ -116,11 +133,13 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import notify from "boot/notifyes";
 import { VueDraggableNext } from "vue-draggable-next";
-import { getAllModules, insertModules, createCourse } from "boot/axios";
-
+import { getAllModules, insertModules, createCourse, fetchFilesData, fetchFilesCount } from "boot/axios";
+const columns = [
+  { name: 'filePath', align: 'left', label: 'Ссылка', field: 'filePath', sortable: false }
+]
 export default {
   data() {
     return {
@@ -156,9 +175,94 @@ export default {
   },
   setup() {
     const inputRef = ref(null)
+    const tableRef = ref()
+    const rows = ref([])
+    const filter = ref('')
+    const loading = ref(false)
+    const pagination = ref({
+      sortBy: 'desc',
+      descending: false,
+      page: 1,
+      rowsPerPage: 3,
+      rowsNumber: 10
+    })
 
+    async function onRequest(props) {
+      console.log(props)
+      let { page, rowsPerPage, sortBy, descending } = props.pagination
+      let response;
+
+      loading.value = true
+      try {
+        response = await fetchFilesCount();
+        console.log("Files on count:")
+        console.log(response)
+        if (response.data.isSuccess) {
+          pagination.value.rowsNumber = response.data.value;
+        }
+        else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      // fetch data from "server"
+      try {
+        console.log(page + " " + rowsPerPage)
+        if (rowsPerPage === 0) {
+          response = await fetchFilesData(0, rowsPerPage)
+        }
+        else {
+          response = await fetchFilesData(page, rowsPerPage, props.filter)
+        }
+        console.log("Files on data:")
+        console.log(response)
+        if (response.status === 200) {
+          rows.value.splice(0, rows.value.length, ...response.data.value.files);
+        }
+        else {
+          response.data.errors.forEach(element => { notify.showErrorNotify(element); });
+          return;
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      // don't forget to update local pagination object
+      pagination.value.page = page
+      pagination.value.rowsPerPage = rowsPerPage
+      pagination.value.sortBy = sortBy
+      pagination.value.descending = descending
+
+      // ...and turn of loading indicator
+      loading.value = false
+    }
+
+    onMounted(() => {
+      // get initial data from server (1st page)
+      tableRef.value.requestServerInteraction()
+    })
+
+    // return {
+    //   tableRef,
+    //   filter,
+    //   loading,
+    //   pagination,
+    //   columns,
+    //   rows,
+    //   onRequest
+    // }
     return {
       searchModels: ref(''),
+      tableRef,
+      filter,
+      loading,
+      pagination,
+      columns,
+      rows,
+      onRequest,
       options: [
         'true', 'false'
       ],
@@ -319,5 +423,10 @@ export default {
   margin: 0 auto;
   display: block;
   ;
+}
+
+.uploadPage {
+  display: flex;
+  flex-direction: row;
 }
 </style>
