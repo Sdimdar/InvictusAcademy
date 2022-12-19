@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class Add : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<Add> _logger;
 
-    public Add(IMediator mediator, IMapper mapper)
+    public Add(IMediator mediator, IMapper mapper, ILogger<Add> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("Payments/Add")]
@@ -31,6 +34,8 @@ public class Add : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromQuery] int courseId,
                                                                                       CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"courseId {courseId}");
         var email = HttpContext.Session.GetData("user").Email;
         if (email is null)
         {
@@ -42,6 +47,11 @@ public class Add : EndpointBaseAsync
             UserEmail = email
         };
         var result = await _mediator.Send(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));
     }
 }

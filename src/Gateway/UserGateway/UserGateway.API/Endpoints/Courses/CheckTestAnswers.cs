@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ public class CheckTestAnswers : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<CheckTestAnswers> _logger;
 
-    public CheckTestAnswers(IMediator mediator, IMapper mapper)
+    public CheckTestAnswers(IMediator mediator, IMapper mapper, ILogger<CheckTestAnswers> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("/Tests/CheckTestAnswers")]
@@ -33,6 +36,11 @@ public class CheckTestAnswers : EndpointBaseAsync
     public async override Task<ActionResult<DefaultResponseObject<TestResultVm>>> HandleAsync([FromBody] CheckTestAnswersGatewayCommand request,
                                                                                               CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"CourseId {request.CourseId}" +
+                               $"ModuleId {request.ModuleId}" +
+                               $"ArticleOrder {request.ArticleOrder}" +
+                               $"Answers Count {request.Answers.Count}");
         CheckTestAnswersCommand command = new()
         {
             UserId = HttpContext.Session.GetData("user")!.Id,
@@ -42,6 +50,13 @@ public class CheckTestAnswers : EndpointBaseAsync
             ModuleId = request.ModuleId
         };
         var result = await _mediator.Send(command, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"NeedAnswersCount {result.Value.NeedAnswersCount}" +
+                               $"RightAnswersCount {result.Value.RightAnswersCount}" +
+                               $"Answers Count {request.Answers.Count}");
         return Ok(_mapper.Map<DefaultResponseObject<TestResultVm>>(result));
     }
 }

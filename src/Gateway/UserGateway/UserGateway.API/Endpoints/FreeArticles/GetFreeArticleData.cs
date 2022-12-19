@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetFreeArticleData : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetFreeArticleData> _logger;
 
-    public GetFreeArticleData(IMediator mediator, IMapper mapper)
+    public GetFreeArticleData(IMediator mediator, IMapper mapper, ILogger<GetFreeArticleData> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/FreeArticle/GetFreeArticleData")]
@@ -31,12 +34,19 @@ public class GetFreeArticleData : EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> HandleAsync([FromQuery] GetFreeArticleDataQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Id {request.Id}");
         var email = HttpContext.Session.GetData("user").Email;
         if (email is null)
         {
             throw new UnauthorizedAccessException("User is not authorized");
         }
         var result = await _mediator.Send(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<FreeArticleVm>>(result));
     }
 }

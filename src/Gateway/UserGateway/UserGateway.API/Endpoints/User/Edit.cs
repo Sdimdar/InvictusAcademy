@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class Edit : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<Edit> _logger;
 
-    public Edit(IMediator mediator, IMapper mapper)
+    public Edit(IMediator mediator, IMapper mapper, ILogger<Edit> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("User/Edit")]
@@ -31,8 +34,21 @@ public class Edit : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditCommand request,
                                                                                   CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Citizenship {request.Citizenship}" +
+                               $"Email {request.Email}" +
+                               $"FirstName {request.FirstName}" +
+                               $"InstagramLink {request.InstagramLink}" +
+                               $"LastName {request.LastName}" +
+                               $"MiddleName {request.MiddleName}" +
+                               $"PhoneNumber {request.PhoneNumber}");
         request.Email = HttpContext.Session.GetData("user").Email;
         var response = await _mediator.Send(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }
