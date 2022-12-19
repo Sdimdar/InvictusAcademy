@@ -2,6 +2,7 @@
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,11 +14,13 @@ public class AccountsController : Controller
 {
     private readonly IAdminService _adminService;
     private readonly IMapper _mapper;
+    private readonly ILogger<AccountsController> _logger;
 
-    public AccountsController(IAdminService adminService, IMapper mapper)
+    public AccountsController(IAdminService adminService, IMapper mapper, ILogger<AccountsController> logger)
     {
         _adminService = adminService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -28,7 +31,15 @@ public class AccountsController : Controller
     public async Task<ActionResult<DefaultResponseObject<AdminUser>>> Login([FromBody] LoginViewModel request,
                                                                             CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}: " +
+                               $"Login: {request.Login}");
         var response = await _adminService.LoginAdminAsync(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"IsSucces: {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Email: {response.Value.Email}" +
+                               $"Ban: {response.Value.Ban}");
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
     }
 
@@ -40,6 +51,9 @@ public class AccountsController : Controller
     public async Task<ActionResult<DefaultResponseObject<AdminUser>>> GetAdminData(CancellationToken cancellationToken)
     {
         var admin = await _adminService.GetAdminDataAsync(User, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"Email: {admin.Value.Email}" +
+                               $"Ban: {admin.Value.Ban}");
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(admin));
     }
 

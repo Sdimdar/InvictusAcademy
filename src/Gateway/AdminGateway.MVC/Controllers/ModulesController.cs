@@ -1,6 +1,7 @@
 ﻿using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace AdminGateway.MVC.Controllers;
 public class ModulesController : Controller
 {
     private readonly IModulesService _modulesService;
+    private readonly ILogger<ModulesController> _logger;
 
-    public ModulesController(IModulesService modulesService)
+    public ModulesController(IModulesService modulesService, ILogger<ModulesController> logger)
     {
         _modulesService = modulesService;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -28,7 +31,17 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddArticles([FromBody] AddArticlesCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Articles Count {request.Articles.Count}" + $"ModuleId {request.ModuleId}");
         var response = await _modulesService.AddArticle(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
     [HttpPost]
@@ -38,7 +51,17 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> AddTest([FromBody] AddTestCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"TestCompleteCount {request.Test.TestCompleteCount}" + $"TestShowCount {request.Test.TestShowCount}" + $"ModuleId {request.ModuleId}");
         var response = await _modulesService.AddTest(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
     
@@ -49,7 +72,17 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Create([FromBody] CreateModuleCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Title {request.Title}" + $"ShortDescription {request.ShortDescription}");
         var response = await _modulesService.Create(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -61,7 +94,17 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Delete([FromBody] DeleteModuleCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {request.Id}");
         var response = await _modulesService.Delete(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -73,7 +116,21 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> Update([FromBody] UpdateModuleCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Id {request.Id}" +
+                               $"Title {request.Title}" +
+                               $"ShortDescription {request.ShortDescription}" +
+                               $"Articles Count {request.Articles.Count}");
         var response = await _modulesService.Update(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -85,6 +142,12 @@ public class ModulesController : Controller
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
     {
         var response = await _modulesService.GetAll();
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Count {response.Value.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -95,6 +158,10 @@ public class ModulesController : Controller
     public async Task<ActionResult<DefaultResponseObject<int>>> GetModulesCount()
     {
         var response = await _modulesService.GetModulesCount();
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"isSucces {response.IsSuccess}" + $"Count {response.Value}" + $"");
         return Ok(response);
     }
 
@@ -105,7 +172,15 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByFilterString(GetModulesByFilterStringQuery request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"FilterString {request.FilterString}");
         var response = await _modulesService.GetFilterByString(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Count {response.Value.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -116,7 +191,17 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<ModuleInfoVm>>> GetById([FromQuery] ModuleByIdVm request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {request.Id}");
         var response = await _modulesService.GetById(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"Title {response.Value.Title}" +
+                               $"ShortDescription {response.Value.ShortDescription}" +
+                               $"Articles Count {response.Value.Articles.Count}" +
+                               $"");
         return Ok(response);
     }
 
@@ -127,7 +212,14 @@ public class ModulesController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetByListOfId([FromQuery] GetModulesByListOfIdQuery request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"ModulesId {request.ModulesId}");
         var response = await _modulesService.GetByListOfId(request);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Count {response.Value.Count}" +
+                               $"");
         return Ok(response);
     }
 }

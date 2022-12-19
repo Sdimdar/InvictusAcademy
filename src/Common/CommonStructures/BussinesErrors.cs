@@ -15,5 +15,7 @@ public enum BussinesErrors
     KeyNotFoundException,
     BoolIsNotTrue,
     RequestIsNull,
-    ErrorWithUploadingFile
+    ErrorWithUploadingFile,
+    ReceiveData,
+    ReturnData,
 }

@@ -1,6 +1,7 @@
 ﻿using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
 using AdminGateway.MVC.ViewModels;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace AdminGateway.MVC.Controllers;
 public class PaymentController : Controller
 {
     private readonly IPaymentService _paymentService;
+    private readonly ILogger<PaymentController> _logger;
 
-    public PaymentController(IPaymentService paymentService)
+    public PaymentController(IPaymentService paymentService, ILogger<PaymentController> logger)
     {
         _paymentService = paymentService;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -31,11 +34,23 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<PaymentVm>>> GetById([FromQuery] int paymentId,
                                                                               CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"paymentId {paymentId}");
         GetPaymentQuery query = new()
         {
             PaymentId = paymentId
         };
         var response = await _paymentService.GetByIdPaymentRequestAsync(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Id {response.Value.Id}" +
+                               $"CourseId {response.Value.CourseId}" +
+                               $"UserId {response.Value.UserId}" +
+                               $"PaymentState {response.Value.PaymentState}" +
+                               $"RejectReason {response.Value.RejectReason}" +
+                               $"ModifyAdminEmail {response.Value.ModifyAdminEmail}" +
+                               $"");
         return Ok(response);
     }
 
@@ -46,8 +61,19 @@ public class PaymentController : Controller
                       "а также можно передать тип запроса на оплату"
     )]
     public async Task<ActionResult<DefaultResponseObject<PaymentsPaginationVm>>> GetWithParametersPayment
-                            ([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken) {
+                            ([FromQuery] GetPaymentsWithParametersQuery request, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Status {request.Status}" + $"PageNumber {request.PageNumber}" + $"PageSize {request.PageSize}");
         var response = await _paymentService.GetWithParametersPaymentRequestAsync(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Payments Count {response.Value.Payments.Count}" +
+                               $"PageNumber {response.Value.PageNumber}" +
+                               $"PageSize {response.Value.PageSize}" +
+                               $"TotalPages {response.Value.TotalPages}" +
+                               $"");
         return Ok(response);
     }
 
@@ -59,7 +85,12 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<bool>>> Add([FromBody] AddPaymentCommand request,
                                                                      CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"CourseId {request.CourseId}" + $"UserId {request.UserId}");
         var response = await _paymentService.AddPaymentRequestAsync(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}");
         return Ok(response);
     }
 
@@ -72,12 +103,18 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<bool>>> Confirm([FromBody] PaymentCommon request,
                                                                          CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentId {request.PaymentId}" + $"RejectReason {request.RejectReason}");
         ConfirmPaymentCommand query = new()
         {
             PaymentId = request.PaymentId,
             AdminEmail = User.Identity.Name
         };
         var response = await _paymentService.ConfirmPaymentRequestAsync(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"");
         return Ok(response);
     }
 
@@ -91,6 +128,7 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<bool>>> Reject([FromBody] PaymentCommon request,
                                                                         CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentId {request.PaymentId}" + $"RejectReason {request.RejectReason}");
         RejectPaymentCommand query = new()
         {
             PaymentId = request.PaymentId,
@@ -98,6 +136,11 @@ public class PaymentController : Controller
             RejectReason = request.RejectReason
         };
         var response = await _paymentService.RejectPaymentRequestAsync(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"");
         return Ok(response);
     }
     
@@ -109,8 +152,14 @@ public class PaymentController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<int>>> GetPaymentCount
         ([FromQuery] GetPaymentsCountQuery request, CancellationToken cancellationToken)
-        {
+    {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentState {request.PaymentState}");
         var response = await _paymentService.GetPaymentsCount(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"");
         return Ok(response);
     }
 
@@ -122,7 +171,13 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<List<PaymentHistoryVm>>>> GetHistoryByAdminName(
         [FromQuery] GetHistoryByAdminNameQuery request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"AdminEmail {request.AdminEmail}");
         var response = await _paymentService.GetHistoryByAdminNameAsync(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Count {response.Value.Count}");
         return Ok(response);
     }
     
@@ -134,7 +189,14 @@ public class PaymentController : Controller
     public async Task<ActionResult<DefaultResponseObject<List<PaymentHistoryVm>>>> GetHistoryByPaymentId(
         [FromQuery] GetHistoryByPaymentIdQuery request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentId {request.PaymentId}");
         var response = await _paymentService.GetHistoryByPaymentId(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"isSucces {response.IsSuccess}" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"Count {response.Value.Count}"+
+                               $"");
         return Ok(response);
     }
 
@@ -148,7 +210,12 @@ public class PaymentController : Controller
         CancellationToken cancellationToken)
     {
         request.AdminEmail = User.Identity.Name;
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"AdminEmail {request.AdminEmail}" + $"PaymentId {request.PaymentId}" + $"PaymentId {request.RejectReason}");
         var response = await _paymentService.CancelPaymentAsync(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
+                               $"ValidationErrors: {response.ValidationErrors}" +
+                               $"Errors: {response.Errors}" +
+                               $"isSucces {response.IsSuccess}" + $"");
         return Ok(response);
     }
 
