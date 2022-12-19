@@ -8,6 +8,7 @@ public class CourseDbModel : BaseRepositoryEntity
     public string Description { get; set; }
     public string SecondName { get; set; }
     public string SecondDescription { get; set; }
+    public string? PreviewLink { get; set; }
     public string? VideoLink { get; set; }
     public decimal Cost { get; set; }
     public bool IsActive { get; set; }

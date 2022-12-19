@@ -72,22 +72,18 @@
     <q-input
       v-model="courseData.videoLink"
       filled
-      label="Адрес для видео"
+      label="Ссылка на видео-превью курса"
       type="textarea"
     />
   </div>
-  <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
-      <q-select
-        label="isActive"
-        transition-show="scale"
-        transition-hide="scale"
-        filled
-        v-model="courseData.isActive"
-        :options="options"
-        style="width: 250px"
-      />
-    </div>
+
+  <div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.previewLink"
+      filled
+      label="Ссылка на фото-превью курса"
+      type="textarea"
+    />
   </div>
 
   <div class="q-pa-md" style="max-width: 500px">
@@ -173,6 +169,7 @@ export default{
         coursePoints: [{point: "", pointImageLink: ""}],
         isActive: true,
         videoLink: "",
+        previewLink:"",
         passingDayCount: 1
       },
       showModules: false,

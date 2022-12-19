@@ -11,6 +11,7 @@ public class CreateCourseCommand : IRequest<Result<CourseDbModel>>
     public string SecondName { get; set; }
     public string SecondDescription { get; set; }
     public string? VideoLink { get; set; }
+    public string? PreviewLink { get; set; }
     
     public List<CoursePointsVm> CoursePoints { get; set; }
     public decimal Cost { get; set; }

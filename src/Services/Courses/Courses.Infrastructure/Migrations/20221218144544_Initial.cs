@@ -20,6 +20,7 @@ namespace Courses.Infrastructure.Migrations
                     Description = table.Column<string>(type: "VARCHAR(500)", nullable: false, defaultValue: ""),
                     SecondName = table.Column<string>(type: "VARCHAR(100)", nullable: false, defaultValue: ""),
                     SecondDescription = table.Column<string>(type: "VARCHAR(500)", nullable: false, defaultValue: ""),
+                    PreviewLink = table.Column<string>(type: "VARCHAR(100)", nullable: true),
                     VideoLink = table.Column<string>(type: "VARCHAR(100)", nullable: true),
                     Cost = table.Column<decimal>(type: "numeric(15,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "BOOLEAN", nullable: false, defaultValue: false),

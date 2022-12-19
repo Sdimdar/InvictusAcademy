@@ -46,12 +46,13 @@
               </div>
             </div>
             <div>
-              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" @click="addPayment"/>
+              <q-btn v-if="isPurchased" :href="'/course/' + course.id"  no-caps color="accent" class="start-btn" label="Перейти к обучению" />
+              <course-payment-button  v-else  :title="course.name" :id="id" :cost="course.cost"/>
             </div>
           </div>
 
           <div class="column" style="width: 35%;">
-              <img class="preview" src="img/course_info.svg">
+              <img class="preview" :src="course.previewLink">
           </div>
         </div>
       </div>
@@ -110,14 +111,14 @@
             <div  style="font-size: 16px; font-weight: 300; color: #000000; margin: 20px 10px 10px 10px;" >
               {{ course.secondDescription }}
             </div>
-            <div >
-              <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение" @click="addPayment"
-              style="margin: 20px 10px 10px 10px;" />
+            <div>
+              <q-btn v-if="isPurchased" :href="'/course/' + course.id"  no-caps color="accent" class="start-btn" label="Перейти к обучению" />
+              <course-payment-button  v-else  :title="course.name" :id="id" :cost="course.cost"/>
             </div>
             </div>
             <div class="column" style="width: 50%;">
               <div style="padding: 20px;">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/GNgEW-Qh4XU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" :src="course.videoLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
             </div>
           </div>
@@ -134,7 +135,7 @@
               Вам подойдёт этот курс, если вы:
             </div>
             <div class="row" style="margin: 20px 10px 10px 0px;">
-             <div class="col-3" v-for="(point, index) in course.coursePoints" :key="`points-${index}`">
+             <div class="col" v-for="(point, index) in course.coursePoints" :key="`points-${index}`">
                 <div class="column" style="text-align: center;">
                   <div class="col" style="font-size: 22px; font-weight: 600; margin-bottom: 10px;">
                     <img class="image-targeting" :src="point.pointImageLink"/>
@@ -147,8 +148,9 @@
             </div>
             </div>
             </div>
-            <div class="btn-center">
-              <q-btn no-caps color="accent" class="start-btn" label="Начать обучение"  @click="addPayment" />
+            <div class="btn-center" >
+              <q-btn v-if="isPurchased" :href="'/course/' + course.id"  no-caps color="accent" class="start-btn" label="Перейти к обучению" />
+              <course-payment-button  v-else  :title="course.name" :id="id" :cost="course.cost"/>
             </div>
       </div>
 
@@ -182,16 +184,22 @@
 
 <script>
 import { ref } from "vue";
-import { getCourseById, getShortModulesInfo, addToPayments } from "boot/axios";
+import { getCourseById, getShortModulesInfo, addToPayments, getCurrentCourses } from "boot/axios";
 import notify from "boot/notifyes";
+import CoursePaymentButton from "components/Courses/CoursePaymentButton.vue";
 
 export default {
+  components: {
+    CoursePaymentButton
+  },
   data() {
     return {
       id: this.$route.query.id,
       course:"",
       courseModules: [],
-      isDescription: false
+      isDescription: false,
+      purchasedCourses: [],
+      isPurchased: false
     };
   },
   setup() {
@@ -209,6 +217,7 @@ export default {
       this.course = response.data.value
       console.log(this.course)
       this.getModuleData()
+      this.getPurchasedCourses()
     },
     async getModuleData() {
       const courseId = this.id;
@@ -221,6 +230,22 @@ export default {
       } catch (error) {
         console.log(error.message);
       }
+    },
+    async getPurchasedCourses(){
+      try {
+        const response = await getCurrentCourses();
+        if (response.data.isSuccess) {
+          this.purchasedCourses = response.data.value;
+          console.log(this.purchasedCourses)
+          let checkCourse = this.purchasedCourses.courses.find((element) => element.id === this.id)
+          if(checkCourse){
+            this.isPurchased = true
+          }
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
     },
     showDescription() {
       this.isDescription = !this.isDescription;
@@ -242,7 +267,7 @@ export default {
 <style>
 .preview{
   height: 320px;
-  width: 260px;
+  width: 300px;
   padding: 10px;
 }
 .small-text{

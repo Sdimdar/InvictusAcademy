@@ -125,8 +125,6 @@
     color:#0375DF;
     font-size: 16px;
     font-weight: 500;
-    width: 450px;
-    margin-left: 8px;
     border-radius: 10px;
   }
 

@@ -1,8 +1,9 @@
 <template>
-    <footer class="footer">
-    <q-toolbar class="row">
+    <footer class="bg-dark  text-white pt-5 pb-4 footer">
+      <div class="container text-center">
+    <div class="row text-left text-md-left">
 
-      <div class="col-3">
+      <div class="col-md-3">
         <div class="column" style="height: 250px">
           <div class="col">
             <img src="img/logo_white.svg" />
@@ -24,7 +25,7 @@
         </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-md-3">
         <div class="column" style="height: 220px">
           <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
             Контактная информация:
@@ -41,7 +42,7 @@
         </div>
       </div>
 
-      <div class="col-2">
+      <div class="col-md-3">
         <div class="column" style="height: 220px">
           <div class="col-2" style="font-size: 12px; font-weight: 400; color: #B3B3B3;">
             Навигация:
@@ -61,7 +62,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-3">
         <div class="column" style="height: 220px">
           <div class="col" style="font-size: 20px; font-weight: 500; color: #F9F9F9">
             Оставьте заявку и мы обязательно перезвоним!
@@ -73,7 +74,8 @@
           </div>
         </div>
       </div>
-    </q-toolbar>
+    </div>
+  </div>
   </footer>
 </template>
 
@@ -89,10 +91,6 @@ import RequestButton from 'components/RequestButton.vue'
 <style scoped>
 
 .footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
   padding: 48px 58px 20px;
   margin-left: 0px;
 
