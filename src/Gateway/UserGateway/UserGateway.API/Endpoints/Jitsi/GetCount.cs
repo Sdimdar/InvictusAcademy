@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class GetCount : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetCount> _logger;
 
-    public GetCount(IMediator mediator, IMapper mapper)
+    public GetCount(IMediator mediator, IMapper mapper, ILogger<GetCount> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("StreamingRooms/GetCount")]
@@ -31,6 +34,11 @@ public class GetCount : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(new GetCountRoomsQuery(), cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

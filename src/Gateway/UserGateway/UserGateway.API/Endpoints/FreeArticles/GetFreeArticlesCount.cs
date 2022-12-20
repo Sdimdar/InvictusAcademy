@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetFreeArticlesCount : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetFreeArticlesCount> _logger;
 
-    public GetFreeArticlesCount(IMediator mediator, IMapper mapper)
+    public GetFreeArticlesCount(IMediator mediator, IMapper mapper, ILogger<GetFreeArticlesCount> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/FreeArticle/GetCount")]
@@ -37,6 +40,11 @@ public class GetFreeArticlesCount : EndpointBaseAsync
             throw new UnauthorizedAccessException("User is not authorized");
         }
         var response = await _mediator.Send(new GetAllFreeArticlesCountQuery(), cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

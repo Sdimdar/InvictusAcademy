@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetUserData : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetUserData> _logger;
 
-    public GetUserData(IMediator mediator, IMapper mapper)
+    public GetUserData(IMediator mediator, IMapper mapper, ILogger<GetUserData> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("User/GetUserData")]
@@ -34,6 +37,11 @@ public class GetUserData : EndpointBaseAsync
         string? email = HttpContext.Session.GetData("user")?.Email;
         GetUserDataQuerry query = new() { Email = email };
         var response = await _mediator.Send(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(response));
     }
 }

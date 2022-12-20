@@ -1,5 +1,6 @@
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class GetCourseById : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetCourseById> _logger;
 
-    public GetCourseById(IMediator mediator, IMapper mapper)
+    public GetCourseById(IMediator mediator, IMapper mapper, ILogger<GetCourseById> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Courses/GetById")]
@@ -32,7 +35,20 @@ public class GetCourseById : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<CourseByIdVm>>> HandleAsync([FromQuery] GetCourseByIdQuery request,
         CancellationToken cancellationToken = new CancellationToken())
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Id {request.Id}");
         var result = await _mediator.Send(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"Course Id {result.Value.Id}" +
+                               $"Course Name {result.Value.Name}" +
+                               $"Course Cost {result.Value.Cost}" +
+                               $"Course Description {result.Value.Description}" +
+                               $"IsActive {result.Value.IsActive}" +
+
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<CourseByIdVm>>(result));
     }
 }

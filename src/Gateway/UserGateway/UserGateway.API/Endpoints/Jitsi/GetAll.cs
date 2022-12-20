@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetAll : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetAll> _logger;
 
-    public GetAll(IMediator mediator, IMapper mapper)
+    public GetAll(IMediator mediator, IMapper mapper, ILogger<GetAll> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
     
     [HttpGet("StreamingRooms/GetAll")]
@@ -36,7 +39,15 @@ public class GetAll : EndpointBaseAsync
         {
             throw new UnauthorizedAccessException("User is not authorized");
         }
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"PageNumber {request.PageNumber}" +
+                               $"PageSize {request.PageSize}");
         var response = await _mediator.Send(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<AllStreamingRoomsVm>>(response));
     }
 }

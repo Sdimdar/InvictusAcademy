@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class GetByAddress : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetByAddress> _logger;
 
-    public GetByAddress(IMediator mediator, IMapper mapper)
+    public GetByAddress(IMediator mediator, IMapper mapper, ILogger<GetByAddress> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("StreamingRooms/GetByAddress")]
@@ -30,7 +33,14 @@ public class GetByAddress : EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<StreamingRoomVm>>> HandleAsync([FromQuery]GetByAddressQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Address {request.Address}");
         var response = await _mediator.Send(request, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<StreamingRoomVm>>(response));
     }
 }

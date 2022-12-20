@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetPurchasedCourseData : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetPurchasedCourseData> _logger;
 
-    public GetPurchasedCourseData(IMediator mediator, IMapper mapper)
+    public GetPurchasedCourseData(IMediator mediator, IMapper mapper, ILogger<GetPurchasedCourseData> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Courses/GetPurchasedCourseData")]
@@ -32,6 +35,8 @@ public class GetPurchasedCourseData : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<PurchasedCourseInfoVm>>> HandleAsync([FromQuery] int courseId,
                                                                                                        CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"courseID {courseId}");
         int userId = HttpContext.Session.GetData("user")!.Id;
         GetPurchasedCourseDataQuery query = new()
         {
@@ -39,6 +44,16 @@ public class GetPurchasedCourseData : EndpointBaseAsync
             UserId = userId
         };
         var result = await _mediator.Send(query, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"Course Id {result.Value.Id}" +
+                               $"Course Name {result.Value.Name}" +
+                               $"Modules.Count {result.Value.Modules.Count}" +
+                               $"Course Description {result.Value.Description}" +
+                               $"PassingTime {result.Value.PassingTime}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<PurchasedCourseInfoVm>>(result));
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NLog.Fluent;
 using ServicesContracts.Identity.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using UserGateway.API.Extensions;
@@ -18,11 +20,13 @@ public class Login : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<Login> _logger;
 
-    public Login(IMediator mediator, IMapper mapper)
+    public Login(IMediator mediator, IMapper mapper, ILogger<Login> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("User/Login")]
@@ -34,9 +38,16 @@ public class Login : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync([FromBody] LoginCommand request,
                                                                                         CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Email {request.Email}");
         var response = await _mediator.Send(request, cancellationToken);
         if (!response.IsSuccess) return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
         HttpContext.Session.SetData("user", new SessionData() { Id = response.Value.Id, Email = request.Email });
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {response.Errors}" +
+                               $"ValidationErrors {response.ValidationErrors}" +
+                               $"IsSuccess {response.IsSuccess}" +
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

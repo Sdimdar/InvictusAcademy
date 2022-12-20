@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ public class GetNew : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetNew> _logger;
 
-    public GetNew(IMediator mediator, IMapper mapper)
+    public GetNew(IMediator mediator, IMapper mapper, ILogger<GetNew> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Courses/GetNew")]
@@ -34,6 +37,13 @@ public class GetNew : EndpointBaseAsync
     {
         string email = HttpContext.Session.GetData("user")!.Email;
         var result = await _mediator.Send(new GetGatewayCoursesQuery() { Email = email, Type = CourseTypes.New }, cancellationToken);
+        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
+                               $"Errors {result.Errors}" +
+                               $"ValidationErrors {result.ValidationErrors}" +
+                               $"IsSuccess {result.IsSuccess}" +
+                               $"Courses Count {result.Value.Courses.Count}" +
+
+                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
     }
 }
