@@ -48,19 +48,6 @@ public class GetPurchasedArticle : EndpointBaseAsync
             ArticleOrder = request.ArticleOrder
         };
         var result = await _mediator.Send(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Articles Count {result.Value.Articles.Count}" +
-                               $"Order {result.Value.Order}" +
-                               $"Text {result.Value.Text}" +
-                               $"Title {result.Value.Title}" +
-                               $"IsCompleted {result.Value.IsCompleted}" +
-                               $"ModuleInfo.Id {result.Value.ModuleInfo.Id}" +
-                               $"ModuleInfo.Title {result.Value.ModuleInfo.Title}" +
-                               $"ModuleInfo.ShortDescription {result.Value.ModuleInfo.ShortDescription}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<PurchasedArticleInfoVm>>(result));
     }
 }

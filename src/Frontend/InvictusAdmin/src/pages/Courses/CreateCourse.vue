@@ -68,6 +68,14 @@
         :options="options" style="width: 250px" />
     </div>
   </div>
+<div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.previewLink"
+      filled
+      label="Ссылка на фото-превью курса"
+      type="textarea"
+    />
+  </div>
 
   <div class="q-pa-md" style="max-width: 500px">
     <div class="q-gutter-md">
@@ -152,6 +160,7 @@ export default {
         coursePoints: [{ point: "", pointImageLink: "" }],
         isActive: true,
         videoLink: "",
+        previewLink:"",
         passingDayCount: 1
       },
       showModules: false,

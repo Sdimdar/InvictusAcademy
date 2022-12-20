@@ -42,11 +42,6 @@ public class GetFreeArticleData : EndpointBaseAsync
             throw new UnauthorizedAccessException("User is not authorized");
         }
         var result = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<FreeArticleVm>>(result));
     }
 }

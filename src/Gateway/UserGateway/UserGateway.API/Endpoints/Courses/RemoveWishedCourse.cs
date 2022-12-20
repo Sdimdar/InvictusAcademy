@@ -39,11 +39,6 @@ public class RemoveWishedCourse : EndpointBaseAsync
                                $"UserId {request.UserId}");
         int id = HttpContext.Session.GetData("user")!.Id;
         var result = await _mediator.Send(new RemoveFromWishedCommand() { UserId = id, CourseId = request.CourseId }, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));
     }
 }

@@ -44,16 +44,6 @@ public class GetPurchasedCourseData : EndpointBaseAsync
             UserId = userId
         };
         var result = await _mediator.Send(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Course Id {result.Value.Id}" +
-                               $"Course Name {result.Value.Name}" +
-                               $"Modules.Count {result.Value.Modules.Count}" +
-                               $"Course Description {result.Value.Description}" +
-                               $"PassingTime {result.Value.PassingTime}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<PurchasedCourseInfoVm>>(result));
     }
 }

@@ -111,6 +111,12 @@ export default defineComponent({
 });
 </script>
 
-<style>
+  <style>
+  .edit-btn{
+    color:#0375DF;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+  }
 
 </style>

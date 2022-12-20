@@ -34,11 +34,6 @@ public class GetCount : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<int>>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         var response = await _mediator.Send(new GetCountRoomsQuery(), cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

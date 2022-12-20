@@ -37,11 +37,6 @@ public class GetCompleted : EndpointBaseAsync
     {
         string email = HttpContext.Session.GetData("user")!.Email;
         var result = await _mediator.Send(new GetGatewayCoursesQuery() { Email = email, Type = CourseTypes.Completed }, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Courses Count {result.Value.Courses.Count}");
         return Ok(_mapper.Map<DefaultResponseObject<CoursesVm>>(result));
     }
 }

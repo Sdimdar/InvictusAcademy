@@ -48,11 +48,6 @@ public class Register : EndpointBaseAsync
         var response = await _mediator.Send(request, cancellationToken);
         if (!response.IsSuccess) return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(response));
         HttpContext.Session.SetData("user", new SessionData() { Email = request.Email });
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

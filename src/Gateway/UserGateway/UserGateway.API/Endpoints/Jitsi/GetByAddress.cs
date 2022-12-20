@@ -36,11 +36,6 @@ public class GetByAddress : EndpointBaseAsync
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
                                $"Address {request.Address}");
         var response = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<StreamingRoomVm>>(response));
     }
 }

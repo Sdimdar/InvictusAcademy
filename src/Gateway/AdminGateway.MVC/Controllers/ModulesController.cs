@@ -33,15 +33,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Articles Count {request.Articles.Count}" + $"ModuleId {request.ModuleId}");
         var response = await _modulesService.AddArticle(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
     [HttpPost]
@@ -53,15 +44,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"TestCompleteCount {request.Test.TestCompleteCount}" + $"TestShowCount {request.Test.TestShowCount}" + $"ModuleId {request.ModuleId}");
         var response = await _modulesService.AddTest(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
     
@@ -74,15 +56,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Title {request.Title}" + $"ShortDescription {request.ShortDescription}");
         var response = await _modulesService.Create(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -96,15 +69,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {request.Id}");
         var response = await _modulesService.Delete(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -122,15 +86,6 @@ public class ModulesController : Controller
                                $"ShortDescription {request.ShortDescription}" +
                                $"Articles Count {request.Articles.Count}");
         var response = await _modulesService.Update(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -142,12 +97,6 @@ public class ModulesController : Controller
     public async Task<ActionResult<DefaultResponseObject<List<ModuleInfoVm>>>> GetAll()
     {
         var response = await _modulesService.GetAll();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -158,10 +107,6 @@ public class ModulesController : Controller
     public async Task<ActionResult<DefaultResponseObject<int>>> GetModulesCount()
     {
         var response = await _modulesService.GetModulesCount();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"Count {response.Value}" + $"");
         return Ok(response);
     }
 
@@ -175,12 +120,6 @@ public class ModulesController : Controller
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
                                $"FilterString {request.FilterString}");
         var response = await _modulesService.GetFilterByString(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -193,15 +132,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {request.Id}");
         var response = await _modulesService.GetById(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Title {response.Value.Title}" +
-                               $"ShortDescription {response.Value.ShortDescription}" +
-                               $"Articles Count {response.Value.Articles.Count}" +
-                               $"");
         return Ok(response);
     }
 
@@ -214,12 +144,6 @@ public class ModulesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"ModulesId {request.ModulesId}");
         var response = await _modulesService.GetByListOfId(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}" +
-                               $"");
         return Ok(response);
     }
 }

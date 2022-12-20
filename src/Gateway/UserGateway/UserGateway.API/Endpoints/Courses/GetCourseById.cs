@@ -38,17 +38,6 @@ public class GetCourseById : EndpointBaseAsync
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
                                $"Id {request.Id}");
         var result = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Course Id {result.Value.Id}" +
-                               $"Course Name {result.Value.Name}" +
-                               $"Course Cost {result.Value.Cost}" +
-                               $"Course Description {result.Value.Description}" +
-                               $"IsActive {result.Value.IsActive}" +
-
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<CourseByIdVm>>(result));
     }
 }

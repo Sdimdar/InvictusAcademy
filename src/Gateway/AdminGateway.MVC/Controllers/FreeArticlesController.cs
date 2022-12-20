@@ -30,10 +30,6 @@ public class FreeArticlesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"Title {request.Title}" + $"Text {request.Text}" + $"ImageLink {request.ImageLink}" + $"VideoLink {request.VideoLink}");
         var response = await _freeArticlesService.Create(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"");
         return Ok(response);
     }
 
@@ -46,10 +42,6 @@ public class FreeArticlesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"Id {request.Id}" + $"Title {request.Title}" + $"Text {request.Text}" + $"IsVisible {request.IsVisible}" + $"ImageLink {request.ImageLink}" + $"VideoLink {request.VideoLink}");
         var response = await _freeArticlesService.Edit(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {{response.IsSuccess}}" + $"");
         return Ok(response);
     }
 
@@ -62,14 +54,6 @@ public class FreeArticlesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"FilterString {request.FilterString}" + $"PageNumber {request.PageNumber}" + $"PageSize {request.PageSize}");
         var response = await _freeArticlesService.GetAll(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"FreeArticles Count {response.Value.FreeArticles.Count}" +
-                               $"PageNumber {response.Value.PageNumber}" +
-                               $"PageSize {response.Value.PageSize}" +
-                               $"");
         return Ok(response);
     }
 
@@ -82,15 +66,6 @@ public class FreeArticlesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"Id {request.Id}");
         var response = await _freeArticlesService.GetFreeArticleData(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Text {response.Value.Text}" +
-                               $"Title {response.Value.Title}" +
-                               $"IsVisible {response.Value.IsVisible}" +
-                               $"");
         return Ok(response);
     }
 
@@ -102,10 +77,6 @@ public class FreeArticlesController : Controller
     public async Task<ActionResult<DefaultResponseObject<FreeArticleVm>>> GetCount()
     {
         var response = await _freeArticlesService.GetCount();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"Count {response.Value}" + $"");
         return Ok(response);
     }
 }

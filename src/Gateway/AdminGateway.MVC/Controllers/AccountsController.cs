@@ -34,12 +34,6 @@ public class AccountsController : Controller
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}: " +
                                $"Login: {request.Login}");
         var response = await _adminService.LoginAdminAsync(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"IsSucces: {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Email: {response.Value.Email}" +
-                               $"Ban: {response.Value.Ban}");
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(response));
     }
 
@@ -51,9 +45,6 @@ public class AccountsController : Controller
     public async Task<ActionResult<DefaultResponseObject<AdminUser>>> GetAdminData(CancellationToken cancellationToken)
     {
         var admin = await _adminService.GetAdminDataAsync(User, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"Email: {admin.Value.Email}" +
-                               $"Ban: {admin.Value.Ban}");
         return Ok(_mapper.Map<DefaultResponseObject<AdminUser>>(admin));
     }
 

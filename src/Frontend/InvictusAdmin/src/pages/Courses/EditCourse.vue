@@ -43,6 +43,37 @@
     </q-card-actions>
 
 
+  <div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.videoLink"
+      filled
+      label="Ссылка на видео-превью"
+      type="textarea"
+    />
+  </div>
+
+  <div class="q-pa-md" style="max-width: 700px">
+    <q-input
+      v-model="courseData.previewLink"
+      filled
+      label="Ссылка на фото-превью"
+      type="textarea"
+    />
+  </div>
+
+  <div class="q-pa-md" style="max-width: 300px">
+    <div class="q-gutter-md">
+      <q-select
+        label="Отметить false, если курс не действующий"
+        transition-show="scale"
+        transition-hide="scale"
+        filled
+        v-model="courseData.isActive"
+        :options="options"
+        style="width: 250px"
+      />
+    </div>
+  </div>
     <div class="q-pa-md" style="max-width: 700px">
       <q-input v-model="courseData.videoLink" filled label="Адрес для видео" type="textarea" />
     </div>
@@ -128,6 +159,7 @@ export default {
         coursePoints: [{ point: "", pointImageLink: "" }],
         isActive: true,
         videoLink: "",
+        previewLink:"",
         passingDayCount: 1
       },
       showModules: false,

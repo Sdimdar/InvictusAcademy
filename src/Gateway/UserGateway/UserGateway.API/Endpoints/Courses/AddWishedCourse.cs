@@ -37,7 +37,6 @@ public class AddWishedCourse: EndpointBaseAsync
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"CourseId {request.CourseId}" + $"UserId{request.UserId}");
         int id = HttpContext.Session.GetData("user")!.Id;
         var result = await _mediator.Send(new AddToWishedCourseCommand() { UserId = id, CourseId = request.CourseId }, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" + $"CourseId {request.CourseId}" + $"UserId {request.UserId}");
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));
     }
 }

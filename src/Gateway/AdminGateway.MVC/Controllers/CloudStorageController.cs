@@ -29,13 +29,6 @@ public class CloudStorageController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}: " + $"pageNumbe" + $"r: {pageNumber}" + $"pageSize: {pageSize}");
         var response = await _cloudStorages.GetFilesAsync(pageNumber, pageSize, filterString);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}: " +
-                               $"IsSucces: {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Files Count: {response.Value.Files.Count}" +
-                               $"pageSize: {response.Value.PageSize}" +
-                               $"pageNumber: {response.Value.PageNumber}");
         return Ok(response);
     }
 
@@ -46,10 +39,6 @@ public class CloudStorageController : Controller
     public async Task<ActionResult<DefaultResponseObject<int>>> GetFilesCount()
     {
         var response = await _cloudStorages.GetFilesCount();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces: {response.IsSuccess}" + $"Count:" + $" {response.Value}");
         return Ok(response);
     }
     

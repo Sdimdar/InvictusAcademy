@@ -31,14 +31,6 @@ public class RequestsController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"pageNumber {pageNumber}" + $"pageSize {pageSize}");
         var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"PageNumber {response.Value.PageNumber}" +
-                               $"PageSize {response.Value.PageSize}" +
-                               $"TotalPages {response.Value.TotalPages}" +
-                               $"Requests Count {response.Value.Requests.Count}");
         return Ok(response);
     }
 
@@ -49,10 +41,6 @@ public class RequestsController : Controller
     public async Task<ActionResult<DefaultResponseObject<int>>> GetRequestsCount()
     {
         var response = await _requestService.GetRequestsCountAsync();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"Count {response.Value}");
         return Ok(response);
     }
     
@@ -66,11 +54,6 @@ public class RequestsController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}");
         var response = await _requestService.ChangeCalledStatusAsync(command);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"");
         return Ok(response);
 
     }
@@ -85,10 +68,6 @@ public class RequestsController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}" + $"ManagerComment {command.ManagerComment}");
         var response = await _requestService.ManagerCommentAsync(command);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"Value {response.Value}");
         return Ok(response);
     }
 }

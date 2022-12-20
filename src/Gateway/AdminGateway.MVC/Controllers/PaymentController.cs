@@ -40,17 +40,6 @@ public class PaymentController : Controller
             PaymentId = paymentId
         };
         var response = await _paymentService.GetByIdPaymentRequestAsync(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"CourseId {response.Value.CourseId}" +
-                               $"UserId {response.Value.UserId}" +
-                               $"PaymentState {response.Value.PaymentState}" +
-                               $"RejectReason {response.Value.RejectReason}" +
-                               $"ModifyAdminEmail {response.Value.ModifyAdminEmail}" +
-                               $"");
         return Ok(response);
     }
 
@@ -65,15 +54,6 @@ public class PaymentController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Status {request.Status}" + $"PageNumber {request.PageNumber}" + $"PageSize {request.PageSize}");
         var response = await _paymentService.GetWithParametersPaymentRequestAsync(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Payments Count {response.Value.Payments.Count}" +
-                               $"PageNumber {response.Value.PageNumber}" +
-                               $"PageSize {response.Value.PageSize}" +
-                               $"TotalPages {response.Value.TotalPages}" +
-                               $"");
         return Ok(response);
     }
 
@@ -87,10 +67,6 @@ public class PaymentController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"CourseId {request.CourseId}" + $"UserId {request.UserId}");
         var response = await _paymentService.AddPaymentRequestAsync(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}");
         return Ok(response);
     }
 
@@ -110,11 +86,6 @@ public class PaymentController : Controller
             AdminEmail = User.Identity.Name
         };
         var response = await _paymentService.ConfirmPaymentRequestAsync(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"");
         return Ok(response);
     }
 
@@ -136,11 +107,6 @@ public class PaymentController : Controller
             RejectReason = request.RejectReason
         };
         var response = await _paymentService.RejectPaymentRequestAsync(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"");
         return Ok(response);
     }
     
@@ -155,11 +121,6 @@ public class PaymentController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentState {request.PaymentState}");
         var response = await _paymentService.GetPaymentsCount(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"");
         return Ok(response);
     }
 
@@ -173,11 +134,6 @@ public class PaymentController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"AdminEmail {request.AdminEmail}");
         var response = await _paymentService.GetHistoryByAdminNameAsync(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}");
         return Ok(response);
     }
     
@@ -191,12 +147,6 @@ public class PaymentController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PaymentId {request.PaymentId}");
         var response = await _paymentService.GetHistoryByPaymentId(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}"+
-                               $"");
         return Ok(response);
     }
 
@@ -212,10 +162,6 @@ public class PaymentController : Controller
         request.AdminEmail = User.Identity.Name;
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"AdminEmail {request.AdminEmail}" + $"PaymentId {request.PaymentId}" + $"PaymentId {request.RejectReason}");
         var response = await _paymentService.CancelPaymentAsync(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"");
         return Ok(response);
     }
 

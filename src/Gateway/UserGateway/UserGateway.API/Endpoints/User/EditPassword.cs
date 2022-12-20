@@ -38,11 +38,6 @@ public class EditPassword : EndpointBaseAsync
                                $"Email {request.Email}");
         request.Email = HttpContext.Session.GetData("user").Email;
         var response = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }

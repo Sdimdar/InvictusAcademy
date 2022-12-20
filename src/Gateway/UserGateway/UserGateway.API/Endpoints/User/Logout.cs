@@ -31,8 +31,6 @@ public class Logout : EndpointBaseSync
     public override ActionResult<DefaultResponseObject<string>> Handle()
     {
         HttpContext.Session.Remove("user");
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Logout Succes");
         return Ok(_mapper.Map<DefaultResponseObject<UserVm>>(Result.Success()));
     }
 }

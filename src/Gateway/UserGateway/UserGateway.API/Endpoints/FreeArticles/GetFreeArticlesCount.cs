@@ -40,11 +40,6 @@ public class GetFreeArticlesCount : EndpointBaseAsync
             throw new UnauthorizedAccessException("User is not authorized");
         }
         var response = await _mediator.Send(new GetAllFreeArticlesCountQuery(), cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<int>>(response));
     }
 }

@@ -38,12 +38,6 @@ public class GetShortModulesInfoByCourseId : EndpointBaseAsync
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
                                $"CourseId {request.CourseId}");
         var result = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Count {result.Value.Count}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<List<ShortModuleInfoVm>>>(result));
     }
 }

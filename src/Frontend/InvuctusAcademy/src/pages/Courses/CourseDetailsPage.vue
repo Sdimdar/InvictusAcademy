@@ -45,16 +45,20 @@
               </div>
             </div>
           </div>
+
           <div>
-            <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" @click="addPayment" />
+            <q-btn v-if="isPurchased" :href="'/course/' + course.id" no-caps color="accent" class="start-btn"
+              label="Перейти к обучению" />
+            <course-payment-button v-else :title="course.name" :id="id" :cost="course.cost" />
           </div>
         </div>
-
         <div class="column" style="width: 35%;">
           <img class="preview" src="img/course_info.svg">
         </div>
       </div>
     </div>
+
+
 
     <div class="col-1" style="margin-left: 20px; margin-top: 50px;">
       <div class="row">
@@ -79,7 +83,7 @@
           </div>
         </div>
         <div class="col-3">
-          <div class="column">
+          <div class="column">``
             <div class="col" style="font-size: 22px; font-weight: 600;">
               Возможность <br /> учиться удалённо
             </div>
@@ -111,8 +115,9 @@
             {{ course.secondDescription }}
           </div>
           <div>
-            <q-btn no-caps outline color="accent" class="start-btn" label="Начать обучение" @click="addPayment"
-              style="margin: 20px 10px 10px 10px;" />
+            <q-btn v-if="isPurchased" :href="'/course/' + course.id" no-caps color="accent" class="start-btn"
+              label="Перейти к обучению" />
+            <course-payment-button v-else :title="course.name" :id="id" :cost="course.cost" />
           </div>
         </div>
         <div class="column" style="width: 50%;">
@@ -145,10 +150,13 @@
           </div>
         </div>
       </div>
-      <div class="btn-center">
-        <q-btn no-caps color="accent" class="start-btn" label="Начать обучение" @click="addPayment" />
+      <div>
+        <q-btn v-if="isPurchased" :href="'/course/' + course.id" no-caps color="accent" class="start-btn"
+          label="Перейти к обучению" />
+        <course-payment-button v-else :title="course.name" :id="id" :cost="course.cost" />
       </div>
     </div>
+
 
     <div class="col-2" style="margin-top: 30px;">
       <div style="font-size: 32px; font-weight: 700; color: #000000; margin: 20px 10px 10px 10px;">
@@ -180,16 +188,22 @@
 
 <script>
 import { ref } from "vue";
-import { getCourseById, getShortModulesInfo, addToPayments } from "boot/axios";
+import { getCourseById, getShortModulesInfo, addToPayments, getCurrentCourses } from "boot/axios";
 import notify from "boot/notifyes";
+import CoursePaymentButton from "components/Courses/CoursePaymentButton.vue";
 
 export default {
+  components: {
+    CoursePaymentButton
+  },
   data() {
     return {
       id: this.$route.query.id,
       course: "",
       courseModules: [],
-      isDescription: false
+      isDescription: false,
+      purchasedCourses: [],
+      isPurchased: false
     };
   },
   setup() {
@@ -207,6 +221,7 @@ export default {
       this.course = response.data.value
       console.log(this.course)
       this.getModuleData()
+      this.getPurchasedCourses()
     },
     async getModuleData() {
       const courseId = this.id;
@@ -219,6 +234,22 @@ export default {
       } catch (error) {
         console.log(error.message);
       }
+    },
+    async getPurchasedCourses() {
+      try {
+        const response = await getCurrentCourses();
+        if (response.data.isSuccess) {
+          this.purchasedCourses = response.data.value;
+          console.log(this.purchasedCourses)
+          let checkCourse = this.purchasedCourses.courses.find((element) => element.id === this.id)
+          if (checkCourse) {
+            this.isPurchased = true
+          }
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
     },
     showDescription() {
       this.isDescription = !this.isDescription;
@@ -240,7 +271,7 @@ export default {
 <style>
 .preview {
   height: 320px;
-  width: 260px;
+  width: 300px;
   padding: 10px;
 }
 

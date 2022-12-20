@@ -40,13 +40,6 @@ public class GetFullModulesInfoByCourseId : EndpointBaseAsync
         string email = HttpContext.Session.GetData("user")!.Email;
         request.UserEmail = email;
         var result = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Course Count {result.Value.Count}" +
-
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<List<ModuleInfoVm>>>(result));
     }
 }

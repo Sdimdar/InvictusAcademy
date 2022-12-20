@@ -49,12 +49,6 @@ public class GetPurchasedTest : EndpointBaseAsync
             ArticleOrder = request.ArticleOrder
         };
         var result = await _mediator.Send(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"Count {result.Value.Count}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<List<PurchasedTestVm>>>(result));
     }
 }

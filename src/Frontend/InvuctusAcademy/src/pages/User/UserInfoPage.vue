@@ -190,10 +190,17 @@ export default defineComponent({
   color: #7D7D7D;
 }
 
-.exit-btn {
-  color: #CD3838;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 10px;
+.edit-btn{
+    color:#0375DF;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+  }
+
+.exit-btn{
+    color:#CD3838;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
 }
 </style>

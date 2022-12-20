@@ -50,13 +50,6 @@ public class CheckTestAnswers : EndpointBaseAsync
             ModuleId = request.ModuleId
         };
         var result = await _mediator.Send(command, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"NeedAnswersCount {result.Value.NeedAnswersCount}" +
-                               $"RightAnswersCount {result.Value.RightAnswersCount}" +
-                               $"Answers Count {request.Answers.Count}");
         return Ok(_mapper.Map<DefaultResponseObject<TestResultVm>>(result));
     }
 }

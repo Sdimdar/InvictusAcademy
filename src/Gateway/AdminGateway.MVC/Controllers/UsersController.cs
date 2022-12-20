@@ -44,14 +44,6 @@ public class UsersController : Controller
             ValidationErrors = null,
             Value = usersList
         };
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Users Count {response.Value.Users.Count}" +
-                               $"PageNumber {response.Value.PageNumber}" +
-                               $"PageSize {response.Value.PageSize}" +
-                               $"");
         return Ok(responce);
     }
     
@@ -62,10 +54,6 @@ public class UsersController : Controller
     public async Task<ActionResult<DefaultResponseObject<int>>> GetUsersCount()
     {
         var response = await _iGetUsers.GetUsersCount();
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" + $"Count {response.Value}" + $"");
         return Ok(response);
     }
     
@@ -79,11 +67,6 @@ public class UsersController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}");
         var response = await _iGetUsers.ChangeBanStatusAsync(command);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" + 
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"");
         return Ok(response);
     }
 

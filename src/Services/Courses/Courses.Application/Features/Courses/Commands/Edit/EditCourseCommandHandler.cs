@@ -40,6 +40,7 @@ public class EditCourseCommandHandler : IRequestHandler<EditCourseCommand, Resul
             course.Name = request.Name;
             course.Description = request.Description;
             course.VideoLink = request.VideoLink;
+            course.PreviewLink = request.PreviewLink;
             course.Cost = request.Cost;
             course.IsActive = request.IsActive;
             course.PassingDayCount = request.PassingDayCount;

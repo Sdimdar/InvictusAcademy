@@ -47,11 +47,6 @@ public class Add : EndpointBaseAsync
             UserEmail = email
         };
         var result = await _mediator.Send(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {result.Errors}" +
-                               $"ValidationErrors {result.ValidationErrors}" +
-                               $"IsSuccess {result.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));
     }
 }

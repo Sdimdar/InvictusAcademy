@@ -41,16 +41,6 @@ public class CoursesController : Controller
                                $"Name {request.Name}" + $"Descripti" + $"on {request.Description}" + $"Cost {request.Cost}" + $"VideoLink {request.VideoLink}" + $"PassingDayCount {request.PassingDayCount}" + $"SecondName {request.SecondName}" + $"SecondDescription {request.SecondDescription}");
         CreateCourseCommand courseCommand = _mapper.Map<CreateCourseCommand>(request);
         var response = await _coursesService.Create(courseCommand);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces: {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Name {response.Value.Name}" +
-                               $"Purchased {response.Value.Purchased}" +
-                               $"Cost {response.Value.Cost}" +
-                               $"Description {response.Value.Description}" +
-                               $"VideoLink {response.Value.VideoLink}");
         return Ok(response);
     }
 
@@ -65,13 +55,6 @@ public class CoursesController : Controller
                                $"Id {request.Id}" +
                                $"Name {request.Name}" + $"IsActive {request.IsActive}" + $"VideoLink {request.VideoLink}" + $"PassingDayCount {request.PassingDayCount}" + $"Description {request.Description}");
         var response = await _coursesService.EditCourse(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"ModulesId {response.Value.ModulesId}" +
-                               $"ModulesString {response.Value.ModulesString}");
         return Ok(response);
     }
 
@@ -86,11 +69,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"Type {request.Type}" + $"UserId {request.UserId}");
         var response = await _coursesService.GetCourses(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Courses Count {response.Value.Courses.Count}");
         return Ok(response);
     }
 
@@ -104,15 +82,6 @@ public class CoursesController : Controller
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" +
                                $"Id {request.Id}");
         var response = await _coursesService.GetCourse(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Id {response.Value.Id}" +
-                               $"Name {response.Value.Name}" +
-                               $"Cost {response.Value.Cost}" +
-                               $"Description {response.Value.Description}" +
-                               $"IsActive {response.Value.IsActive}");
         return Ok(response);
     }
 
@@ -125,12 +94,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"CourseId {request.CourseId}" + $"ModulesId {request.ModulesId}");
         var response = await _coursesService.ChangeAllModules(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"CourseData {response.Value.CourseData}" +
-                               $"ModulesId {response.Value.ModulesId}");
         return Ok(response);
     }
 
@@ -143,10 +106,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"Id {request.Id}");
         var response = await _coursesService.Delete(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"isSucces {response.IsSuccess}");
         return Ok(response);
     }
 
@@ -159,11 +118,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"CourseId {request.CourseId}");
         var response = await _coursesService.GetCourseModulesId(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"Count {response.Value.Count}");
         return Ok(response);
     }
 
@@ -177,14 +131,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Index {request.Index}" + $"CourseId {request.CourseId}" + $"ModuleId {request.ModuleId}");
         var response = await _coursesService.InsertModule(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"ModulesId {response.Value.ModulesId}" +
-                               $"CourseData Name {response.Value.CourseData.Name}" +
-                               $"CourseData Id {response.Value.CourseData.Id}" +
-                               $"");
         return Ok(response);
     }
 
@@ -198,14 +144,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"CourseId {request.CourseId}" + $"ModulesId {request.ModulesId}" + $"ModulesId {request.ModulesId}");
         var response = await _coursesService.InsertModules(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"ModulesId {response.Value.ModulesId}" +
-                               $"CourseData Name {response.Value.CourseData.Name}" +
-                               $"CourseData Id {response.Value.CourseData.Id}" +
-                               $"");
         return Ok(response);
     }
 
@@ -218,14 +156,6 @@ public class CoursesController : Controller
     {
         _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}:" + $"CourseId {request.CourseId}" + $"ModuleId {request.ModuleId}");
         var response = await _coursesService.RemoveModule(request);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}:" +
-                               $"isSucces {response.IsSuccess}" +
-                               $"ValidationErrors: {response.ValidationErrors}" +
-                               $"Errors: {response.Errors}" +
-                               $"ModulesId {response.Value.ModulesId}" +
-                               $"CourseData Name {response.Value.CourseData.Name}" +
-                               $"CourseData Id {response.Value.CourseData.Id}" +
-                               $"");
         return Ok(response);
     }
 }

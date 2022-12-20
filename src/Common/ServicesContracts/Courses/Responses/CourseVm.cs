@@ -12,6 +12,7 @@ public class CourseVm
     public List<CoursePointsVm>? CoursePoints { get; set; }
     public decimal Cost { get; set; }
     public string? VideoLink { get; set; }
+    public string? PreviewLink { get; set; }
     public string LogoImageLink { get; set; }
     public bool Purchased { get; set; }
 }

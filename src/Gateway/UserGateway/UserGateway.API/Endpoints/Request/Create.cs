@@ -37,11 +37,6 @@ public class Create : EndpointBaseAsync
                                $"PhoneNumber {request.PhoneNumber}" +
                                $"UserName {request.UserName}");
         var response = await _mediator.Send(request, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
 }

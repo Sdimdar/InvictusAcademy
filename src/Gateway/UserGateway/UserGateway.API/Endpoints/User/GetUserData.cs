@@ -37,11 +37,6 @@ public class GetUserData : EndpointBaseAsync
         string? email = HttpContext.Session.GetData("user")?.Email;
         GetUserDataQuerry query = new() { Email = email };
         var response = await _mediator.Send(query, cancellationToken);
-        _logger.LogInformation($"{BussinesErrors.ReturnData.ToString()}" +
-                               $"Errors {response.Errors}" +
-                               $"ValidationErrors {response.ValidationErrors}" +
-                               $"IsSuccess {response.IsSuccess}" +
-                               $"");
         return Ok(_mapper.Map<DefaultResponseObject<GetUserDataVm>>(response));
     }
 }
