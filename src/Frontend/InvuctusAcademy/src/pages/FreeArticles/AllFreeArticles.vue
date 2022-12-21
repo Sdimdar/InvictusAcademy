@@ -1,13 +1,15 @@
 <template>
-  <q-page-container v-if="allFreeAticles.length != 0">
-    <div class="row justify-content-start">
+  <q-page-container v-if="initialized" style="text-align:center">
+    <div class="row justify-content-start" v-if="allFreeAticles.length != 0">
       <free-article-card :freeArticle="freeArticle" v-for="freeArticle in allFreeAticles"/>
     </div>
 
-    <div class="q-pa-lg flex flex-center">
+    <div class="q-pa-lg flex flex-center" v-if="allFreeAticles.length != 0">
       <q-pagination v-model="this.pageNumber" @click="getFreeArticlesMounted" color="accent" :max="countPages"
         :max-pages="10" :boundary-numbers="false" />
     </div>
+
+    <h2 v-if="allFreeAticles.length == 0">На текущий момент статей нет</h2>
   </q-page-container>
 </template>
 
@@ -22,15 +24,17 @@ export default {
   },
   data() {
     return {
-      allFreeAticles: [{}],
+      allFreeAticles: [],
       pageNumber: 1,
       countPages: 0,
-      pageSize: 2,
+      pageSize: 20,
+      initialized: false
     }
   },
   async beforeMount() {
     await this.getAllFreeArticlesCount()
     await this.getFreeArticles()
+    this.initialized = true
   },
   watch:{
     pageNumber: function() {

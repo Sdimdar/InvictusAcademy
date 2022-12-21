@@ -1,7 +1,7 @@
 <template>
-  <q-page>
+  <q-page-container>
     <div id="jitsiContainer" style="height: 100%; width: 100%;"></div>
-  </q-page>
+  </q-page-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <q-btn no-caps outline class="edit-btn" @click="getUserData">
+    <q-btn no-caps outline :class="$attrs.class" @click="getUserData">
         Изменить пароль
     </q-btn>
 
@@ -148,8 +148,6 @@
   color:#0375DF;
   font-size: 16px;
   font-weight: 500;
-  width: 450px;
-  margin-left: 8px;
   border-radius: 10px;
 }
 

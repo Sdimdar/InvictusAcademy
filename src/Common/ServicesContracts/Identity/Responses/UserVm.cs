@@ -12,5 +12,5 @@ public class UserVm
     public string? InstagramLink { get; set; }
     public string Citizenship { get; set; }
     public string City { get; set; }
-    public DateTime RegistrationDate { get; set; }
+    public string RegistrationDate { get; set; }
 }

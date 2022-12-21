@@ -9,4 +9,5 @@ public class GetAllFilesQuery : IRequest<Result<GetAllFilesVM>>
 {
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
+    public string? FilterString { get; set; }
 }

@@ -24,15 +24,15 @@
             <createArticle :title="title" :id="id" :articles="articles" @addArticle="getModuleData" />
             <div>
               <table class="styled-table">
-                  <tbody>
-                      <tr v-for="article in articles" :key="article.order">
-                          <td>{{article.order}}</td>
-                          <td>{{article.title}}</td>
-                          <q-btn label="Детали" @click="openDetails(id, article.order)" />
-                      </tr>
-                  </tbody>
+                <tbody>
+                  <tr v-for="article in articles" :key="article.order">
+                    <td>{{ article.order }}</td>
+                    <td>{{ article.title }}</td>
+                    <q-btn label="Детали" @click="openDetails(id, article.order)" />
+                  </tr>
+                </tbody>
               </table>
-    </div>
+            </div>
 
           </q-page-container>
 
@@ -105,9 +105,9 @@ export default defineComponent({
       this.updateDialog = false;
       this.errorMessage = "";
     },
-    openDetails(id, order){
-    this.$router.push({path:'/admin-panel/article', query:{id: id, order: order }})
-  }
+    openDetails(id, order) {
+      this.$router.push({ path: '/admin-panel/article', query: { id: id, order: order } })
+    }
   },
   beforeMount() {
     this.getModuleData()
@@ -116,14 +116,14 @@ export default defineComponent({
 </script>
 
 <style>
-.styled-table{
-    border-collapse: collapse;
-    margin: 50px 0;
-    min-width: 800px;
-}
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-    padding: 10px;
+.styled-table {
+  border-collapse: collapse;
+  margin: 50px 0;
+  min-width: 800px;
 }
 
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  padding: 10px;
+}
 </style>

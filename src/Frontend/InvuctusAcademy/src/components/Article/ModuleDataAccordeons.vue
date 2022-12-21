@@ -7,7 +7,7 @@
       <q-item>
         <q-item-section>
           <div :class="{'articles-not-opened':true, 'articles-opened':item.isOpened, 'articles-complete':item.isCompleted}">
-            Урок №{{index}} - {{item.title}}
+            Урок №{{index+1}} - {{item.title}}
           </div>
         </q-item-section>
 

@@ -3,6 +3,7 @@ using DataTransferLib.Mappings;
 using ExtendedHttpClient.Extensions;
 using Microsoft.OpenApi.Models;
 using NLog.Web;
+using UserGateway.API.Mappings;
 using UserGateway.Application.Contracts;
 using UserGateway.Application.Mappings;
 using UserGateway.Infrastructure.Services;
@@ -78,6 +79,7 @@ public static class DependencyInjection
             cfg.AddProfile(new DefaultResponseObjectProfile());
             cfg.AddProfile(new UserProfile());
             cfg.AddProfile(new StreamingRoomProfile());
+            cfg.AddProfile(new VmMappingProfile());
         }).CreateMapper());
         return services;
     }

@@ -15,5 +15,13 @@ public enum BussinesErrors
     KeyNotFoundException,
     BoolIsNotTrue,
     RequestIsNull,
-    ErrorWithUploadingFile
+    ErrorWithUploadingFile,
+    ReceiveData,
+    ReturnData,
+    FileFormatIsNotCorrect,
+    IsNotAllowed,
+    CoursesNotPurchased,
+    IsNotOpened,
+    CourseIsNotPurchased,
+    IsNotAvailable
 }

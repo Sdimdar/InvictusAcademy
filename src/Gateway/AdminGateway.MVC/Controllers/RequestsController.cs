@@ -1,5 +1,6 @@
 ﻿using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace AdminGateway.MVC.Controllers;
 public class RequestsController : Controller
 {
     private readonly IRequestService _requestService;
-    public RequestsController(IRequestService requestService)
+    private readonly ILogger<RequestsController> _logger;
+    public RequestsController(IRequestService requestService, ILogger<RequestsController> logger)
     {
         _requestService = requestService;
+        _logger = logger;
     }
 
     [Authorize(Roles = $"{RolesHelper.Administrator},{RolesHelper.Manager}")]
@@ -26,6 +29,7 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<GetAllRequestVm>>> GetAll(int pageNumber = 1, int pageSize = 10)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"pageNumber {pageNumber}" + $"pageSize {pageSize}");
         var response = await _requestService.GetAllRequestsAsync(pageNumber, pageSize);
         return Ok(response);
     }
@@ -48,6 +52,7 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ChangeCalled([FromBody] ChangeCalledStatusCommand command)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}");
         var response = await _requestService.ChangeCalledStatusAsync(command);
         return Ok(response);
 
@@ -61,6 +66,7 @@ public class RequestsController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ManagerComment([FromBody] ManagerCommentCommand command)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}" + $"ManagerComment {command.ManagerComment}");
         var response = await _requestService.ManagerCommentAsync(command);
         return Ok(response);
     }

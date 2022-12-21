@@ -54,6 +54,10 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<string>("LogoImageLink")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -62,6 +66,9 @@ namespace Courses.Infrastructure.Migrations
 
                     b.Property<int>("PassingDayCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PreviewLink")
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("SecondDescription")
                         .IsRequired()

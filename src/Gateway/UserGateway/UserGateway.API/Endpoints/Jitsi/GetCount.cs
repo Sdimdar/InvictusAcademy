@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class GetCount : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetCount> _logger;
 
-    public GetCount(IMediator mediator, IMapper mapper)
+    public GetCount(IMediator mediator, IMapper mapper, ILogger<GetCount> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("StreamingRooms/GetCount")]

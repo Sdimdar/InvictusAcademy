@@ -12,6 +12,9 @@ public class EditCourseCommand : IRequest<Result<string>>
     public string SecondDescription { get; set; }
     public ICollection<CoursePointsVm> CoursePoints { get; set; }
     public string? VideoLink { get; set; }
+    
+    public string? PreviewLink { get; set; }
+    public string LogoImageLink { get; set; }
     public decimal Cost { get; set; }
     public bool IsActive { get; set; }
     public int PassingDayCount { get; set; }

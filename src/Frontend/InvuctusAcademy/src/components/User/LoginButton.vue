@@ -33,7 +33,7 @@
       </q-form>
   </div>
   <div class="col">
-    <a :href="'/reqister'" style="font-size: 13px; font-weight: 400; color: #0375DF;">
+    <a @click="changeMode" class="change-mode-button" >
       У меня нет аккаунта
     </a>
   </div>
@@ -94,6 +94,9 @@ export default defineComponent({
     validatePassword(value) {
       return constants.PWD_REGEXP.test(value);
     },
+    changeMode() {
+      this.$emit("changeMode")
+    }
   },
 });
 </script>
@@ -119,4 +122,14 @@ export default defineComponent({
   color: #F9F9F9;
 }
 
+.change-mode-button{
+  font-size: 13px; 
+  font-weight: 400; 
+  color: #0375DF;
+  cursor: pointer;
+}
+
+.change-mode-button:hover{
+  text-decoration: underline;
+}
 </style>

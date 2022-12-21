@@ -19,11 +19,13 @@ public class StreamingRoomsController : Controller
 {
     private readonly IStreamingRoomService _streamingRoomService;
     private readonly IMapper _mapper;
+    private readonly ILogger<StreamingRoomsController> _logger;
 
-    public StreamingRoomsController(IStreamingRoomService streamingRoomService, IMapper mapper)
+    public StreamingRoomsController(IStreamingRoomService streamingRoomService, IMapper mapper, ILogger<StreamingRoomsController> logger)
     {
         _streamingRoomService = streamingRoomService;
         _mapper = mapper;
+        _logger = logger;
     }
     
     [HttpPost]
@@ -33,6 +35,7 @@ public class StreamingRoomsController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<string>>> Create([FromBody]CreateStreamingRoomCommand request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Name {request.Name}" + $"ImageLink {request.ImageLink}");
         var response = await _streamingRoomService.Create(request);
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
@@ -44,6 +47,7 @@ public class StreamingRoomsController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<string>>> OpenOrCloseRoom([FromBody]string address)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Address {address}");
         var response = await _streamingRoomService.OpenOrCloseRoom(address);
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));
     }
@@ -56,6 +60,7 @@ public class StreamingRoomsController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<AllStreamingRoomsVm>>> GetAll([FromQuery]GetAllRoomsQuery request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"PageNumber {request.PageNumber}" + $"PageSize {request.PageSize}");
         var response = await _streamingRoomService.GetAll(request);
         return Ok(_mapper.Map<DefaultResponseObject<AllStreamingRoomsVm>>(response));
     }
@@ -78,6 +83,7 @@ public class StreamingRoomsController : Controller
     )]
     public async Task<ActionResult<DefaultResponseObject<StreamingRoomVm>>> GetByAddress([FromBody]GetByAddressQuery request)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Address {request.Address}");
         var response = await _streamingRoomService.GetByAddress(request);
         return Ok(_mapper.Map<DefaultResponseObject<AllStreamingRoomsVm>>(response));
     }

@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh lpR lFf">
-    <login-button v-if="!logined" :logined="logined" @autorize="autorize" />
+    <login-button v-if="!logined && isLoginMode" :logined="logined" @autorize="autorize" @changeMode="changeMode"/>
+    <register-button v-if="!logined && !isLoginMode" :logined="logined" @autorize="autorize" @changeMode="changeMode"/>
 
     <q-header v-if="logined" class="header" style="padding:10px">
       <q-toolbar>
@@ -72,12 +73,12 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item >
             <q-item-section avatar>
               <img src="img/icons/message.svg" />
             </q-item-section>
 
-            <q-item-section>
+            <q-item-section style="color: gray;">
               Чат
             </q-item-section>
           </q-item>
@@ -94,12 +95,12 @@
 
           <div class="spacer"></div>
 
-          <q-item clickable v-ripple>
+          <q-item>
             <q-item-section avatar>
               <img src="img/icons/support.svg" />
             </q-item-section>
 
-            <q-item-section>
+            <q-item-section style="color: gray;">
               Тех.поддержка
             </q-item-section>
           </q-item>
@@ -114,7 +115,7 @@
     </q-drawer>
 
     <q-page-container style="padding-left: 50px; padding-bottom: 10px;">
-      <router-view v-if="initialized" :logined="logined" :loginedUserEmail="loginedUserEmail" />
+      <router-view v-if="logined" :logined="logined" :loginedUserEmail="loginedUserEmail" />
     </q-page-container>
   </q-layout>
 
@@ -161,7 +162,7 @@ export default {
       logined: false,
       loginedUserEmail: "",
       userName: "",
-      initialized: false
+      isLoginMode: true
     }
   },
   methods: {
@@ -174,6 +175,9 @@ export default {
     unautorize: function () {
       this.logined = false;
       this.loginedUserEmail = ""
+    },
+    changeMode: function(){
+      this.isLoginMode = !this.isLoginMode;
     },
     async getUserData() {
       try {
@@ -196,9 +200,8 @@ export default {
       }
     }
   },
-  async created() {
+  async mounted() {
     await this.getUserData()
-    this.initialized = true
   }
 }
 </script>

@@ -20,11 +20,6 @@ const routes = [
       { path: "/course/test", name: 'purchasedTestPassing', component: () => import("pages/CoursePassing/TestPassingPage.vue")},
     ],
   },
-
-  {
-    path: "/reqister",
-    component: () => import("pages/RegisterPage.vue")
-  },
   // Always leave this as last one,
   // but you can also remove it
   {

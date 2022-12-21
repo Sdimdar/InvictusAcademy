@@ -1,11 +1,13 @@
 ﻿using Ardalis.Result;
 using Ardalis.Result.FluentValidation;
+using CommonStructures;
 using Courses.Application.Contracts;
 using Courses.Domain.Entities;
 using Courses.Domain.Entities.CourseInfo.Tests;
 using Courses.Domain.Entities.CourseResults;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using ServicesContracts.Courses.Requests.Tests.Commands;
 using ServicesContracts.Courses.Responses;
 
@@ -18,18 +20,20 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
     private readonly IModuleInfoRepository _moduleInfoRepository;
     private readonly ICourseResultsInfoRepository _courseResultsInfoRepository;
     private readonly IValidator<CheckTestAnswersCommand> _validator;
+    private readonly ILogger<CheckTestAnswersCommandHandler> _logger;
 
     public CheckTestAnswersCommandHandler(ICoursePurchasedRepository coursePurchasedRepository,
                                           ICourseInfoRepository courseInfoRepository,
                                           IModuleInfoRepository moduleInfoRepository,
                                           ICourseResultsInfoRepository courseResultsInfoRepository,
-                                          IValidator<CheckTestAnswersCommand> validator)
+                                          IValidator<CheckTestAnswersCommand> validator, ILogger<CheckTestAnswersCommandHandler> logger)
     {
         _coursePurchasedRepository = coursePurchasedRepository;
         _courseInfoRepository = courseInfoRepository;
         _moduleInfoRepository = moduleInfoRepository;
         _courseResultsInfoRepository = courseResultsInfoRepository;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<TestResultVm>> Handle(CheckTestAnswersCommand request, CancellationToken cancellationToken)
@@ -41,15 +45,33 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
         }
 
         var coursePurchaseData = await _coursePurchasedRepository.GetFirstOrDefaultAsync(p => p.UserId == request.UserId && p.CourseId == request.CourseId);
-        if (coursePurchaseData is null) return Result.Error($"Course is not purchased");
+        if (coursePurchaseData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+            return Result.Error($"{BussinesErrors.CourseIsNotPurchased.ToString()}: Course is not purchased");
+        }
 
         var coursePurchaseResultData = await _courseResultsInfoRepository.GetAsync(coursePurchaseData.Id, cancellationToken);
-        if (coursePurchaseResultData is null) throw new InvalidDataException($"Not found in mongo db info about result of " +
-                                                                             $"course with ID: {request.CourseId} and user Id: {request.UserId}");
-        if (coursePurchaseResultData.EndDate <= DateTime.Now) return Result.Error($"Course is not allowed now");
+        if (coursePurchaseResultData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found in mongo db info about result of " +
+                               $"course with ID: {request.CourseId} and user Id: {request.UserId}");
+            throw new InvalidDataException($"Not found in mongo db info about result of " +
+                                           $"course with ID: {request.CourseId} and user Id: {request.UserId}");
+        }
+
+        if (coursePurchaseResultData.EndDate <= DateTime.Now)
+        {
+            _logger.LogWarning($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+            return Result.Error($"{BussinesErrors.IsNotAllowed.ToString()}: Course is not allowed now");
+        } 
 
         var courseInfoData = await _courseInfoRepository.GetAsync(request.CourseId, cancellationToken);
-        if (courseInfoData is null) return Result.Error($"Course info with ID {request.CourseId} is not exist");
+        if (courseInfoData is null)
+        {
+            _logger.LogWarning($"{BussinesErrors.DataIsNotExist}: Course info with ID {request.CourseId} is not exist");
+            return Result.Error($"{BussinesErrors.DataIsNotExist}: Course info with ID {request.CourseId} is not exist");
+        }
 
         var modulesData = await _moduleInfoRepository.GetModulesByListOfIdAsync(courseInfoData.ModulesId, cancellationToken);
 
@@ -58,7 +80,8 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
 
         if (!articleProgress.IsOpened)
         {
-            return Result.Error("This test is not opened now, pass previous tests");
+            _logger.LogWarning($"{BussinesErrors.IsNotOpened.ToString()}: This test is not opened now, pass previous tests");
+            return Result.Error($"{BussinesErrors.IsNotOpened.ToString()}: This test is not opened now, pass previous tests");
         }
 
         Test test;
@@ -70,7 +93,8 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
         }
         catch (InvalidOperationException)
         {
-            return Result.Error("Not found module or article or test");
+            _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Not found module or article or test");
+            return Result.Error($"{BussinesErrors.NotFound.ToString()}: Not found module or article or test");
         }
         TestResultVm result = CheckTestAnswers(test, request.Answers);
         await ChangeDbResultsStates(request, coursePurchaseData, coursePurchaseResultData, result, cancellationToken);
@@ -207,6 +231,7 @@ public class CheckTestAnswersCommandHandler : IRequestHandler<CheckTestAnswersCo
             await _coursePurchasedRepository.UpdateAsync(coursePurchased);
             return;
         }
-        throw new InvalidOperationException("Course purchased was not found");
+        _logger.LogWarning($"{BussinesErrors.NotFound.ToString()}: Course purchased was not found");
+        throw new InvalidOperationException($"{BussinesErrors.NotFound.ToString()}: Course purchased was not found");
     }
 }

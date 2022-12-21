@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ public class GetCurrent : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetCurrent> _logger;
 
-    public GetCurrent(IMediator mediator, IMapper mapper)
+    public GetCurrent(IMediator mediator, IMapper mapper, ILogger<GetCurrent> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Courses/GetCurrent")]

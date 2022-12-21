@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ public class GetPurchasedArticle : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetPurchasedArticle> _logger;
 
     public GetPurchasedArticle(IMediator mediator, IMapper mapper)
     {
@@ -34,6 +36,10 @@ public class GetPurchasedArticle : EndpointBaseAsync
     public async override Task<ActionResult<DefaultResponseObject<PurchasedArticleInfoVm>>> HandleAsync([FromQuery] GetPurchasedArticleGatewayQuery request,
                                                                                                         CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"ArticleOrder {request.ArticleOrder}" +
+                               $"CourseId {request.CourseId}" +
+                               $"ModuleId {request.ModuleId}");
         GetPurchasedArticleQuery query = new()
         {
             UserId = HttpContext.Session.GetData("user")!.Id,

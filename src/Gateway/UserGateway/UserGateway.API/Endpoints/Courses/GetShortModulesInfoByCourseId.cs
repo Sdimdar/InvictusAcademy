@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ public class GetShortModulesInfoByCourseId : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetShortModulesInfoByCourseId> _logger;
 
 
-    public GetShortModulesInfoByCourseId(IMediator mediator, IMapper mapper)
+    public GetShortModulesInfoByCourseId(IMediator mediator, IMapper mapper, ILogger<GetShortModulesInfoByCourseId> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Modules/GetShortModulesInfoByCourseId")]
@@ -32,6 +35,8 @@ public class GetShortModulesInfoByCourseId : EndpointBaseAsync
 
     public override async Task<ActionResult<DefaultResponseObject<List<ShortModuleInfoVm>>>> HandleAsync([FromQuery] GetShortCourseInfoQuery request, CancellationToken cancellationToken = new CancellationToken())
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"CourseId {request.CourseId}");
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<List<ShortModuleInfoVm>>>(result));
     }

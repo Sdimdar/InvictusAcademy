@@ -1,14 +1,14 @@
 <template>
   <div>
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+      <q-img :src="data.logoImageLink == '' ? 'https://cdn.quasar.dev/img/parallax2.jpg' : data.logoImageLink">
         <div class="absolute-bottom">
           <div class="text-h6">{{ data.name }}</div>
         </div>
       </q-img>
 
       <q-card-actions>
-        <q-btn v-if="data.purchased" :href="'/course/' + data.id" flat color="primary">
+        <q-btn v-if="data.purchased" @click="openPurchasedCoursePage(data.id)" flat color="primary">
           Перейти к курсу
         </q-btn>
         <q-btn v-if="!data.purchased" @click="openPage(data.id)">
@@ -41,8 +41,10 @@ export default {
     this.getWishedData()
   },
   methods: {
+    openPurchasedCoursePage(id){
+      this.$router.push({ path: `/course/${id}`})
+    },
     openPage(id) {
-      console.log(id);
       this.$router.push({ path: '/user/courseDetails', query: { id: id } })
     },
     async addOrRemoveWished(id) {

@@ -1,6 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using Ardalis.Result;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using ServicesContracts.Identity.Responses;
@@ -13,10 +14,12 @@ public class Logout : EndpointBaseSync
     .WithActionResult<DefaultResponseObject<string>>
 {
     private readonly IMapper _mapper;
+    private readonly ILogger<Logout> _logger;
 
-    public Logout(IMapper mapper)
+    public Logout(IMapper mapper, ILogger<Logout> logger)
     {
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("User/Logout")]

@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,13 @@ public class GetPurchasedTest : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetPurchasedTest> _logger;
 
-    public GetPurchasedTest(IMediator mediator, IMapper mapper)
+    public GetPurchasedTest(IMediator mediator, IMapper mapper, ILogger<GetPurchasedTest> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/Articles/GetPurchasedTest")]
@@ -34,6 +37,10 @@ public class GetPurchasedTest : EndpointBaseAsync
     public async override Task<ActionResult<DefaultResponseObject<List<PurchasedTestVm>>>> HandleAsync
         ([FromQuery] GetPurchasedTestGatewayQuery request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"ArticleOrder {request.ArticleOrder}" +
+                               $"CourseId {request.CourseId}" +
+                               $"ModuleId {request.ModuleId}");
         GetPurchasedTestQuery query = new()
         {
             UserId = HttpContext.Session.GetData("user")!.Id,

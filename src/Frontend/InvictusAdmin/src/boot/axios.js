@@ -127,5 +127,6 @@ export const closeRoom = (payload) => api.post('/AdminPanel/StreamingRooms/OpenO
 });
 
 // filesData
-export const fetchFilesData = (pageNumber, pageSize) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber } });
+export const fetchFilesData = (pageNumber, pageSize, filter) => api.get('/AdminPanel/CLoudStorage/GetAllFiles', { params:{ pageSize: pageSize, pageNumber: pageNumber, filterString: filter } });
 export const fetchFilesCount = () => api.get('/AdminPanel/CLoudStorage/GetFilesCount');
+export const fetchFilesByFilterString = (filterString) => api.get(`/AdminPanel/CLoudStorage/GetFilterByString?filterString=${filterString}`);

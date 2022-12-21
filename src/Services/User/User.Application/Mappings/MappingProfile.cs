@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using Request.Domain.Entities;
 using ServicesContracts.Identity.Requests.Commands;
 using ServicesContracts.Identity.Responses;
@@ -18,7 +19,7 @@ public class MappingProfile : Profile
             .ForMember(x => x.Email,
                 o =>
                     o.MapFrom(p => p.Email));
-        CreateMap<UserDbModel, UserVm>();
+        CreateMap<UserDbModel, UserVm>().ForMember(x=>x.RegistrationDate, opt=>opt.MapFrom(e=>e.RegistrationDate.ToString("g", CultureInfo.GetCultureInfo("de-DE"))));
         CreateMap<UserDbModel, GetUserDataVm>();
         CreateMap<UserDbModel, RegisterVm>();
         CreateMap<UserDbModel, GetUserDataQuerry>();

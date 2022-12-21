@@ -4,6 +4,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 appSettings.Local.json
+logs/
 
 # Editor directories and files
 .idea

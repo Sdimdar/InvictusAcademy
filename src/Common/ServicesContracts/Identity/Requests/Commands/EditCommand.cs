@@ -12,5 +12,6 @@ public class EditCommand : IRequest<Result>
     public string? MiddleName { get; set; }
     public string? InstagramLink { get; set; }
     public string? Citizenship { get; set; }
+    public string? City { get; set; }
 
 }

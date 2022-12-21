@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class GetFreeArticlesCount : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetFreeArticlesCount> _logger;
 
-    public GetFreeArticlesCount(IMediator mediator, IMapper mapper)
+    public GetFreeArticlesCount(IMediator mediator, IMapper mapper, ILogger<GetFreeArticlesCount> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("/FreeArticle/GetCount")]

@@ -37,7 +37,7 @@
     { name: 'middleName', align: 'center', label: 'Отчество', field: 'middleName', sortable: false },
     { name: 'phoneNumber', align: 'center', label: 'Телефон', field: 'phoneNumber', sortable: false },
     { name: 'registrationDate', align: 'center', label: 'Дата регистрации', field: 'registrationDate', sortable: false },
-    { name: 'citizenship', align: 'center', label: 'Гражданство', field: 'citizenship', sortable: false },
+    { name: 'сity', align: 'center', label: 'Город', field: 'city', sortable: false },
     { name: 'instagramLink', align: 'center', label: 'Ссылка на Instagramm', field: 'instagramLink', sortable: false }
   ]
 

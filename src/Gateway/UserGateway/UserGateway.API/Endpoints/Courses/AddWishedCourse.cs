@@ -1,5 +1,6 @@
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using Courses.Domain.Entities;
 using DataTransferLib.Models;
 using MediatR;
@@ -16,11 +17,13 @@ public class AddWishedCourse: EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<AddWishedCourse> _logger;
 
-    public AddWishedCourse(IMediator mediator, IMapper mapper)
+    public AddWishedCourse(IMediator mediator, IMapper mapper, ILogger<AddWishedCourse> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("/Courses/AddToWished")]
@@ -31,6 +34,7 @@ public class AddWishedCourse: EndpointBaseAsync
     ]
     public override async Task<ActionResult<DefaultResponseObject<bool>>> HandleAsync([FromBody] AddToWishedCourseCommand request, CancellationToken cancellationToken = new CancellationToken())
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"CourseId {request.CourseId}" + $"UserId{request.UserId}");
         int id = HttpContext.Session.GetData("user")!.Id;
         var result = await _mediator.Send(new AddToWishedCourseCommand() { UserId = id, CourseId = request.CourseId }, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<bool>>(result));

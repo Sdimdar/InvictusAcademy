@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Courses.Infrastructure.Migrations
 {
     [DbContext(typeof(CoursesDbContext))]
-    [Migration("20221216042407_Initial")]
+    [Migration("20221220163924_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,10 @@ namespace Courses.Infrastructure.Migrations
                         .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("NOW()");
 
+                    b.Property<string>("LogoImageLink")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -64,6 +68,9 @@ namespace Courses.Infrastructure.Migrations
 
                     b.Property<int>("PassingDayCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PreviewLink")
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("SecondDescription")
                         .IsRequired()

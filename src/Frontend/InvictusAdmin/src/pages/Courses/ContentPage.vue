@@ -18,7 +18,7 @@
           </div>
 
           <q-page-container>
-            <modules-list />
+            <modules-list ref="table"/>
           </q-page-container>
 
         </div>
@@ -50,13 +50,18 @@ export default {
   },
   data() {
     return {
-
+      table: ModulesList
     }
   },
   methods: {
     update() {
-      ModulesList.methods.update()
+      this.$refs.table.update();
     }
+  },
+  mounted() {
+    
+    console.log("--------------------")
+    console.log(this.$refs.table)
   }
 }
 </script>

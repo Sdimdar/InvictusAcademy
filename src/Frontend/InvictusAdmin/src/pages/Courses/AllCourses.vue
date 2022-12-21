@@ -36,7 +36,6 @@
         <td>{{course.name}}</td>
         <td>{{course.cost}}</td>
         <td><q-btn @click="$router.push(`/admin-panel/editCourse/${course.id}`)"  class="nav-button" label="Редактировать" ></q-btn></td>
-        <td><q-btn @click="$router.push(`/admin-panel/editCourse/${course.id}`)"  class="nav-button" label="Начать эфир" ></q-btn></td>
       </tr>
       </tbody>
     </table>

@@ -1,5 +1,6 @@
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ public class EditPassword : EndpointBaseAsync
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<EditPassword> _logger;
 
-    public EditPassword(IMediator mediator, IMapper mapper)
+    public EditPassword(IMediator mediator, IMapper mapper, ILogger<EditPassword> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("User/EditPassword")]
@@ -31,6 +34,8 @@ public class EditPassword : EndpointBaseAsync
     public override async Task<ActionResult<DefaultResponseObject<string>>> HandleAsync([FromBody] EditPasswordCommand request,
         CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" +
+                               $"Email {request.Email}");
         request.Email = HttpContext.Session.GetData("user").Email;
         var response = await _mediator.Send(request, cancellationToken);
         return Ok(_mapper.Map<DefaultResponseObject<string>>(response));

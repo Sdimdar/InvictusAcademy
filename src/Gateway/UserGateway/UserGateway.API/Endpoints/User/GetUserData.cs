@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +13,17 @@ namespace UserGateway.API.Endpoints.User;
 
 public class GetUserData : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<DefaultResponseObject<UserVm>>
+    .WithActionResult<DefaultResponseObject<GetUserDataVm>>
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly ILogger<GetUserData> _logger;
 
-    public GetUserData(IMediator mediator, IMapper mapper)
+    public GetUserData(IMediator mediator, IMapper mapper, ILogger<GetUserData> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpGet("User/GetUserData")]
@@ -29,7 +32,7 @@ public class GetUserData : EndpointBaseAsync
         Description = "Для получения данных пользователь должен быть залогинен",
         Tags = new[] { "User" })
     ]
-    public override async Task<ActionResult<DefaultResponseObject<UserVm>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<DefaultResponseObject<GetUserDataVm>>> HandleAsync(CancellationToken cancellationToken = default)
     {
         string? email = HttpContext.Session.GetData("user")?.Email;
         GetUserDataQuerry query = new() { Email = email };

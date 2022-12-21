@@ -1,6 +1,7 @@
 using AdminGateway.MVC.Models;
 using AdminGateway.MVC.Services.Interfaces;
 using AutoMapper;
+using CommonStructures;
 using DataTransferLib.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,11 +17,13 @@ public class UsersController : Controller
 {
     private readonly IGetUsers _iGetUsers;
     private readonly IMapper _mapper;
+    private readonly ILogger<UsersController> _logger;
 
-    public UsersController(IGetUsers iGetUsers, IMapper mapper)
+    public UsersController(IGetUsers iGetUsers, IMapper mapper, ILogger<UsersController> logger)
     {
         _iGetUsers = iGetUsers;
         _mapper = mapper;
+        _logger = logger;
     }
 
     [Authorize(Roles = RolesHelper.Administrator)]
@@ -31,6 +34,7 @@ public class UsersController : Controller
     ]
     public async Task<IActionResult> GetAllRegisteredUsers([FromQuery] int pageNumber, int pageSize)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"pageNumber {pageNumber}" + $"pageSize {pageSize}");
         var response = await _iGetUsers.GetUsersAsync(pageNumber, pageSize);
         var usersList = response.Value;
         var responce = new DefaultResponseObject<UsersVm>()
@@ -61,6 +65,7 @@ public class UsersController : Controller
     ]
     public async Task<ActionResult<DefaultResponseObject<string>>> ToBan([FromQuery] ToBanCommand command)
     {
+        _logger.LogInformation($"{BussinesErrors.ReceiveData.ToString()}" + $"Id {command.Id}");
         var response = await _iGetUsers.ChangeBanStatusAsync(command);
         return Ok(response);
     }
